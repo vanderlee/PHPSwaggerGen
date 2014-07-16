@@ -1,0 +1,11 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+	# redirect empty request to resources.json
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^$		resources.json	[QSA,L]
+
+	# redirect non-empty request to {name}.json
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^(.+)$	$1.json			[QSA,L]
+</IfModule>
