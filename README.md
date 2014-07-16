@@ -182,3 +182,4 @@ To do (mostly for my own reference)
 *	Resolve "description" issue for parameters
 *	Add convenience as needed
 *	Add the missing features mentioned above
+*	Report to main Swagger site/wiki at some point
