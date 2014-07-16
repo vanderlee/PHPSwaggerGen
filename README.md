@@ -173,4 +173,12 @@ Example
 -------
 Take a look at the examples in the `test-source` directory.
 
-
+To do (mostly for my own reference)
+-----------------------------------
+*	Automated unittests
+*	Full documentation (and more readable)
+*	Nice index page (use my standard jQuery page?)
+*	Pet-store example
+*	Resolve "description" issue for parameters
+*	Add convenience as needed
+*	Add the missing features mentioned above
