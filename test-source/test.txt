@@ -26,10 +26,12 @@
  * @rest\property long user unique identifier for the owner of this list
  */
 
+/*
+ * @rest\include paging.txt
+ */
+
 /**
  * @rest\method GET Get lists
- * @rest\query integer offset Zero-based index of first record to get
- * @rest\query integer(0,100) limit Number of records to get
  * @rest\form datetime start Start date/time
  * @rest\default 123
  * @rest\enum groen rood geel blauw
