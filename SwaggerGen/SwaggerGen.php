@@ -84,39 +84,6 @@ class SwaggerGen {
 		$this->basePath = $basePath;
 	}
 
-	/**
-	 * Get lines of text from a source, either filename or text fragment
-	 * @param string $source filename or text fragment
-	 * @return array of text lines
-	 */
-	private function getLines($source) {
-		if (is_file($source)) {
-			return file($source);
-		}
-
-		return preg_split('~\n~', $source);	// assume source = text
-	}
-
-	/**
-	 * Get all the statements from all sources
-	 * @param callback $callback a callback function to call for each statement. Signature function($command, $multiplicity, $argument)
-	 */
-	private function getStatements($callback) {
-		$pattern = '~^.*'.preg_quote($this->prefix).'(\w+)([?+*]?)(?:\\s+(.*))?$~';
-
-		foreach ($this->sources as $source) {
-			$lines = $this->getLines($source);
-			foreach ($lines as $line) {
-				$matches = null;
-				if (preg_match($pattern, $line, $matches) === 1) {
-					$command		= $matches[1];
-					$multiplicity	= $matches[2];
-					$argument		= isset($matches[3]) ? trim($matches[3]) : null;
-					call_user_func_array($callback, array($command, $multiplicity, $argument));
-				}
-			}
-		}
-	}
 
 	/**
 	 * Shifts the first word off a text line and returns it
@@ -136,6 +103,34 @@ class SwaggerGen {
 	 */
 	private static function words($line) {
 		return preg_split('~\s+~', $line);
+	}
+
+	/**
+	 * Get lines of text from a source, either filename or text fragment
+	 * @param string $source filename or text fragment
+	 * @return array of text lines
+	 */
+	private function getLines($source) {
+		if (is_file($source)) {
+			return file($source);
+		}
+
+		return preg_split('~\n~', $source);	// assume source = text
+	}
+
+	private function parseSource($source) {
+		$pattern = '~^.*'.preg_quote($this->prefix).'(\w+)([?+*]?)(?:\\s+(.*))?$~';
+
+		$lines = $this->getLines($source);
+		foreach ($lines as $line) {
+			$matches = null;
+			if (preg_match($pattern, $line, $matches) === 1) {
+				$command		= $matches[1];
+				$multiplicity	= $matches[2];
+				$argument		= isset($matches[3]) ? trim($matches[3]) : null;
+				call_user_func_array(array($this, 'parseStatement'), array($command, $multiplicity, $argument));
+			}
+		}
 	}
 
 	/**
@@ -248,10 +243,16 @@ class SwaggerGen {
 				}
 				break;
 
+			case 'include':
+				$this->parseSource($this->basedir.DIRECTORY_SEPARATOR.$argument);
+				break;
+
 			default:
 				throw new Exception("@rest command '{$command}' not recognized");
 		}
 	}
+
+	private $basedir = null;
 
 	/**
 	 * Process the sources and return an array (map) of swagger files.
@@ -263,7 +264,10 @@ class SwaggerGen {
 		$this->current = $this->Resource = new SwaggerResource();
 		$this->Resource->basepath	= $this->basePath;
 
-		$this->getStatements(array($this, 'parseStatement'));
+		foreach ($this->sources as $source) {
+			$this->basedir = dirname($source);
+			$this->parseSource($source);
+		}
 
 		$result = array(
 			'resources' => $this->Resource->toArray()
