@@ -1,6 +1,6 @@
 PHP Swagger Generator
 =====================
-Version v0.1.0
+Version v0.1.1
 
 Copyright &copy; 2014 Martijn van der Lee (http://martijn.vanderlee.com).
 MIT Open Source license applies.
@@ -97,6 +97,9 @@ to specify a type and format independantly.
 	element must be unique. You can specify the primitive type for the items in
 	parenthesis as such: `array(string)`.
 *	Also, `file` and `void` are supported as well.
+*	A non-standard type `enum` is available, which is converted to a type
+	`string` but takes any of the comma-separated words in parenthesis as
+	enumeration as such: `enum(north,east,south,west)`.
 
 Commands
 --------
@@ -163,11 +166,14 @@ you want some particular license to be added.
 ### `deprecated` (method)
 
 ### `enum {word} {word} {...} {word}` (parameter/property)
-Enumeration of the
+Enumeration of the current primitive (property or parameter)
 
 ### `produces {mime-type} {mime-type} {...} {mime-type}` (api)
 
 ### `consumes {mime-type} {mime-type} {...} {mime-type}` (api)
+
+### `include {relative-path}`
+Include the file at the relative path
 
 Example
 -------
@@ -183,3 +189,12 @@ To do (mostly for my own reference)
 *	Add convenience as needed
 *	Add the missing features mentioned above
 *	Report to main Swagger site/wiki at some point
+
+Changelog
+----------
+### v0.1.1
+*	Added `include` command
+*	Added `enum` primitive type
+
+### v0.1.0
+Initial public release
