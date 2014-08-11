@@ -1,6 +1,6 @@
 PHP Swagger Generator
 =====================
-Version v0.1.1
+Version v0.1.2
 
 Copyright &copy; 2014 Martijn van der Lee (http://martijn.vanderlee.com).
 MIT Open Source license applies.
@@ -49,13 +49,13 @@ Inheritance
 Swagger documents an API in multiple levels:
 
 * resource (there can be only one)
-* * apis
-* * * endpoints
-* * * * methods
-* * * * * parameters
-* * * * * errors
-* * * models
-* * * * properties
+> * apis
+>> * endpoints
+>>> * methods
+>>>> * parameters
+>>>> * errors
+>> * models
+>>> * properties
 
 You are always working on one of the levels (or "contexts"). By default you start on the
 "resource" level, but as soon as you use the `api` command, you'll be working on
@@ -89,6 +89,10 @@ Primitives
 Swagger defines a number of primitive datatypes by specifying their `type` and
 `format`. PHPSwaggerGen only knows the primitive datatypes themselves; no need
 to specify a type and format independantly.
+
+You can use the format names or the primitives names, as specified by Swagger.
+
+Some of the primitives may accept additional information:
 
 *	Supported are `integer`, `long`, `float`, `double`, `string`, `byte`,
 	`boolean`, `date` and `datetime`. You can specify minimum and maximum values
@@ -151,8 +155,12 @@ you want some particular license to be added.
 {multiplicy} is empty, `+`, `*` or `?`.
 
 ### `error {code} {reason}` (method)
+Declare the 4xx and 5xx HTTP status codes that may be returned when calling the
+method(s). The reason is optional; if none is specified, the default reason
+will be used.
 
 ### `errors {code} {code} {...} {code}` (method)
+Declare multiple 4xx and 5xx status codes at once. Default reasons will be used.
 
 ### `model{multiplicity} {name} {description}` (api)
 {multiplicy} is either empty or `?`.
@@ -164,16 +172,17 @@ you want some particular license to be added.
 ### `items {value}` (parameter/property)
 
 ### `deprecated` (method)
+Indicates that a method is deprecated and should no longer be used/.
 
 ### `enum {word} {word} {...} {word}` (parameter/property)
-Enumeration of the current primitive (property or parameter)
+Enumeration of the current primitive (property or parameter).
 
 ### `produces {mime-type} {mime-type} {...} {mime-type}` (api)
 
 ### `consumes {mime-type} {mime-type} {...} {mime-type}` (api)
 
 ### `include {relative-path}`
-Include the file at the relative path
+Include the file at the relative path from the currently processing file.
 
 Example
 -------
@@ -192,6 +201,9 @@ To do (mostly for my own reference)
 
 Changelog
 ----------
+### v0.1.2
+*	Added parse strategies, allowing multiline comments in PHP
+
 ### v0.1.1
 *	Added `include` command
 *	Added `enum` primitive type
