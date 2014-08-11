@@ -11,7 +11,7 @@
 			require 'SwaggerGen/autoloader.php';
 
 			$SwaggerGen	= new SwaggerGen(array(
-				'test-source/test.txt',
+				'test-source/test.php',
 			), 'http://localhost/api');
 
 			$arrays = $SwaggerGen->process();
