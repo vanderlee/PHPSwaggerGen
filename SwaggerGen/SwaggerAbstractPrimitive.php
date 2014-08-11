@@ -11,7 +11,9 @@ abstract class SwaggerAbstractPrimitive extends SwaggerAbstractScope {
 
 	private static $primitives = array(
 		'integer' => array('type' => 'integer','format' => 'int32','items' => true),
+		'int32' => array('type' => 'integer','format' => 'int32','items' => true),
 		'long' => array('type' => 'integer','format' => 'int64','items' => true),
+		'int64' => array('type' => 'integer','format' => 'int64','items' => true),
 		'float' => array('type' => 'number','format' => 'float','items' => true),
 		'double' => array('type' => 'number','format' => 'double','items' => true),
 		'string' => array('type' => 'string','format' => '','items' => true),
@@ -19,6 +21,7 @@ abstract class SwaggerAbstractPrimitive extends SwaggerAbstractScope {
 		'boolean' => array('type' => 'boolean','format' => '','items' => true),
 		'date' => array('type' => 'string','format' => 'date','items' => true),
 		'datetime' => array('type' => 'string','format' => 'date-time','items' => true),
+		'date-time' => array('type' => 'string','format' => 'date-time','items' => true),
 		'array' => array('type' => 'array',	'format' => '',	'items' =>	false),
 		'set' => array('type' => 'array', 'format' => 'set', 'items' =>	false),
 		'file' => array('type' => 'File', 'format' => null, 'items' => false),
