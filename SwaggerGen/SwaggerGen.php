@@ -9,15 +9,12 @@
  * @todo resource command, to restart on resource
  * @todo subset support for repeatable insertion
  * @todo Errors by reason or shortcode
- * @todo "enum" primitive type with enums within ()
  * @todo param/prop modifiers
  * @todo OAuth2 support
  * @todo method/endpoint/api inheritance (from abstract models)
  * @todo optimize models; only include used models
  */
 class SwaggerGen {
-	private $prefix = "@rest\\";
-
 	/**
 	 * List of filenames or text fragments
 	 * @var array
@@ -110,21 +107,26 @@ class SwaggerGen {
 	 * @param string $source filename or text fragment
 	 * @return array of text lines
 	 */
-	private function getLines($source) {
-		if (is_file($source)) {
-			return file($source);
+	private function parseSource($source) {
+		$lines = file($source);
+
+		switch (pathinfo($source, PATHINFO_EXTENSION)) {
+			case 'php':
+				$statements = SwaggerParseStrategyPhp::parse($lines);
+				break;
+
+			case 'txt':
+				$statements = SwaggerParseStrategyText::parse($lines);
+				break;
+
+			default:
+				$statements = SwaggerParseStrategyGeneric::parse($lines);
+				break;
 		}
 
-		return preg_split('~\n~', $source);	// assume source = text
-	}
-
-	private function parseSource($source) {
-		$pattern = '~^.*'.preg_quote($this->prefix).'(\w+)([?+*]?)(?:\\s+(.*))?$~';
-
-		$lines = $this->getLines($source);
-		foreach ($lines as $line) {
+		foreach ($statements as $statement) {
 			$matches = null;
-			if (preg_match($pattern, $line, $matches) === 1) {
+			if (preg_match('~^(\w+)([?+*]?)(?:\\s+(.*))?$~', $statement, $matches) === 1) {
 				$command		= $matches[1];
 				$multiplicity	= $matches[2];
 				$argument		= isset($matches[3]) ? trim($matches[3]) : null;

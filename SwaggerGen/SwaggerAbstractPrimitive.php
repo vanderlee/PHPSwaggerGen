@@ -10,22 +10,22 @@ abstract class SwaggerAbstractPrimitive extends SwaggerAbstractScope {
 	public $uniqueitems;
 
 	private static $primitives = array(
-		'integer' => array('type' => 'integer','format' => 'int32','items' => 'integer'),
-		'long' => array('type' => 'integer','format' => 'int64','items' => 'integer'),
-		'float' => array('type' => 'number','format' => 'float','items' => 'number'),
-		'double' => array('type' => 'number','format' => 'double','items' => 'number'),
-		'string' => array('type' => 'string','format' => '','items' => 'string'),
-		'byte' => array('type' => 'string','format' => 'byte','items' => 'string'),
-		'boolean' => array('type' => 'boolean','format' => '','items' => 'boolean'),
-		'date' => array('type' => 'string','format' => 'date','items' => 'string'),
-		'datetime' => array('type' => 'string','format' => 'date-time','items' => 'string'),
-		'array' => array('type' => 'array',	'format' => '',	'items' =>	NULL),
-		'set' => array('type' => 'array', 'format' => 'set', 'items' =>	NULL),
-		'file' => array('type' => 'File', 'format' => NULL, 'items' => NULL),
-		'void' => array('type' => 'void', 'format' => NULL, 'items' => NULL),
+		'integer' => array('type' => 'integer','format' => 'int32','items' => true),
+		'long' => array('type' => 'integer','format' => 'int64','items' => true),
+		'float' => array('type' => 'number','format' => 'float','items' => true),
+		'double' => array('type' => 'number','format' => 'double','items' => true),
+		'string' => array('type' => 'string','format' => '','items' => true),
+		'byte' => array('type' => 'string','format' => 'byte','items' => true),
+		'boolean' => array('type' => 'boolean','format' => '','items' => true),
+		'date' => array('type' => 'string','format' => 'date','items' => true),
+		'datetime' => array('type' => 'string','format' => 'date-time','items' => true),
+		'array' => array('type' => 'array',	'format' => '',	'items' =>	false),
+		'set' => array('type' => 'array', 'format' => 'set', 'items' =>	false),
+		'file' => array('type' => 'File', 'format' => null, 'items' => false),
+		'void' => array('type' => 'void', 'format' => null, 'items' => false),
 
 		// Non-standard convenience types
-		'enum' => array('type' => 'string', 'format' => '', 'items' => 'string'),
+		'enum' => array('type' => 'string', 'format' => '', 'items' => false),
 	);
 
 	public function __construct(SwaggerAbstractBase $Base, $primitive) {
@@ -54,39 +54,48 @@ abstract class SwaggerAbstractPrimitive extends SwaggerAbstractScope {
 		}
 	}
 
-	private function getType() {
-		if (isset(self::$primitives[strtolower($this->type)]['type'])) {
-			return self::$primitives[strtolower($this->type)]['type'];
+	private function getType($type) {
+		if (isset(self::$primitives[strtolower($type)]['type'])) {
+			return self::$primitives[strtolower($type)]['type'];
 		}
 		return null;
 	}
 
-	private function getFormat() {
-		if (isset(self::$primitives[strtolower($this->type)]['format'])) {
-			return self::$primitives[strtolower($this->type)]['format'];
+	private function getFormat($type) {
+		if (isset(self::$primitives[strtolower($type)]['format'])) {
+			return self::$primitives[strtolower($type)]['format'];
 		}
 		return null;
 	}
 
-	private function getItems() {
-		if (isset(self::$primitives[strtolower($this->items)]['items'])) {
-			return self::$primitives[strtolower($this->items)]['items'];
+	private function isPrimitiveItems($items) {
+		if (isset(self::$primitives[strtolower($items)]['items'])) {
+			return self::$primitives[strtolower($items)]['items'];
 		}
-		return null;
+		
+		return false;
 	}
 
 	public function toArray() {
-		$type = $this->getType();
+		$type = $this->getType($this->type);
+		
+		$isPrimitive = $this->isPrimitiveItems($this->items);
+		$items = array(
+			'type'			=> $isPrimitive ? $this->getType($this->items) : null,
+			'$ref'			=> $isPrimitive ? null : $this->items,
+			'format'		=> $isPrimitive ? $this->getFormat($this->items) : null,
+		);
+		$items = array_filter($items, function($v) { return $v !== '' && $v !== null; } );
 
 		$array = array(
 			'type'			=> $type ?: $this->type,
-			'$ref'			=> $type ? '' : $this->type,
-			'format'		=> $this->getFormat(),
+			'$ref'			=> $type ? null : $this->type,
+			'format'		=> $this->getFormat($this->type),
 			'defaultValue'	=> $this->default,
 			'enum'			=> $this->enum,
 			'minimum'		=> $this->minimum,
 			'maximum'		=> $this->maximum,
-			'items'			=> $this->getItems() ?: $this->items,
+			'items'			=> $this->items ? $items : null,
 			'uniqueItems'	=> $this->uniqueitems,
 		);
 
