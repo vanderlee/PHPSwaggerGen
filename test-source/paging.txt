@@ -1,2 +1,2 @@
-@rest\query integer offset Zero-based index of first record to get
-@rest\query integer(0,100) limit Number of records to get
+query integer offset Zero-based index of first record to get
+query integer(0,100) limit Number of records to get

@@ -20,10 +20,12 @@
 
 /**
  * @rest\model List
- * @rest\property integer id unique identifier for the list
+ * @rest\property integer id unique
+ * identifier for the list
  * @rest\property string name
  * @rest\property date date
- * @rest\property long user unique identifier for the owner of this list
+ * @rest\property long user unique identifier
+ * for the owner of this list
  */
 
 /*
@@ -34,8 +36,9 @@
  * @rest\method GET Get lists
  * @rest\form datetime start Start date/time
  * @rest\default 123
- * @rest\enum groen rood geel blauw
- * @rest\form? array(boolean) start Start date/time
+ * @rest\query string color
+ * @rest\enum red green blue yellow
+ * @rest\form? array(boolean) checkboxes List of booleans
  * @rest\error 401
  */
 
