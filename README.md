@@ -1,6 +1,6 @@
 PHP Swagger Generator
 =====================
-Version v0.1.2
+Version v0.2.0
 
 Copyright &copy; 2014 Martijn van der Lee (http://martijn.vanderlee.com).
 MIT Open Source license applies.
@@ -184,12 +184,41 @@ Enumeration of the current primitive (property or parameter).
 ### `include {relative-path}`
 Include the file at the relative path from the currently processing file.
 
+Flow control
+------------
+SwaggerGen supports limited flow control. Flow control can be stacked; i.e. you
+can have multiple conditions embedded within each other.
+
+### `if {condition}`
+Parse or ignore upto next `else` or `endif` statement, depending on condition.
+Currently only a single define name may be specified as an condition. If the
+define evaluates to boolean true, the entire condition is evaluated true.
+
+### `ifdef {define}`
+Parse or ignore upto next `else` or `endif` statement, depending on whether or
+not a value is defined. It's value is not important.
+
+### `ifn {condition}`
+Inverse of `if`.
+
+### `ifndef {condition}`
+Inverse of `ifdef`.
+
+### `else`
+Parse or ignore upto next `else` or `endif` statement, depending on whether the
+previous conditional section was ignored or parsed.
+
+### `endif`
+Stops a conditional section.
+
 Example
 -------
 Take a look at the examples in the `test-source` directory.
 
 To do (mostly for my own reference)
 -----------------------------------
+*	Document methods
+*	Short example of call
 *	Automated unittests
 *	Full documentation (and more readable)
 *	Nice index page (use my standard jQuery page?)
@@ -201,6 +230,10 @@ To do (mostly for my own reference)
 
 Changelog
 ----------
+### v0.2.0
+*	Added flow control; if, ifdef, ifn, ifndef, else, endif.
+*	Autoloader now ignores files it cannot find.
+
 ### v0.1.2
 *	Added parse strategies, allowing multiline comments in PHP
 
@@ -209,4 +242,4 @@ Changelog
 *	Added `enum` primitive type
 
 ### v0.1.0
-Initial public release
+*	Initial public release
