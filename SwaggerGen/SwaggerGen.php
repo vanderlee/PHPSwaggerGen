@@ -23,6 +23,10 @@ class SwaggerGen {
 
 	private $basePath;
 
+	private $ignoreStack = array();
+	
+	private $defines = array();
+
 	/**
 	 * @var \SwaggerAbstractScope
 	 */
@@ -55,6 +59,10 @@ class SwaggerGen {
 		$this->setBasePath($basePath);
 	}
 
+	public function define($name, $value = true) {
+		$this->defines[$name] = $value;
+	}
+	
 	/**
 	 * Add a new source
 	 * @param string $source filename or text fragment
@@ -143,111 +151,149 @@ class SwaggerGen {
 	 * @throws Exception
 	 */
 	private function parseStatement($command, $multiplicity, $argument) {
+		// conditional
 		switch ($command) {
-			case 'api':
-				$name		= self::shift($argument);
-
-				$this->Resource	= $this->current->getByClass('SwaggerResource');
-				$this->current	= $this->Resource->getApi($name) ?: new SwaggerApi($this->Resource, $name, $argument);
+			case 'if':
+				$define = trim($argument);
+				$ignore = !(isset($this->defines[$define]) && $this->defines[$define]);
+				array_push($this->ignoreStack, $ignore);
 				break;
-
-			case 'endpoint':
-				$path		= self::shift($argument);
-
-				$Api		= $this->current->getByClass('SwaggerAbstractApi');
-				$this->current	= $Api->getEndpoint($path) ?: new SwaggerEndpoint($Api, $path, $argument);
+			
+			case 'ifdef':
+				$define = trim($argument);
+				$ignore = !isset($this->defines[$define]);
+				array_push($this->ignoreStack, $ignore);
 				break;
-
-			case 'method':
-				$method		= self::shift($argument);
-				$this->current	= new SwaggerMethod($this->current->getByClass('SwaggerEndpoint'), $method, $argument);
+			
+			case 'ifn':
+				$define = trim($argument);
+				$ignore = isset($this->defines[$define]) && $this->defines[$define];
+				array_push($this->ignoreStack, $ignore);
 				break;
-
-			case 'model':
-				$name			= self::shift($argument);
-				$this->curent_model	= new SwaggerModel($this->current->getByProperty('Models'), $name, $argument);
-				if ($multiplicity === '+' || $multiplicity === '') {
-					$this->curent_model->required = true;
-				}
+				
+			case 'ifndef':
+				$define = trim($argument);
+				$ignore = isset($this->defines[$define]);
+				array_push($this->ignoreStack, $ignore);
 				break;
-
-			case 'property':
-				$primitive			= self::shift($argument);
-				$name				= self::shift($argument);
-				$this->currentPrimitive	= new SwaggerProperty($this->curent_model, $primitive, $name, $argument);
+			
+			case 'else':
+				$ignore = array_pop($this->ignoreStack);
+				array_push($this->ignoreStack, !$ignore);	// flip state
 				break;
-
-			case SwaggerParameter::PARAMTYPE_BODY:
-			case SwaggerParameter::PARAMTYPE_FORM:
-			case SwaggerParameter::PARAMTYPE_HEADER:
-			case SwaggerParameter::PARAMTYPE_PATH:
-			case SwaggerParameter::PARAMTYPE_QUERY:
-				$primitive			= self::shift($argument);
-				$name				= self::shift($argument);
-				$this->currentPrimitive	= new SwaggerParameter($this->current->getByProperty('Parameters'), $command, $primitive, $name, $argument);
-				if ($multiplicity === '+' || $multiplicity === '') {
-					$this->currentPrimitive->required = true;
-				}
-				if ($multiplicity === '+' || $multiplicity === '*') {
-					$this->currentPrimitive->allowmultiple = true;
-				}
+			
+			case 'endif':
+				array_pop($this->ignoreStack);
 				break;
+		}
+		
+		if (end($this->ignoreStack) === false) {		
+			switch ($command) {
+				case 'api':
+					$name		= self::shift($argument);
 
-			case 'error':
-				$code			= self::shift($argument);
-				$this->current	= new SwaggerError($this->current->getByProperty('Errors'), $code, $argument);
-				break;
+					$this->Resource	= $this->current->getByClass('SwaggerResource');
+					$this->current	= $this->Resource->getApi($name) ?: new SwaggerApi($this->Resource, $name, $argument);
+					break;
 
-			case 'errors':
-				$ErrorsContainer = $this->current->getByProperty('Errors');
-				foreach (self::words($argument) as $code) {
-					$this->current	= new SwaggerError($ErrorsContainer, $code);
-				}
-				break;
+				case 'endpoint':
+					$path		= self::shift($argument);
 
-			// single properties
-			case 'apiversion':			// resource (-> api)
-			case 'swaggerversion':		// resource (-> api)
-			case 'title':				// resource
-			case 'description':			// resource & endpoint //@todo should also parameter
-			case 'termsofserviceurl':	// resource
-			case 'contact':				// resource
-			case 'license':				// resource
-			case 'licenseurl':			// resource
-			case 'basepath':			// api (base)
-			case 'resourcepath':		// api (base)
-			case 'notes':				// method
-				$this->current->getByProperty($command)->{$command} = $argument;
-				break;
+					$Api		= $this->current->getByClass('SwaggerAbstractApi');
+					$this->current	= $Api->getEndpoint($path) ?: new SwaggerEndpoint($Api, $path, $argument);
+					break;
 
-			// Boolean if present; false only if 'false'
-			case 'deprecated':
-				$this->current->getByProperty($command)->{$command} = $argument !== 'false';
-				break;
+				case 'method':
+					$method		= self::shift($argument);
+					$this->current	= new SwaggerMethod($this->current->getByClass('SwaggerEndpoint'), $method, $argument);
+					break;
 
-			// append properties or primitive tree
-			case 'enum':
-				foreach (self::words($argument) as $word) {
-					$this->currentPrimitive->getByProperty($command)->{$command}[]	= $word;
-				}
-				break;
+				case 'model':
+					$name			= self::shift($argument);
+					$this->curent_model	= new SwaggerModel($this->current->getByProperty('Models'), $name, $argument);
+					if ($multiplicity === '+' || $multiplicity === '') {
+						$this->curent_model->required = true;
+					}
+					break;
 
-			case 'items':				// parameter.items
-			case 'default':				// parameter.default
-				$this->currentPrimitive->getByProperty($command)->{$command}	= $argument;
-				break;
+				case 'property':
+					$primitive			= self::shift($argument);
+					$name				= self::shift($argument);
+					$this->currentPrimitive	= new SwaggerProperty($this->curent_model, $primitive, $name, $argument);
+					break;
 
-			// append properties on base tree
-			case 'produces':
-			case 'consumes':
-				foreach (self::words($argument) as $word) {
-					$this->current->getByProperty($command)->{$command}[]	= $word;
-				}
-				break;
+				case SwaggerParameter::PARAMTYPE_BODY:
+				case SwaggerParameter::PARAMTYPE_FORM:
+				case SwaggerParameter::PARAMTYPE_HEADER:
+				case SwaggerParameter::PARAMTYPE_PATH:
+				case SwaggerParameter::PARAMTYPE_QUERY:
+					$primitive			= self::shift($argument);
+					$name				= self::shift($argument);
+					$this->currentPrimitive	= new SwaggerParameter($this->current->getByProperty('Parameters'), $command, $primitive, $name, $argument);
+					if ($multiplicity === '+' || $multiplicity === '') {
+						$this->currentPrimitive->required = true;
+					}
+					if ($multiplicity === '+' || $multiplicity === '*') {
+						$this->currentPrimitive->allowmultiple = true;
+					}
+					break;
 
-			case 'include':
-				$this->parseSource($this->basedir.DIRECTORY_SEPARATOR.$argument);
-				break;
+				case 'error':
+					$code			= self::shift($argument);
+					$this->current	= new SwaggerError($this->current->getByProperty('Errors'), $code, $argument);
+					break;
+
+				case 'errors':
+					$ErrorsContainer = $this->current->getByProperty('Errors');
+					foreach (self::words($argument) as $code) {
+						$this->current	= new SwaggerError($ErrorsContainer, $code);
+					}
+					break;
+
+				// single properties
+				case 'apiversion':			// resource (-> api)
+				case 'swaggerversion':		// resource (-> api)
+				case 'title':				// resource
+				case 'description':			// resource & endpoint //@todo should also parameter
+				case 'termsofserviceurl':	// resource
+				case 'contact':				// resource
+				case 'license':				// resource
+				case 'licenseurl':			// resource
+				case 'basepath':			// api (base)
+				case 'resourcepath':		// api (base)
+				case 'notes':				// method
+					$this->current->getByProperty($command)->{$command} = $argument;
+					break;
+
+				// Boolean if present; false only if 'false'
+				case 'deprecated':
+					$this->current->getByProperty($command)->{$command} = $argument !== 'false';
+					break;
+
+				// append properties or primitive tree
+				case 'enum':
+					foreach (self::words($argument) as $word) {
+						$this->currentPrimitive->getByProperty($command)->{$command}[]	= $word;
+					}
+					break;
+
+				case 'items':				// parameter.items
+				case 'default':				// parameter.default
+					$this->currentPrimitive->getByProperty($command)->{$command}	= $argument;
+					break;
+
+				// append properties on base tree
+				case 'produces':
+				case 'consumes':
+					foreach (self::words($argument) as $word) {
+						$this->current->getByProperty($command)->{$command}[]	= $word;
+					}
+					break;
+
+				case 'include':
+					$this->parseSource($this->basedir.DIRECTORY_SEPARATOR.$argument);
+					break;
+			}
 		}
 	}
 
