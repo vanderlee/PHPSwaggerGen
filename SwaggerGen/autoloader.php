@@ -1,5 +1,8 @@
 <?php
 
 	spl_autoload_register(function ($class) {
-		include dirname(__FILE__). '/' . $class . '.php';
+		$file = dirname(__FILE__). '/' . $class . '.php';
+		if (is_file($file)) {
+			include_once $file;
+		}
 	});
