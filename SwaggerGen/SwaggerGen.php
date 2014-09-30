@@ -248,9 +248,6 @@ class SwaggerGen {
 			case 'include':
 				$this->parseSource($this->basedir.DIRECTORY_SEPARATOR.$argument);
 				break;
-
-			default:
-				throw new Exception("@rest command '{$command}' not recognized");
 		}
 	}
 
