@@ -10,7 +10,7 @@
 	];
 	$classdirs	= [];
 
-	$Generator = new \SwaggerGen\SwaggerGen('localhost/SwaggerGen2-Internal',  '/example');
+	$Generator = new \SwaggerGen\SwaggerGen($_SERVER['HTTP_HOST'],  dirname($_SERVER['REQUEST_URI']));
 	//$SwaggerGen->define('admin');
 	$array = $Generator->getSwagger($files, $classdirs);
 	
