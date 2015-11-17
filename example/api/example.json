@@ -1,0 +1,16 @@
+{
+	"users": {
+		"alice": {
+			"age": 25,
+			"height": 160
+		},
+		"bob": {
+			"age": 38,
+			"height": 170
+		},
+		"ted": {
+			"age": 60,
+			"height": 180
+		}
+	}
+}

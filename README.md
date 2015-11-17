@@ -1,245 +1,331 @@
-PHP Swagger Generator
-=====================
-Version v0.2.0
+SwaggerGen
+==========
+Version v2.0-beta-1
 
-Copyright &copy; 2014 Martijn van der Lee (http://martijn.vanderlee.com).
+Copyright &copy; 2014-2015 Martijn van der Lee (http://toyls.com).
+
 MIT Open Source license applies.
 
-PHP tool to generate Swagger API documentation files from comments in PHP source
-code or most other programming languages.
-
-PHPSwaggerGen takes a number of files or text fragments as source, scans these
-sources for lines starting with a particular prefix (`@rest\` by default) and
-parses the command on the line.
-
-Release notes
--------------
-This is an early preview release. It generates working Swagger JSON files and is
-able to offer most of the specification as comment commands, but lacks a few
-significant features.
-
-*	Most notably, any and all OAuth2 authorization commands are missing; I
-	simply don't need these myself.
-*	It is currently also unable to handle multi-line comments. All the
-	arguments for a command must be on a single line. I have a few ideas on how
-	to deal with this, but nothing has been implemented so far.
-*	model's `subTypes` and `discriminator` and not yet supported.
-*	responseMessages's `responseModel` is not yet supported.
-*	Support for the `File` type is severely lacking at best.
-*	Also notable is the lacking of documentation and proper unittesting. I am
-	well aware of the irony.
-
-Consider all of the above on the "to do some day" list. I you need a particular
-feature, just submit an issue and I'll prioritize it.
-
-Mapping to Swagger specifications
----------------------------------
-PHPSwaggerGen is based on the 1.2 specification of Swagger. This specification
-contains a few ambiguous uses of words. Notably 'api' is used with multiple
-incompatible meanings.
-
-To avoid this confusion, I've use the words "api" to mean
-the functional collection of endpoints and "endpoint" for actual endpoints.
-
-Swaggers' operations have been renamed to "methods" as this seemed nicer to
-me. It might be aliassed as "operation" in the future.
-
-Inheritance
------------
-Swagger documents an API in multiple levels:
-
-* resource (there can be only one)
-> * apis
->> * endpoints
->>> * methods
->>>> * parameters
->>>> * errors
->> * models
->>> * properties
-
-You are always working on one of the levels (or "contexts"). By default you start on the
-"resource" level, but as soon as you use the `api` command, you'll be working on
-the "apis" level. Notice that the order of commands is very important.
-
-To switch levels, you can only use a level directly below the current level or
-any level higher up in the tree (though currently no switching back to the
-"resource" level; no need to). If you try to use a command belonging to a deeper
-level, PHPSwaggerGen will remember those commands and apply them to all deeper
-levels; inheritance. For example, if you're at the "resources" level and use the
-`error` command, the error you define will be applied to __all__ "method"
-levels.
-
-Generally speaking, you can use any command at any time, and it'll do what you
-expect it to do.
-
-Multiplicity
+Introduction
 ------------
-Some commands define items which are either optional or can be repeated. You can
-specify this multiplicity by adding any of the following to the command:
+This is an early Beta version of SwaggerGen 2.0, a complete rewrite of
+SwaggerGen for SwaggerSpec 2.0 support and improved quality overall.
 
-*	'' (nothing) - One time
-*	'?' - Zero or one (a.k.a. "Optional")
-*	'+' - Zero or more
-*	'+' - One or more
+As befits a beta release, this code should be runnable and usable, but is
+likely to contain bugs and may be subject to significant changes.
+Also, documentation is largely lacking; note all the TODO statements.
+Also note the large To-do list at the bottom; there is still plenty to do.
 
-By default (nothing specified), all are considered required.
+Installation
+------------
+This library should be PSR-4 compatible, so you should be able to use it in any
+package manager (though no package manager will be supported until the code has
+stabalized).
 
-Primitives
+It should work on PHP 5.4 or higher, but is currently only tested on PHP 5.5.
+With some relatively minor modifications, the code may be able to run on
+PHP 5.3, but no significant effort has been put into this as yet.
+
+
+
+Syntax
+======
+You can use both proper PHPDoc comments and normal comments.
+All comments have to be prefixed with `@rest\` as such:
+
+	/**
+     * @rest\title Example API
+     */
+
+Or multiline comments:
+
+	/* @rest\endpoint /words Text Manipulate text in various ways
+	*/
+
+Or single line comments:
+
+	// @rest\operation GET Get an array of individual words in a sentence.
+
+
+
+
+
+Get started quick
+=================
+TODO: Short walkthrough
+
+
+
+
+
+Contexts and commands
+=====================
+
+Swagger (root)
+--------------
+Represents the entire API documentation.
+This is the initial context for commands.
+
+#### Commands
+*	**`title` *text ...***
+	Set the API title.
+	&#x27a4;Info
+*	**`description` *text ...***
+	Set a description for the API.
+	&#x27a4;Info
+*	**`schemes` *scheme1 [scheme2] ... [schemeN]***
+	Adds protocol schemes. E.g. "http" or "https".
+*	**`consumes` *mime1 [mime2] ... [mimeN]***
+	Adds mime types that the API is able to understand. E.g.
+	"application/json",  "multipart/form-data" or
+	"application/x-www-form-urlencoded".
+*	**`produces` *mime1 [mime2] ... [mimeN]***
+	Adds mime types that the API is able to produce. E.g. "application/xml" or
+	"application/json".
+*	**`define` *type name***
+	Start definition of a Schema (type is "params" or "parameters"), using the
+	reference name specified.
+	&#x27a4;Schema.
+*	**`endpoint` */path [tag] [description ...]***
+	Create an endpoint using the /path.
+	If tag is set, the endpoint will be assigned to the tag group of that name.
+	If a description is set, the description of the group will be set
+	accordingly.
+	&#x27a4;Path
+
+
+
+Path
+----
+Represents a URL endpoint or Path.
+
+#### Commands
+*	**`operation` *method [summary ...]***
+	Add a new operation to the most recently specified endpoint.
+	Method can be any valid HTTP method; "get", "put", "post", "delete",
+	"options", "head", "patch".
+	&#x27a4;Operation
+*	**`description` *text ...***
+	If a tag exists, sets the description for the tag. Otherwise pass along to
+	the most recent context that can handle a description.
+	&#x27a4;Tag
+
+
+
+Parameters
 ----------
-Swagger defines a number of primitive datatypes by specifying their `type` and
-`format`. PHPSwaggerGen only knows the primitive datatypes themselves; no need
-to specify a type and format independantly.
 
-You can use the format names or the primitives names, as specified by Swagger.
+### boolean (bool)
+A true/false choice.
 
-Some of the primitives may accept additional information:
+	type=default
 
-*	Supported are `integer`, `long`, `float`, `double`, `string`, `byte`,
-	`boolean`, `date` and `datetime`. You can specify minimum and maximum values
-	in parenthesis like so: `integer(0,100)`.
-*	You can also use `array` and `set`, the latter is an array where each
-	element must be unique. You can specify the primitive type for the items in
-	parenthesis as such: `array(string)`.
-*	Also, `file` and `void` are supported as well.
-*	A non-standard type `enum` is available, which is converted to a type
-	`string` but takes any of the comma-separated words in parenthesis as
-	enumeration as such: `enum(north,east,south,west)`.
+*	type: `boolean` or `bool`.
+*	default: `true`, `false`, 1 (true) or 0 (false).
 
-Commands
+#### Commands
+*	**`default` *value*** Set the default value.
+
+#### Examples
+*	**`boolean`** A basic boolean.
+*	**`bool=true`** A boolean, default to true.
+
+
+### int32 (integer, int), int64 (long)
+Represents numbers without decimals.
+
+	type[0,>=default
+
+*	type: `integer`, `int`, `int32`, `long` or `int64`.
+*	range: [min,max].
+	Use `[` or `]` for inclusive and `<` or `>` for	exclusive.
+	Empty `min` or `max` values means infinity.
+*	default: any valid integer.
+
+#### Commands
+*	**`default` *value*** Set the default value.
+*	**`enum` *value1 value2 ... valueN*** Set or add allowed values.
+*	**`step` *value*** Set the stepsize between numbers.
+
+#### Examples
+*	**`int`** 32-bit integer without a default or limited range.
+*	**`long<,0>`** 64-bit negative integers only.
+*	**`integer[0,>=100`** 32-bit positive integer or zero, default to 100.
+
+
+### float, double
+Represents floating point numbers (with decimals).
+
+	type[0,>=default
+
+*	type: `float` or `double`
+*	range: [min,max].
+	Use `[` or `]` for inclusive and `<` or `>` for	exclusive.
+	Empty `min` or `max` values means infinity.
+*	default: any valid integer.
+
+#### Commands
+*	**`default` *value*** Set the default value.
+*	**`enum` *value1 value2 ... valueN*** Set or add allowed values.
+*	**`step` *value*** Set the stepsize between numbers.
+
+#### Examples
+*	**`float`** 32-bit floating point number without a default or limited range.
+*	**`double<,1>`** 64-bit floating point numbers upto (but not including) 1.
+*	**`float<0,>=0.1`** 32-bit positive numbers, excluding 0, default to 0.1.
+
+
+### string, byte, binary, password
+Represents a text.
+
+	type(pattern)[0,>=default
+
+*	type: `string` or `binary`,
+*	range: [min,max].
+	Use `[` or `]` for inclusive and `<` or `>` for	exclusive.
+	Empty `min` value means zero.
+	Empty `max` value means infinity.
+*	default: any valid text not containing whitespace.
+
+#### Commands
+*	**`default` *value*** Set the default value.
+*	**`enum` *value1 value2 ... valueN*** Set or add allowed values.
+
+#### Examples
+*	**`string`** A simple text field.
+*	**`string[,256>`=red ** A text of at most 255 characters, default to "red".
+*	**`binary[1,8]`** Upto 8 binary digits, requiring atleast one.
+
+
+### date, date-time (datetime)
+Special type of string which is limited to dates only
+
+	type=default
+
+*	type: `date`, `date-time` or `datetime`,
+*	default: Any valid RFC3339 full-date or date-time.
+
+#### Commands
+*	**`default` *date*** Set the default value.
+
+#### Examples
+*	**`date`** A simple date
+*	**`datetime=2015-12-31T12:34:56Z`** Date and time set to a default without
+	a timezone offset.
+*	**`datetime=2015-12-31T12:34:56.001+01:00`** Date and time set to a default
+	value with fractional seconds and a timezone offset.
+
+
+### enum
+Special type of string which is limited to one of a number of predefined values.
+
+	enum(value1,value1,...,valueN)=default
+
+*	values: any text not containing whitespace or commas.
+*	default: any of the specified texts.
+
+#### Commands
+See string.
+
+#### Examples
+*	**`enum(red,green,blue)=red`** A string containing either "red", "green" or
+	"blue", default to "red".
+
+
+
+Operation
+---------
+TODO
+
+
+
+Error
+-----
+TODO
+
+
+
+Info
+----
+TODO
+
+
+
+Contact
+-------
+TODO
+
+
+
+License
+-------
+TODO
+
+
+
+Response
 --------
-All parts of a command are separated by spaces; no quotes are necessary or even
-allowed. The last argument (usually "description") of each command is basically
-everything upto the end of the line, so that one _can_ contain spaces.
+TODO
 
-### `apiversion {value}` (resource)
 
-### `swaggerversion {value}` (resource)
 
-### `title {value}` (resource)
+Schema
+------
+TODO
 
-### `description {value}` (most anything)
 
-### `termsofserviceurl {value}` (resource)
 
-### `contact {value}` (resource)
+Tag
+---
+TODO
 
-### `license {name}` (resource)
-Some license names are recognized and automatically set the license URL.
-Currently only `mit` and `apache 2.0` are recognized. Please submit an issue if
-you want some particular license to be added.
 
-### `licenseurl {value}` (resource)
-
-### `basepath {value}` (resource)
-
-### `resourcepath {value}` (resource)
-
-### `notes {value}` (resource)
-
-### `api {name} {description}`
-
-### `endpoint {path} {description}` (api)
-
-### `method {method} {description}` (endpoint)
-{method} is `GET`, `POST`, `PUT`, `DELETE` or `PATCH`; any of the HTTP methods.
-
-### `body{multiplicity} {primitive} {name} {description}` (parameter)
-
-### `form{multiplicity} {primitive} {name} {description}` (parameter)
-
-### `header{multiplicity} {primitive} {name} {description}` (parameter)
-
-### `path{multiplicity} {primitive} {name} {description}` (parameter)
-
-### `query{multiplicity} {primitive} {name} {description}` (parameter)
-{multiplicy} is empty, `+`, `*` or `?`.
-
-### `error {code} {reason}` (method)
-Declare the 4xx and 5xx HTTP status codes that may be returned when calling the
-method(s). The reason is optional; if none is specified, the default reason
-will be used.
-
-### `errors {code} {code} {...} {code}` (method)
-Declare multiple 4xx and 5xx status codes at once. Default reasons will be used.
-
-### `model{multiplicity} {name} {description}` (api)
-{multiplicy} is either empty or `?`.
-
-### `property {primitive} [name} {description}` (model)
-
-### `default {value}` (parameter/property)
-
-### `items {value}` (parameter/property)
-
-### `deprecated` (method)
-Indicates that a method is deprecated and should no longer be used/.
-
-### `enum {word} {word} {...} {word}` (parameter/property)
-Enumeration of the current primitive (property or parameter).
-
-### `produces {mime-type} {mime-type} {...} {mime-type}` (api)
-
-### `consumes {mime-type} {mime-type} {...} {mime-type}` (api)
-
-### `include {relative-path}`
-Include the file at the relative path from the currently processing file.
-
-Flow control
-------------
-SwaggerGen supports limited flow control. Flow control can be stacked; i.e. you
-can have multiple conditions embedded within each other.
-
-### `if {condition}`
-Parse or ignore upto next `else` or `endif` statement, depending on condition.
-Currently only a single define name may be specified as an condition. If the
-define evaluates to boolean true, the entire condition is evaluated true.
-
-### `ifdef {define}`
-Parse or ignore upto next `else` or `endif` statement, depending on whether or
-not a value is defined. It's value is not important.
-
-### `ifn {condition}`
-Inverse of `if`.
-
-### `ifndef {condition}`
-Inverse of `ifdef`.
-
-### `else`
-Parse or ignore upto next `else` or `endif` statement, depending on whether the
-previous conditional section was ignored or parsed.
-
-### `endif`
-Stops a conditional section.
 
 Example
+=======
+TODO: A minimalist but complete example of a working PHP Rest API call.
+
+
+
+
+To-do
+=====
+Code
+----
+*	Options to enable/disable comment types.
+*	Option to specify comment command prefix. "rest" or "@rest\".
+*	Ordering options for tags and/or paths and/or operations; sort according to list for tags
+*	Parse and reference functions
+*	Rethink pre-function comment(s); add to function/method or class?
+*	Type alias/extension system
+*	Command aliassing system.
+*	Command line interface. Netbeans integration.
+
+Swagger
 -------
-Take a look at the examples in the `test-source` directory.
+*	Full Type support in Swagger\Header object
+*	Use (optional) Namespaces in @see and @uses
+*	Security object+context + definitions
+*	Set type (array of enumerated strings; can force unique?)
+*	License: full/formatted names
+*	Definitions: param/response
+*	Date(-time) format helpers; if no timezone, add 'Z'. Use PHP Date parser.
+*	Support object "additionalProperties" and "allOf"
+*	Shortcut "get", "put", etc. operation methods as proper commands.
 
-To do (mostly for my own reference)
------------------------------------
-*	Document methods
-*	Short example of call
-*	Automated unittests
-*	Full documentation (and more readable)
-*	Nice index page (use my standard jQuery page?)
-*	Pet-store example
-*	Resolve "description" issue for parameters
-*	Add convenience as needed
-*	Add the missing features mentioned above
-*	Report to main Swagger site/wiki at some point
+Quality
+-------
+*	Parsers; pass state object instead of keeping state in parser objects properties.
+*	PHP: Cache previously parsed files; do not re-parse?
+*	Unittests and Travis-CI integration.
+*	PSR-* compliance
 
-Changelog
-----------
-### v0.2.0
-*	Added flow control; if, ifdef, ifn, ifndef, else, endif.
-*	Autoloader now ignores files it cannot find.
+Validations
+-----------
+*	'body' and 'formData' Parameters cannot exist in single Operation.
+*	'path' Parameters must reference part of Path.
 
-### v0.1.2
-*	Added parse strategies, allowing multiline comments in PHP
-
-### v0.1.1
-*	Added `include` command
-*	Added `enum` primitive type
-
-### v0.1.0
-*	Initial public release
+Documentation
+-------------
+*	Explain basic command context. How does PHPDoc/JavaDoc explain this?
+*	PHPDoc reference documentation.
