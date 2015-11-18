@@ -3,6 +3,8 @@
 namespace Api\Rest;
 
 /*
+ * @rest\description SwaggerGen 2 Example API
+ * @rest\title Example API
  * @rest\contact http://example.com Arthur D. Author
  * @rest\license MIT
  */
@@ -64,6 +66,18 @@ class Example
 	private function getUser_data()
 	{
 		return array_keys($this->data['users']);
+	}
+
+	/**
+	 * @rest\ifdef admin
+	 * @rest\endpoint /user/{username}
+	 * @rest\method DELETE Delete a specific user
+	 * @rest\endif
+	 */
+	private function deleteUser($name)
+	{
+		// Pretend we're deleting the user.
+		return array();
 	}
 
 	/**
