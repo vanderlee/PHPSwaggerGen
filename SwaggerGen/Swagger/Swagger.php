@@ -85,6 +85,8 @@ class Swagger extends AbstractDocumentableObject
 			case 'terms': // alias
 			case 'tos': // alias
 			case 'termsofservice':
+			case 'contact':
+			case 'license':
 				return $this->Info->handleCommand($command, $data);
 
 			// string[]
