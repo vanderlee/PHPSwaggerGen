@@ -52,7 +52,7 @@ class Preprocessor extends \SwaggerGen\Parser\AbstractPreprocessor
 						foreach (preg_split('/\\R/m', $token[1]) as $line) {
 							$match = array();
 							if (preg_match($pattern, $line, $match) === 1) {
-								if (!$this->handle($match[1], $match[2])) {
+								if (!$this->handle($match[1], $match[2]) && $this->getState()) {
 									$output .= $line . PHP_EOL;
 								}
 							} else {
