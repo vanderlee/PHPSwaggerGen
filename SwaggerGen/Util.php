@@ -44,7 +44,7 @@ class Util
 	 */
 	public static function words_shift(&$data)
 	{
-		if (preg_match('~^(\S+)\s*(.*)$~', $data, $matches) === 1) {
+		if (preg_match('~^\s*(\S+)\s*(.*)$~s', $data, $matches) === 1) {
 			$data = $matches[2];
 			return $matches[1];
 		}
