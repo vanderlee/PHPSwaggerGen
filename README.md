@@ -9,22 +9,23 @@ MIT Open Source license applies.
 Introduction
 ------------
 This is an early Beta version of SwaggerGen 2.0, a complete rewrite of
-SwaggerGen for SwaggerSpec 2.0 support and improved quality overall.
+SwaggerGen for Swagger-spec 2.0 support and improved quality overall.
 
 As befits a beta release, this code should be runnable and usable, but is
 likely to contain bugs and may be subject to significant changes.
-Also, documentation is largely lacking; note all the TODO statements.
+Also, documentation is largely lacking; note all the `todo` statements.
 Also note the large To-do list at the bottom; there is still plenty to do.
 
 Installation
 ------------
 This library should be PSR-4 compatible, so you should be able to use it in any
 package manager (though no package manager will be supported until the code has
-stabalized).
+stabilized).
 
-It should work on PHP 5.4 or higher, but is currently only tested on PHP 5.5.
-With some relatively minor modifications, the code may be able to run on
-PHP 5.3, but no significant effort has been put into this as yet.
+Requires PHP 5.4 or greater.
+
+PHP 5.3 is supported as long as no more recent features are necessary.
+There is no guarantee SwaggerGen will continue to work on PHP 5.3 in the future.
 
 
 
