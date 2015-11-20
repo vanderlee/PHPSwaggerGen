@@ -81,7 +81,7 @@ class Response extends AbstractObject
 	/**
 	 * @var Header[]
 	 */
-	private $Headers = [];
+	private $Headers = array();
 
 //	private $examples;
 
@@ -95,7 +95,7 @@ class Response extends AbstractObject
 
 		// build static lookup table
 		if (!$lookup) {
-			$lookup = [];
+			$lookup = array();
 			foreach (self::$httpCodes as $code => $text) {
 				$lookup[preg_replace('/[^a-z]+/', '', strtolower($text))] = $code;
 			}

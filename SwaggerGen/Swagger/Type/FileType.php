@@ -27,7 +27,7 @@ class FileType extends AbstractType
 			$consumes = $this->getRoot()->getConsumes();
 		}
 
-		if ($consumes !== ['multipart/form-data'] && $consumes !== ['application/x-www-form-urlencoded']) {
+		if ($consumes !== array('multipart/form-data') && $consumes !== array('application/x-www-form-urlencoded')) {
 			throw new \SwaggerGen\Swagger\Exception("File type without valid consume: '{$definition}'");
 		}
 	}

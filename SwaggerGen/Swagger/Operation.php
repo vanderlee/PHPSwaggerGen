@@ -14,19 +14,19 @@ namespace SwaggerGen\Swagger;
 class Operation extends AbstractDocumentableObject
 {
 
-	private $tags = [];
+	private $tags = array();
 	private $summary;
 	private $description;
 	private $operationId;
-	private $consumes = [];
-	private $produces = [];
+	private $consumes = array();
+	private $produces = array();
 
 	/**
 	 * @var IParameter[]
 	 */
-	private $Parameters = [];
-	private $responses = [];
-	private $schemes = [];
+	private $Parameters = array();
+	private $responses = array();
+	private $schemes = array();
 	private $deprecated; // bool
 	private $security; // SwaggerSecurity
 

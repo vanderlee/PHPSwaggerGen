@@ -13,7 +13,7 @@ namespace SwaggerGen\Swagger;
 class Parameter extends AbstractObject implements IParameter
 {
 
-	private static $classTypes = [
+	private static $classTypes = array(
 		'integer' => 'Integer',
 		'int' => 'Integer',
 		'int32' => 'Integer',
@@ -39,7 +39,7 @@ class Parameter extends AbstractObject implements IParameter
 		'date-time' => 'Date',
 		'file' => 'File',
 			//'set'		=> 'EnumArray',
-	];
+	);
 	private $name = '';
 	private $in;
 	private $description;
@@ -80,7 +80,7 @@ class Parameter extends AbstractObject implements IParameter
 		$this->required = (bool) $required;
 
 		// Parse regex
-		$match = [];
+		$match = array();
 		$count = preg_match('/^([a-z]+)/i', $definition, $match);
 		$format = strtolower($match[1]);
 		if (isset(self::$classTypes[$format])) {

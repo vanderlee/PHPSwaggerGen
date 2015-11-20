@@ -15,22 +15,22 @@ class DateType extends AbstractType
 
 	const REGEX_DEFAULT = '(?:=(\\d{4}-\\d{2}-\\d{2}(?:T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d+)?(?:Z|[-+]\\d{2}:\\d{2}))?))?';
 
-	private static $formats = [
+	private static $formats = array(
 		'date' => 'date',
 		'date-time' => 'date-time',
 		'datetime' => 'date-time',
-	];
-	private static $validations = [
+	);
+	private static $validations = array(
 		'date' => ['Y-m-d'],
 		'date-time' => ['Y-m-d\TH:i:sP', 'Y-m-d\TH:i:s.uP', 'Y-m-d\TH:i:s,uP'],
-	];
+	);
 	private $format;
 	//private $allowEmptyValue; // for query/formData
 	private $default; // @todo support default
 
 	protected function parseDefinition($definition)
 	{
-		$match = [];
+		$match = array();
 		if (preg_match(self::REGEX_START . self::REGEX_FORMAT . self::REGEX_DEFAULT . self::REGEX_END, $definition, $match) !== 1) {
 			throw new \SwaggerGen\Swagger\Exception("Unparseable date string definition: '{$definition}'");
 		}

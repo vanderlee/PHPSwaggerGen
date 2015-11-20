@@ -13,13 +13,13 @@ namespace SwaggerGen\Swagger\Type;
 class StringType extends AbstractType
 {
 
-	private static $formats = [
+	private static $formats = array(
 		'string' => null,
 		'byte' => 'byte',
 		'binary' => 'binary',
 		'password' => 'password',
 		'enum' => null,
-	];
+	);
 	private $format;
 	//private $allowEmptyValue; // for query/formData
 	private $pattern;
@@ -30,7 +30,7 @@ class StringType extends AbstractType
 
 	protected function parseDefinition($definition)
 	{
-		$match = [];
+		$match = array();
 		if (preg_match(self::REGEX_START . self::REGEX_FORMAT . self::REGEX_CONTENT . self::REGEX_RANGE . self::REGEX_DEFAULT . self::REGEX_END, $definition, $match) !== 1) {
 			throw new \SwaggerGen\Swagger\Exception("Unparseable string definition: '{$definition}'");
 		}

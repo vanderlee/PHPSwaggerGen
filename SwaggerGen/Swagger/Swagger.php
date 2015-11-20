@@ -21,20 +21,20 @@ class Swagger extends AbstractDocumentableObject
 	 * @var Info $Info
 	 */
 	private $Info;
-	private $schemes = [];
-	private $consumes = [];
-	private $produces = [];
+	private $schemes = array();
+	private $consumes = array();
+	private $produces = array();
 
 	/**
 	 * @var Path[] $Paths
 	 */
-	private $Paths = [];
-	private $definitions = [];
+	private $Paths = array();
+	private $definitions = array();
 
 	/**
 	 * @var Tag[] $Tags
 	 */
-	private $Tags = [];
+	private $Tags = array();
 
 	/**
 	 * Default tag for new endpoints/operations. Set by the api command.

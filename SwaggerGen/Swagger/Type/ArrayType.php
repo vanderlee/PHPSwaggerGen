@@ -13,7 +13,7 @@ namespace SwaggerGen\Swagger\Type;
 class ArrayType extends AbstractType
 {
 
-	private static $classTypes = [
+	private static $classTypes = array(
 		'integer' => 'Integer',
 		'int' => 'Integer',
 		'int32' => 'Integer',
@@ -37,15 +37,15 @@ class ArrayType extends AbstractType
 		'datetime' => 'Date',
 		'date-time' => 'Date',
 			//'set'		=> 'EnumArray';
-	];
-	private static $collectionFormats = [
+	);
+	private static $collectionFormats = array(
 		'array' => 'csv',
 		'csv' => 'csv',
 		'ssv' => 'ssv',
 		'tsv' => 'tsv',
 		'pipes' => 'pipes',
 		'multi' => 'multi',
-	];
+	);
 
 //	//private $allowEmptyValue; // for query/formData
 //	private $default;
@@ -60,7 +60,7 @@ class ArrayType extends AbstractType
 
 	protected function parseDefinition($definition)
 	{
-		$match = [];
+		$match = array();
 		if (preg_match(self::REGEX_START . self::REGEX_FORMAT . self::REGEX_CONTENT . self::REGEX_RANGE . self::REGEX_END, $definition, $match) !== 1) {
 			throw new \SwaggerGen\Swagger\Exception("Unparseable array definition: '{$definition}'");
 		}
@@ -76,7 +76,7 @@ class ArrayType extends AbstractType
 		$this->collectionFormat = self::$collectionFormats[$type];
 
 		if (!empty($match[2])) {
-			$itemsMatch = [];
+			$itemsMatch = array();
 			if (preg_match('/^([a-z]+)/i', $match[2], $itemsMatch) !== 1) {
 				throw new \SwaggerGen\Swagger\Exception("Unparseable items definition: '{$match[2]}'");
 			}
@@ -123,7 +123,7 @@ class ArrayType extends AbstractType
 				return $this;
 
 			case 'items':
-				$match = [];
+				$match = array();
 				if (preg_match('/^([a-z]+)/i', $data, $match) !== 1) {
 					throw new \SwaggerGen\Swagger\Exception("Unparseable items definition: '{$data}'");
 				}

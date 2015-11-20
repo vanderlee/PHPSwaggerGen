@@ -13,9 +13,9 @@ namespace SwaggerGen\Parser\Text;
 class Parser implements \SwaggerGen\Parser\IParser
 {
 
-	protected $common_dirs = [];
+	protected $common_dirs = array();
 
-	public function __construct(Array $dirs = [])
+	public function __construct(Array $dirs = array())
 	{
 		foreach ($dirs as $dir) {
 			$this->common_dirs[] = realpath($dir);
@@ -29,19 +29,19 @@ class Parser implements \SwaggerGen\Parser\IParser
 		}
 	}
 
-	public function parse($file, Array $dirs = [])
+	public function parse($file, Array $dirs = array())
 	{
 		return $this->parseText(file_get_contents(realpath($file)), $dirs);
 	}
 
-	public function parseText($text, Array $dirs = [])
+	public function parseText($text, Array $dirs = array())
 	{
 		$this->dirs = $this->common_dirs;
 		foreach ($dirs as $dir) {
 			$this->dirs[] = realpath($dir);
 		}
 
-		$Statements = [];
+		$Statements = array();
 
 		foreach (preg_split('/\\R/m', $text) as $line) {
 			$line = trim($line);

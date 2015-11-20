@@ -18,9 +18,9 @@ class Parser extends Entity\AbstractEntity implements \SwaggerGen\Parser\IParser
 
 // transient
 
-	private $files_queued = [];
-	private $files_done = [];
-	private $dirs = [];
+	private $files_queued = array();
+	private $files_done = array();
+	private $dirs = array();
 // States
 
 	private $lastStatements = null;
@@ -28,20 +28,20 @@ class Parser extends Entity\AbstractEntity implements \SwaggerGen\Parser\IParser
 	/**
 	 * @var Entity\ParserClass[]
 	 */
-	public $Classes = [];
+	public $Classes = array();
 
 	/**
 	 * @var Entity\ParserFunction[]
 	 */
-	public $Functions = [];
+	public $Functions = array();
 
 	/**
 	 * @var \SwaggerGen\Parser\AbstractPreprocessor
 	 */
 	private $Preprocessor;
-	protected $common_dirs = [];
+	protected $common_dirs = array();
 
-	public function __construct(Array $dirs = [])
+	public function __construct(Array $dirs = array())
 	{
 		foreach ($dirs as $dir) {
 			$this->common_dirs[] = realpath($dir);
@@ -57,7 +57,7 @@ class Parser extends Entity\AbstractEntity implements \SwaggerGen\Parser\IParser
 		}
 	}
 
-	public function parse($file, Array $dirs = [], Array $defines = [])
+	public function parse($file, Array $dirs = array(), Array $defines = array())
 	{
 		$this->dirs = $this->common_dirs;
 		foreach ($dirs as $dir) {
@@ -108,9 +108,9 @@ class Parser extends Entity\AbstractEntity implements \SwaggerGen\Parser\IParser
 	 */
 	public function commentToStatements($comment)
 	{
-		$commentLines = [];
+		$commentLines = array();
 
-		$match = [];
+		$match = array();
 		if (preg_match('~^/\*\*?\s*(.*)\s*\*\/$~sm', $comment, $match) === 1) {
 			$lines = preg_split('~\n~', $match[1]);
 			foreach ($lines as $line) {
@@ -125,11 +125,11 @@ class Parser extends Entity\AbstractEntity implements \SwaggerGen\Parser\IParser
 		}
 
 		// to commands
-		$match = [];
+		$match = array();
 		$command = null;
 		$data = '';
 
-		$Statements = [];
+		$Statements = array();
 		foreach ($commentLines as $line) {
 			// If new @-command, store any old and start new
 			if ($command && chr(ord($line)) === '@') {
@@ -185,7 +185,7 @@ class Parser extends Entity\AbstractEntity implements \SwaggerGen\Parser\IParser
 	{
 		foreach ($Statements as $Statement) {
 			if ($Statement->command === 'uses' || $Statement->command === 'see') {
-				$match = [];
+				$match = array();
 				if (preg_match('~^(\w+)(::|->)?(\w+)?(?:\(\))?$~', $Statement->data, $match) === 1) {
 					if (!in_array($match[1], array('self', '$this'))) {
 						$this->queueClass($match[1]);
@@ -195,11 +195,11 @@ class Parser extends Entity\AbstractEntity implements \SwaggerGen\Parser\IParser
 		}
 	}
 
-	private function parseFiles(Array $files, Array $defines = [])
+	private function parseFiles(Array $files, Array $defines = array())
 	{
 		$this->files_queued = $files;
 
-		$this->Statements = [];
+		$this->Statements = array();
 
 		$index = 0;
 		while (($file = array_shift($this->files_queued)) !== null) {
@@ -313,7 +313,7 @@ class Parser extends Entity\AbstractEntity implements \SwaggerGen\Parser\IParser
 	 */
 	private function expand(Array $Statements, Entity\ParserClass $Self = null)
 	{
-		$output = [];
+		$output = array();
 
 		$match = null;
 		foreach ($Statements as $Statement) {

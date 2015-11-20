@@ -16,13 +16,13 @@ class IntegerType extends AbstractType
 	const REGEX_RANGE = '(?:([[<])(-?\d*)?,(-?\d*)?([\\]>]))?';
 	const REGEX_DEFAULT = '(?:=(-?\d+))?';
 
-	private static $formats = [
+	private static $formats = array(
 		'int32' => 'int32',
 		'integer' => 'int32',
 		'int' => 'int32',
 		'int64' => 'int64',
 		'long' => 'int64',
-	];
+	);
 	private $format;
 	//private $allowEmptyValue; // for query/formData
 	private $default;
@@ -35,7 +35,7 @@ class IntegerType extends AbstractType
 
 	protected function parseDefinition($definition)
 	{
-		$match = [];
+		$match = array();
 
 		if (preg_match(self::REGEX_START . self::REGEX_FORMAT . self::REGEX_RANGE . self::REGEX_DEFAULT . self::REGEX_END, $definition, $match) !== 1) {
 			throw new \SwaggerGen\Swagger\Exception("Unparseable integer definition: '{$definition}'");

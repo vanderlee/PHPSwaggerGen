@@ -13,7 +13,7 @@ namespace SwaggerGen\Swagger\Type;
 class Property extends \SwaggerGen\Swagger\AbstractObject
 {
 
-	private static $classTypes = [
+	private static $classTypes = array(
 		'integer' => 'Integer',
 		'int' => 'Integer',
 		'int32' => 'Integer',
@@ -39,7 +39,7 @@ class Property extends \SwaggerGen\Swagger\AbstractObject
 		'date-time' => 'Date',
 			//'file'	=> 'File';
 			//'set'		=> 'EnumArray';
-	];
+	);
 
 	/**
 	 * Description of this property
@@ -58,7 +58,7 @@ class Property extends \SwaggerGen\Swagger\AbstractObject
 		parent::__construct($parent);
 
 		// Parse regex
-		$match = [];
+		$match = array();
 		$count = preg_match('/^([a-z]+)/i', $definition, $match);
 		$format = strtolower($match[1]);
 		if (isset(self::$classTypes[$format])) {

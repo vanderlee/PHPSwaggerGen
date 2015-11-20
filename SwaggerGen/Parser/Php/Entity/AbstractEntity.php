@@ -16,7 +16,7 @@ class AbstractEntity
 	/**
 	 * @var \SwaggerGen\Statement[]
 	 */
-	public $Statements = [];
+	public $Statements = array();
 
 	/**
 	 * Returns true if a statement with the specified command exists.

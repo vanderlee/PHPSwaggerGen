@@ -14,7 +14,7 @@ namespace SwaggerGen\Swagger;
 class Schema extends AbstractDocumentableObject implements IDefinition
 {
 
-	private static $classTypes = [
+	private static $classTypes = array(
 		'integer' => 'Integer',
 		'int' => 'Integer',
 		'int32' => 'Integer',
@@ -39,7 +39,7 @@ class Schema extends AbstractDocumentableObject implements IDefinition
 		'date-time' => 'Date',
 		'object' => 'Object',
 			//'file'		=> 'File',	// @todo Only if parent is_a Response and with the right "produces" mime-type
-	];
+	);
 
 	/**
 	 *
@@ -55,7 +55,7 @@ class Schema extends AbstractDocumentableObject implements IDefinition
 		parent::__construct($parent);
 
 		// Parse regex
-		$match = [];
+		$match = array();
 		$count = preg_match('/^([a-z]+)/i', $definition, $match);
 		$format = strtolower($match[1]);
 		if (isset(self::$classTypes[$format])) {

@@ -13,8 +13,8 @@ namespace SwaggerGen\Parser;
 abstract class AbstractPreprocessor
 {
 
-	private $defines = [];
-	private $stack = [];
+	private $defines = array();
+	private $stack = array();
 
 	public function __construct()
 	{
@@ -23,7 +23,7 @@ abstract class AbstractPreprocessor
 
 	public function resetDefines()
 	{
-		$this->defines = [];
+		$this->defines = array();
 	}
 
 	public function addDefines(Array $defines)
@@ -120,7 +120,7 @@ abstract class AbstractPreprocessor
 
 	public function preprocess($content)
 	{
-		$this->stack = [];
+		$this->stack = array();
 
 		return $this->parseContent($content);
 	}

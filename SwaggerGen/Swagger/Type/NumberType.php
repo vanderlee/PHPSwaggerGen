@@ -16,10 +16,10 @@ class NumberType extends AbstractType
 	const REGEX_RANGE = '(?:([[<])(-?(?=.?\d)\d*\.?\d*)?,(-?(?=.?\d)\d*\.?\d*)?([\\]>]))?';
 	const REGEX_DEFAULT = '(?:=(-?(?=.?\d)\d*\.?\d*))?';
 
-	private static $formats = [
+	private static $formats = array(
 		'float' => 'float',
 		'double' => 'double',
-	];
+	);
 	private $format;
 	//private $allowEmptyValue; // for query/formData
 	private $default;
@@ -32,7 +32,7 @@ class NumberType extends AbstractType
 
 	protected function parseDefinition($definition)
 	{
-		$match = [];
+		$match = array();
 		if (preg_match(self::REGEX_START . self::REGEX_FORMAT . self::REGEX_RANGE . self::REGEX_DEFAULT . self::REGEX_END, $definition, $match) !== 1) {
 			throw new \SwaggerGen\Swagger\Exception("Unparseable number definition: '{$definition}'");
 		}

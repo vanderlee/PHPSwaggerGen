@@ -17,7 +17,7 @@ class Path extends AbstractObject
 	/**
 	 * @var Operation[] $operation
 	 */
-	private $Operations = [];
+	private $Operations = array();
 
 	/**
 	 * @var Tag|null $tag;

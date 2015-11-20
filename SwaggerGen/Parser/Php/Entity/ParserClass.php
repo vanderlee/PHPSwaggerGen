@@ -21,7 +21,7 @@ class ParserClass extends AbstractEntity
 	/**
 	 * @var ParserFunction[]
 	 */
-	public $Methods = [];
+	public $Methods = array();
 
 	/**
 	 * @var string
@@ -31,7 +31,7 @@ class ParserClass extends AbstractEntity
 	/**
 	 * @var string[]
 	 */
-	public $implements = [];
+	public $implements = array();
 	private $lastStatements = null;
 
 	public function __construct(\SwaggerGen\Parser\Php\Parser $Parser, &$tokens, $Statements)

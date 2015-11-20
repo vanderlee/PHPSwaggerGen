@@ -41,7 +41,7 @@ class Info extends AbstractObject
 				return $this;
 
 			case 'contact':
-				$name = [];
+				$name = array();
 				$url = null;
 				$email = null;
 				foreach (\SwaggerGen\Util::words_split($data) as $word) {
@@ -58,7 +58,7 @@ class Info extends AbstractObject
 				return $this->Contact;
 
 			case 'license':
-				$name = [];
+				$name = array();
 				$url = null;
 				foreach (\SwaggerGen\Util::words_split($data) as $word) {
 					if (filter_var($word, FILTER_VALIDATE_URL)) {

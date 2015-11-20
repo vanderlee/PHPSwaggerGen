@@ -20,7 +20,7 @@ class ObjectType extends AbstractType
 	const REGEX_PROP_DEFAULT = '(?:=.+?)?';
 	const REGEX_PROP_END = '(?:,|$)/i';
 
-	private static $classTypes = [
+	private static $classTypes = array(
 		'integer' => 'Integer',
 		'int' => 'Integer',
 		'int32' => 'Integer',
@@ -44,20 +44,20 @@ class ObjectType extends AbstractType
 		'datetime' => 'Date',
 		'date-time' => 'Date',
 			//'set'		=> 'EnumArray';
-	];
+	);
 
 	/**
 	 * @var AbstractType
 	 */
-	private $Properties = [];
+	private $Properties = array();
 	private $minProperties = null;
 	private $maxProperties = null;
-	private $required = [];
-	private $properties = [];
+	private $required = array();
+	private $properties = array();
 
 	protected function parseDefinition($definition)
 	{
-		$match = [];
+		$match = array();
 		if (preg_match(self::REGEX_START . self::REGEX_FORMAT . self::REGEX_CONTENT . self::REGEX_RANGE . self::REGEX_END, $definition, $match) !== 1) {
 			throw new \SwaggerGen\Swagger\Exception("Unparseable object definition: '{$definition}'");
 		}
@@ -65,7 +65,7 @@ class ObjectType extends AbstractType
 		$type = strtolower($match[1]);
 
 		if (!empty($match[2])) {
-			$prop_matches = [];
+			$prop_matches = array();
 			preg_match_all(self::REGEX_PROP_START . '(' . self::REGEX_PROP_FORMAT . self::REGEX_PROP_CONTENT . self::REGEX_PROP_RANGE . self::REGEX_PROP_DEFAULT . ')' . self::REGEX_PROP_END, $match[2], $prop_matches, PREG_SET_ORDER);
 			foreach ($prop_matches as $prop_match) {
 				$this->properties[$prop_match[1]] = new Property($this, $prop_match[3]);

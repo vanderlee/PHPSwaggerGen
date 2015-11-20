@@ -35,10 +35,10 @@ class SwaggerGen
 
 	private $host;
 	private $basePath;
-	private $dirs = [];
-	private $defines = [];
+	private $dirs = array();
+	private $defines = array();
 
-	public function __construct($host = '', $basePath = '', $dirs = [])
+	public function __construct($host = '', $basePath = '', $dirs = array())
 	{
 		$this->host = $host;
 		$this->basePath = $basePath;
@@ -94,11 +94,11 @@ class SwaggerGen
 	 * @param type $dirs
 	 * @return type
 	 */
-	public function getSwagger($files, $dirs = [])
+	public function getSwagger($files, $dirs = array())
 	{
 		$dirs = array_merge($this->dirs, $dirs);
 
-		$Statements = [];
+		$Statements = array();
 		foreach ($files as $file) {
 			switch (pathinfo($file, PATHINFO_EXTENSION)) {
 				case 'php':
@@ -119,7 +119,7 @@ class SwaggerGen
 
 		$Swagger = new Swagger\Swagger($this->host, $this->basePath);
 
-		$stack = [$Swagger]; /* @var Swagger\AbstractObject[] $stack */
+		$stack = array($Swagger); /* @var Swagger\AbstractObject[] $stack */
 		foreach ($Statements as $Statement) {
 			$top = end($stack);
 

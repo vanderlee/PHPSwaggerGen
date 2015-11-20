@@ -14,7 +14,7 @@ namespace SwaggerGen\Swagger;
 abstract class AbstractObject
 {
 
-	private static $mime_types = [
+	private static $mime_types = array(
 		'fileform' => 'multipart/form-data',
 		'form' => 'application/x-www-form-urlencoded',
 		'json' => 'application/json',
@@ -24,7 +24,7 @@ abstract class AbstractObject
 		'yaml' => 'application/x-yaml',
 		'php' => 'text/x-php',
 		'xml' => 'text/xml',
-	];
+	);
 
 	/**
 	 * @var AbstractObject
@@ -35,7 +35,7 @@ abstract class AbstractObject
 	 * Map of extensions and their (trimmed) values
 	 * @var string[]
 	 */
-	private $extensions = [];
+	private $extensions = array();
 
 	public function __construct(AbstractObject $parent = null)
 	{

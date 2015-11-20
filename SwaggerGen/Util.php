@@ -22,7 +22,7 @@ class Util
 	public static function array_filter_null($array)
 	{
 		return array_filter($array, function($value) {
-			return $value !== null && $value !== [];
+			return $value !== null && $value !== array();
 		});
 	}
 
