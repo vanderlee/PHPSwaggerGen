@@ -61,7 +61,7 @@ class NumberType extends AbstractType
 				return $this;
 
 			case 'enum':
-				$words = \SwaggerGen\Util::words_split($data);
+				$words = self::words_split($data);
 				array_walk($words, 'doubleval');
 				$this->enum = array_merge($this->enum, $words);
 				return $this;
@@ -78,7 +78,7 @@ class NumberType extends AbstractType
 
 	public function toArray()
 	{
-		return \SwaggerGen\Util::array_filter_null([
+		return self::array_filter_null([
 					'type' => 'number',
 					'format' => $this->format,
 					'default' => $this->default,

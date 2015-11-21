@@ -76,7 +76,7 @@ class StringType extends AbstractType
 				return $this;
 
 			case 'enum':
-				$words = \SwaggerGen\Util::words_split($data);
+				$words = self::words_split($data);
 				$this->enum = is_array($this->enum) ? array_merge($this->enum, $words) : $words;
 				return $this;
 		}
@@ -86,7 +86,7 @@ class StringType extends AbstractType
 
 	public function toArray()
 	{
-		return \SwaggerGen\Util::array_filter_null([
+		return self::array_filter_null([
 					'type' => 'string',
 					'format' => $this->format,
 					'pattern' => $this->pattern,

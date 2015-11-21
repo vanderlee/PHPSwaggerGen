@@ -35,7 +35,7 @@ class Path extends AbstractObject
 		switch (strtolower($command)) {
 			case 'method': // alias
 			case 'operation':
-				$method = strtolower(\SwaggerGen\Util::words_shift($data));
+				$method = strtolower(self::words_shift($data));
 
 				if (isset($this->Operations[$method])) {
 					$Operation = $this->Operations[$method];
@@ -59,8 +59,8 @@ class Path extends AbstractObject
 
 	public function toArray()
 	{
-		return \SwaggerGen\Util::array_filter_null(array_merge(
-								\SwaggerGen\Util::arrayToArray($this->Operations)
+		return self::array_filter_null(array_merge(
+								self::array_toArray($this->Operations)
 								, parent::toArray())
 		);
 	}

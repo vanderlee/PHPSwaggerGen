@@ -36,7 +36,7 @@ class Tag extends AbstractDocumentableObject
 
 	public function toArray()
 	{
-		return \SwaggerGen\Util::array_filter_null(array_merge([
+		return self::array_filter_null(array_merge([
 					'name' => $this->name,
 					'description' => $this->description,
 								], parent::toArray()));

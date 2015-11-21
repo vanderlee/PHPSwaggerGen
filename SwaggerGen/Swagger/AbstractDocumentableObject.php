@@ -30,7 +30,7 @@ abstract class AbstractDocumentableObject extends AbstractObject
 		switch (strtolower($command)) {
 			case 'doc':
 			case 'docs':
-				$url = \SwaggerGen\Util::words_shift($data);
+				$url = self::words_shift($data);
 				$this->externalDocs = new ExternalDoc($this, $url, $data);
 				return $this->externalDocs;
 		}
@@ -43,7 +43,7 @@ abstract class AbstractDocumentableObject extends AbstractObject
 	 */
 	public function toArray()
 	{
-		return \SwaggerGen\Util::array_filter_null(array_merge([
+		return self::array_filter_null(array_merge([
 					'externalDocs' => $this->externalDocs ? $this->externalDocs->toArray() : null,
 								], parent::toArray()
 		));

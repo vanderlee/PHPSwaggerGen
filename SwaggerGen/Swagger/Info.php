@@ -44,7 +44,7 @@ class Info extends AbstractObject
 				$name = array();
 				$url = null;
 				$email = null;
-				foreach (\SwaggerGen\Util::words_split($data) as $word) {
+				foreach (self::words_split($data) as $word) {
 					if (filter_var($word, FILTER_VALIDATE_URL)) {
 						$url = $word;
 					} elseif (filter_var($word, FILTER_VALIDATE_EMAIL)) {
@@ -60,7 +60,7 @@ class Info extends AbstractObject
 			case 'license':
 				$name = array();
 				$url = null;
-				foreach (\SwaggerGen\Util::words_split($data) as $word) {
+				foreach (self::words_split($data) as $word) {
 					if (filter_var($word, FILTER_VALIDATE_URL)) {
 						$url = $word;
 					} else {
@@ -77,7 +77,7 @@ class Info extends AbstractObject
 
 	public function toArray()
 	{
-		return \SwaggerGen\Util::array_filter_null(array_merge([
+		return self::array_filter_null(array_merge([
 					'title' => $this->title,
 					'description' => $this->description,
 					'termsOfService' => $this->termsofservice,

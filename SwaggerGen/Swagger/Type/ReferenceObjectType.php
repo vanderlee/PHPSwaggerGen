@@ -22,7 +22,7 @@ class ReferenceObjectType extends AbstractType
 
 	public function toArray()
 	{
-		return \SwaggerGen\Util::array_filter_null([
+		return self::array_filter_null([
 					'type' => 'object',
 					'$ref' => '#/definitions/' . $this->reference,
 		]);

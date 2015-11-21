@@ -74,8 +74,8 @@ class Parameter extends AbstractObject implements IParameter
 		parent::__construct($parent);
 
 		$this->in = $in;
-		$definition = \SwaggerGen\Util::words_shift($data);
-		$this->name = \SwaggerGen\Util::words_shift($data);
+		$definition = self::words_shift($data);
+		$this->name = self::words_shift($data);
 		$this->description = $data;
 		$this->required = (bool) $required;
 
@@ -104,7 +104,7 @@ class Parameter extends AbstractObject implements IParameter
 
 	public function toArray()
 	{
-		return \SwaggerGen\Util::array_filter_null(array_merge([
+		return self::array_filter_null(array_merge([
 					'name' => $this->name,
 					'in' => $this->in === 'form' ? 'formData' : $this->in,
 					'description' => $this->description,

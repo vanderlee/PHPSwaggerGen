@@ -42,7 +42,7 @@ class Contact extends AbstractObject
 
 	public function toArray()
 	{
-		return \SwaggerGen\Util::array_filter_null(array_merge([
+		return self::array_filter_null(array_merge([
 					'name' => $this->name,
 					'url' => $this->url,
 					'email' => $this->email,

@@ -57,13 +57,13 @@ class Operation extends AbstractDocumentableObject
 			// string[]
 			case 'tags':
 			case 'schemes':
-				$this->$command = array_merge($this->$command, \SwaggerGen\Util::words_split($data));
+				$this->$command = array_merge($this->$command, self::words_split($data));
 				return $this;
 
 			// MIME[]
 			case 'consumes':
 			case 'produces':
-				$this->$command = array_merge($this->$command, self::translateMimeTypes(\SwaggerGen\Util::words_split($data)));
+				$this->$command = array_merge($this->$command, self::translateMimeTypes(self::words_split($data)));
 				return $this;
 
 			// boolean
@@ -72,14 +72,14 @@ class Operation extends AbstractDocumentableObject
 				return $this;
 
 			case 'error':
-				$code = Response::getCode(\SwaggerGen\Util::words_shift($data));
+				$code = Response::getCode(self::words_shift($data));
 				$description = $data;
 				$Error = new Error($this, $code, $description);
 				$this->responses[$code] = $Error;
 				return $Error;
 
 			case 'errors':
-				foreach (\SwaggerGen\Util::words_split($data) as $code) {
+				foreach (self::words_split($data) as $code) {
 					$code = Response::getCode($code);
 					$this->responses[$code] = new Error($this, $code);
 				}
@@ -101,8 +101,8 @@ class Operation extends AbstractDocumentableObject
 				return $Parameter;
 
 			case 'response':
-				$code = Response::getCode(strtolower(\SwaggerGen\Util::words_shift($data)));
-				$definition = \SwaggerGen\Util::words_shift($data);
+				$code = Response::getCode(strtolower(self::words_shift($data)));
+				$definition = self::words_shift($data);
 				$description = $data;
 				$Response = new Response($this, $code, $definition, $description);
 				$this->responses[$code] = $Response;
@@ -119,15 +119,15 @@ class Operation extends AbstractDocumentableObject
 
 	public function toArray()
 	{
-		return \SwaggerGen\Util::array_filter_null(array_merge([
+		return self::array_filter_null(array_merge([
 					'tags' => $this->tags,
 					'summary' => $this->summary,
 					'description' => $this->description,
 					//'operationId' => $this->description,
 					'consumes' => $this->consumes,
 					'produces' => $this->produces,
-					'parameters' => $this->Parameters ? \SwaggerGen\Util::arrayToArray($this->Parameters) : null,
-					'responses' => $this->responses ? \SwaggerGen\Util::arrayToArray($this->responses) : null,
+					'parameters' => $this->Parameters ? self::array_toArray($this->Parameters) : null,
+					'responses' => $this->responses ? self::array_toArray($this->responses) : null,
 					'schemes' => $this->schemes,
 								], parent::toArray()));
 	}

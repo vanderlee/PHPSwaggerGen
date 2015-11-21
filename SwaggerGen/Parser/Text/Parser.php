@@ -45,13 +45,22 @@ class Parser implements \SwaggerGen\Parser\IParser
 
 		foreach (preg_split('/\\R/m', $text) as $line) {
 			$line = trim($line);
-			$command = \SwaggerGen\Util::words_shift($line);
+			$command = self::words_shift($line);
 			if (!empty($command)) {
 				$Statements[] = new \SwaggerGen\Statement($command, $line);
 			}
 		}
 
 		return $Statements;
+	}
+
+	private static function words_shift(&$data)
+	{
+		if (preg_match('~^(\S+)\s*(.*)$~', $data, $matches) === 1) {
+			$data = $matches[2];
+			return $matches[1];
+		}
+		return false;
 	}
 
 }

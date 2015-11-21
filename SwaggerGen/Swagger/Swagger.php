@@ -91,19 +91,19 @@ class Swagger extends AbstractDocumentableObject
 
 			// string[]
 			case 'schemes':
-				$this->$command = array_unique(array_merge($this->$command, \SwaggerGen\Util::words_split($data)));
+				$this->$command = array_unique(array_merge($this->$command, self::words_split($data)));
 				return $this;
 
 			// MIME[]
 			case 'consumes':
 			case 'produces':
-				$this->$command = array_merge($this->$command, self::translateMimeTypes(\SwaggerGen\Util::words_split($data)));
+				$this->$command = array_merge($this->$command, self::translateMimeTypes(self::words_split($data)));
 				return $this;
 
 			case 'model': // alias
 				$data = 'params ' . $data;
 			case 'definition':
-				$type = \SwaggerGen\Util::words_shift($data);
+				$type = self::words_shift($data);
 				switch ($type) {
 					case 'response':
 //						$definition = new SwaggerResponseDefinition($this);
@@ -117,12 +117,12 @@ class Swagger extends AbstractDocumentableObject
 						throw new Exception('Unsupported definition type: ' . $type);
 				}
 
-				$this->definitions[\SwaggerGen\Util::words_shift($data)] = $definition;
+				$this->definitions[self::words_shift($data)] = $definition;
 				return $definition;
 
 			case 'api': // alias
 			case 'tag':
-				$tagname = \SwaggerGen\Util::words_shift($data);
+				$tagname = self::words_shift($data);
 
 				$Tag = null;
 				foreach ($this->Tags as $T) {
@@ -142,13 +142,13 @@ class Swagger extends AbstractDocumentableObject
 				return $Tag;
 
 			case 'endpoint':
-				$path = \SwaggerGen\Util::words_shift($data);
+				$path = self::words_shift($data);
 				if ($path{0} !== '/') {
 					$path = '/' . $path;
 				}
 
 				$Tag = null;
-				if (($tagname = \SwaggerGen\Util::words_shift($data)) !== false) {
+				if (($tagname = self::words_shift($data)) !== false) {
 					foreach ($this->Tags as $T) {
 						if (strtolower($T->getName()) === strtolower($tagname)) {
 							$Tag = $T;
@@ -174,7 +174,7 @@ class Swagger extends AbstractDocumentableObject
 
 	public function toArray()
 	{
-		return \SwaggerGen\Util::array_filter_null(array_merge([
+		return self::array_filter_null(array_merge([
 					'swagger' => $this->swagger,
 					'info' => $this->Info->toArray(),
 					'host' => $this->host,
@@ -182,13 +182,13 @@ class Swagger extends AbstractDocumentableObject
 					'schemes' => $this->schemes,
 					'consumes' => $this->consumes,
 					'produces' => $this->produces,
-					'paths' => \SwaggerGen\Util::arrayToArray($this->Paths),
-					'definitions' => \SwaggerGen\Util::arrayToArray($this->definitions),
+					'paths' => self::array_toArray($this->Paths),
+					'definitions' => self::array_toArray($this->definitions),
 //					'parameters' => $this->parameters ? $this->parameters->toArray() : null,
 //					'responses' => $this->responses ? $this->responses->toArray() : null,
 //					'securityDefinitions' => $this->securityDefinitions ? $this->securityDefinitions->toArray() : null,
 //					'security' => $this->security ? $this->security->toJson : null,
-					'tags' => \SwaggerGen\Util::arrayToArray($this->Tags),
+					'tags' => self::array_toArray($this->Tags),
 								], parent::toArray()));
 	}
 

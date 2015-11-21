@@ -95,8 +95,8 @@ class ObjectType extends AbstractType
 			// type name description...
 			case 'property':
 			case 'property?':
-				$definition = \SwaggerGen\Util::words_shift($data);
-				$name = \SwaggerGen\Util::words_shift($data);
+				$definition = self::words_shift($data);
+				$name = self::words_shift($data);
 				$this->properties[$name] = new Property($this, $definition, $data);
 
 				if (substr($command, -1) !== '?') {
@@ -118,10 +118,10 @@ class ObjectType extends AbstractType
 
 	public function toArray()
 	{
-		return \SwaggerGen\Util::array_filter_null([
+		return self::array_filter_null([
 					'type' => 'object',
 					'required' => $this->required,
-					'properties' => \SwaggerGen\Util::arrayToArray($this->properties),
+					'properties' => self::array_toArray($this->properties),
 					'minProperties' => $this->minProperties,
 					'maxProperties' => $this->maxProperties,
 		]);

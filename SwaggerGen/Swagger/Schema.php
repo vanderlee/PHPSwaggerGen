@@ -81,7 +81,7 @@ class Schema extends AbstractDocumentableObject implements IDefinition
 
 	public function toArray()
 	{
-		return \SwaggerGen\Util::array_filter_null(array_merge([
+		return self::array_filter_null(array_merge([
 					'description' => $this->description,
 								], $this->Type->toArray(), parent::toArray()));
 	}

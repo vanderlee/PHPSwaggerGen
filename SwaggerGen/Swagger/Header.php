@@ -36,7 +36,7 @@ class Header extends AbstractObject
 
 	public function toArray()
 	{
-		return \SwaggerGen\Util::array_filter_null(array_merge([
+		return self::array_filter_null(array_merge([
 					'type' => $this->type,
 					'description' => $this->description,
 								], parent::toArray()));

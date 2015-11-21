@@ -124,8 +124,8 @@ class Response extends AbstractObject
 	{
 		switch (strtolower($command)) {
 			case 'header':
-				$type = \SwaggerGen\Util::words_shift($data);
-				$name = \SwaggerGen\Util::words_shift($data);
+				$type = self::words_shift($data);
+				$name = self::words_shift($data);
 				$Header = new Header($this, $type, $data);
 				$this->Headers[$name] = $Header;
 				return $Header;
@@ -136,11 +136,11 @@ class Response extends AbstractObject
 
 	public function toArray()
 	{
-		return \SwaggerGen\Util::array_filter_null(array_merge([
+		return self::array_filter_null(array_merge([
 					'description' => $this->description,
 					'schema' => $this->schema ? $this->schema->toArray() : null,
-					'headers' => \SwaggerGen\Util::arrayToArray($this->Headers),
-//			'examples' => $this->examples ? \SwaggerGen\Util::arrayToArray($this->examples) : null,
+					'headers' => self::array_toArray($this->Headers),
+//			'examples' => $this->examples ? self::array_toArray($this->examples) : null,
 								], parent::toArray()));
 	}
 

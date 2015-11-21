@@ -142,7 +142,7 @@ class ArrayType extends AbstractType
 
 	public function toArray()
 	{
-		return \SwaggerGen\Util::array_filter_null([
+		return self::array_filter_null([
 					'type' => 'array',
 					'items' => empty($this->Items) ? null : $this->Items->toArray(),
 					'collectionFormat' => $this->collectionFormat == 'csv' ? null : $this->collectionFormat,
