@@ -151,7 +151,7 @@ abstract class AbstractObject
 	 */
 	public static function words_split($data)
 	{
-		return preg_split('~\s+~', $data);
+		return array_values(preg_grep('~\S~', preg_split('~\s+~', $data)));
 	}
 
 }
