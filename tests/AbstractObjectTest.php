@@ -4,7 +4,7 @@ class AbstractObjectTest extends PHPUnit_Framework_TestCase
 {
 
 	/**
-	 * @covers SwaggerGen\Util::words_shift
+	 * @covers \SwaggerGen\Swagger\AbstractObject::words_shift
 	 */
 	public function testWords_shift()
 	{
@@ -27,7 +27,7 @@ class AbstractObjectTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @covers SwaggerGen\Util::words_shift
+	 * @covers \SwaggerGen\Swagger\AbstractObject::words_shift
 	 */
 	public function testWords_shift_whitespace()
 	{
@@ -39,6 +39,17 @@ class AbstractObjectTest extends PHPUnit_Framework_TestCase
 		$this->assertSame('words', \SwaggerGen\Swagger\AbstractObject::words_shift($text));
 		$this->assertSame(false, \SwaggerGen\Swagger\AbstractObject::words_shift($text));
 		$this->assertSame('', $text);
+	}
+
+	/**
+	 * @covers \SwaggerGen\Swagger\AbstractObject::words_split
+	 */
+	public function testWords_split()
+	{
+		$text = "    quite  a\nfew   \r  \n\r words \t";
+
+		$this->assertSame(array('quite', 'a', 'few', 'words'), \SwaggerGen\Swagger\AbstractObject::words_split($text));
+		$this->assertSame("    quite  a\nfew   \r  \n\r words \t", $text);
 	}
 
 }
