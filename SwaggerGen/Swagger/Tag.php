@@ -16,7 +16,7 @@ class Tag extends AbstractDocumentableObject
 	private $name;
 	private $description;
 
-	public function __construct(AbstractObject $parent, $name, $description = '')
+	public function __construct(AbstractObject $parent, $name, $description = null)
 	{
 		parent::__construct($parent);
 		$this->name = $name;
