@@ -42,14 +42,33 @@ class AbstractObjectTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @covers \SwaggerGen\Swagger\AbstractObject::words_split
+	 * @covers \SwaggerGen\Swagger\AbstractObject::toArray
 	 */
-	public function testWords_split()
+	public function testToArray()
 	{
-		$text = "    quite  a\nfew   \r  \n\r words \t";
+		$object = $this->getMockForAbstractClass('\SwaggerGen\Swagger\AbstractObject');
 
-		$this->assertSame(array('quite', 'a', 'few', 'words'), \SwaggerGen\Swagger\AbstractObject::words_split($text));
-		$this->assertSame("    quite  a\nfew   \r  \n\r words \t", $text);
+		$this->assertInstanceOf('\SwaggerGen\Swagger\AbstractObject', $object);
+
+		$this->assertSame(array(), $object->toArray());
+	}
+
+	/**
+	 * @covers \SwaggerGen\Swagger\AbstractObject::handleCommand
+	 */
+	public function testCommandExtensions()
+	{
+		$object = $this->getMockForAbstractClass('\SwaggerGen\Swagger\AbstractObject');
+
+		$this->assertInstanceOf('\SwaggerGen\Swagger\AbstractObject', $object);
+
+		$object->handleCommand('x-someTag', 'some value');
+		$object->handleCommand('x-anyTag', 'any value');
+
+		$this->assertSame(array(
+			'x-someTag' => 'some value',
+			'x-anyTag' => 'any value',
+				), $object->toArray());
 	}
 
 }
