@@ -55,7 +55,7 @@ class License extends AbstractObject
 	private $name;
 	private $url;
 
-	public function __construct(AbstractObject $parent, $name = null, $url = null)
+	public function __construct(AbstractObject $parent, $name, $url = null)
 	{
 		parent::__construct($parent);
 
@@ -72,8 +72,14 @@ class License extends AbstractObject
 	{
 		switch (strtolower($command)) {
 			case 'name':
+				$this->name = $data;
+				if (empty($this->url) && !empty(self::$licenses[strtolower($data)])) {
+					$this->url = self::$licenses[strtolower($data)];
+				}
+				break;
+
 			case 'url':
-				$this->$command = $data;
+				$this->url = $data;
 				return $this;
 		}
 
