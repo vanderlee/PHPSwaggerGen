@@ -2,6 +2,8 @@ SwaggerGen
 ==========
 Version v2.0-beta-1
 
+[![Build Status](https://travis-ci.org/vanderlee/PHPSwaggerGen.svg?branch=master)](https://travis-ci.org/vanderlee/PHPSwaggerGen)
+
 Copyright &copy; 2014-2015 Martijn van der Lee (http://toyls.com).
 
 MIT Open Source license applies.
@@ -301,6 +303,7 @@ Code
 *	Type alias/extension system
 *	Command aliassing system.
 *	Command line interface. Netbeans integration.
+*	Use different mechanism for preprocessor: # or such prefix
 
 Swagger
 -------
