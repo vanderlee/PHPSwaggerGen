@@ -17,6 +17,7 @@ class TagTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * @covers \SwaggerGen\Swagger\Tag::__construct
+	 * @covers \SwaggerGen\Swagger\License::toArray
 	 */
 	public function testConstructor2()
 	{
@@ -31,6 +32,7 @@ class TagTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * @covers \SwaggerGen\Swagger\Tag::__construct
+	 * @covers \SwaggerGen\Swagger\License::toArray
 	 */
 	public function testConstructor3()
 	{
