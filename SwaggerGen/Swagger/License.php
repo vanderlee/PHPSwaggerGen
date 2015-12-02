@@ -88,10 +88,10 @@ class License extends AbstractObject
 
 	public function toArray()
 	{
-		return self::array_filter_null(array_merge([
+		return self::array_filter_null(array_merge(array(
 					'name' => $this->name,
 					'url' => $this->url,
-								], parent::toArray()));
+								), parent::toArray()));
 	}
 
 }
