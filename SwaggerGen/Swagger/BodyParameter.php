@@ -51,13 +51,13 @@ class BodyParameter extends AbstractObject implements IParameter
 
 	public function toArray()
 	{
-		return self::array_filter_null(array_merge([
+		return self::array_filter_null(array_merge(array(
 					'name' => $this->name,
 					'in' => 'body',
 					'description' => $this->description,
 					'required' => $this->required ? 'true' : null,
 					'schema' => $this->Schema->toArray(),
-								], parent::toArray()));
+								), parent::toArray()));
 	}
 
 }

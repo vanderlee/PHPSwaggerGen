@@ -136,12 +136,12 @@ class Response extends AbstractObject
 
 	public function toArray()
 	{
-		return self::array_filter_null(array_merge([
+		return self::array_filter_null(array_merge(array(
 					'description' => $this->description,
 					'schema' => $this->schema ? $this->schema->toArray() : null,
 					'headers' => self::array_toArray($this->Headers),
 //			'examples' => $this->examples ? self::array_toArray($this->examples) : null,
-								], parent::toArray()));
+								), parent::toArray()));
 	}
 
 }

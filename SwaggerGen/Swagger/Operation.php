@@ -119,7 +119,7 @@ class Operation extends AbstractDocumentableObject
 
 	public function toArray()
 	{
-		return self::array_filter_null(array_merge([
+		return self::array_filter_null(array_merge(array(
 					'tags' => $this->tags,
 					'summary' => $this->summary,
 					'description' => $this->description,
@@ -129,7 +129,7 @@ class Operation extends AbstractDocumentableObject
 					'parameters' => $this->Parameters ? self::array_toArray($this->Parameters) : null,
 					'responses' => $this->responses ? self::array_toArray($this->responses) : null,
 					'schemes' => $this->schemes,
-								], parent::toArray()));
+								), parent::toArray()));
 	}
 
 }

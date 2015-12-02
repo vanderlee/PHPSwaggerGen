@@ -36,10 +36,10 @@ class Tag extends AbstractDocumentableObject
 
 	public function toArray()
 	{
-		return self::array_filter_null(array_merge([
+		return self::array_filter_null(array_merge(array(
 					'name' => $this->name,
 					'description' => $this->description,
-								], parent::toArray()));
+								), parent::toArray()));
 	}
 
 	public function getName()

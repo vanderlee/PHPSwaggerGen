@@ -174,7 +174,7 @@ class Swagger extends AbstractDocumentableObject
 
 	public function toArray()
 	{
-		return self::array_filter_null(array_merge([
+		return self::array_filter_null(array_merge(array(
 					'swagger' => $this->swagger,
 					'info' => $this->Info->toArray(),
 					'host' => $this->host,
@@ -189,7 +189,7 @@ class Swagger extends AbstractDocumentableObject
 //					'securityDefinitions' => $this->securityDefinitions ? $this->securityDefinitions->toArray() : null,
 //					'security' => $this->security ? $this->security->toJson : null,
 					'tags' => self::array_toArray($this->Tags),
-								], parent::toArray()));
+								), parent::toArray()));
 	}
 
 }

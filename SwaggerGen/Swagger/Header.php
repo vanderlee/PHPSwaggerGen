@@ -36,10 +36,10 @@ class Header extends AbstractObject
 
 	public function toArray()
 	{
-		return self::array_filter_null(array_merge([
+		return self::array_filter_null(array_merge(array(
 					'type' => $this->type,
 					'description' => $this->description,
-								], parent::toArray()));
+								), parent::toArray()));
 	}
 
 }

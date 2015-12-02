@@ -104,12 +104,12 @@ class Parameter extends AbstractObject implements IParameter
 
 	public function toArray()
 	{
-		return self::array_filter_null(array_merge([
+		return self::array_filter_null(array_merge(array(
 					'name' => $this->name,
 					'in' => $this->in === 'form' ? 'formData' : $this->in,
 					'description' => $this->description,
 					'required' => $this->in === 'path' || $this->required ? 'true' : null,
-								], $this->Type->toArray(), parent::toArray()));
+								), $this->Type->toArray(), parent::toArray()));
 	}
 
 }

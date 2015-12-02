@@ -77,14 +77,14 @@ class Info extends AbstractObject
 
 	public function toArray()
 	{
-		return self::array_filter_null(array_merge([
+		return self::array_filter_null(array_merge(array(
 					'title' => $this->title,
 					'description' => $this->description,
 					'termsOfService' => $this->termsofservice,
 					'contact' => $this->Contact ? $this->Contact->toArray() : null,
 					'license' => $this->License ? $this->License->toArray() : null,
 					'version' => $this->version,
-								], parent::toArray()));
+								), parent::toArray()));
 	}
 
 }

@@ -290,7 +290,7 @@ class Parser extends Entity\AbstractEntity implements \SwaggerGen\Parser\IParser
 	 */
 	private function inherit(Entity\ParserClass $Class)
 	{
-		$inherits = array_merge([$Class->extends], $Class->implements);
+		$inherits = array_merge(array($Class->extends), $Class->implements);
 		while (($inherit = array_shift($inherits)) !== null) {
 			if (isset($this->Classes[strtolower($inherit)])) {
 				$inheritedClass = $this->Classes[strtolower($inherit)];
