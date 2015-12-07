@@ -14,7 +14,7 @@ abstract class AbstractType extends \SwaggerGen\Swagger\AbstractObject
 {
 
 	const REGEX_START = '/^';
-	const REGEX_FORMAT = '([a-z]+)';
+	const REGEX_FORMAT = '([a-z][a-z0-9]*)';
 	const REGEX_CONTENT = '(?:\((.*)\))?';
 	const REGEX_RANGE = '(?:([[<])(\\d*),(\\d*)([\\]>]))?';
 	const REGEX_DEFAULT = '(?:=(.+))?';
