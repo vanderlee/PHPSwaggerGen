@@ -13,6 +13,13 @@ namespace SwaggerGen\Swagger;
  */
 class Path extends AbstractObject
 {
+	private static $methods = array(
+		'get',
+		'post',
+		'put',
+		'patch',
+		'delete',
+	);
 
 	/**
 	 * @var Operation[] $operation
@@ -37,6 +44,10 @@ class Path extends AbstractObject
 			case 'operation':
 				$method = strtolower(self::words_shift($data));
 
+				if (!in_array($method, self::$methods)) {
+					throw new Exception("Unrecognized operation method '{$method}'.");
+				}
+
 				if (isset($this->Operations[$method])) {
 					$Operation = $this->Operations[$method];
 				} else {
@@ -59,6 +70,10 @@ class Path extends AbstractObject
 
 	public function toArray()
 	{
+		uksort($this->Operations, function($a, $b) use($ops) {
+			return array_search($a, self::$methods) - array_search($b, self::$methods);
+		});
+
 		return self::array_filter_null(array_merge(
 								self::array_toArray($this->Operations)
 								, parent::toArray())
