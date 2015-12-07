@@ -70,7 +70,7 @@ class Path extends AbstractObject
 
 	public function toArray()
 	{
-		uksort($this->Operations, function($a, $b) use($ops) {
+		uksort($this->Operations, function($a, $b) {
 			return array_search($a, self::$methods) - array_search($b, self::$methods);
 		});
 
