@@ -37,6 +37,7 @@ class Property extends \SwaggerGen\Swagger\AbstractObject
 		'date' => 'Date',
 		'datetime' => 'Date',
 		'date-time' => 'Date',
+		'object' => 'Object',
 			//'file'	=> 'File';
 			//'set'		=> 'EnumArray';
 	);
