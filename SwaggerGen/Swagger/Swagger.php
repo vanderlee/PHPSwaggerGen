@@ -168,7 +168,12 @@ class Swagger extends AbstractDocumentableObject
 		}
 
 		if (!parent::handleCommand($command, $data)) {
-			throw new Exception('Unsupported command or unknown in context: ' . $command . ' ' . $data);
+			$messages = array('Unsupported command or unknown in context: ' . $command . ' ' . $data);
+			if (!empty($this->Paths)) {
+				end($this->Paths);
+				$messages[] = 'Current endpoint is ' . key($this->Paths);
+			}
+			throw new Exception(join('. ', $messages));
 		}
 	}
 
