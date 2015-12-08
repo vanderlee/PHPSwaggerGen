@@ -86,7 +86,7 @@ class ArrayType extends AbstractType
 				$itemsClass = "SwaggerGen\\Swagger\\Type\\{$type}Type";
 				$this->Items = new $itemsClass($this, $match[2]);
 			} else {
-				throw new Exception('Type format not recognized: ' . $itemsFormat);
+				$this->Items = new ReferenceObjectType($this, $match[2]);
 			}
 		}
 

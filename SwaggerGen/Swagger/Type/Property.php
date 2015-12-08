@@ -66,7 +66,7 @@ class Property extends \SwaggerGen\Swagger\AbstractObject
 			$class = "SwaggerGen\\Swagger\\Type\\{$type}Type";
 			$this->Type = new $class($this, $definition);
 		} else {
-			throw new Exception('Type format not recognized: ' . $format);
+			throw new \SwaggerGen\Swagger\Exception('Type format not recognized: ' . $format);
 		}
 
 		$this->description = $description;
