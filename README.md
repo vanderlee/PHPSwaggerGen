@@ -196,6 +196,7 @@ Represents a text.
 
 #### Examples
 *	**`string`** A simple text field.
+*	**`string(^[a-z]{2}-[A-Z]{2}$)`** String matching ISO "ll-CC" locale.
 *	**`string[,256>`=red ** A text of at most 255 characters, default to "red".
 *	**`binary[1,8]`** Upto 8 binary digits, requiring atleast one.
 
