@@ -179,8 +179,6 @@ class Swagger extends AbstractDocumentableObject
 
 	public function toArray()
 	{
-		ksort($this->Paths);
-
 		return self::array_filter_null(array_merge(array(
 					'swagger' => $this->swagger,
 					'info' => $this->Info->toArray(),
