@@ -36,6 +36,7 @@ class ArrayType extends AbstractType
 		'date' => 'Date',
 		'datetime' => 'Date',
 		'date-time' => 'Date',
+		'object' => 'Object',
 			//'set'		=> 'EnumArray';
 	);
 	private static $collectionFormats = array(
