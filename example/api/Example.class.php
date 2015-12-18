@@ -7,6 +7,8 @@ namespace Api\Rest;
  * @rest\title Example API
  * @rest\contact http://example.com Arthur D. Author
  * @rest\license MIT
+ * @rest\security apikey X-Api-Authentication header Authenticate using this fancy header
+ * @rest\require X-Api-Authentication
  */
 
 /**
@@ -15,7 +17,8 @@ namespace Api\Rest;
  * @rest\doc http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
  * RFC2616, sec.10: W3C status code definitions
  */
-function NotFound() {
+function NotFound()
+{
 	header("HTTP/1.0 404 Not Found");
 }
 
@@ -52,7 +55,7 @@ class Example
 		}
 
 		if (!method_exists($this, $methodname)) {
-			throw new \Exception('Method Not Allowed', 405);	// @rest\errors 405
+			throw new \Exception('Method Not Allowed', 405); // @rest\errors 405
 		}
 
 		$arguments[] = $data;
@@ -62,6 +65,7 @@ class Example
 	/**
 	 * @rest\endpoint /user
 	 * @rest\method GET Get a list of all users
+	 * @rest\require X-Api-Authentication
 	 */
 	private function getUser_data()
 	{
@@ -94,7 +98,6 @@ class Example
 		 * @rest\property int age Age of the user in years
 		 * @rest\property int height Height of the user in centimeters
 		 */
-		
 		//return $this->data['users'][$name]; // @rest\response OK User
 		return $this->data['users'][$name]; // @rest\response OK object(age:int[0,100>,height:float) User
 	}

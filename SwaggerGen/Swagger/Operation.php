@@ -108,10 +108,12 @@ class Operation extends AbstractDocumentableObject
 				$this->responses[$code] = $Response;
 				return $Response;
 
-			//@todo responses (error, response)
-			//@todo operationId
-			//@todo security
-			//@todo tag
+			case 'require':
+				$name = self::words_shift($data);
+				$this->security[$name] = self::words_split($data);
+				return $this;
+
+			//@todo operationId			
 		}
 
 		return parent::handleCommand($command, $data);
@@ -129,6 +131,7 @@ class Operation extends AbstractDocumentableObject
 					'parameters' => $this->Parameters ? self::array_toArray($this->Parameters) : null,
 					'responses' => $this->responses ? self::array_toArray($this->responses) : null,
 					'schemes' => $this->schemes,
+					'security' => $this->security,
 								), parent::toArray()));
 	}
 

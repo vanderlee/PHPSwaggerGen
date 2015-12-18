@@ -41,10 +41,11 @@ class Swagger extends AbstractDocumentableObject
 	 * @var Tag
 	 */
 	private $defaultTag = null;
-
 	//private $parameters;
 	//private $responses;
-	//private $securityDefinitions;
+	private $securityDefinitions = array();
+	private $security = array();
+
 	//private $security;
 
 	public function __construct($host = '', $basePath = '')
@@ -165,6 +166,17 @@ class Swagger extends AbstractDocumentableObject
 					$this->Paths[$path] = new Path($this, $Tag ? : $this->defaultTag);
 				}
 				return $this->Paths[$path];
+
+			case 'security':
+				$type = self::words_shift($data);
+				$SecurityScheme = new SecurityScheme($this, $type, $data);
+				$this->securityDefinitions[] = $SecurityScheme;
+				return $SecurityScheme;
+
+			case 'require':
+				$name = self::words_shift($data);
+				$this->security[$name] = self::words_split($data);
+				return $this;
 		}
 
 		if (!parent::handleCommand($command, $data)) {
@@ -191,8 +203,8 @@ class Swagger extends AbstractDocumentableObject
 					'definitions' => self::array_toArray($this->definitions),
 //					'parameters' => $this->parameters ? $this->parameters->toArray() : null,
 //					'responses' => $this->responses ? $this->responses->toArray() : null,
-//					'securityDefinitions' => $this->securityDefinitions ? $this->securityDefinitions->toArray() : null,
-//					'security' => $this->security ? $this->security->toJson : null,
+					'securityDefinitions' => self::array_toArray($this->securityDefinitions),
+					'security' => $this->security,
 					'tags' => self::array_toArray($this->Tags),
 								), parent::toArray()));
 	}
