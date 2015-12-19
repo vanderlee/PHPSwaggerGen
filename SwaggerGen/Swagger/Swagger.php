@@ -168,9 +168,10 @@ class Swagger extends AbstractDocumentableObject
 				return $this->Paths[$path];
 
 			case 'security':
+				$name = self::words_shift($data);
 				$type = self::words_shift($data);
 				$SecurityScheme = new SecurityScheme($this, $type, $data);
-				$this->securityDefinitions[] = $SecurityScheme;
+				$this->securityDefinitions[$name] = $SecurityScheme;
 				return $SecurityScheme;
 
 			case 'require':

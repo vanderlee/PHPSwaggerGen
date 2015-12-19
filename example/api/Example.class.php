@@ -7,8 +7,8 @@ namespace Api\Rest;
  * @rest\title Example API
  * @rest\contact http://example.com Arthur D. Author
  * @rest\license MIT
- * @rest\security apikey X-Api-Authentication header Authenticate using this fancy header
- * @rest\require X-Api-Authentication
+ * @rest\security api_key apikey X-Api-Authentication header Authenticate using this fancy header
+ * @rest\require api_key
  */
 
 /**
@@ -65,7 +65,7 @@ class Example
 	/**
 	 * @rest\endpoint /user
 	 * @rest\method GET Get a list of all users
-	 * @rest\require X-Api-Authentication
+	 * @rest\require api_key
 	 */
 	private function getUser_data()
 	{
