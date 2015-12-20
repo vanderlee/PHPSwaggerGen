@@ -140,6 +140,15 @@ class SwaggerGen
 					$top = prev($stack);
 				}
 			} while (!$result && $top);
+
+			if (!$result && !$top) {
+				$messages = array('Unsupported or unknown command: ' . $Statement);
+				if (!empty($this->Paths)) {
+					end($this->Paths);
+					$messages[] = 'Current endpoint is ' . key($this->Paths);
+				}
+				throw new Swagger\Exception(join('. ', $messages));
+			}
 		}
 
 		return $Swagger->toArray();
