@@ -25,7 +25,9 @@ class Statement
 
 	public function __toString()
 	{
-		return "[COMMENT {$this->command}: {$this->data}]";
+		$message = "PHP comment command '{$this->command}'";
+		$message .= $this->data ? " with data '{$this->data}'" : ' without data';
+		return $message;
 	}
 
 }
