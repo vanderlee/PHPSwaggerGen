@@ -49,14 +49,16 @@ class Preprocessor extends \SwaggerGen\Parser\AbstractPreprocessor
 				switch ($token[0]) {
 					case T_DOC_COMMENT:
 					case T_COMMENT:
-						foreach (preg_split('/\\R/m', $token[1]) as $line) {
+						foreach (preg_split('/\\R/m', $token[1]) as $index => $line) {
 							$match = array();
 							if (preg_match($pattern, $line, $match) === 1) {
 								if (!$this->handle($match[1], $match[2]) && $this->getState()) {
-									$output .= $line . PHP_EOL;
+									$output .= ($index ? PHP_EOL : '') . $line;
+								} else {
+									$output .= ($index ? PHP_EOL : '') . str_replace('@'.$this->getPrefix(), '!'.$this->getPrefix(), $line);
 								}
 							} else {
-								$output .= $line . PHP_EOL;
+								$output .= ($index ? PHP_EOL : '') . $line;
 							}
 						}
 						break;
@@ -70,6 +72,8 @@ class Preprocessor extends \SwaggerGen\Parser\AbstractPreprocessor
 
 			if ($this->getState()) {
 				$output_file .= $output;
+			} else {
+				$output_file .= '/* ' . $output . ' */';
 			}
 		}
 
