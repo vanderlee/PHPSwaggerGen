@@ -54,7 +54,7 @@ class ParserFunction extends AbstractEntity
 						$this->Statements = array_merge($this->Statements, $this->lastStatements);
 						$this->lastStatements = null;
 					}
-					$Statements = $Parser->commentToStatements($token[1]);
+					$Statements = $Parser->tokenToStatements($token);
 					$Parser->queueClassesFromComments($Statements);
 					$this->Statements = array_merge($this->Statements, $Statements);
 					break;
@@ -63,7 +63,7 @@ class ParserFunction extends AbstractEntity
 					if ($this->lastStatements) {
 						$this->Statements = array_merge($this->Statements, $this->lastStatements);
 					}
-					$Statements = $Parser->commentToStatements($token[1]);
+					$Statements = $Parser->tokenToStatements($token);
 					$Parser->queueClassesFromComments($Statements);
 					$this->lastStatements = $Statements;
 					break;

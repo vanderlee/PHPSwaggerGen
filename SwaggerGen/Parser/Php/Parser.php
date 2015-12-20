@@ -18,12 +18,14 @@ class Parser extends Entity\AbstractEntity implements \SwaggerGen\Parser\IParser
 
 // transient
 
+	private $current_file = null;
 	private $files_queued = array();
 	private $files_done = array();
 	private $dirs = array();
 // States
 
-	private $lastStatements = null;
+	public $Statements = array();
+	private $lastStatements = array();
 
 	/**
 	 * @var Entity\ParserClass[]
@@ -103,16 +105,18 @@ class Parser extends Entity\AbstractEntity implements \SwaggerGen\Parser\IParser
 
 	/**
 	 * Convert a T_*_COMMENT string to an array of Statements
-	 * @param type $comment
+	 * @param array $token
 	 * @return \SwaggerGen\Statement[]
 	 */
-	public function commentToStatements($comment)
+	public function tokenToStatements($token)
 	{
+		$comment = $token[1];
+		$commentLineNumber = $token[2];
 		$commentLines = array();
 
 		$match = array();
 		if (preg_match('~^/\*\*?\s*(.*)\s*\*\/$~sm', $comment, $match) === 1) {
-			$lines = preg_split('~\n~', $match[1]);
+			$lines = preg_split('~\n~', $match[0]);
 			foreach ($lines as $line) {
 				if (preg_match('~^\s*\*?\s*(.*?)\s*$~', $line, $match) === 1) {
 					if (!empty($match[1])) {
@@ -123,17 +127,16 @@ class Parser extends Entity\AbstractEntity implements \SwaggerGen\Parser\IParser
 		} elseif (preg_match('~^//\s*(.*)$~', $comment, $match) === 1) {
 			$commentLines[] = trim($match[1]);
 		}
-
 		// to commands
 		$match = array();
 		$command = null;
 		$data = '';
-
+		$commandLineNumber = 0;
 		$Statements = array();
-		foreach ($commentLines as $line) {
+		foreach ($commentLines as $lineNumber => $line) {
 			// If new @-command, store any old and start new
 			if ($command && chr(ord($line)) === '@') {
-				$Statements[] = new \SwaggerGen\Statement($command, $data);
+				$Statements[] = new Statement($command, $data, $this->current_file, $commentLineNumber + $commandLineNumber);
 				$command = null;
 				$data = '';
 			}
@@ -141,13 +144,18 @@ class Parser extends Entity\AbstractEntity implements \SwaggerGen\Parser\IParser
 			if (preg_match('~^@' . preg_quote(self::COMMENT_TAG) . '\\\\(\\S+)\\s*(.*)$~', $line, $match) === 1) {
 				$command = $match[1];
 				$data = $match[2];
+				$commandLineNumber = $lineNumber;
 			} elseif ($command) {
-				$data.= ' ' . $line;
+				if ($lineNumber < count($commentLines) - 1) {
+					$data.= ' ' . $line;
+				} else {
+					$data.= preg_replace('~\s*\**\/\s*$~', '', $line);
+				}
 			}
 		}
 
 		if ($command) {
-			$Statements[] = new \SwaggerGen\Statement($command, $data);
+			$Statements[] = new Statement($command, $data, $this->current_file, $commentLineNumber + $commandLineNumber);
 		}
 
 		return $Statements;
@@ -199,7 +207,7 @@ class Parser extends Entity\AbstractEntity implements \SwaggerGen\Parser\IParser
 	{
 		$this->files_queued = $files;
 
-		$this->Statements = array();
+		$Statements = array();
 
 		$index = 0;
 		while (($file = array_shift($this->files_queued)) !== null) {
@@ -210,6 +218,7 @@ class Parser extends Entity\AbstractEntity implements \SwaggerGen\Parser\IParser
 				continue;
 			}
 
+			$this->current_file = $file;
 			$this->files_done[] = $file;
 			++$index;
 
@@ -257,7 +266,7 @@ class Parser extends Entity\AbstractEntity implements \SwaggerGen\Parser\IParser
 							$this->Statements = array_merge($this->Statements, $this->lastStatements);
 							$this->lastStatements = null;
 						}
-						$Statements = $this->commentToStatements($token[1]);
+						$Statements = $this->tokenToStatements($token);
 						$this->queueClassesFromComments($Statements);
 						$this->Statements = array_merge($this->Statements, $Statements);
 						break;
@@ -266,7 +275,7 @@ class Parser extends Entity\AbstractEntity implements \SwaggerGen\Parser\IParser
 						if ($this->lastStatements) {
 							$this->Statements = array_merge($this->Statements, $this->lastStatements);
 						}
-						$Statements = $this->commentToStatements($token[1]);
+						$Statements = $this->tokenToStatements($token);
 						$this->queueClassesFromComments($Statements);
 						$this->lastStatements = $Statements;
 						break;
@@ -282,6 +291,8 @@ class Parser extends Entity\AbstractEntity implements \SwaggerGen\Parser\IParser
 				$this->lastStatements = null;
 			}
 		}
+
+		$this->current_file = null;
 	}
 
 	/**

@@ -85,6 +85,18 @@ class Example
 	}
 
 	/**
+	 * @rest\ifdef root
+	 * @rest\endpoint /user
+	 * @rest\method DELETE Delete all users
+	 * @rest\endif
+	 */
+	private function deleteAllUsers($name)
+	{
+		// Pretend we're deleting all users.
+		return array();
+	}
+
+	/**
 	 * @rest\endpoint /user/{username}
 	 * @rest\method GET Get a list of all users
 	 * @rest\path String username Name of the user

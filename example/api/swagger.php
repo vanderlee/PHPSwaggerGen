@@ -6,6 +6,7 @@
 
 	$SwaggerGen = new \SwaggerGen\SwaggerGen($_SERVER['HTTP_HOST'],  dirname($_SERVER['REQUEST_URI']));
 	//$SwaggerGen->define('admin');
+	//$SwaggerGen->define('root');
 	$array = $SwaggerGen->getSwagger($files);
 	
 	header('Content-type: application/json');
