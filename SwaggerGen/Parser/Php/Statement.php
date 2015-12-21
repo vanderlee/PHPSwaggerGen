@@ -30,7 +30,7 @@ class Statement extends \SwaggerGen\Statement
 	public function __toString()
 	{
 		$message = 'PHP ' . parent::__toString() . " in line {$this->line}";
-		$message .= $this->file ? " of file '{$this->file}'." : ' of code string';
+		$message .= $this->file ? " of file '{$this->file}'" : ' of code string';
 		return $message;
 	}
 
