@@ -42,4 +42,9 @@ class Header extends AbstractObject
 								), parent::toArray()));
 	}
 
+	public function __toString()
+	{
+		return __CLASS__ . ' ' . $this->type;
+	}
+
 }

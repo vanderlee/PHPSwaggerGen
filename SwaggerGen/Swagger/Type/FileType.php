@@ -19,7 +19,7 @@ class FileType extends AbstractType
 
 		$parent = $this->getParent();
 		if (!($parent instanceof \SwaggerGen\Swagger\Parameter) || !$parent->isForm()) {
-			throw new \SwaggerGen\Swagger\Exception("File type only allowed on form parameter: '{$definition}'");
+			throw new \SwaggerGen\Exception("File type only allowed on form parameter: '{$definition}'");
 		}
 
 		$consumes = $this->getParentClass('\SwaggerGen\Swagger\Operation')->getConsumes();
@@ -28,7 +28,7 @@ class FileType extends AbstractType
 		}
 
 		if ($consumes !== array('multipart/form-data') && $consumes !== array('application/x-www-form-urlencoded')) {
-			throw new \SwaggerGen\Swagger\Exception("File type without valid consume: '{$definition}'");
+			throw new \SwaggerGen\Exception("File type without valid consume: '{$definition}'");
 		}
 	}
 
@@ -37,6 +37,11 @@ class FileType extends AbstractType
 		return self::array_filter_null([
 					'type' => 'file',
 		]);
+	}
+
+	public function __toString()
+	{
+		return __CLASS__;
 	}
 
 }

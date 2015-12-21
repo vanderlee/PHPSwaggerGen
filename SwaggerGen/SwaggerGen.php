@@ -147,7 +147,15 @@ class SwaggerGen
 					end($this->Paths);
 					$messages[] = 'Current endpoint is ' . key($this->Paths);
 				}
-				throw new Swagger\Exception(join('. ', $messages));
+
+				$stacktrace = array();
+				foreach ($stack as $object) {
+					$stacktrace[] = (string)$object;
+				}
+				$messages[] = join(", \n", $stacktrace);
+				
+
+				throw new \SwaggerGen\Exception(join('. ', $messages));
 			}
 		}
 

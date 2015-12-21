@@ -41,7 +41,7 @@ class SecurityScheme extends AbstractObject
 		parent::__construct($parent);
 
 		if (!in_array(strtolower($type), array('basic', 'apikey', 'oauth2'))) {
-			throw new Exception("Security scheme type must be either 'basic', 'apiKey' or 'oauth2', not '{$type}'");
+			throw new \SwaggerGen\Exception("Security scheme type must be either 'basic', 'apiKey' or 'oauth2', not '{$type}'");
 		}
 		$this->type = strtolower($type);
 
@@ -55,7 +55,7 @@ class SecurityScheme extends AbstractObject
 
 				$in = strtolower(self::words_shift($data));
 				if (!in_array($in, array('query', 'header'))) {
-					throw new Exception("ApiKey in must be either 'query' or 'header', not '{$in}'");
+					throw new \SwaggerGen\Exception("ApiKey in must be either 'query' or 'header', not '{$in}'");
 				}
 				$this->in = $in;
 
@@ -65,7 +65,7 @@ class SecurityScheme extends AbstractObject
 			case 'oauth2':
 				$flow = strtolower(self::words_shift($data));
 				if (!in_array($flow, array('implicit', 'password', 'application', 'accesscode'))) {
-					throw new Exception("OAuth2 flow must be either 'implicit', 'password', 'application' or 'accesscode', not '{$flow}'");
+					throw new \SwaggerGen\Exception("OAuth2 flow must be either 'implicit', 'password', 'application' or 'accesscode', not '{$flow}'");
 				}
 				$this->flow = $flow;
 
@@ -124,6 +124,11 @@ class SecurityScheme extends AbstractObject
 					'tokenUrl' => $this->tokenUrl,
 					'scopes' => $this->scopes,
 								), parent::toArray()));
+	}
+
+	public function __toString()
+	{
+		return __CLASS__ . ' ' . $this->type;
 	}
 
 }

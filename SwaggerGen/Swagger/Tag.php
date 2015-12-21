@@ -47,4 +47,9 @@ class Tag extends AbstractDocumentableObject
 		return $this->name;
 	}
 
+	public function __toString()
+	{
+		return __CLASS__ . ' ' . $this->name;
+	}
+
 }

@@ -20,7 +20,7 @@ class BodyParameter extends AbstractObject implements IParameter
 	/**
 	 * @var Schema
 	 */
-	private $Schema;
+	private $schema;
 
 	public function __construct(AbstractObject $parent, $data, $required = false)
 	{
@@ -31,13 +31,13 @@ class BodyParameter extends AbstractObject implements IParameter
 		$this->description = $data;
 		$this->required = (bool) $required;
 
-		$this->Schema = new Schema($this, $type);
+		$this->schema = new Schema($this, $type);
 	}
 
 	public function handleCommand($command, $data = null)
 	{
 		// offload to schema
-		$return = $this->Schema->handleCommand($command, $data);
+		$return = $this->schema->handleCommand($command, $data);
 		if ($return) {
 			return $return;
 		}
@@ -56,8 +56,13 @@ class BodyParameter extends AbstractObject implements IParameter
 					'in' => 'body',
 					'description' => $this->description,
 					'required' => $this->required ? 'true' : null,
-					'schema' => $this->Schema->toArray(),
+					'schema' => $this->schema->toArray(),
 								), parent::toArray()));
+	}
+
+	public function __toString()
+	{
+		return __CLASS__ . ' ' . $this->name;
 	}
 
 }

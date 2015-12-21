@@ -22,7 +22,7 @@ class BooleanType extends AbstractType
 	{
 		$match = array();
 		if (preg_match(self::REGEX_START . self::REGEX_FORMAT . self::REGEX_DEFAULT . self::REGEX_END, $definition, $match) !== 1) {
-			throw new \SwaggerGen\Swagger\Exception("Unparseable boolean definition: '{$definition}'");
+			throw new \SwaggerGen\Exception("Unparseable boolean definition: '{$definition}'");
 		}
 
 		if (!empty($match[2])) {
@@ -47,6 +47,11 @@ class BooleanType extends AbstractType
 					'type' => 'boolean',
 					'default' => $this->default,
 		]);
+	}
+
+	public function __toString()
+	{
+		return __CLASS__;
 	}
 
 }

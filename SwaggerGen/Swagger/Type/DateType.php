@@ -21,8 +21,8 @@ class DateType extends AbstractType
 		'datetime' => 'date-time',
 	);
 	private static $validations = array(
-		'date' => ['Y-m-d'],
-		'date-time' => ['Y-m-d\TH:i:sP', 'Y-m-d\TH:i:s.uP', 'Y-m-d\TH:i:s,uP'],
+		'date' => array('Y-m-d'),
+		'date-time' => array('Y-m-d\TH:i:sP', 'Y-m-d\TH:i:s.uP', 'Y-m-d\TH:i:s,uP'),
 	);
 	private $format;
 	//private $allowEmptyValue; // for query/formData
@@ -32,7 +32,7 @@ class DateType extends AbstractType
 	{
 		$match = array();
 		if (preg_match(self::REGEX_START . self::REGEX_FORMAT . self::REGEX_DEFAULT . self::REGEX_END, $definition, $match) !== 1) {
-			throw new \SwaggerGen\Swagger\Exception("Unparseable date string definition: '{$definition}'");
+			throw new \SwaggerGen\Exception("Unparseable date string definition: '{$definition}'");
 		}
 
 		$this->format = self::$formats[strtolower($match[1])];
@@ -53,7 +53,7 @@ class DateType extends AbstractType
 			}
 		}
 
-		throw new \SwaggerGen\Swagger\Exception("Invalid default {$this->format} value: '{$date}'");
+		throw new \SwaggerGen\Exception("Invalid default {$this->format} value: '{$date}'");
 	}
 
 	public function handleCommand($command, $data = null)
@@ -74,6 +74,11 @@ class DateType extends AbstractType
 					'format' => $this->format,
 					'default' => $this->default,
 		]);
+	}
+
+	public function __toString()
+	{
+		return __CLASS__;
 	}
 
 }

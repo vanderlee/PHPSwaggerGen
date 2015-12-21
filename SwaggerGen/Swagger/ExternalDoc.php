@@ -44,4 +44,9 @@ class ExternalDoc extends AbstractObject
 								), parent::toArray()));
 	}
 
+	public function __toString()
+	{
+		return __CLASS__ . ' ' . $this->url;
+	}
+
 }

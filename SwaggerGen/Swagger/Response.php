@@ -144,4 +144,9 @@ class Response extends AbstractObject
 								), parent::toArray()));
 	}
 
+	public function __toString()
+	{
+		return __CLASS__;
+	}
+
 }

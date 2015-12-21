@@ -63,14 +63,14 @@ class ArrayType extends AbstractType
 	{
 		$match = array();
 		if (preg_match(self::REGEX_START . self::REGEX_FORMAT . self::REGEX_CONTENT . self::REGEX_RANGE . self::REGEX_END, $definition, $match) !== 1) {
-			throw new \SwaggerGen\Swagger\Exception("Unparseable array definition: '{$definition}'");
+			throw new \SwaggerGen\Exception("Unparseable array definition: '{$definition}'");
 		}
 
 		$type = strtolower($match[1]);
 		if ($type === 'multi') {
 			$parent = $this->getParent();
 			if (!($parent instanceof \SwaggerGen\Swagger\Parameter) || !$parent->isMulti()) {
-				throw new \SwaggerGen\Swagger\Exception("Multi array only allowed on query or form parameter: '{$definition}'");
+				throw new \SwaggerGen\Exception("Multi array only allowed on query or form parameter: '{$definition}'");
 			}
 		}
 
@@ -79,7 +79,7 @@ class ArrayType extends AbstractType
 		if (!empty($match[2])) {
 			$itemsMatch = array();
 			if (preg_match('/^([a-z]+)/i', $match[2], $itemsMatch) !== 1) {
-				throw new \SwaggerGen\Swagger\Exception("Unparseable items definition: '{$match[2]}'");
+				throw new \SwaggerGen\Exception("Unparseable items definition: '{$match[2]}'");
 			}
 			$itemsFormat = strtolower($itemsMatch[1]);
 			if (isset(self::$classTypes[$itemsFormat])) {
@@ -126,7 +126,7 @@ class ArrayType extends AbstractType
 			case 'items':
 				$match = array();
 				if (preg_match('/^([a-z]+)/i', $data, $match) !== 1) {
-					throw new \SwaggerGen\Swagger\Exception("Unparseable items definition: '{$data}'");
+					throw new \SwaggerGen\Exception("Unparseable items definition: '{$data}'");
 				}
 				foreach (self::$classTypes as $type => $format) {
 					if (in_array($match[1], $format)) {
@@ -150,6 +150,11 @@ class ArrayType extends AbstractType
 					'minItems' => $this->minItems,
 					'maxItems' => $this->maxItems,
 		]);
+	}
+
+	public function __toString()
+	{
+		return __CLASS__;
 	}
 
 }

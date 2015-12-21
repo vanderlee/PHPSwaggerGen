@@ -13,6 +13,7 @@ namespace SwaggerGen\Swagger;
  */
 class Path extends AbstractObject
 {
+
 	private static $methods = array(
 		'get',
 		'post',
@@ -24,17 +25,17 @@ class Path extends AbstractObject
 	/**
 	 * @var Operation[] $operation
 	 */
-	private $Operations = array();
+	private $operations = array();
 
 	/**
 	 * @var Tag|null $tag;
 	 */
-	private $Tag;
+	private $tag;
 
 	public function __construct(AbstractObject $parent, Tag $Tag = null)
 	{
 		parent::__construct($parent);
-		$this->Tag = $Tag;
+		$this->tag = $Tag;
 	}
 
 	public function handleCommand($command, $data = null)
@@ -45,22 +46,22 @@ class Path extends AbstractObject
 				$method = strtolower(self::words_shift($data));
 
 				if (!in_array($method, self::$methods)) {
-					throw new Exception("Unrecognized operation method '{$method}'.");
+					throw new \SwaggerGen\Exception("Unrecognized operation method '{$method}'.");
 				}
 
-				if (isset($this->Operations[$method])) {
-					$Operation = $this->Operations[$method];
+				if (isset($this->operations[$method])) {
+					$Operation = $this->operations[$method];
 				} else {
 					$summary = $data;
-					$Operation = new Operation($this, $summary, $this->Tag);
-					$this->Operations[$method] = $Operation;
+					$Operation = new Operation($this, $summary, $this->tag);
+					$this->operations[$method] = $Operation;
 				}
 
 				return $Operation;
 
 			case 'description':
-				if ($this->Tag) {
-					return $this->Tag->handleCommand($command, $data);
+				if ($this->tag) {
+					return $this->tag->handleCommand($command, $data);
 				}
 				break;
 		}
@@ -70,14 +71,20 @@ class Path extends AbstractObject
 
 	public function toArray()
 	{
-		uksort($this->Operations, function($a, $b) {
+		uksort($this->operations, function($a, $b) {
 			return array_search($a, self::$methods) - array_search($b, self::$methods);
 		});
 
 		return self::array_filter_null(array_merge(
-								self::array_toArray($this->Operations)
+								self::array_toArray($this->operations)
 								, parent::toArray())
 		);
+	}
+
+	public function __toString()
+	{
+		end($this->operations);
+		return __CLASS__ . ' ' . key($this->operations);
 	}
 
 }

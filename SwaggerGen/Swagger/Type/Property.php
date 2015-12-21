@@ -67,7 +67,7 @@ class Property extends \SwaggerGen\Swagger\AbstractObject
 			$class = "SwaggerGen\\Swagger\\Type\\{$type}Type";
 			$this->Type = new $class($this, $definition);
 		} else {
-			throw new \SwaggerGen\Swagger\Exception('Type format not recognized: ' . $format);
+			throw new \SwaggerGen\Exception('Type format not recognized: ' . $format);
 		}
 
 		$this->description = $description;
@@ -88,6 +88,11 @@ class Property extends \SwaggerGen\Swagger\AbstractObject
 		return self::array_filter_null(array_merge(array(
 					'description' => $this->description,
 								), $this->Type->toArray(), parent::toArray()));
+	}
+
+	public function __toString()
+	{
+		return __CLASS__;
 	}
 
 }

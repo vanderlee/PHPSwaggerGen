@@ -38,7 +38,7 @@ class IntegerType extends AbstractType
 		$match = array();
 
 		if (preg_match(self::REGEX_START . self::REGEX_FORMAT . self::REGEX_RANGE . self::REGEX_DEFAULT . self::REGEX_END, $definition, $match) !== 1) {
-			throw new \SwaggerGen\Swagger\Exception("Unparseable integer definition: '{$definition}'");
+			throw new \SwaggerGen\Exception("Unparseable integer definition: '{$definition}'");
 		}
 
 		$this->format = self::$formats[strtolower($match[1])];
@@ -93,6 +93,11 @@ class IntegerType extends AbstractType
 					'enum' => $this->enum,
 					'multipleOf' => $this->multipleOf,
 		]);
+	}
+
+	public function __toString()
+	{
+		return __CLASS__;
 	}
 
 }

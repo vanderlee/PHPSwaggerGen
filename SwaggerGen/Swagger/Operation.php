@@ -17,14 +17,14 @@ class Operation extends AbstractDocumentableObject
 	private $tags = array();
 	private $summary;
 	private $description;
-	private $operationId;
+	private $operationid;
 	private $consumes = array();
 	private $produces = array();
 
 	/**
 	 * @var IParameter[]
 	 */
-	private $Parameters = array();
+	private $parameters = array();
 	private $responses = array();
 	private $schemes = array();
 	private $deprecated; // bool
@@ -39,7 +39,7 @@ class Operation extends AbstractDocumentableObject
 	{
 		parent::__construct($parent);
 		$this->summary = $summary;
-		$this->operationId = uniqid('', true); //@todo getSwagger()->title -> Do some complex construction?
+		$this->operationid = uniqid('', true); //@todo getSwagger()->title -> Do some complex construction?
 		if ($tag) {
 			$this->tags[] = $tag->getName();
 		}
@@ -91,13 +91,13 @@ class Operation extends AbstractDocumentableObject
 			case 'form': case 'form?':
 				$in = rtrim($command, '?');
 				$Parameter = new Parameter($this, $in, $data, substr($command, -1) !== '?');
-				$this->Parameters[] = $Parameter;
+				$this->parameters[] = $Parameter;
 				return $Parameter;
 
 			case 'body': case 'body?':
 				$in = rtrim($command, '?');
 				$Parameter = new BodyParameter($this, $data, substr($command, -1) !== '?');
-				$this->Parameters[] = $Parameter;
+				$this->parameters[] = $Parameter;
 				return $Parameter;
 
 			case 'response':
@@ -128,11 +128,16 @@ class Operation extends AbstractDocumentableObject
 					//'operationId' => $this->description,
 					'consumes' => $this->consumes,
 					'produces' => $this->produces,
-					'parameters' => $this->Parameters ? self::array_toArray($this->Parameters) : null,
+					'parameters' => $this->parameters ? self::array_toArray($this->parameters) : null,
 					'responses' => $this->responses ? self::array_toArray($this->responses) : null,
 					'schemes' => $this->schemes,
 					'security' => $this->security,
 								), parent::toArray()));
+	}
+
+	public function __toString()
+	{
+		return __CLASS__ . ' ' . $this->summary;
 	}
 
 }

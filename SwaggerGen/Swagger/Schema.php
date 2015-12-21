@@ -46,7 +46,7 @@ class Schema extends AbstractDocumentableObject implements IDefinition
 	 * @var type
 	 */
 	private $description = null;
-	private $Type;
+	private $type;
 
 	//private $required = false;
 
@@ -56,14 +56,14 @@ class Schema extends AbstractDocumentableObject implements IDefinition
 
 		// Parse regex
 		$match = array();
-		$count = preg_match('/^([a-z]+)/i', $definition, $match);
+		preg_match('/^([a-z]+)/i', $definition, $match);
 		$format = strtolower($match[1]);
 		if (isset(self::$classTypes[$format])) {
 			$type = self::$classTypes[$format];
 			$class = "SwaggerGen\\Swagger\\Type\\{$type}Type";
-			$this->Type = new $class($this, $definition);
+			$this->type = new $class($this, $definition);
 		} else {
-			$this->Type = new Type\ReferenceObjectType($this, $definition);
+			$this->type = new Type\ReferenceObjectType($this, $definition);
 		}
 
 		$this->description = $description;
@@ -72,7 +72,7 @@ class Schema extends AbstractDocumentableObject implements IDefinition
 	public function handleCommand($command, $data = null)
 	{
 		// Pass through to Type
-		if ($this->Type && $this->Type->handleCommand($command, $data)) {
+		if ($this->type && $this->type->handleCommand($command, $data)) {
 			return $this;
 		}
 
@@ -83,7 +83,12 @@ class Schema extends AbstractDocumentableObject implements IDefinition
 	{
 		return self::array_filter_null(array_merge(array(
 					'description' => $this->description,
-								), $this->Type->toArray(), parent::toArray()));
+								), $this->type->toArray(), parent::toArray()));
+	}
+
+	public function __toString()
+	{
+		return __CLASS__;
 	}
 
 }

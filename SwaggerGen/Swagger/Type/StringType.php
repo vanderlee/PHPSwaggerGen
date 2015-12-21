@@ -32,7 +32,7 @@ class StringType extends AbstractType
 	{
 		$match = array();
 		if (preg_match(self::REGEX_START . self::REGEX_FORMAT . self::REGEX_CONTENT . self::REGEX_RANGE . self::REGEX_DEFAULT . self::REGEX_END, $definition, $match) !== 1) {
-			throw new \SwaggerGen\Swagger\Exception("Unparseable string definition: '{$definition}'");
+			throw new \SwaggerGen\Exception("Unparseable string definition: '{$definition}'");
 		}
 
 		$type = strtolower($match[1]);
@@ -47,7 +47,7 @@ class StringType extends AbstractType
 
 		if (!empty($match[3])) {
 			if ($match[1] === 'enum') {
-				throw new \SwaggerGen\Swagger\Exception("Range not allowed in enumeration definition: '{$definition}'");
+				throw new \SwaggerGen\Exception("Range not allowed in enumeration definition: '{$definition}'");
 			}
 			$exclusiveMinimum = isset($match[3]) ? ($match[3] == '<') : null;
 			$this->minLength = isset($match[4]) ? $match[4] : null;
@@ -95,6 +95,11 @@ class StringType extends AbstractType
 					'maxLength' => $this->maxLength,
 					'enum' => $this->enum,
 		]);
+	}
+
+	public function __toString()
+	{
+		return __CLASS__;
 	}
 
 }

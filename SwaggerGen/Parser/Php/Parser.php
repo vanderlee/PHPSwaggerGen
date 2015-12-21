@@ -344,17 +344,17 @@ class Parser extends Entity\AbstractEntity implements \SwaggerGen\Parser\IParser
 								$Method->Statements = $this->expand($Method->Statements, $Class);
 								$output = array_merge($output, $Method->Statements);
 							} else {
-								throw new \SwaggerGen\Swagger\Exception("Method '{$match[3]}' for class '{$match[1]}' not found");
+								throw new \SwaggerGen\Exception("Method '{$match[3]}' for class '{$match[1]}' not found");
 							}
 						} else {
-							throw new \SwaggerGen\Swagger\Exception("Class '{$match[1]}' not found");
+							throw new \SwaggerGen\Exception("Class '{$match[1]}' not found");
 						}
 					} elseif (isset($this->Functions[$match[1]])) {
 						$Function = $this->Functions[$match[1]];
 						$Function->Statements = $this->expand($Function->Statements, null);
 						$output = array_merge($output, $Function->Statements);
 					} else {
-						throw new \SwaggerGen\Swagger\Exception("Function '{$match[1]}' not found");
+						throw new \SwaggerGen\Exception("Function '{$match[1]}' not found");
 					}
 				}
 			} else {

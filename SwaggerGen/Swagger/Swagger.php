@@ -115,7 +115,7 @@ class Swagger extends AbstractDocumentableObject
 						break;
 
 					default:
-						throw new Exception('Unsupported definition type: ' . $type);
+						throw new \SwaggerGen\Exception('Unsupported definition type: ' . $type);
 				}
 
 				$this->definitions[self::words_shift($data)] = $definition;
@@ -180,7 +180,7 @@ class Swagger extends AbstractDocumentableObject
 				return $this;
 		}
 
-		return parent::handleCommand($command, $data);		
+		return parent::handleCommand($command, $data);
 	}
 
 	public function toArray()
@@ -201,6 +201,11 @@ class Swagger extends AbstractDocumentableObject
 					'security' => $this->security,
 					'tags' => self::array_toArray($this->Tags),
 								), parent::toArray()));
+	}
+
+	public function __toString()
+	{
+		return __CLASS__;
 	}
 
 }

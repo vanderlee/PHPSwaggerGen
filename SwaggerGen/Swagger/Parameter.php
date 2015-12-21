@@ -88,7 +88,7 @@ class Parameter extends AbstractObject implements IParameter
 			$class = "SwaggerGen\\Swagger\\Type\\{$type}Type";
 			$this->Type = new $class($this, $definition);
 		} else {
-			throw new Exception('Type format not recognized: ' . $format);
+			throw new \SwaggerGen\Exception('Type format not recognized: ' . $format);
 		}
 	}
 
@@ -110,6 +110,11 @@ class Parameter extends AbstractObject implements IParameter
 					'description' => $this->description,
 					'required' => $this->in === 'path' || $this->required ? 'true' : null,
 								), $this->Type->toArray(), parent::toArray()));
+	}
+
+	public function __toString()
+	{
+		return __CLASS__ . " {$this->name} {$this->in}";
 	}
 
 }

@@ -28,4 +28,8 @@ class ReferenceObjectType extends AbstractType
 		]);
 	}
 
+	public function __toString()
+	{
+		return __CLASS__ . ' ' . $this->reference;
+	}
 }

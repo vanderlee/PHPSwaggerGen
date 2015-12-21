@@ -59,7 +59,7 @@ class ObjectType extends AbstractType
 	{
 		$match = array();
 		if (preg_match(self::REGEX_START . self::REGEX_FORMAT . self::REGEX_CONTENT . self::REGEX_RANGE . self::REGEX_END, $definition, $match) !== 1) {
-			throw new \SwaggerGen\Swagger\Exception("Unparseable object definition: '{$definition}'");
+			throw new \SwaggerGen\Exception("Unparseable object definition: '{$definition}'");
 		}
 
 		$type = strtolower($match[1]);
@@ -125,6 +125,11 @@ class ObjectType extends AbstractType
 					'minProperties' => $this->minProperties,
 					'maxProperties' => $this->maxProperties,
 		]);
+	}
+
+	public function __toString()
+	{
+		return __CLASS__;
 	}
 
 }
