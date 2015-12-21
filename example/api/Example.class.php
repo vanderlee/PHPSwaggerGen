@@ -43,7 +43,7 @@ class Example
 	{
 		preg_match_all('/([^\/]+)(?:\/([^\/]+))?/', $path, $matches, PREG_SET_ORDER);
 
-		$arguments = [];
+		$arguments = array();
 		$methodname = strtolower($method);
 		foreach ($matches as $match) {
 			$methodname .= ucfirst($match[1]);
@@ -59,7 +59,7 @@ class Example
 		}
 
 		$arguments[] = $data;
-		return call_user_func_array([$this, $methodname], $arguments);
+		return call_user_func_array(array($this, $methodname), $arguments);
 	}
 
 	/**
@@ -126,12 +126,12 @@ class Example
 
 	private function getUserHeight($name, $unit)
 	{
-		static $units = [
+		static $units = array(
 			'meter' => 100,
 			'inch' => 2.54,
 			'foot' => 30.48,
 			'yard' => 91.44,
-		];
+		);
 
 		return $this->data['users'][$name]['height'] / $units[$unit];
 	}
