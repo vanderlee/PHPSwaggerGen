@@ -106,10 +106,6 @@ abstract class AbstractPreprocessor
 				array_pop($this->stack);
 				break;
 
-			case 'include':
-				// unsupported as yet
-				break;
-
 			default:
 				return false;
 				break;
