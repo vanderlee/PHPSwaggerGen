@@ -104,9 +104,8 @@ class SecurityScheme extends AbstractObject
 				if ($this->type === 'oauth2') {
 					$name = self::words_shift($data);
 					$scopes[$name] = $data;
-					return $this;
 				}
-				break;
+				return $this;
 		}
 
 		return parent::handleCommand($command, $data);

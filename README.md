@@ -59,59 +59,206 @@ TODO: Short walkthrough
 
 
 
-
-
-Contexts and commands
+Preprocessor commands
 =====================
+TODO: Document these
 
-Swagger (root)
---------------
+*	### `define` *`name [value]`*
+*	### `undef` *`name`*
+*	### `if` *`name [value]`*
+*	### `ifdef` *`name`*
+*	### `ifndef` *`name`*
+*	### `else`
+*	### `elif` *`name [value]`*
+*	### `endif`
+
+
+
+Commands by context
+===================
+
+Swagger
+-------
 Represents the entire API documentation.
 This is the initial context for commands.
 
-#### Commands
-*	**`title` *text ...***
+*	### `title` *`text ...`* --> Info
 	Set the API title.
-	&#x27a4;Info
-*	**`description` *text ...***
-	Set a description for the API.
-	&#x27a4;Info
-*	**`schemes` *scheme1 [scheme2] ... [schemeN]***
+
+*	### `description` *`text ...`* --> Info
+	Set the description for the API.
+
+*	### `version` *`number`* --> Info
+	Set the API version number.
+
+*	### `terms` *`text ...`* --> Info
+	Set the text for the terms of service of this API.
+
+	alias: `tos`, `termsofservice`
+
+*	### `contact` *`[url] [email] [name ...]`* --> Contact
+	Set the contactpoint or -person for this API.
+	You can specify the URL, email address and name in any order you want.
+	The URL and email address will be automatically detected, the name will consist
+	of all text remaining (properly separated with whitespace).
+
+*	### `license` *`[url] [name ...]`* --> License
+	Set the license for this API.
+	You can specify the URL in name in any order you want.
+	If you omit the URL, you can use any number of predefined names, which are
+	automatically expanded to a full URL, such as `gpl`, `gpl-2.1`, `mit` or `bsd`.
+
+*	### `schemes` *`scheme1 [scheme2] ... [schemeN]`*
 	Adds protocol schemes. E.g. "http" or "https".
-*	**`consumes` *mime1 [mime2] ... [mimeN]***
+
+	alias: `scheme`
+
+*	### `consumes` *`mime1 [mime2] ... [mimeN]`*
 	Adds mime types that the API is able to understand. E.g.
 	"application/json",  "multipart/form-data" or
 	"application/x-www-form-urlencoded".
-*	**`produces` *mime1 [mime2] ... [mimeN]***
+
+	alias: `consume`
+
+*	### `produces` *`mime1 [mime2] ... [mimeN]`*
 	Adds mime types that the API is able to produce. E.g. "application/xml" or
 	"application/json".
-*	**`define` *type name***
-	Start definition of a Schema (type is "params" or "parameters"), using the
-	reference name specified.
-	&#x27a4;Schema.
-*	**`endpoint` */path [tag] [description ...]***
+
+	alias: `produce`
+
+*	### `define` *`type name`* --> Schema
+	Start definition of a Schema (type is either `params` or `parameters`), using
+	the reference name specified.
+
+	alias: `definition`, `model` (don't specify type; always `params`)
+
+*	### `tag` *`tag [description ...]`* --> Tag
+	Specifies a tag definition; essentially the category in which an endpoint path
+	will be grouped together.
+
+	alias: `api`
+
+*	### `endpoint` *`/path [tag] [description ...]`* --> Path
 	Create an endpoint using the /path.
 	If tag is set, the endpoint will be assigned to the tag group of that name.
-	If a description is set, the description of the group will be set
-	accordingly.
-	&#x27a4;Path
+	If a description is set, the description of the group will be set.
 
+*	### `security` *`name type [params ...]`* --> SecurityScheme
+	Define a security method, available to the API and individual operations.
+	Name can be any random name you choose. These names will be used to reference
+	to the security shemes later on.
 
+	`Type` must be either `basic`, `apikey` or `oauth2`.
+	The parameters depend on the type.
+
+	For `basic`, you can only specify a description text.
+
+	For `apikey`, you must first specify a name to use for the query parameter or
+	header, then use either `query` or `header` to set the type of apikey.
+	Optionally followed by a description text.
+
+	For `oauth2`, you must set the flow type `implicit`, `password`, `application`
+	or `accesscode`. For type `password` you must specify two URL's, for
+	authorization and token respectively, for the other types only one URL is
+	needed. Optionally follow with a description text. You may need to add scopes
+	using the `scope` command afterwards.
+
+	*	`security` *`name`* `basic` *`[description ...]`*
+	*	`security` *`name`* `apikey` *`header-name`* `header` *`[description ...]`*
+	*	`security` *`name`* `apikey` *`query-variable`* `query` *`[description ...]`*
+	*	`security` *`name`* `oauth2 implicit` *`auth-url [description ...]`*
+	*	`security` *`name`* `oauth2 password` *`auth-url token-url [description ...]`*
+	*	`security` *`name`* `oauth2 application` *`token-url [description ...]`*
+	*	`security` *`name`* `oauth2 accesscode` *`token-url [description ...]`*
+
+*	### `require` *`name [scopes]`*
+	Set the required security scheme names.
+	If multiple names are given, they must all apply.
+	If an `oath2` scheme is specified, you may
+
+Info
+----
+Contains non-technical information about the API, such as a description,
+contact details and legal small-print.
+
+*	### `title` *`text ...`*
+	Set the API title.
+
+*	### `description` *`text ...`*
+	Set the description for the API.
+
+*	### `version` *`number`*
+	Set the API version number.
+
+*	### `terms` *`text ...`*
+	Set the text for the terms of service of this API.
+
+	alias: `tos`, `termsofservice`
+
+*	### `contact` *`[url] [email] [name ...]`* --> Contact
+	Set the contactpoint or -person for this API.
+	You can specify the URL, email address and name in any order you want.
+	The URL and email address will be automatically detected, the name will
+	consist	of all text remaining (properly separated with whitespace).
+
+*	### `license` *`[url] [name ...]`* --> License
+	Set the license for this API.
+	You can specify the URL in name in any order you want.
+	If you omit the URL, you can use any number of predefined names, which are
+	automatically expanded to a full URL, such as `gpl`, `gpl-2.1` or `bsd`.
+
+Contact
+-------
+@TODO
+
+License
+-------
+Represents the name and URL of the license that applies to the API.
+
+*	### `name` *`text ...`*
+	Set the name of the license.
+	If you haven't set a URL yet, a URL may be automatically set if it is one
+	of a number of recognized license names, such as `mpl` or `apache-2`
+
+*	### `url` *`text ...`*
+	Set the URL of the license.
+
+Schema
+------
+@TODO
+
+Tag
+---
+A tag is used to group paths and operations together in logical categories.
+
+*	### `description` *`text ...`*
+	Set the description.
 
 Path
 ----
 Represents a URL endpoint or Path.
 
-#### Commands
-*	**`operation` *method [summary ...]***
+*	### `operation` *`method [summary ...]`* --> Operation
 	Add a new operation to the most recently specified endpoint.
-	Method can be any valid HTTP method; "get", "put", "post", "delete",
-	"options", "head", "patch".
-	&#x27a4;Operation
-*	**`description` *text ...***
-	If a tag exists, sets the description for the tag. Otherwise pass along to
-	the most recent context that can handle a description.
-	&#x27a4;Tag
+	Method can be any one of `get`, `put`, `post`, `delete` or `patch`.
+
+*	### `description` *`text ...`*
+	If a tag exists, sets the description for the tag, otherwise to nothing.
+
+
+SecurityScheme
+--------------
+Represents a single way of authenticating the user/client to the server.
+You specify the type of security scheme and it's settings using the `security`
+command from the Swagger context.
+
+*	### `description` *`text ...`*
+	Set the description.
+
+*	### `scope` *`name [description ...]`*
+	Add a new oAuth2 scope name with optional description.
+
+
 
 
 
@@ -310,10 +457,8 @@ Swagger
 -------
 *	Full Type support in Swagger\Header object
 *	Use (optional) Namespaces in @see and @uses
-*	Security object+context + definitions
 *	Set type (array of enumerated strings; can force unique?)
 *	License: full/formatted names
-*	Definitions: param/response
 *	Date(-time) format helpers; if no timezone, add 'Z'. Use PHP Date parser.
 *	Support object "additionalProperties" and "allOf"
 *	Shortcut "get", "put", etc. operation methods as proper commands.

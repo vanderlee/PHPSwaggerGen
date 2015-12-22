@@ -14,15 +14,34 @@ namespace SwaggerGen\Swagger;
 class Info extends AbstractObject
 {
 
+	/**
+	 * @var string
+	 */
 	private $title = 'undefined';
+
+	/**
+	 * @var string
+	 */
 	private $description;
+
+	/**
+	 * @var string
+	 */
 	private $termsofservice;
 
 	/**
 	 * @var Contact
 	 */
-	private $Contact;
-	private $License;
+	private $contact;
+
+	/**
+	 * @var License
+	 */
+	private $license;
+
+	/**
+	 * @var string|integer|float
+	 */
 	private $version = 0;
 
 	public function handleCommand($command, $data = null)
@@ -54,8 +73,8 @@ class Info extends AbstractObject
 					}
 				}
 				$name = join(' ', array_filter($name));
-				$this->Contact = new Contact($this, $name, $url, $email);
-				return $this->Contact;
+				$this->contact = new Contact($this, $name, $url, $email);
+				return $this->contact;
 
 			case 'license':
 				$name = array();
@@ -68,8 +87,8 @@ class Info extends AbstractObject
 					}
 				}
 				$name = join(' ', array_filter($name));
-				$this->License = new License($this, $name, $url);
-				return $this->License;
+				$this->license = new License($this, $name, $url);
+				return $this->license;
 		}
 
 		return parent::handleCommand($command, $data);
@@ -81,8 +100,8 @@ class Info extends AbstractObject
 					'title' => $this->title,
 					'description' => $this->description,
 					'termsOfService' => $this->termsofservice,
-					'contact' => $this->Contact ? $this->Contact->toArray() : null,
-					'license' => $this->License ? $this->License->toArray() : null,
+					'contact' => $this->contact ? $this->contact->toArray() : null,
+					'license' => $this->license ? $this->license->toArray() : null,
 					'version' => $this->version,
 								), parent::toArray()));
 	}

@@ -91,18 +91,22 @@ class Swagger extends AbstractDocumentableObject
 				return $this->Info->handleCommand($command, $data);
 
 			// string[]
+			case 'scheme':
 			case 'schemes':
 				$this->$command = array_unique(array_merge($this->$command, self::words_split($data)));
 				return $this;
 
 			// MIME[]
+			case 'consume':
 			case 'consumes':
+			case 'produce':
 			case 'produces':
 				$this->$command = array_merge($this->$command, self::translateMimeTypes(self::words_split($data)));
 				return $this;
 
 			case 'model': // alias
 				$data = 'params ' . $data;
+			case 'define':
 			case 'definition':
 				$type = self::words_shift($data);
 				switch ($type) {

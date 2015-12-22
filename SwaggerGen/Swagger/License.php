@@ -76,7 +76,7 @@ class License extends AbstractObject
 				if (empty($this->url) && !empty(self::$licenses[strtolower($data)])) {
 					$this->url = self::$licenses[strtolower($data)];
 				}
-				break;
+				return $this;
 
 			case 'url':
 				$this->url = $data;
