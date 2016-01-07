@@ -181,25 +181,14 @@ Info
 Contains non-technical information about the API, such as a description,
 contact details and legal small-print.
 
-*	### `title` *`text ...`*
-	Set the API title.
-
-*	### `description` *`text ...`*
-	Set the description for the API.
-
-*	### `version` *`number`*
-	Set the API version number.
-
-*	### `terms` *`text ...`*
-	Set the text for the terms of service of this API.
-
-	alias: `tos`, `termsofservice`
-
 *	### `contact` *`[url] [email] [name ...]`* --> Contact
 	Set the contactpoint or -person for this API.
 	You can specify the URL, email address and name in any order you want.
 	The URL and email address will be automatically detected, the name will
 	consist	of all text remaining (properly separated with whitespace).
+
+*	### `description` *`text ...`*
+	Set the description for the API.
 
 *	### `license` *`[url] [name ...]`* --> License
 	Set the license for this API.
@@ -207,9 +196,29 @@ contact details and legal small-print.
 	If you omit the URL, you can use any number of predefined names, which are
 	automatically expanded to a full URL, such as `gpl`, `gpl-2.1` or `bsd`.
 
+*	### `terms` *`text ...`*
+	Set the text for the terms of service of this API.
+
+	alias: `tos`, `termsofservice`
+
+*	### `title` *`text ...`*
+	Set the API title.
+
+*	### `version` *`number`*
+	Set the API version number.
+
 Contact
 -------
-@TODO
+Contains the contact information for the API.
+
+*	### `email` *`email`*
+	Set the email address of the contact person.
+
+*	### `name` *`text ...`*
+	Set the name of the contact person.
+
+*	### `url` *`email`*
+	Set the URL where users can contact the maintainer(s).
 
 License
 -------
