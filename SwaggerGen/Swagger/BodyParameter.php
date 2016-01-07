@@ -36,14 +36,10 @@ class BodyParameter extends AbstractObject implements IParameter
 
 	public function handleCommand($command, $data = null)
 	{
-		// offload to schema
+		// Pass through to Type
 		$return = $this->schema->handleCommand($command, $data);
 		if ($return) {
 			return $return;
-		}
-
-		switch (strtolower($command)) {
-			// nothing yet!
 		}
 
 		return parent::handleCommand($command, $data);
