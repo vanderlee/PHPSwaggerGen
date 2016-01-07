@@ -19,7 +19,12 @@ class Header extends AbstractObject
 	public function __construct(AbstractObject $parent, $type, $description = '')
 	{
 		parent::__construct($parent);
-		$this->type = $type;
+
+		$this->type = strtolower($type);
+		if (!in_array($this->type, array('string', 'number', 'integer', 'boolean', 'array'))) {
+			throw new \SwaggerGen\Exception('Header type not valid: ' . $this->type);
+		}
+
 		$this->description = $description;
 	}
 
