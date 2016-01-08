@@ -332,7 +332,7 @@ class Parser extends Entity\AbstractEntity implements \SwaggerGen\Parser\IParser
 				if (preg_match('/^((?:\\w+)|\$this)(?:(::|->)(\\w+))?(?:\\(\\))?$/', strtolower($Statement->data), $match) === 1) {
 					if (count($match) >= 3) {
 						$Class = null;
-						if (in_array($match[1], ['self', '$this'])) {
+						if (in_array($match[1], array('self', '$this'))) {
 							$Class = $Self;
 						} elseif (isset($this->Classes[$match[1]])) {
 							$Class = $this->Classes[$match[1]];
