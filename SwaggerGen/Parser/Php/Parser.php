@@ -66,7 +66,7 @@ class Parser extends Entity\AbstractEntity implements \SwaggerGen\Parser\IParser
 			$this->dirs[] = realpath($dir);
 		}
 
-		$this->parseFiles([$file], $defines);
+		$this->parseFiles(array($file), $defines);
 
 		// Inherit classes
 		foreach ($this->Classes as $Class) {
