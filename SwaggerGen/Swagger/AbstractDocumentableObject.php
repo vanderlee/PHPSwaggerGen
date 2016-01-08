@@ -16,7 +16,7 @@ abstract class AbstractDocumentableObject extends AbstractObject
 
 	/**
 	 * External documentation
-	 * @var ExternalDoc
+	 * @var ExternalDocumentation
 	 */
 	private $externalDocs = null;
 
@@ -31,7 +31,7 @@ abstract class AbstractDocumentableObject extends AbstractObject
 			case 'doc':
 			case 'docs':
 				$url = self::words_shift($data);
-				$this->externalDocs = new ExternalDoc($this, $url, $data);
+				$this->externalDocs = new ExternalDocumentation($this, $url, $data);
 				return $this->externalDocs;
 		}
 

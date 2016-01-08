@@ -11,7 +11,7 @@ namespace SwaggerGen\Swagger;
  * @copyright  2014-2015 Martijn van der Lee
  * @license    https://opensource.org/licenses/MIT MIT
  */
-class ExternalDoc extends AbstractObject
+class ExternalDocumentation extends AbstractObject
 {
 
 	private $url;
