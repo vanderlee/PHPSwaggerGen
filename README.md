@@ -1,5 +1,4 @@
-SwaggerGen
-==========
+# SwaggerGen
 Version v2.0-beta-3
 
 [![Build Status](https://travis-ci.org/vanderlee/PHPSwaggerGen.svg?branch=master)](https://travis-ci.org/vanderlee/PHPSwaggerGen)
@@ -8,8 +7,7 @@ Copyright &copy; 2014-2016 Martijn van der Lee (http://toyls.com).
 
 MIT Open Source license applies.
 
-Introduction
-------------
+## Introduction
 This is an early Beta version of SwaggerGen 2.0, a complete rewrite of
 SwaggerGen for Swagger-spec 2.0 support and improved quality overall.
 
@@ -18,8 +16,7 @@ likely to contain bugs and may be subject to significant changes.
 Also, documentation is largely lacking; note all the `todo` statements.
 Also note the large To-do list at the bottom; there is still plenty to do.
 
-Installation
-------------
+## Installation
 This library should be PSR-4 compatible, so you should be able to use it in any
 package manager (though no package manager will be supported until the code has
 stabilized).
@@ -29,51 +26,48 @@ Requires PHP 5.4 or greater.
 PHP 5.3 is supported as long as no more recent features are necessary.
 There is no guarantee SwaggerGen will continue to work on PHP 5.3 in the future.
 
+# Creating documentation
+SwaggerGen takes a number of of source files and scans the comments for
+commands it understands. The following is a short example of the type of
+comments SwaggerGen understands:
 
+	/*
+	 * @rest\description SwaggerGen 2 Example API
+	 * @rest\title Example API
+	 * @rest\contact http://example.com Arthur D. Author
+	 * @rest\license MIT
+	 * @rest\security api_key apikey X-Api-Authentication header Authenticate using this fancy header
+	 * @rest\require api_key
+	 */
 
-Get started quick
-=================
-TODO: Short walkthrough
+## Comments
+All comments are parsed, this includes both doc-comments (`/** ... */`) and
+normal comments, both single line (`// ...`) and multi-line (`/* ... */`).
 
+Comments that are attached to functions, methods and classes. Any doc-comment
+immediately preceeding a function, method or class will be attached to that
+function, method or class. Other comments will be attached to the function,
+method or class containing them. For instance, SwaggerGen comments within a
+function will be attached to that function.
 
+## Commands
 
-Syntax
-======
-You can use both proper PHPDoc comments and normal comments.
-All comments have to be prefixed with `@rest\` as such:
+All commands must be prefixed with `@rest\` to distinguish between SwaggerGen
+statements and normal comment statements and statements from other tools such
+as PHP-Documentor.
 
-	/**
-     * @rest\title Example API
-     */
+All commands are multi-line by default; any line(s) after the command that do
+not start with an at-sign (`@`) is automatically appended to the command on the
+previous line.
 
-Or multiline comments:
+You can reference SwaggerGen documentation for other functions, methods or
+classes by using the `uses` command. This command lets you specify an other
+function, method or class whose documentation to include.
 
-	/* @rest\endpoint /words Text Manipulate text in various ways
-	*/
+Commands are processed in the order in which they appear. This includes any
+documentation referenced with the `uses` command.
 
-Or single line comments:
-
-	// @rest\operation GET Get an array of individual words in a sentence.
-
-
-
-Preprocessor commands
-=====================
-TODO: Document these
-
-*	### `define` *`name [value]`*
-*	### `undef` *`name`*
-*	### `if` *`name [value]`*
-*	### `ifdef` *`name`*
-*	### `ifndef` *`name`*
-*	### `else`
-*	### `elif` *`name [value]`*
-*	### `endif`
-
-
-
-Contexts
-========
+## Contexts
 SwaggerGen uses a stack of contexts. Each context represents a certain part of
 the Swagger documentation that will be generated. Each context supports a few
 commands which hold meaning within that context.
@@ -82,17 +76,89 @@ You initially start at the Swagger context.
 
 You can switch contexts using some of the commands available within the current
 context. In this manual, whenever a command switches the context, it is
-marked using '---> Context name' at the end of the command syntax description.
+marked using '&rArr; Context name' at the end of the command syntax description.
 
 If a command is not recognized in the current context, the context is removed
 from the top of the stack and the previous context tries to handle the command.
 If no context is able to handle the command, SwaggerGen will report this as an
 error.
 
+# Preprocessor commands
+SwaggerGen has a limited set of preprocessor statements to remove or change
+parts of the generated documentation at run-time.
 
+The preprocessor statements are loosely based on the C/C++ preprocessors.
+
+The work by defining values for variable names and checking whether or not a
+variable name is defined or checking if a variables name has a specific value.
+
+SwaggerGen currently has no predefined variables, but you can define variables
+yourself by assigning them to the SwaggerGen parser before scanning starts.
+
+Preprocessor statments may be nested.
+
+*	### `define` *`name [value]`*
+	Define a variable name and optionally assign a value to it.
+
+*	### `undef` *`name`*
+	Remove the definition a variable name.
+
+*	### `if` *`name [value]`*
+	If the variable name is defined *and*, if provided, it's value is equal to
+	the specified value, then process all following SwaggerGen commands upto
+	the next preprocessor command.
+	Otherwise, do not process those commands.
+
+*	### `ifdef` *`name`*
+	If the variable name is defined, then process all following SwaggerGen
+	commands upto the next preprocessor	command.
+	Otherwise, do not process those commands.
+
+*	### `ifndef` *`name`*
+	If the variable name is *not* defined, then process all following SwaggerGen
+	commands upto the next preprocessor	command.
+	Otherwise, do not process those commands.
+
+*	### `else`
+	If the previous `if...` or `elif` preprocessor command did *not* match,
+	then process all following SwaggerGen commands upto the next preprocessor
+	command.
+	Otherwise, do not process those commands.
+
+*	### `elif` *`name [value]`*
+	If the previous `if...` or `elif` preprocessor command did *not* match
+	*and* if the variable name is defined *and*, if provided, it's value is
+	equal to the specified value, then process all following SwaggerGen
+	commands upto the next preprocessor command.
+	Otherwise, do not process those commands.
+
+*	### `endif`
+	End the previous `if...`, `elif` or `else` preprocessor command's block of
+	SwaggerGen commands.
 
 # Contexts and commands
 Ordered alphabetically for reference
+
+The following commands can be used from within any context.
+
+*	### `uses` *`reference`*
+	Include a reference to another function, method or class.
+
+	For example:
+	*	`uses functionName`
+	*	`uses self::staticMethodName`
+	*	`uses $this->methodName`
+	*	`uses ClassName::staticMethodName`
+	*	`uses ClassName->methodName`
+
+	SwaggerGen makes no distinction between the `self` and `this` or between
+	the static and dynamic `::` and `->`. These can be interchanged without
+	any impact. Though it is advised to stick to the proper terms.
+
+	Class inheritance is used if a method cannot be found within the indicated
+	class.
+
+	alias: `see`
 
 ## BodyParameter
 Represents a body parameter.
@@ -137,7 +203,7 @@ Represents a response header.
 Contains non-technical information about the API, such as a description,
 contact details and legal small-print.
 
-*	### `contact` *`[url] [email] [name ...]`* --> Contact
+*	### `contact` *`[url] [email] [name ...]`* &rArr; Contact
 	Set the contactpoint or -person for this API.
 	You can specify the URL, email address and name in any order you want.
 	The URL and email address will be automatically detected, the name will
@@ -146,7 +212,7 @@ contact details and legal small-print.
 *	### `description` *`text ...`*
 	Set the description for the API.
 
-*	### `license` *`[url] [name ...]`* --> License
+*	### `license` *`[url] [name ...]`* &rArr; License
 	Set the license for this API.
 	You can specify the URL in name in any order you want.
 	If you omit the URL, you can use any number of predefined names, which are
@@ -177,7 +243,7 @@ Represents the name and URL of the license that applies to the API.
 ## Operation
 Describes an operation; a call to a specifc path using a specific method.
 
-*	### `body`/`body?` *`definition name [description ...]`* --> BodyParameter
+*	### `body`/`body?` *`definition name [description ...]`* &rArr; BodyParameter
 	Add a new form Parameter to this operation.
 
 	Use `form` to make the parameter required.
@@ -197,12 +263,12 @@ Describes an operation; a call to a specifc path using a specific method.
 *	### `description` *`text ...`*
 	Set the long description of the operation.
 
-*	### `doc` *`url [description ...]`* --> ExternalDocumentation
+*	### `doc` *`url [description ...]`* &rArr; ExternalDocumentation
 	Set an URL pointing to more documentation.
 
 	alias: `docs`
 
-*	### `error` *`statuscode [description]`* --> Error
+*	### `error` *`statuscode [description]`* &rArr; Error
 	Add a possible error statuscode that may be returned by this
 	operation, including an optional description text.
 
@@ -213,7 +279,7 @@ Describes an operation; a call to a specifc path using a specific method.
 	Add several possible error statuscodes that may be returned by this
 	operation.
 
-*	### `form`/`form?` *`definition name [description ...]`* --> Parameter
+*	### `form`/`form?` *`definition name [description ...]`* &rArr; Parameter
 	Add a new form Parameter to this operation.
 
 	Use `form` to make the parameter required.
@@ -222,7 +288,7 @@ Describes an operation; a call to a specifc path using a specific method.
 	See the chapter on  **Parameter definitions** for a detailed
 	description of all the possible definition formats.
 
-*	### `header`/`header?` *`definition name [description ...]`* --> Parameter
+*	### `header`/`header?` *`definition name [description ...]`* &rArr; Parameter
 	Add a new header Parameter to this operation.
 
 	Use `header` to make the parameter required.
@@ -231,7 +297,7 @@ Describes an operation; a call to a specifc path using a specific method.
 	See the chapter on  **Parameter definitions** for a detailed
 	description of all the possible definition formats.
 
-*	### `path`/`path?` *`definition name [description ...]`* --> Parameter
+*	### `path`/`path?` *`definition name [description ...]`* &rArr; Parameter
 	Add a new path Parameter to this operation.
 
 	Use `path` to make the parameter required.
@@ -244,7 +310,7 @@ Describes an operation; a call to a specifc path using a specific method.
 	Adds mime types that this operation is able to produce.
 	E.g. "application/xml" or "application/json".
 
-*	### `query`/`query?` *`definition name [description ...]`* --> Parameter
+*	### `query`/`query?` *`definition name [description ...]`* &rArr; Parameter
 	Add a new query Parameter to this operation.
 
 	Use `query` to make the parameter required.
@@ -258,7 +324,7 @@ Describes an operation; a call to a specifc path using a specific method.
 
 	Security schemes can be defined in the **Swagger** context.
 
-*	### `response` *`statuscode definition description`* --> Response
+*	### `response` *`statuscode definition description`* &rArr; Response
 	Adds a possible response status code with a definition of the data that
 	will be returned. Though for error statuscodes you would typically use
 	the `error` or `errors` commands, you can use this command for those
@@ -285,7 +351,7 @@ The available command depend on the particular type.
 ## Path
 Represents a URL endpoint or Path.
 
-*	### `operation` *`method [summary ...]`* --> Operation
+*	### `operation` *`method [summary ...]`* &rArr; Operation
 	Add a new operation to the most recently specified endpoint.
 	Method can be any one of `get`, `put`, `post`, `delete` or `patch`.
 
@@ -296,7 +362,7 @@ Represents a URL endpoint or Path.
 ## Response
 Represents a response.
 
-*	### `header` *`type name [description]`* --> Header
+*	### `header` *`type name [description]`* &rArr; Header
 	Add a header to the response.
 
 	`type` must be either `string`, `number`, `integer`, `boolean` or `array`.
@@ -306,7 +372,7 @@ Represents a response.
 ## Schema
 Represents a definitions of a type, such as an array.
 
-*	### `doc` *`url [description ...]`* --> ExternalDocumentation
+*	### `doc` *`url [description ...]`* &rArr; ExternalDocumentation
 	Set an URL pointing to more documentation.
 
 	alias: `docs`
@@ -336,32 +402,32 @@ This is the initial context for commands.
 
 	alias: `consume`
 
-*	### `contact` *`[url] [email] [name ...]`* --> Contact
+*	### `contact` *`[url] [email] [name ...]`* &rArr; Contact
 	Set the contactpoint or -person for this API.
 	You can specify the URL, email address and name in any order you want.
 	The URL and email address will be automatically detected, the name will consist
 	of all text remaining (properly separated with whitespace).
 
-*	### `define` *`type name`* --> Schema
+*	### `define` *`type name`* &rArr; Schema
 	Start definition of a Schema (type is either `params` or `parameters`), using
 	the reference name specified.
 
 	alias: `definition`, `model` (don't specify type; always `params`)
 
-*	### `description` *`text ...`* --> Info
+*	### `description` *`text ...`* &rArr; Info
 	Set the description for the API.
 
-*	### `doc` *`url [description ...]`* --> ExternalDocumentation
+*	### `doc` *`url [description ...]`* &rArr; ExternalDocumentation
 	Set an URL pointing to more documentation.
 
 	alias: `docs`
 
-*	### `endpoint` *`/path [tag] [description ...]`* --> Path
+*	### `endpoint` *`/path [tag] [description ...]`* &rArr; Path
 	Create an endpoint using the /path.
 	If tag is set, the endpoint will be assigned to the tag group of that name.
 	If a description is set, the description of the group will be set.
 
-*	### `license` *`[url] [name ...]`* --> License
+*	### `license` *`[url] [name ...]`* &rArr; License
 	Set the license for this API.
 	You can specify the URL in name in any order you want.
 	If you omit the URL, you can use any number of predefined names, which are
@@ -383,7 +449,7 @@ This is the initial context for commands.
 
 	alias: `scheme`
 
-*	### `security` *`name type [params ...]`* --> SecurityScheme
+*	### `security` *`name type [params ...]`* &rArr; SecurityScheme
 	Define a security method, available to the API and individual operations.
 	Name can be any random name you choose. These names will be used to reference
 	to the security shemes later on.
@@ -411,21 +477,21 @@ This is the initial context for commands.
 	*	`security` *`name`* `oauth2 application` *`token-url [description ...]`*
 	*	`security` *`name`* `oauth2 accesscode` *`token-url [description ...]`*
 
-*	### `tag` *`tag [description ...]`* --> Tag
+*	### `tag` *`tag [description ...]`* &rArr; Tag
 	Specifies a tag definition; essentially the category in which an endpoint path
 	will be grouped together.
 
 	alias: `api`
 
-*	### `terms` *`text ...`* --> Info
+*	### `terms` *`text ...`* &rArr; Info
 	Set the text for the terms of service of this API.
 
 	alias: `tos`, `termsofservice`
 
-*	### `title` *`text ...`* --> Info
+*	### `title` *`text ...`* &rArr; Info
 	Set the API title.
 
-*	### `version` *`number`* --> Info
+*	### `version` *`number`* &rArr; Info
 	Set the API version number.
 
 ## Tag
@@ -434,7 +500,7 @@ A tag is used to group paths and operations together in logical categories.
 *	### `description` *`text ...`*
 	Set the description.
 
-*	### `doc` *`url [description ...]`* --> ExternalDocumentation
+*	### `doc` *`url [description ...]`* &rArr; ExternalDocumentation
 	Set an URL pointing to more documentation.
 
 	alias: `docs`
@@ -616,11 +682,26 @@ predefined shorthands (case insensitive):
 
 
 # Example
-TODO: A minimalist but complete example of a working PHP Rest API call.
+To view an example of Swagger documentation generated with SwaggerGen, visit
+the [Example API documentation](./example/docs/).
 
+The following is a fragment of code from this example:
 
-
-
+	/**
+	 * @rest\endpoint /user/{username}
+	 * @rest\method GET Get a list of all users
+	 * @rest\path String username Name of the user
+	 * @rest\see self::request
+	 */
+	private function getUser($name)
+	{
+		/*
+		 * @rest\model User
+		 * @rest\property int age Age of the user in years
+		 * @rest\property int height Height of the user in centimeters
+		 */
+		return $this->data['users'][$name]; // @rest\response OK object(age:int[0,100>,height:float) User
+	}
 
 
 
