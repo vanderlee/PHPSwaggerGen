@@ -1,6 +1,6 @@
 SwaggerGen
 ==========
-Version v2.0-beta-2
+Version v2.0-beta-3
 
 [![Build Status](https://travis-ci.org/vanderlee/PHPSwaggerGen.svg?branch=master)](https://travis-ci.org/vanderlee/PHPSwaggerGen)
 
@@ -116,6 +116,16 @@ Contains the contact information for the API.
 Represents a response with an error statuscode.
 
 See the Response context for commands.
+
+## ExternalDocumentation
+Contains an URL reference to additional documentation of the context which
+created this context.
+
+*	### `description` *`text ...`*
+	Set the description text for this external documentation.
+
+*	### `url` *`url`*
+	Set the URL to the external documentation.
 
 ## Header
 Represents a response header.
