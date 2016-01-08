@@ -190,6 +190,11 @@ This is the initial context for commands.
 *	### `description` *`text ...`* --> Info
 	Set the description for the API.
 
+*	### `doc` *`url [description ...]`* --> ExternalDocumentation
+	Set an URL pointing to more documentation.
+
+	alias: `docs`
+
 *	### `endpoint` *`/path [tag] [description ...]`* --> Path
 	Create an endpoint using the /path.
 	If tag is set, the endpoint will be assigned to the tag group of that name.
@@ -268,6 +273,11 @@ A tag is used to group paths and operations together in logical categories.
 *	### `description` *`text ...`*
 	Set the description.
 
+*	### `doc` *`url [description ...]`* --> ExternalDocumentation
+	Set an URL pointing to more documentation.
+
+	alias: `docs`
+
 ## Operation
 Describes an operation; a call to a specifc path using a specific method.
 
@@ -290,6 +300,11 @@ Describes an operation; a call to a specifc path using a specific method.
 
 *	### `description` *`text ...`*
 	Set the long description of the operation.
+
+*	### `doc` *`url [description ...]`* --> ExternalDocumentation
+	Set an URL pointing to more documentation.
+
+	alias: `docs`
 
 *	### `error` *`statuscode [description]`* --> Error
 	Add a possible error statuscode that may be returned by this
@@ -395,7 +410,12 @@ Represents a response.
 ## Schema
 Represents a definitions of a type, such as an array.
 
-For a list of commands, read the chapter on  **Parameter definitions**.
+*	### `doc` *`url [description ...]`* --> ExternalDocumentation
+	Set an URL pointing to more documentation.
+
+	alias: `docs`
+
+For a list of other commands, read the chapter on  **Parameter definitions**.
 The available command depend on the particular type.
 
 ## SecurityScheme
