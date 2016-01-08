@@ -26,6 +26,59 @@ Requires PHP 5.4 or greater.
 PHP 5.3 is supported as long as no more recent features are necessary.
 There is no guarantee SwaggerGen will continue to work on PHP 5.3 in the future.
 
+## Using SwaggerGen
+The easiest part of generating Swagger documentation with SwaggerGen is setting
+it up.
+
+1.	Set up your (PSR-0, PSR-4 or custom) autoloader to use the SwaggerGen
+	directory.
+
+	You can take a look at the autoloader in the example folder if you don't
+	already have an autoloader.
+
+2.	Create an instance of the `/SwaggerGen/SwaggerGen` class.
+
+	You can (and are advised to) specify the domainname of your server and the
+	path to the API in the constructor.
+
+3.	Call the `array SwaggerGen->getSwagger(string[] $filenames)` method to
+	generate the documentation.
+
+	Just provide the files which contain the operation definitions of your API.
+	If your API uses other files, just specify an array of directories in the
+	`SwaggerGen` constructor and these files will be automatically parsed when
+	needed.
+
+4.	You're done. Your documentation is generated. All that's left to do is
+	output it. Store it in a file or return it real-time.
+
+If you want to use the preprocessor, you'll probably want to call the
+`SwaggerGen->define(string $name, string $value)` method of your `SwaggerGen` instance after
+step 2 to define preprocessor variable names.
+
+The following is a typical example:
+
+	// Assuming you don't already have an autoloader
+	spl_autoload_register(function ($classname) {
+		include_once __DIR__ . $classname . '.php';
+	});
+
+	$SwaggerGen = new \SwaggerGen\SwaggerGen(
+		$_SERVER['HTTP_HOST'],
+		dirname($_SERVER['REQUEST_URI']),
+		[__DIR__ . '/api']
+	);
+	$SwaggerGen->define('admin');				// admin = 1
+	$SwaggerGen->define('date', date('Y-m-d'));	// date = "2015-12-31"
+	if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+		$SwaggerGen->define('windows');	// windows = 1 (only if on Windows OS)
+	}
+	$swagger = $SwaggerGen->getSwagger(['Example.php']);
+
+	header('Content-type: application/json');
+	echo json_encode($swagger);
+
+
 # Creating documentation
 SwaggerGen takes a number of of source files and scans the comments for
 commands it understands. The following is a short example of the type of
@@ -136,7 +189,7 @@ Preprocessor statments may be nested.
 	End the previous `if...`, `elif` or `else` preprocessor command's block of
 	SwaggerGen commands.
 
-# Contexts and commands
+# SwaggerGen context and commands
 Ordered alphabetically for reference
 
 The following commands can be used from within any context.
@@ -661,10 +714,8 @@ See string.
 *	**`enum(red,green,blue)=red`** A string containing either "red", "green" or
 	"blue", default to "red".
 
-
-
-
-# Mime types
+# Appendices
+## Mime types
 Some commands, such as `consumes` and `produces` take mime types as arguments.
 Instead of specifying the full mime types, you can any of the following
 predefined shorthands (case insensitive):
