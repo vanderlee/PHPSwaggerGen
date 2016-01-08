@@ -97,7 +97,8 @@ Ordered alphabetically for reference
 ## BodyParameter
 Represents a body parameter.
 
-For commands, see the Schema context.
+For a list of commands, read the chapter on  **Parameter definitions**.
+The available command depend on the particular type.
 
 ## Contact
 Contains the contact information for the API.
@@ -367,7 +368,8 @@ Describes an operation; a call to a specifc path using a specific method.
 ## Parameter
 Represents either a form, query, header of path parameter.
 
-For commands, see the Schema context.
+For a list of commands, read the chapter on  **Parameter definitions**.
+The available command depend on the particular type.
 
 ## Path
 Represents a URL endpoint or Path.
@@ -391,7 +393,10 @@ Represents a response.
 	`name` must be a valid HTTP header name. I.e. `X-Rate-Limit-Limit`.
 
 ## Schema
-TODO
+Represents a definitions of a type, such as an array.
+
+For a list of commands, read the chapter on  **Parameter definitions**.
+The available command depend on the particular type.
 
 ## SecurityScheme
 Represents a single way of authenticating the user/client to the server.
