@@ -1,20 +1,39 @@
 # SwaggerGen
-Version v2.0-beta-3
+Version v2.0.4
 
 [![Build Status](https://travis-ci.org/vanderlee/PHPSwaggerGen.svg?branch=master)](https://travis-ci.org/vanderlee/PHPSwaggerGen)
 
-Copyright &copy; 2014-2016 Martijn van der Lee (http://toyls.com).
+Copyright &copy; 2014-2016 Martijn van der Lee [Toyls.com](http://toyls.com).
 
 MIT Open Source license applies.
 
-## Introduction
-This is an early Beta version of SwaggerGen 2.0, a complete rewrite of
-SwaggerGen for Swagger-spec 2.0 support and improved quality overall.
 
-As befits a beta release, this code should be runnable and usable, but is
-likely to contain bugs and may be subject to significant changes.
-Also, documentation is largely lacking; note all the `todo` statements.
-Also note the large To-do list at the bottom; there is still plenty to do.
+## Introduction
+SwaggerGen is a PHP library for generating [Swagger](http://swagger.io/) REST
+API documentation from PHP source code.
+
+It reads comments starting with `@rest\`, containing commands describing the
+API as you go.
+Working with SwaggerGen is intended to be a natural extension to normal
+PHP-documentor style documentation.
+You can describe a REST API call similar to how you would describe method.
+
+Using just a few simple commands like `@rest\endpoint /users` and
+`@rest\method GET Get a list of all users` gets you a definition of an API.
+By adding a `@rest\response 200 array(object(name:string, age:int[0,>, gender:enum(male,female)))`
+statement, you've just defined exactly what it'll return.
+You could have also just defined a `User` and do the same with a
+`@rest\response 200 array(User)` statement.
+
+SwaggerGen makes it quick and intuitive to write high quality documentation.
+
+Use [Swagger-UI](https://github.com/swagger-api/swagger-ui) to read and test
+your API, as in this example generated real-time with SwaggerGen:
+[Example](example/docs/) (only available when running on a PHP server).
+
+SwaggerGen is compatible with the latest
+[Swagger 2.0 specification](http://swagger.io/specification/),
+which forms the basis of the [Open API Initiative](https://openapis.org/).
 
 ## Installation
 This library should be PSR-4 compatible, so you should be able to use it in any
@@ -666,13 +685,12 @@ List of items
 
 	type(definition)[0,>
 
-*	type: `csv`, `array`, `ssv`, `tsv`, `pipes`, or `multi`,
+*	type: `csv`, `array`, `ssv`, `tsv`, `pipes`, or `multi`.
 *	range: [min,max].
 	Use `[` or `]` for inclusive and `<` or `>` for	exclusive.
 	Empty `min` value means zero.
 	Empty `max` value means infinity.
 *	default: any valid text not containing whitespace.
-
 *	definition: a definition of the type of the items in the list. It is possible to
 	define lists as items, creating multidimensional arrays.
 
@@ -704,7 +722,32 @@ No further definition is possible. There are no command.
 *	**`file`** A file.
 
 ## object
-TODO
+Object with properties. Typically used as key-value map
+
+	object(definition)[0,>
+
+*	type: `object`.
+*	range: [min,max].
+	Use `[` or `]` for inclusive and `<` or `>` for	exclusive.
+	Empty `min` value means zero properties (no minimum).
+	Empty `max` value means infinite properties (no maximum).
+*	definition: a comma-separated list of property definitions in the form of
+	`key:definition`, where `key` can be any sequence of characters except `:` or
+	`?`. The `?` means that key is optional.
+
+### Commands
+*	**`min` *value*** Set the minimum number of items required.
+*	**`max` *value*** Set the maximum number of items allowed.
+*	**`property` *definition name*** Add a required property.
+*	**`property?` *definition name*** Add an optional property.
+
+### Examples
+*	**`object(age:int[18,25>)`** An object containing a single key `age` with
+	an integer value greater or equal to 18 and less than 25.
+*	**`object(age:int,name?:string[2,>)`** An object containing an `age` and an
+	optional `name` string, where the value must be atleast two characters
+	long.
+*	**`object()[4,8]`** An object containing four to eight unknown properties.
 
 ## enum
 Special type of string which is limited to one of a number of predefined values.
