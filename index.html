@@ -19,20 +19,12 @@
 		<style>
 			body {
 				font-family:			"Segoe UI", Verdana, Helvetica, Arial, sans-serif;
-				font-size:				11px;
+				font-size:				13px;
 				padding:				3em 8em 1em 4em;
 			}
 
 			#menu {
 				margin-bottom:			2em;
-			}
-
-			#preview {
-				border:					solid thin silver;
-				padding:				2em;
-				margin:					0 20%;
-				text-align:				center;
-				box-shadow:				0 0 2em silver;
 			}
 
 			.chapter {
@@ -51,24 +43,38 @@
 				text-align:				justify;
 			}
 
-			h1, h2, h3, h4 {
-				padding:				.2em .4em;
+			p {
+				margin:					.4em 0 1.2em 0;
 			}
+
+			h1, h2, h3, h4 {
+				margin-top:					1.6em;
+				margin-bottom:				.4em;
+			}
+
 			h1, h2 {
-				background:				black;
-				color:					white;
+				border-top-left-radius:		1em;
+				border-top-right-radius:	2em;
+				padding:					.2em .4em .2em .8em;
+				background:					#2980b9;
+				color:						white;
 			}
 			h1 {
-				margin-top:				1em;
+				margin-top:				2em;
 			}
 			h2 {
-				background:				gray;
+				background:				#95a5a6;
 			}
 			h3 {
-				text-decoration:		underline;
+				border-bottom:			thin solid #95a5a6;
+				margin-left:			.4em;
 			}
 			h4 {
 				margin:					.4em 0 .2em 0;
+			}
+
+			ul, ol {
+				padding-left:		2em;
 			}
 
 			hr {
@@ -100,6 +106,7 @@
 			}
 
 			pre {
+				padding:			.8em !important;
 				tab-size:			4;
 				overflow-x:			auto;
 				background-color:	#eee;
@@ -212,7 +219,7 @@
 		</div>
 		
 		<div id="footer">
-			Copyright &copy; 2015 Martijn van der Lee. MIT Open Source license applies.
+			Copyright &copy; 2014-2016 Martijn van der Lee. MIT Open Source license applies.
 		</div>
 	</body>
 </html>
