@@ -694,7 +694,14 @@ List of items
 	"blue", default to "red".
 
 ## file
-TODO
+A file.
+
+	file
+
+No further definition is possible. There are no command.
+
+### Examples
+*	**`file`** A file.
 
 ## object
 TODO
@@ -730,6 +737,48 @@ predefined shorthands (case insensitive):
 	php			text/x-php
 	xml			text/xml
 
+## Licenses
+A selection of shorthands are available for licenses.
+If you want another license added to it, please submit an issue or create a
+pull request. The file you want to edit is `/SwaggerGen/Swagger/License.php`.
+
+These are the license shorthands currently available:
+
+	artistic-1.0	http://opensource.org/licenses/artistic-license-1.0
+	artistic-1		http://opensource.org/licenses/artistic-license-1.0
+	artistic-2.0	http://opensource.org/licenses/artistic-license-2.0
+	artistic-2		http://opensource.org/licenses/artistic-license-2.0
+	artistic		http://opensource.org/licenses/artistic-license-2.0
+	bsd-new			https://opensource.org/licenses/BSD-3-Clause
+	bsd-3			https://opensource.org/licenses/BSD-3-Clause
+	bsd-2			https://opensource.org/licenses/BSD-2-Clause
+	bsd				https://opensource.org/licenses/BSD-2-Clause
+	epl-1.0			http://www.eclipse.org/legal/epl-v10.html
+	epl-1			http://www.eclipse.org/legal/epl-v10.html
+	epl				http://www.eclipse.org/legal/epl-v10.html
+	apache-2.0		http://www.apache.org/licenses/LICENSE-2.0.html
+	apache-2		http://www.apache.org/licenses/LICENSE-2.0.html
+	apache			http://www.apache.org/licenses/LICENSE-2.0.html
+	gpl-1.0			https://www.gnu.org/licenses/gpl-1.0.html
+	gpl-1			https://www.gnu.org/licenses/gpl-1.0.html
+	gpl-2.0			https://www.gnu.org/licenses/gpl-2.0.html
+	gpl-2			https://www.gnu.org/licenses/gpl-2.0.html
+	gpl-3.0			http://www.gnu.org/licenses/gpl-3.0.html
+	gpl-3			http://www.gnu.org/licenses/gpl-3.0.html
+	gpl				http://www.gnu.org/licenses/gpl-3.0.html
+	lgpl-2.0		http://www.gnu.org/licenses/lgpl-2.0.html
+	lgpl-2.1		http://www.gnu.org/licenses/lgpl-2.1.html
+	lgpl-2			http://www.gnu.org/licenses/lgpl-2.1.html
+	lgpl-3.0		http://www.gnu.org/licenses/lgpl-3.0.html
+	lgpl-3			http://www.gnu.org/licenses/lgpl-3.0.html
+	lgpl			http://www.gnu.org/licenses/lgpl-3.0.html
+	mit				http://opensource.org/licenses/MIT
+	mpl-1.1			https://www.mozilla.org/en-US/MPL/1.1/
+	mpl-1			https://www.mozilla.org/en-US/MPL/1.1/
+	mpl-2.0			https://www.mozilla.org/en-US/MPL/
+	mpl-2			https://www.mozilla.org/en-US/MPL/
+	mpl				https://www.mozilla.org/en-US/MPL/
+	mspl			https://msdn.microsoft.com/en-us/library/ff648068.aspx
 
 
 # Example
@@ -769,6 +818,7 @@ The following is a fragment of code from this example:
 *	Command aliassing system.
 *	Command line interface. Netbeans integration.
 *	Use different mechanism for preprocessor: # or such prefix
+
 ## Swagger
 *	Full Type support in Swagger\Header object
 *	Use (optional) Namespaces in @see and @uses
@@ -777,14 +827,17 @@ The following is a fragment of code from this example:
 *	Date(-time) format helpers; if no timezone, add 'Z'. Use PHP Date parser.
 *	Support object "additionalProperties" and "allOf"
 *	Shortcut "get", "put", etc. operation methods as proper commands.
+
 ## Quality
 *	Parsers; pass state object instead of keeping state in parser objects properties.
 *	PHP: Cache previously parsed files; do not re-parse?
 *	Unittests and Travis-CI integration.
 *	PSR-* compliance
+
 ## Validations
 *	'body' and 'formData' Parameters cannot exist in single Operation.
 *	'path' Parameters must reference part of Path.
+
 ## Documentation
 *	Explain basic command context. How does PHPDoc/JavaDoc explain this?
 *	PHPDoc reference documentation.
