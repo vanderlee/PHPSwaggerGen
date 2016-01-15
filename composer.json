@@ -1,0 +1,16 @@
+{
+	"name": "vanderlee/swaggergen",
+	"description": "Generate Swagger/OpenAPI documentation from simple PHPdoc-like comments in PHP source code.",
+	"type": "library",
+	"keywords": ["swagger", "openapi", "doc", "documentation", "rest", "api", "documentor", "comments", "generate", "generator"],
+	"homepage": "https://github.com/vanderlee/PHPSwaggerGen",
+	"license": "MIT",
+	"support": {
+		"issues": "https://github.com/vanderlee/PHPSwaggerGen/issues",
+		"source": "https://github.com/vanderlee/PHPSwaggerGen/"
+	},
+	"require": {
+		"php": ">=5.3.0"
+	}
+}
+
