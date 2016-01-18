@@ -17,7 +17,7 @@ class ExternalDocumentation extends AbstractObject
 	private $url;
 	private $description;
 
-	public function __construct(AbstractObject $parent, $url, $description = '')
+	public function __construct(AbstractObject $parent, $url, $description = null)
 	{
 		parent::__construct($parent);
 		$this->url = $url;
@@ -27,8 +27,8 @@ class ExternalDocumentation extends AbstractObject
 	public function handleCommand($command, $data = null)
 	{
 		switch (strtolower($command)) {
-			case 'description':
 			case 'url':
+			case 'description':
 				$this->$command = $data;
 				return $this;
 		}
@@ -39,8 +39,8 @@ class ExternalDocumentation extends AbstractObject
 	public function toArray()
 	{
 		return self::array_filter_null(array_merge(array(
-					'description' => $this->description,
 					'url' => $this->url,
+					'description' => empty($this->description) ? null : $this->description,
 								), parent::toArray()));
 	}
 
