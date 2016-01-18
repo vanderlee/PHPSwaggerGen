@@ -16,7 +16,7 @@ class Header extends AbstractObject
 	private $type;
 	private $description;
 
-	public function __construct(AbstractObject $parent, $type, $description = '')
+	public function __construct(AbstractObject $parent, $type, $description = null)
 	{
 		parent::__construct($parent);
 
