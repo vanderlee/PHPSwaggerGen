@@ -22,7 +22,7 @@ class Header extends AbstractObject
 
 		$this->type = strtolower($type);
 		if (!in_array($this->type, array('string', 'number', 'integer', 'boolean', 'array'))) {
-			throw new \SwaggerGen\Exception('Header type not valid: ' . $this->type);
+			throw new \SwaggerGen\Exception('Header type not valid: ' . $type);
 		}
 
 		$this->description = $description;
