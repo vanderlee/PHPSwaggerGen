@@ -36,6 +36,13 @@ class SecurityScheme extends AbstractObject
 	 */
 	private $scopes = array();
 
+	/**
+	 * Create a new SecurityScheme object
+	 * @param \SwaggerGen\Swagger\AbstractObject $parent
+	 * @param string $type
+	 * @param string $data
+	 * @throws \SwaggerGen\Exception
+	 */
 	public function __construct(AbstractObject $parent, $type, $data = null)
 	{
 		parent::__construct($parent);
@@ -69,23 +76,20 @@ class SecurityScheme extends AbstractObject
 				}
 				$this->flow = $flow;
 
-				switch ($this->flow) {
-					case 'implicit':
-						$this->authorizationUrl = self::words_shift($data);
-						break;
+				if (in_array($flow, array('implicit', 'password'))) {
+					$authUrl = self::words_shift($data);
+					if (!filter_var($authUrl, FILTER_VALIDATE_URL)) {
+						throw new \SwaggerGen\Exception("OAuth2 authorization URL invalid: '{$authUrl}'");
+					}
+					$this->authorizationUrl = $authUrl;
+				}
 
-					case 'password':
-						$this->authorizationUrl = self::words_shift($data);
-						$this->tokenUrl = self::words_shift($data);
-						break;
-
-					case 'application':
-						$this->tokenUrl = self::words_shift($data);
-						break;
-
-					case 'accesscode':
-						$this->tokenUrl = self::words_shift($data);
-						break;
+				if (in_array($flow, array('password', 'application', 'accesscode'))) {
+					$tokenUrl = self::words_shift($data);
+					if (!filter_var($tokenUrl, FILTER_VALIDATE_URL)) {
+						throw new \SwaggerGen\Exception("OAuth2 token URL invalid: '{$tokenUrl}'");
+					}
+					$this->tokenUrl = $tokenUrl;
 				}
 
 				$this->description = $data;
@@ -101,10 +105,12 @@ class SecurityScheme extends AbstractObject
 				return $this;
 
 			case 'scope':
-				if ($this->type === 'oauth2') {
-					$name = self::words_shift($data);
-					$scopes[$name] = $data;
+				if ($this->type !== 'oauth2') {
+					throw new \SwaggerGen\Exception("Cannot set scope on type '{$this->type}'");
 				}
+
+				$name = self::words_shift($data);
+				$this->scopes[$name] = $data;
 				return $this;
 		}
 
@@ -115,7 +121,7 @@ class SecurityScheme extends AbstractObject
 	{
 		return self::array_filter_null(array_merge(array(
 					'type' => $this->type === 'apikey' ? 'apiKey' : $this->type,
-					'description' => $this->description,
+					'description' => empty($this->description) ? null : $this->description,
 					'name' => $this->name,
 					'in' => $this->in,
 					'flow' => $this->flow === 'accesscode' ? 'accessCode' : $this->flow,
