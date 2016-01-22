@@ -94,7 +94,7 @@ abstract class AbstractObject
 	 * @param String[] $mimeTypes
 	 * @return String[]
 	 */
-	protected static function translateMimeTypes(Array $mimeTypes)
+	protected static function translateMimeTypes($mimeTypes)
 	{
 		foreach ($mimeTypes as &$mimeType) {
 			if (isset(self::$mime_types[strtolower($mimeType)])) {
