@@ -20,8 +20,7 @@ class SecuritySChemeTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testConstructorUnknownType()
 	{
-		$this->setExpectedException('\SwaggerGen\Exception', "Security scheme type must be either 'basic', 'apiKey' or 'oauth2', not 'wrong'"
-		);
+		$this->setExpectedException('\SwaggerGen\Exception', "Security scheme type must be either 'basic', 'apiKey' or 'oauth2', not 'wrong'");
 
 		new \SwaggerGen\Swagger\SecurityScheme($this->parent, 'wrong');
 	}
@@ -71,8 +70,7 @@ class SecuritySChemeTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testConstructorApiKeyNoIn()
 	{
-		$this->setExpectedException('\SwaggerGen\Exception', "ApiKey in must be either 'query' or 'header', not ''"
-		);
+		$this->setExpectedException('\SwaggerGen\Exception', "ApiKey in must be either 'query' or 'header', not ''");
 
 		$object = new \SwaggerGen\Swagger\SecurityScheme($this->parent, 'apikey', 'Name');
 	}
@@ -82,8 +80,7 @@ class SecuritySChemeTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testConstructorApiKeyWrongIn()
 	{
-		$this->setExpectedException('\SwaggerGen\Exception', "ApiKey in must be either 'query' or 'header', not 'bad'"
-		);
+		$this->setExpectedException('\SwaggerGen\Exception', "ApiKey in must be either 'query' or 'header', not 'bad'");
 
 		$object = new \SwaggerGen\Swagger\SecurityScheme($this->parent, 'apikey', 'Name bad');
 	}
@@ -126,8 +123,7 @@ class SecuritySChemeTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testConstructorOauth2NoFlow()
 	{
-		$this->setExpectedException('\SwaggerGen\Exception', "OAuth2 flow must be either 'implicit', 'password', 'application' or 'accesscode', not ''"
-		);
+		$this->setExpectedException('\SwaggerGen\Exception', "OAuth2 flow must be either 'implicit', 'password', 'application' or 'accesscode', not ''");
 
 		$object = new \SwaggerGen\Swagger\SecurityScheme($this->parent, 'oauth2');
 	}
@@ -137,8 +133,7 @@ class SecuritySChemeTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testConstructorOauth2WrongFlow()
 	{
-		$this->setExpectedException('\SwaggerGen\Exception', "OAuth2 flow must be either 'implicit', 'password', 'application' or 'accesscode', not 'flow'"
-		);
+		$this->setExpectedException('\SwaggerGen\Exception', "OAuth2 flow must be either 'implicit', 'password', 'application' or 'accesscode', not 'flow'");
 
 		$object = new \SwaggerGen\Swagger\SecurityScheme($this->parent, 'oauth2', 'flow');
 	}
@@ -148,8 +143,7 @@ class SecuritySChemeTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testConstructorOauth2ImplicitNoUrl()
 	{
-		$this->setExpectedException('\SwaggerGen\Exception', "OAuth2 authorization URL invalid: ''"
-		);
+		$this->setExpectedException('\SwaggerGen\Exception', "OAuth2 authorization URL invalid: ''");
 
 		$object = new \SwaggerGen\Swagger\SecurityScheme($this->parent, 'oauth2', 'implicit');
 	}
@@ -159,8 +153,7 @@ class SecuritySChemeTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testConstructorOauth2ImplicitBadUrl()
 	{
-		$this->setExpectedException('\SwaggerGen\Exception', "OAuth2 authorization URL invalid: 'bad'"
-		);
+		$this->setExpectedException('\SwaggerGen\Exception', "OAuth2 authorization URL invalid: 'bad'");
 
 		$object = new \SwaggerGen\Swagger\SecurityScheme($this->parent, 'oauth2', 'implicit bad');
 	}
@@ -213,8 +206,7 @@ class SecuritySChemeTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testConstructorOauth2PasswordBadUrl1()
 	{
-		$this->setExpectedException('\SwaggerGen\Exception', "OAuth2 authorization URL invalid: 'bad'"
-		);
+		$this->setExpectedException('\SwaggerGen\Exception', "OAuth2 authorization URL invalid: 'bad'");
 
 		$object = new \SwaggerGen\Swagger\SecurityScheme($this->parent, 'oauth2', 'password bad');
 	}
@@ -430,6 +422,7 @@ class SecuritySChemeTest extends PHPUnit_Framework_TestCase
 
 		$object->handleCommand('scope', 'scope1');
 	}
+
 	/**
 	 * @covers \SwaggerGen\Swagger\SecurityScheme->handleCommand
 	 */
@@ -494,4 +487,5 @@ class SecuritySChemeTest extends PHPUnit_Framework_TestCase
 			)
 				), $object->toArray());
 	}
+
 }
