@@ -50,11 +50,11 @@ class BooleanType extends AbstractType
 
 	public function toArray()
 	{
-		return self::array_filter_null([
-			'type' => 'boolean',
+		return self::array_filter_null(array(
+					'type' => 'boolean',
 					'default' => $this->default,
-		]);
-		}
+		));
+	}
 
 	public function __toString()
 	{
