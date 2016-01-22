@@ -82,7 +82,7 @@ class IntegerType extends AbstractType
 
 	public function toArray()
 	{
-		return self::array_filter_null([
+		return self::array_filter_null(array(
 					'type' => 'integer',
 					'format' => $this->format,
 					'default' => $this->default,
@@ -92,7 +92,7 @@ class IntegerType extends AbstractType
 					'exclusiveMaximum' => $this->exclusiveMaximum,
 					'enum' => $this->enum,
 					'multipleOf' => $this->multipleOf,
-		]);
+		));
 	}
 
 	public function __toString()

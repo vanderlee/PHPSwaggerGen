@@ -25,6 +25,10 @@ class BooleanType extends AbstractType
 			throw new \SwaggerGen\Exception("Unparseable boolean definition: '{$definition}'");
 		}
 
+		if (strtolower($match[1]) !== 'boolean') {
+			throw new \SwaggerGen\Exception("Not a boolean: '{$definition}'");
+		}
+
 		if (!empty($match[2])) {
 			$this->default = ($match[2] == '1') || (strtolower($match[2]) === 'true');
 		}
@@ -43,10 +47,15 @@ class BooleanType extends AbstractType
 
 	public function toArray()
 	{
-		return self::array_filter_null([
-					'type' => 'boolean',
-					'default' => $this->default,
-		]);
+		$array = array(
+			'type' => 'boolean',
+		);
+
+		if ($this->default !== null) {
+			$array['default'] = $this->default;
+		}
+
+		return $array;
 	}
 
 	public function __toString()

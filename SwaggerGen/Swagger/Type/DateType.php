@@ -69,11 +69,11 @@ class DateType extends AbstractType
 
 	public function toArray()
 	{
-		return self::array_filter_null([
+		return self::array_filter_null(array(
 					'type' => 'string',
 					'format' => $this->format,
 					'default' => $this->default,
-		]);
+		));
 	}
 
 	public function __toString()

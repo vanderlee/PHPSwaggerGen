@@ -17,6 +17,10 @@ class FileType extends AbstractType
 	{
 		$type = strtolower($definition);
 
+		if ($type !== 'file') {
+			throw new \SwaggerGen\Exception("Not a file: '{$definition}'");
+		}
+
 		$parent = $this->getParent();
 		if (!($parent instanceof \SwaggerGen\Swagger\Parameter) || !$parent->isForm()) {
 			throw new \SwaggerGen\Exception("File type '{$definition}' only allowed on form parameter");
@@ -35,9 +39,9 @@ class FileType extends AbstractType
 
 	public function toArray()
 	{
-		return self::array_filter_null([
+		return self::array_filter_null(array(
 					'type' => 'file',
-		]);
+		));
 	}
 
 	public function __toString()

@@ -22,14 +22,15 @@ class ReferenceObjectType extends AbstractType
 
 	public function toArray()
 	{
-		return self::array_filter_null([
+		return self::array_filter_null(array(
 					'type' => 'object',
 					'$ref' => '#/definitions/' . $this->reference,
-		]);
+		));
 	}
 
 	public function __toString()
 	{
 		return __CLASS__ . ' ' . $this->reference;
 	}
+
 }

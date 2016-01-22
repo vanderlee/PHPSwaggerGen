@@ -78,7 +78,7 @@ class NumberType extends AbstractType
 
 	public function toArray()
 	{
-		return self::array_filter_null([
+		return self::array_filter_null(array(
 					'type' => 'number',
 					'format' => $this->format,
 					'default' => $this->default,
@@ -88,7 +88,7 @@ class NumberType extends AbstractType
 					'exclusiveMaximum' => $this->exclusiveMaximum,
 					'enum' => $this->enum,
 					'multipleOf' => $this->multipleOf,
-		]);
+		));
 	}
 
 	public function __toString()
