@@ -18,6 +18,16 @@ class FileTypeTest extends PHPUnit_Framework_TestCase
 	/**
 	 * @covers \SwaggerGen\Swagger\Type\FileType::__construct
 	 */
+	public function testConstructNotAFile()
+	{
+		$this->setExpectedException('\SwaggerGen\Exception', "Not a file: 'wrong'");
+
+		$object = new SwaggerGen\Swagger\Type\FileType($this->parent, 'wrong');
+	}
+
+	/**
+	 * @covers \SwaggerGen\Swagger\Type\FileType::__construct
+	 */
 	public function testConstructNotParameter()
 	{
 		$this->setExpectedException('\SwaggerGen\Exception', "File type 'file' only allowed on form parameter");
