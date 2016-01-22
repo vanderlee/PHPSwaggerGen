@@ -29,8 +29,8 @@ class BooleanType extends AbstractType
 			throw new \SwaggerGen\Exception("Not a boolean: '{$definition}'");
 		}
 
-		if (!empty($match[2])) {
-			$this->default = ($match[2] == '1') || (strtolower($match[2]) === 'true');
+		if (isset($match[2])) {
+			$this->default = ($match[2] === '1') || (strtolower($match[2]) === 'true');
 		}
 	}
 
@@ -38,6 +38,9 @@ class BooleanType extends AbstractType
 	{
 		switch (strtolower($command)) {
 			case 'default':
+				if (!in_array($data, array('0', '1', 'true', 'false'))) {
+					throw new \SwaggerGen\Exception("Invalid boolean default: '{$data}'");
+				}
 				$this->default = ($data == '1') || (strtolower($data) === 'true');
 				return $this;
 		}
@@ -47,16 +50,11 @@ class BooleanType extends AbstractType
 
 	public function toArray()
 	{
-		$array = array(
+		return self::array_filter_null([
 			'type' => 'boolean',
-		);
-
-		if ($this->default !== null) {
-			$array['default'] = $this->default;
+					'default' => $this->default,
+		]);
 		}
-
-		return $array;
-	}
 
 	public function __toString()
 	{
