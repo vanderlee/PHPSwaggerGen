@@ -69,7 +69,9 @@ class IntegerType extends AbstractType
 
 			case 'enum':
 				$words = self::words_split($data);
-				array_walk($words, 'intval');
+				foreach ($words as &$word) {
+					$word = intval($word);
+				}
 				$this->enum = array_merge($this->enum, $words);
 				return $this;
 
