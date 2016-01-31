@@ -57,27 +57,14 @@ class IntegerType extends AbstractType
 			}
 		}
 
-		$this->default = empty($match[6]) ? null : intval($match[6]);
-		if ($this->maximum) {
-			if (($this->default > $this->maximum) || ($this->exclusiveMaximum && $this->default == $this->maximum)) {
-				throw new \SwaggerGen\Exception("Default integer beyond maximum: '{$definition}'");
-			}
-		}
-		if ($this->minimum) {
-			if (($this->default < $this->minimum) || ($this->exclusiveMinimum && $this->default == $this->minimum)) {
-				throw new \SwaggerGen\Exception("Default integer beyond minimum: '{$definition}'");
-			}
-		}
+		$this->default = empty($match[6]) ? null : $this->validateDefault($match[6]);
 	}
 
 	public function handleCommand($command, $data = null)
 	{
 		switch (strtolower($command)) {
 			case 'default':
-				if (preg_match('~^-?\d+$~', $data) !== 1) {
-					throw new \SwaggerGen\Exception("Invalid integer default: '{$data}'");
-				}
-				$this->default = intval($data);
+				$this->default = $this->validateDefault($data);
 				return $this;
 
 			case 'enum':
@@ -114,6 +101,26 @@ class IntegerType extends AbstractType
 	public function __toString()
 	{
 		return __CLASS__;
+	}
+
+	private function validateDefault($value)
+	{
+		if (preg_match('~^-?\d+$~', $value) !== 1) {
+			throw new \SwaggerGen\Exception("Invalid integer default: '{$value}'");
+		}
+
+		if ($this->maximum) {
+			if (($value > $this->maximum) || ($this->exclusiveMaximum && $value == $this->maximum)) {
+				throw new \SwaggerGen\Exception("Default integer beyond maximum: '{$value}'");
+			}
+		}
+		if ($this->minimum) {
+			if (($value < $this->minimum) || ($this->exclusiveMinimum && $value == $this->minimum)) {
+				throw new \SwaggerGen\Exception("Default integer beyond minimum: '{$value}'");
+			}
+		}
+
+		return $value;
 	}
 
 }
