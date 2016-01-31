@@ -30,7 +30,7 @@ class IntegerType extends AbstractType
 	private $exclusiveMaximum;
 	private $minimum;
 	private $exclusiveMinimum;
-	private $enum;
+	private $enum = array();
 	private $multipleOf;
 
 	protected function parseDefinition($definition)
@@ -58,12 +58,25 @@ class IntegerType extends AbstractType
 		}
 
 		$this->default = empty($match[6]) ? null : intval($match[6]);
+		if ($this->maximum) {
+			if (($this->default > $this->maximum) || ($this->exclusiveMaximum && $this->default == $this->maximum)) {
+				throw new \SwaggerGen\Exception("Default integer beyond maximum: '{$definition}'");
+			}
+		}
+		if ($this->minimum) {
+			if (($this->default < $this->minimum) || ($this->exclusiveMinimum && $this->default == $this->minimum)) {
+				throw new \SwaggerGen\Exception("Default integer beyond minimum: '{$definition}'");
+			}
+		}
 	}
 
 	public function handleCommand($command, $data = null)
 	{
 		switch (strtolower($command)) {
 			case 'default':
+				if (preg_match('~^-?\d+$~', $data) !== 1) {
+					throw new \SwaggerGen\Exception("Invalid integer default: '{$data}'");
+				}
 				$this->default = intval($data);
 				return $this;
 
@@ -88,10 +101,10 @@ class IntegerType extends AbstractType
 		return self::array_filter_null(array(
 					'type' => 'integer',
 					'format' => $this->format,
-					'default' => $this->default,
-					'minimum' => $this->minimum,
+					'default' => $this->default ? intval($this->default) : null,
+					'minimum' => $this->minimum ? intval($this->minimum) : null,
 					'exclusiveMinimum' => $this->exclusiveMinimum ? true : null,
-					'maximum' => $this->maximum,
+					'maximum' => $this->maximum ? intval($this->maximum) : null,
 					'exclusiveMaximum' => $this->exclusiveMaximum ? true : null,
 					'enum' => $this->enum,
 					'multipleOf' => $this->multipleOf,
