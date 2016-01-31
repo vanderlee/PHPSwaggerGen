@@ -57,7 +57,7 @@ class Parameter extends AbstractObject implements IParameter
 	 */
 	public function isMulti()
 	{
-		return in_array($this->in, ['query', 'form']);
+		return in_array($this->in, array('query', 'form'));
 	}
 
 	/**
