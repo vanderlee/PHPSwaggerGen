@@ -41,6 +41,9 @@ class IntegerType extends AbstractType
 			throw new \SwaggerGen\Exception("Unparseable integer definition: '{$definition}'");
 		}
 
+		if (!isset(self::$formats[strtolower($match[1])])) {
+			throw new \SwaggerGen\Exception("Not an integer: '{$definition}'");
+		}
 		$this->format = self::$formats[strtolower($match[1])];
 
 		if (!empty($match[2])) {
@@ -87,9 +90,9 @@ class IntegerType extends AbstractType
 					'format' => $this->format,
 					'default' => $this->default,
 					'minimum' => $this->minimum,
-					'exclusiveMinimum' => $this->exclusiveMinimum,
+					'exclusiveMinimum' => $this->exclusiveMinimum ? true : null,
 					'maximum' => $this->maximum,
-					'exclusiveMaximum' => $this->exclusiveMaximum,
+					'exclusiveMaximum' => $this->exclusiveMaximum ? true : null,
 					'enum' => $this->enum,
 					'multipleOf' => $this->multipleOf,
 		));
