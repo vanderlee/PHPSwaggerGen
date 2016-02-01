@@ -13,8 +13,8 @@ namespace SwaggerGen\Swagger\Type;
 class NumberType extends AbstractType
 {
 
-	const REGEX_RANGE = '(?:([[<])(-?(?=.?\d)\d*\.?\d*)?,(-?(?=.?\d)\d*\.?\d*)?([\\]>]))?';
-	const REGEX_DEFAULT = '(?:=(-?(?=.?\d)\d*\.?\d*))?';
+	const REGEX_RANGE = '(?:([[<])(-?(?:\\d*\\.?\\d+|\\d+\\.\\d*))?,(-?(?:\\d*\\.?\\d+|\\d+\\.\\d*))?([\\]>]))?';
+	const REGEX_DEFAULT = '(?:=(-?(?:\\d*\\.?\\d+|\\d+\\.\\d*)))?';
 
 	private static $formats = array(
 		'float' => 'float',
@@ -27,7 +27,7 @@ class NumberType extends AbstractType
 	private $exclusiveMaximum;
 	private $minimum;
 	private $exclusiveMinimum;
-	private $enum;
+	private $enum = array();
 	private $multipleOf;
 
 	protected function parseDefinition($definition)
@@ -37,9 +37,16 @@ class NumberType extends AbstractType
 			throw new \SwaggerGen\Exception("Unparseable number definition: '{$definition}'");
 		}
 
+		if (!isset(self::$formats[strtolower($match[1])])) {
+			throw new \SwaggerGen\Exception("Not a number: '{$definition}'");
+		}
 		$this->format = self::$formats[strtolower($match[1])];
 
 		if (!empty($match[2])) {
+			if (empty($match[3]) && empty($match[4])) {
+				throw new \SwaggerGen\Exception("Empty number range: '{$definition}'");
+			}
+
 			$this->exclusiveMinimum = isset($match[2]) ? ($match[2] == '<') : null;
 			$this->minimum = isset($match[3]) ? $match[3] : null;
 			$this->maximum = isset($match[4]) ? $match[4] : null;
@@ -50,19 +57,21 @@ class NumberType extends AbstractType
 			}
 		}
 
-		$this->default = empty($match[6]) ? null : doubleval($match[6]);
+		$this->default = empty($match[6]) ? null : $this->validateDefault($match[6]);
 	}
 
 	public function handleCommand($command, $data = null)
 	{
 		switch (strtolower($command)) {
 			case 'default':
-				$this->default = doubleval($data);
+				$this->default = $this->validateDefault($data);
 				return $this;
 
 			case 'enum':
 				$words = self::words_split($data);
-				array_walk($words, 'doubleval');
+				foreach ($words as &$word) {
+					$word = $this->validateDefault($word);
+				}
 				$this->enum = array_merge($this->enum, $words);
 				return $this;
 
@@ -81,11 +90,11 @@ class NumberType extends AbstractType
 		return self::array_filter_null(array(
 					'type' => 'number',
 					'format' => $this->format,
-					'default' => $this->default,
-					'minimum' => $this->minimum,
-					'exclusiveMinimum' => $this->exclusiveMinimum,
-					'maximum' => $this->maximum,
-					'exclusiveMaximum' => $this->exclusiveMaximum,
+					'default' => $this->default ? doubleval($this->default) : null,
+					'minimum' => $this->minimum ? doubleval($this->minimum) : null,
+					'exclusiveMinimum' => $this->exclusiveMinimum ? true : null,
+					'maximum' => $this->maximum ? doubleval($this->maximum) : null,
+					'exclusiveMaximum' => $this->exclusiveMaximum ? true : null,
 					'enum' => $this->enum,
 					'multipleOf' => $this->multipleOf,
 		));
@@ -94,6 +103,26 @@ class NumberType extends AbstractType
 	public function __toString()
 	{
 		return __CLASS__;
+	}
+
+	private function validateDefault($value)
+	{
+		if (preg_match('~^-?(?:\\d*\\.?\\d+|\\d+\\.\\d*)$~', $value) !== 1) {
+			throw new \SwaggerGen\Exception("Invalid number default: '{$value}'");
+		}
+
+		if ($this->maximum) {
+			if (($value > $this->maximum) || ($this->exclusiveMaximum && $value == $this->maximum)) {
+				throw new \SwaggerGen\Exception("Default number beyond maximum: '{$value}'");
+			}
+		}
+		if ($this->minimum) {
+			if (($value < $this->minimum) || ($this->exclusiveMinimum && $value == $this->minimum)) {
+				throw new \SwaggerGen\Exception("Default number beyond minimum: '{$value}'");
+			}
+		}
+
+		return doubleval($value);
 	}
 
 }

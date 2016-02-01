@@ -50,9 +50,9 @@ class IntegerTypeTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testConstructEmptyRange()
 	{
-		$this->setExpectedException('\SwaggerGen\Exception', "Unparseable integer definition: 'integer[,]=true'");
+		$this->setExpectedException('\SwaggerGen\Exception', "Empty integer range: 'integer[,]=1'");
 
-		$object = new SwaggerGen\Swagger\Type\IntegerType($this->parent, 'integer[,]=true');
+		$object = new SwaggerGen\Swagger\Type\IntegerType($this->parent, 'integer[,]=1');
 	}
 
 	/**

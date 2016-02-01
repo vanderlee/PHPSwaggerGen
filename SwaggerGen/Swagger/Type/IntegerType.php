@@ -47,6 +47,10 @@ class IntegerType extends AbstractType
 		$this->format = self::$formats[strtolower($match[1])];
 
 		if (!empty($match[2])) {
+			if (empty($match[3]) && empty($match[4])) {
+				throw new \SwaggerGen\Exception("Empty integer range: '{$definition}'");
+			}
+
 			$this->exclusiveMinimum = isset($match[2]) ? ($match[2] == '<') : null;
 			$this->minimum = isset($match[3]) ? $match[3] : null;
 			$this->maximum = isset($match[4]) ? $match[4] : null;
@@ -70,7 +74,7 @@ class IntegerType extends AbstractType
 			case 'enum':
 				$words = self::words_split($data);
 				foreach ($words as &$word) {
-					$word = intval($word);
+					$word = $this->validateDefault($word);
 				}
 				$this->enum = array_merge($this->enum, $words);
 				return $this;
@@ -122,7 +126,7 @@ class IntegerType extends AbstractType
 			}
 		}
 
-		return $value;
+		return intval($value);
 	}
 
 }
