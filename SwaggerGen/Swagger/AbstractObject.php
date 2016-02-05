@@ -125,7 +125,7 @@ abstract class AbstractObject
 	 */
 	public static function array_toArray(&$array)
 	{
-		return array_map(function(self $item) {
+		return array_map(function($item) {
 			return $item->toArray();
 		}, $array);
 	}
