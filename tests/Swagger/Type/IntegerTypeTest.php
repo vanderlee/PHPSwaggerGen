@@ -58,6 +58,22 @@ class IntegerTypeTest extends PHPUnit_Framework_TestCase
 	/**
 	 * @covers \SwaggerGen\Swagger\Type\IntegerType::__construct
 	 */
+	public function testConstructNotEmptyRange()
+	{
+		$object = new SwaggerGen\Swagger\Type\IntegerType($this->parent, 'int[0,]');
+
+		$this->assertInstanceOf('\SwaggerGen\Swagger\Type\IntegerType', $object);
+
+		$this->assertSame(array(
+			'type' => 'integer',
+			'format' => 'int32',
+			'minimum' => 0,
+				), $object->toArray());
+	}
+
+	/**
+	 * @covers \SwaggerGen\Swagger\Type\IntegerType::__construct
+	 */
 	public function testConstructInteger()
 	{
 		$object = new SwaggerGen\Swagger\Type\IntegerType($this->parent, 'integer');
@@ -82,6 +98,22 @@ class IntegerTypeTest extends PHPUnit_Framework_TestCase
 		$this->assertSame(array(
 			'type' => 'integer',
 			'format' => 'int64',
+				), $object->toArray());
+	}
+
+	/**
+	 * @covers \SwaggerGen\Swagger\Type\IntegerType::__construct
+	 */
+	public function testConstructZero()
+	{
+		$object = new SwaggerGen\Swagger\Type\IntegerType($this->parent, 'integer=0');
+
+		$this->assertInstanceOf('\SwaggerGen\Swagger\Type\IntegerType', $object);
+
+		$this->assertSame(array(
+			'type' => 'integer',
+			'format' => 'int32',
+			'default' => 0,
 				), $object->toArray());
 	}
 

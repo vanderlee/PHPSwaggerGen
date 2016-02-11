@@ -58,22 +58,6 @@ class NumberTypeTest extends PHPUnit_Framework_TestCase
 	/**
 	 * @covers \SwaggerGen\Swagger\Type\NumberType::__construct
 	 */
-	public function testConstructNotEmptyRange()
-	{
-		$object = new SwaggerGen\Swagger\Type\NumberType($this->parent, 'float[0,]');
-
-		$this->assertInstanceOf('\SwaggerGen\Swagger\Type\NumberType', $object);
-
-		$this->assertSame(array(
-			'type' => 'number',
-			'format' => 'float',
-			'minimum' => 0.,
-				), $object->toArray());
-	}
-
-	/**
-	 * @covers \SwaggerGen\Swagger\Type\NumberType::__construct
-	 */
 	public function testConstructNumber()
 	{
 		$object = new SwaggerGen\Swagger\Type\NumberType($this->parent, 'float');
@@ -98,22 +82,6 @@ class NumberTypeTest extends PHPUnit_Framework_TestCase
 		$this->assertSame(array(
 			'type' => 'number',
 			'format' => 'double',
-				), $object->toArray());
-	}
-
-	/**
-	 * @covers \SwaggerGen\Swagger\Type\NumberType::__construct
-	 */
-	public function testConstructZero()
-	{
-		$object = new SwaggerGen\Swagger\Type\NumberType($this->parent, 'float=0');
-
-		$this->assertInstanceOf('\SwaggerGen\Swagger\Type\NumberType', $object);
-
-		$this->assertSame(array(
-			'type' => 'number',
-			'format' => 'float',
-			'default' => 0.,
 				), $object->toArray());
 	}
 

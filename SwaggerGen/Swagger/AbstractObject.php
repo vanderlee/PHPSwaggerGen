@@ -106,6 +106,16 @@ abstract class AbstractObject
 	}
 
 	/**
+	 * Trim whitespace from a multibyte string
+	 * @param string $string
+	 * @return string
+	 */
+	public static function mb_trim($string)
+	{
+		return mb_ereg_replace('^\s*([\s\S]*?)\s*$', '\1', $string);
+	}
+
+	/**
 	 * Filter all items from an array where the value is either null or an
 	 * empty array.
 	 * @param Array $array

@@ -42,6 +42,18 @@ class AbstractObjectTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * @covers \SwaggerGen\Swagger\AbstractObject::mb_trim
+	 */
+	public function testMb_trim()
+	{
+		$this->assertSame('trimmed', \SwaggerGen\Swagger\AbstractObject::mb_trim("trimmed"));
+		$this->assertSame('trimmed', \SwaggerGen\Swagger\AbstractObject::mb_trim("trimmed "));
+		$this->assertSame('trimmed', \SwaggerGen\Swagger\AbstractObject::mb_trim(" trimmed"));
+		$this->assertSame('trimmed', \SwaggerGen\Swagger\AbstractObject::mb_trim("   trimmed   "));
+		$this->assertSame('trimmed', \SwaggerGen\Swagger\AbstractObject::mb_trim("\n \t trimmed \f \r"));
+	}
+
+	/**
 	 * @covers \SwaggerGen\Swagger\AbstractObject::toArray
 	 */
 	public function testToArray()

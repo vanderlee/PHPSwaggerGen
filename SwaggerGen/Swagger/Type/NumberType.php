@@ -22,13 +22,13 @@ class NumberType extends AbstractType
 	);
 	private $format;
 	//private $allowEmptyValue; // for query/formData
-	private $default;
-	private $maximum;
-	private $exclusiveMaximum;
-	private $minimum;
-	private $exclusiveMinimum;
+	private $default = null;
+	private $maximum = null;
+	private $exclusiveMaximum = null;
+	private $minimum = null;
+	private $exclusiveMinimum = null;
 	private $enum = array();
-	private $multipleOf;
+	private $multipleOf = null;
 
 	protected function parseDefinition($definition)
 	{
@@ -43,13 +43,13 @@ class NumberType extends AbstractType
 		$this->format = self::$formats[strtolower($match[1])];
 
 		if (!empty($match[2])) {
-			if (empty($match[3]) && empty($match[4])) {
+			if ($match[3] === '' && $match[4] === '') {
 				throw new \SwaggerGen\Exception("Empty number range: '{$definition}'");
 			}
 
 			$this->exclusiveMinimum = isset($match[2]) ? ($match[2] == '<') : null;
-			$this->minimum = isset($match[3]) ? $match[3] : null;
-			$this->maximum = isset($match[4]) ? $match[4] : null;
+			$this->minimum = $match[3] === '' ? null : doubleval($match[3]);
+			$this->maximum = $match[4] === '' ? null : doubleval($match[4]);
 			$this->exclusiveMaximum = isset($match[5]) ? ($match[5] == '>') : null;
 			if ($this->minimum && $this->maximum && $this->minimum > $this->maximum) {
 				self::swap($this->minimum, $this->maximum);
@@ -57,7 +57,7 @@ class NumberType extends AbstractType
 			}
 		}
 
-		$this->default = empty($match[6]) ? null : $this->validateDefault($match[6]);
+		$this->default = isset($match[6]) && $match[6] !== '' ? $this->validateDefault($match[6]) : null;
 	}
 
 	public function handleCommand($command, $data = null)
@@ -90,10 +90,10 @@ class NumberType extends AbstractType
 		return self::array_filter_null(array(
 					'type' => 'number',
 					'format' => $this->format,
-					'default' => $this->default ? doubleval($this->default) : null,
-					'minimum' => $this->minimum ? doubleval($this->minimum) : null,
+					'default' => $this->default,
+					'minimum' => $this->minimum,
 					'exclusiveMinimum' => $this->exclusiveMinimum ? true : null,
-					'maximum' => $this->maximum ? doubleval($this->maximum) : null,
+					'maximum' => $this->maximum,
 					'exclusiveMaximum' => $this->exclusiveMaximum ? true : null,
 					'enum' => $this->enum,
 					'multipleOf' => $this->multipleOf,

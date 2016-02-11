@@ -14,22 +14,24 @@ class StringType extends AbstractType
 {
 
 	private static $formats = array(
-		'string' => null,
+		'string' => '',
 		'byte' => 'byte',
 		'binary' => 'binary',
 		'password' => 'password',
-		'enum' => null,
+		'enum' => '',
 	);
 	private $format;
 	//private $allowEmptyValue; // for query/formData
-	private $pattern;
-	private $default;
-	private $maxLength;
-	private $minLength;
-	private $enum;
+	private $pattern = null;
+	private $default = null;
+	private $maxLength = null;
+	private $minLength = null;
+	private $enum = array();
 
 	protected function parseDefinition($definition)
 	{
+		$definition = self::mb_trim($definition);
+
 		$match = array();
 		if (preg_match(self::REGEX_START . self::REGEX_FORMAT . self::REGEX_CONTENT . self::REGEX_RANGE . self::REGEX_DEFAULT . self::REGEX_END, $definition, $match) !== 1) {
 			throw new \SwaggerGen\Exception("Unparseable string definition: '{$definition}'");
@@ -37,6 +39,9 @@ class StringType extends AbstractType
 
 		$type = strtolower($match[1]);
 
+		if (!isset(self::$formats[$type])) {
+			throw new \SwaggerGen\Exception("Not a string: '{$definition}'");
+		}
 		$this->format = self::$formats[$type];
 
 		if ($type === 'enum') {
@@ -49,26 +54,29 @@ class StringType extends AbstractType
 			if ($match[1] === 'enum') {
 				throw new \SwaggerGen\Exception("Range not allowed in enumeration definition: '{$definition}'");
 			}
+			if ($match[4] === '' && $match[5] === '') {
+				throw new \SwaggerGen\Exception("Empty string range: '{$definition}'");
+			}
 			$exclusiveMinimum = isset($match[3]) ? ($match[3] == '<') : null;
-			$this->minLength = isset($match[4]) ? $match[4] : null;
-			$this->maxLength = isset($match[5]) ? $match[5] : null;
+			$this->minLength = $match[4] === '' ? null : $match[4];
+			$this->maxLength = $match[5] === '' ? null : $match[5];
 			$exclusiveMaximum = isset($match[6]) ? ($match[6] == '>') : null;
 			if ($this->minLength && $this->maxLength && $this->minLength > $this->maxLength) {
 				self::swap($this->minLength, $this->maxLength);
 				self::swap($exclusiveMinimum, $exclusiveMaximum);
 			}
-			$this->minLength = $this->minLength ? max(0, $exclusiveMinimum ? $this->minLength + 1 : $this->minLength) : null;
-			$this->maxLength = $this->maxLength ? max(0, $exclusiveMaximum ? $this->maxLength - 1 : $this->maxLength) : null;
+			$this->minLength = $this->minLength === null ? null : max(0, $exclusiveMinimum ? $this->minLength + 1 : $this->minLength);
+			$this->maxLength = $this->maxLength === null ? null : max(0, $exclusiveMaximum ? $this->maxLength - 1 : $this->maxLength);
 		}
 
-		$this->default = empty($match[7]) ? null : $match[7];
+		$this->default = isset($match[7]) && $match[7] !== '' ? $this->validateDefault($match[7]) : null;
 	}
 
 	public function handleCommand($command, $data = null)
 	{
 		switch (strtolower($command)) {
 			case 'default':
-				$this->default = $data;
+				$this->default = $this->validateDefault($data);
 				return $this;
 
 			case 'pattern':
@@ -76,6 +84,9 @@ class StringType extends AbstractType
 				return $this;
 
 			case 'enum':
+				if ($this->minLength !== null || $this->maxLength !== null) {
+					throw new \SwaggerGen\Exception("Enumeration not allowed in ranged string: '{$data}'");
+				}
 				$words = self::words_split($data);
 				$this->enum = is_array($this->enum) ? array_merge($this->enum, $words) : $words;
 				return $this;
@@ -88,11 +99,11 @@ class StringType extends AbstractType
 	{
 		return self::array_filter_null([
 					'type' => 'string',
-					'format' => $this->format,
+					'format' => empty($this->format) ? null : $this->format,
 					'pattern' => $this->pattern,
 					'default' => $this->default,
-					'minLength' => $this->minLength,
-					'maxLength' => $this->maxLength,
+					'minLength' => $this->minLength ? intval($this->minLength) : null,
+					'maxLength' => $this->maxLength ? intval($this->maxLength) : null,
 					'enum' => $this->enum,
 		]);
 	}
@@ -100,6 +111,27 @@ class StringType extends AbstractType
 	public function __toString()
 	{
 		return __CLASS__;
+	}
+
+	private function validateDefault($value)
+	{
+		if (empty($value)) {
+			throw new \SwaggerGen\Exception("Empty string default");
+		}
+
+		if (!empty($this->enum) && !in_array($value, $this->enum)) {
+			throw new \SwaggerGen\Exception("Invalid enumeration default: '{$value}'");
+		}
+
+		if ($this->maxLength !== null && mb_strlen($value) > $this->maxLength) {
+			throw new \SwaggerGen\Exception("Default length beyond maximum: '{$value}'");
+		}
+		
+		if ($this->minLength !== null && mb_strlen($value) < $this->minLength) {
+			throw new \SwaggerGen\Exception("Default length beyond minimum: '{$value}'");
+		}
+
+		return $value;
 	}
 
 }
