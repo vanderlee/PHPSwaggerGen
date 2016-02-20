@@ -13,54 +13,57 @@ namespace SwaggerGen\Swagger\Type;
 class DateType extends AbstractType
 {
 
-	const REGEX_DEFAULT = '(?:=(\\d{4}-\\d{2}-\\d{2}(?:T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d+)?(?:Z|[-+]\\d{2}:\\d{2}))?))?';
+	const REGEX_DEFAULT = '(?:=(\S+))?';
 
+	/**
+	 * Map of recognized format names to Swagger formats
+	 * @var array
+	 */
 	private static $formats = array(
 		'date' => 'date',
 		'date-time' => 'date-time',
 		'datetime' => 'date-time',
 	);
-	private static $validations = array(
-		'date' => array('Y-m-d'),
-		'date-time' => array('Y-m-d\TH:i:sP', 'Y-m-d\TH:i:s.uP', 'Y-m-d\TH:i:s,uP'),
+
+	private static $datetime_formats = array(
+		'date' => 'Y-m-d',
+		'date-time' => \DateTime::RFC3339,
 	);
+
+	/**
+	 * @var String
+	 */
 	private $format;
+
 	//private $allowEmptyValue; // for query/formData
-	private $default; // @todo support default
+
+	/**
+	 * @var \DateTime
+	 */
+	private $default = null;
 
 	protected function parseDefinition($definition)
 	{
 		$match = array();
 		if (preg_match(self::REGEX_START . self::REGEX_FORMAT . self::REGEX_DEFAULT . self::REGEX_END, $definition, $match) !== 1) {
-			throw new \SwaggerGen\Exception("Unparseable date string definition: '{$definition}'");
+			throw new \SwaggerGen\Exception("Unparseable date definition: '{$definition}'");
 		}
 
-		$this->format = self::$formats[strtolower($match[1])];
+		$type = strtolower($match[1]);
 
-		if (!empty($match[2])) {
-			$this->setDefault($match[2]);
+		if (!isset(self::$formats[$type])) {
+			throw new \SwaggerGen\Exception("Not a date: '{$definition}'");
 		}
-	}
+		$this->format = self::$formats[$type];
 
-	public function setDefault($date)
-	{
-		//@todo Fix the date into a valid RFC3339 date
-
-		foreach (self::$validations[$this->format] as $format) {
-			if (\DateTime::createFromFormat($format, $date) !== false) {
-				$this->default = $date;
-				return true;
-			}
-		}
-
-		throw new \SwaggerGen\Exception("Invalid default {$this->format} value: '{$date}'");
+		$this->default = isset($match[2]) && $match[2] !== '' ? $this->validateDefault($match[2]) : null;
 	}
 
 	public function handleCommand($command, $data = null)
 	{
 		switch (strtolower($command)) {
 			case 'default':
-				$this->setDefault($value);
+				$this->default = $this->validateDefault($data);
 				return $this;
 		}
 
@@ -72,8 +75,21 @@ class DateType extends AbstractType
 		return self::array_filter_null(array(
 					'type' => 'string',
 					'format' => $this->format,
-					'default' => $this->default,
+					'default' => $this->default ? $this->default->format(self::$datetime_formats[$this->format]) : null,
 		));
+	}
+
+	private function validateDefault($value)
+	{
+		if (empty($value)) {
+			throw new \SwaggerGen\Exception("Empty date default");
+		}
+
+		if (($DateTime = date_create($value)) !== false) {
+			return $DateTime;
+		}
+
+		throw new \SwaggerGen\Exception("Invalid '{$this->format}' default: '{$value}'");
 	}
 
 	public function __toString()

@@ -1,5 +1,5 @@
 # SwaggerGen
-Version v2.0.6
+Version v2.0.7
 
 [![Build Status](https://travis-ci.org/vanderlee/PHPSwaggerGen.svg?branch=master)](https://travis-ci.org/vanderlee/PHPSwaggerGen)
 
@@ -668,7 +668,7 @@ Special type of string which is limited to dates only
 	type=default
 
 *	type: `date`, `date-time` or `datetime`,
-*	default: Any valid RFC3339 full-date or date-time.
+*	default: Any valid date format recognized by the [PHP DateTime object](http://php.net/manual/en/datetime.formats.php).
 
 ### Commands
 *	**`default` *date*** Set the default value.

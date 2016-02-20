@@ -108,11 +108,6 @@ class StringType extends AbstractType
 		]);
 	}
 
-	public function __toString()
-	{
-		return __CLASS__;
-	}
-
 	private function validateDefault($value)
 	{
 		if (empty($value)) {
@@ -126,12 +121,17 @@ class StringType extends AbstractType
 		if ($this->maxLength !== null && mb_strlen($value) > $this->maxLength) {
 			throw new \SwaggerGen\Exception("Default length beyond maximum: '{$value}'");
 		}
-		
+
 		if ($this->minLength !== null && mb_strlen($value) < $this->minLength) {
 			throw new \SwaggerGen\Exception("Default length beyond minimum: '{$value}'");
 		}
 
 		return $value;
+	}
+
+	public function __toString()
+	{
+		return __CLASS__;
 	}
 
 }
