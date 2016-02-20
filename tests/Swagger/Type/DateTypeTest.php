@@ -126,14 +126,14 @@ class DateTypeTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testConstructDateTimeDefault()
 	{
-		$object = new SwaggerGen\Swagger\Type\DateType($this->parent, 'datetime=1999-12-31T23:59:59');
+		$object = new SwaggerGen\Swagger\Type\DateType($this->parent, 'datetime=1999-12-31T23:59:59+11:00');
 
 		$this->assertInstanceOf('\SwaggerGen\Swagger\Type\DateType', $object);
 
 		$this->assertSame(array(
 			'type' => 'string',
 			'format' => 'date-time',
-			'default' => '1999-12-31T23:59:59+01:00',
+			'default' => '1999-12-31T23:59:59+11:00',
 				), $object->toArray());
 	}
 
