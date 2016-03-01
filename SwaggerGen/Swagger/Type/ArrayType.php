@@ -54,10 +54,10 @@ class ArrayType extends AbstractType
 	/**
 	 * @var AbstractType
 	 */
-	private $Items;
-	private $minItems;
-	private $maxItems;
-	private $collectionFormat;
+	private $Items = null;
+	private $minItems = null;
+	private $maxItems = null;
+	private $collectionFormat = null;
 
 	protected function parseDefinition($definition)
 	{
@@ -67,6 +67,10 @@ class ArrayType extends AbstractType
 		}
 
 		$type = strtolower($match[1]);
+		if (!isset(self::$collectionFormats[$type])) {
+			throw new \SwaggerGen\Exception("Not an array: '{$definition}'");
+		}
+
 		if ($type === 'multi') {
 			$parent = $this->getParent();
 			if (!($parent instanceof \SwaggerGen\Swagger\Parameter) || !$parent->isMulti()) {
@@ -77,31 +81,24 @@ class ArrayType extends AbstractType
 		$this->collectionFormat = self::$collectionFormats[$type];
 
 		if (!empty($match[2])) {
-			$itemsMatch = array();
-			if (preg_match('/^([a-z]+)/i', $match[2], $itemsMatch) !== 1) {
-				throw new \SwaggerGen\Exception("Unparseable items definition: '{$match[2]}'");
-			}
-			$itemsFormat = strtolower($itemsMatch[1]);
-			if (isset(self::$classTypes[$itemsFormat])) {
-				$type = self::$classTypes[$itemsFormat];
-				$itemsClass = "SwaggerGen\\Swagger\\Type\\{$type}Type";
-				$this->Items = new $itemsClass($this, $match[2]);
-			} else {
-				$this->Items = new ReferenceObjectType($this, $match[2]);
-			}
+			$this->Items = $this->validateItems($match[2]);
 		}
 
 		if (!empty($match[3])) {
+			if ($match[4] === '' && $match[5] === '') {
+				throw new \SwaggerGen\Exception("Empty array range: '{$definition}'");
+			}
+
 			$exclusiveMinimum = isset($match[3]) ? ($match[3] == '<') : null;
-			$this->minItems = isset($match[4]) ? $match[4] : null;
-			$this->maxItems = isset($match[5]) ? $match[5] : null;
+			$this->minItems = $match[4] === '' ? null : intval($match[4]);
+			$this->maxItems = $match[5] === '' ? null : intval($match[5]);
 			$exclusiveMaximum = isset($match[6]) ? ($match[6] == '>') : null;
 			if ($this->minItems && $this->maxItems && $this->minItems > $this->maxItems) {
 				self::swap($this->minItems, $this->maxItems);
 				self::swap($exclusiveMinimum, $exclusiveMaximum);
 			}
-			$this->minItems = max(0, $exclusiveMinimum ? $this->minItems + 1 : $this->minItems);
-			$this->maxItems = max(0, $exclusiveMaximum ? $this->maxItems - 1 : $this->maxItems);
+			$this->minItems = $this->minItems === null ? null : max(0, $exclusiveMinimum ? $this->minItems + 1 : $this->minItems);
+			$this->maxItems = $this->maxItems === null ? null : max(0, $exclusiveMaximum ? $this->maxItems - 1 : $this->maxItems);
 		}
 	}
 
@@ -117,24 +114,26 @@ class ArrayType extends AbstractType
 		switch (strtolower($command)) {
 			case 'min':
 				$this->minItems = intval($data);
+				if ($this->minItems < 0) {
+					throw new \SwaggerGen\Exception("Minimum less than zero: '{$data}'");
+				}
+				if ($this->maxItems !== null && $this->minItems > $this->maxItems) {
+					throw new \SwaggerGen\Exception("Minimum greater than maximum: '{$data}'");
+				}
 				return $this;
 
 			case 'max':
 				$this->maxItems = intval($data);
+				if ($this->minItems !== null && $this->minItems > $this->maxItems) {
+					throw new \SwaggerGen\Exception("Maximum less than minimum: '{$data}'");
+				}
+				if ($this->maxItems < 0) {
+					throw new \SwaggerGen\Exception("Maximum less than zero: '{$data}'");
+				}
 				return $this;
 
 			case 'items':
-				$match = array();
-				if (preg_match('/^([a-z]+)/i', $data, $match) !== 1) {
-					throw new \SwaggerGen\Exception("Unparseable items definition: '{$data}'");
-				}
-				foreach (self::$classTypes as $type => $format) {
-					if (in_array($match[1], $format)) {
-						break;
-					}
-				}
-				$classname = "SwaggerGen\\Swagger\\Type\\{$type}Type";
-				$this->Items = new $classname($this, $match[2]);
+				$this->Items = $this->validateItems($data);
 				return $this->Items;
 		}
 
@@ -150,6 +149,26 @@ class ArrayType extends AbstractType
 					'minItems' => $this->minItems,
 					'maxItems' => $this->maxItems,
 		));
+	}
+
+	private function validateItems($items)
+	{
+		if (empty($items)) {
+			throw new \SwaggerGen\Exception("Empty items definition: '{$items}'");
+		}
+
+		$match = array();
+		if (preg_match('/^([a-z]+)/i', $items, $match) !== 1) {
+			throw new \SwaggerGen\Exception("Unparseable items definition: '{$items}'");
+		}
+		$format = strtolower($match[1]);
+		if (isset(self::$classTypes[$format])) {
+			$type = self::$classTypes[$format];
+			$typeClass = "SwaggerGen\\Swagger\\Type\\{$type}Type";
+			return new $typeClass($this, $items);
+		}
+
+		return new ReferenceObjectType($this, $items);
 	}
 
 	public function __toString()
