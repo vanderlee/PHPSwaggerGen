@@ -41,10 +41,11 @@ class IntegerType extends AbstractType
 			throw new \SwaggerGen\Exception("Unparseable integer definition: '{$definition}'");
 		}
 
-		if (!isset(self::$formats[strtolower($match[1])])) {
+		$type = strtolower($match[1]);
+		if (!isset(self::$formats[$type])) {
 			throw new \SwaggerGen\Exception("Not an integer: '{$definition}'");
 		}
-		$this->format = self::$formats[strtolower($match[1])];
+		$this->format = self::$formats[$type];
 
 		if (!empty($match[2])) {
 			if ($match[3] === '' && $match[4] === '') {

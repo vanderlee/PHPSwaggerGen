@@ -63,10 +63,15 @@ class ObjectType extends AbstractType
 		}
 
 		$type = strtolower($match[1]);
+		if ($type !== 'object') {
+			throw new \SwaggerGen\Exception("Not an object: '{$definition}'");
+		}
 
 		if (!empty($match[2])) {
 			$prop_matches = array();
-			preg_match_all(self::REGEX_PROP_START . '(' . self::REGEX_PROP_FORMAT . self::REGEX_PROP_CONTENT . self::REGEX_PROP_RANGE . self::REGEX_PROP_DEFAULT . ')' . self::REGEX_PROP_END, $match[2], $prop_matches, PREG_SET_ORDER);
+			if (preg_match_all(self::REGEX_PROP_START . '(' . self::REGEX_PROP_FORMAT . self::REGEX_PROP_CONTENT . self::REGEX_PROP_RANGE . self::REGEX_PROP_DEFAULT . ')' . self::REGEX_PROP_END, $match[2], $prop_matches, PREG_SET_ORDER) === 0) {
+				throw new \SwaggerGen\Exception("Unparseable properties definition: '{$match[2]}'");
+			}
 			foreach ($prop_matches as $prop_match) {
 				$this->properties[$prop_match[1]] = new Property($this, $prop_match[3]);
 				if ($prop_match[2] !== '?') {
@@ -76,16 +81,20 @@ class ObjectType extends AbstractType
 		}
 
 		if (!empty($match[3])) {
+			if ($match[4] === '' && $match[5] === '') {
+				throw new \SwaggerGen\Exception("Empty object range: '{$definition}'");
+			}
+
 			$exclusiveMinimum = isset($match[3]) ? ($match[3] == '<') : null;
-			$this->minProperties = isset($match[4]) ? $match[4] : null;
-			$this->maxProperties = isset($match[5]) ? $match[5] : null;
+			$this->minProperties = $match[4] === '' ? null : intval($match[4]);
+			$this->maxProperties = $match[5] === '' ? null : intval($match[5]);
 			$exclusiveMaximum = isset($match[6]) ? ($match[6] == '>') : null;
 			if ($this->minProperties && $this->maxProperties && $this->minProperties > $this->maxProperties) {
 				self::swap($this->minProperties, $this->maxProperties);
 				self::swap($exclusiveMinimum, $exclusiveMaximum);
 			}
-			$this->minProperties = max(0, $exclusiveMinimum ? $this->minProperties + 1 : $this->minProperties);
-			$this->maxProperties = max(0, $exclusiveMaximum ? $this->maxProperties - 1 : $this->maxProperties);
+			$this->minProperties = $this->minProperties === null ? null : max(0, $exclusiveMinimum ? $this->minProperties + 1 : $this->minProperties);
+			$this->maxProperties = $this->maxProperties === null ? null : max(0, $exclusiveMaximum ? $this->maxProperties - 1 : $this->maxProperties);
 		}
 	}
 
@@ -96,7 +105,15 @@ class ObjectType extends AbstractType
 			case 'property':
 			case 'property?':
 				$definition = self::words_shift($data);
+				if (empty($definition)) {
+					throw new \SwaggerGen\Exception("Missing property definition");
+				}
+
 				$name = self::words_shift($data);
+				if (empty($name)) {
+					throw new \SwaggerGen\Exception("Missing property name: '{$definition}'");
+				}
+
 				$this->properties[$name] = new Property($this, $definition, $data);
 
 				if (substr($command, -1) !== '?') {
@@ -106,10 +123,23 @@ class ObjectType extends AbstractType
 
 			case 'min':
 				$this->minProperties = intval($data);
+				if ($this->minProperties < 0) {
+					throw new \SwaggerGen\Exception("Minimum less than zero: '{$data}'");
+				}
+				if ($this->maxProperties !== null && $this->minProperties > $this->maxProperties) {
+					throw new \SwaggerGen\Exception("Minimum greater than maximum: '{$data}'");
+				}
+				$this->minProperties = intval($data);
 				return $this;
 
 			case 'max':
 				$this->maxProperties = intval($data);
+				if ($this->minProperties !== null && $this->minProperties > $this->maxProperties) {
+					throw new \SwaggerGen\Exception("Maximum less than minimum: '{$data}'");
+				}
+				if ($this->maxProperties < 0) {
+					throw new \SwaggerGen\Exception("Maximum less than zero: '{$data}'");
+				}
 				return $this;
 		}
 
