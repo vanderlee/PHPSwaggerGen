@@ -60,14 +60,16 @@ class Property extends \SwaggerGen\Swagger\AbstractObject
 
 		// Parse regex
 		$match = array();
-		$count = preg_match('/^([a-z]+)/i', $definition, $match);
+		if (preg_match('/^([a-z]+)/i', $definition, $match) !== 1) {
+			throw new \SwaggerGen\Exception("Not a property: '{$definition}'");
+		}
 		$format = strtolower($match[1]);
 		if (isset(self::$classTypes[$format])) {
 			$type = self::$classTypes[$format];
 			$class = "SwaggerGen\\Swagger\\Type\\{$type}Type";
 			$this->Type = new $class($this, $definition);
 		} else {
-			throw new \SwaggerGen\Exception('Type format not recognized: ' . $format);
+			throw new \SwaggerGen\Exception("Property format not recognized: '{$format}'");
 		}
 
 		$this->description = $description;
