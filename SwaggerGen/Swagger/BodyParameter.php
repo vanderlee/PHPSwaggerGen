@@ -7,7 +7,7 @@ namespace SwaggerGen\Swagger;
  *
  * @package    SwaggerGen
  * @author     Martijn van der Lee <martijn@vanderlee.com>
- * @copyright  2014-2015 Martijn van der Lee
+ * @copyright  2014-2016 Martijn van der Lee
  * @license    https://opensource.org/licenses/MIT MIT
  */
 class BodyParameter extends AbstractObject implements IParameter
@@ -27,7 +27,15 @@ class BodyParameter extends AbstractObject implements IParameter
 		parent::__construct($parent);
 
 		$type = self::words_shift($data);
+		if (empty($type)) {
+			throw new \SwaggerGen\Exception('No type definition for body parameter');
+		}
+
 		$this->name = self::words_shift($data);
+		if (empty($this->name)) {
+			throw new \SwaggerGen\Exception('No name for body parameter');
+		}
+
 		$this->description = $data;
 		$this->required = (bool) $required;
 
@@ -50,8 +58,8 @@ class BodyParameter extends AbstractObject implements IParameter
 		return self::array_filter_null(array_merge(array(
 					'name' => $this->name,
 					'in' => 'body',
-					'description' => $this->description,
-					'required' => $this->required ? 'true' : null,
+					'description' => empty($this->description) ? null : $this->description,
+					'required' => $this->required ? true : null,
 					'schema' => $this->schema->toArray(),
 								), parent::toArray()));
 	}
