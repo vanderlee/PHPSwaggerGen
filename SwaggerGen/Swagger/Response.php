@@ -99,13 +99,14 @@ class Response extends AbstractObject
 			foreach (self::$httpCodes as $code => $text) {
 				$lookup[preg_replace('/[^a-z]+/', '', strtolower($text))] = $code;
 			}
+			var_dump($lookup);
 		}
 
-		$search = strtolower($search);
+		$search = preg_replace('/[^a-z]+/', '', strtolower($search));
 		return isset($lookup[$search]) ? $lookup[$search] : null;
 	}
 
-	public function __construct(AbstractObject $parent, $code, $definition, $description = null)
+	public function __construct(AbstractObject $parent, $code, $definition = null, $description = null)
 	{
 		parent::__construct($parent);
 
@@ -125,7 +126,13 @@ class Response extends AbstractObject
 		switch (strtolower($command)) {
 			case 'header':
 				$type = self::words_shift($data);
+				if (empty($type)) {
+					throw new \SwaggerGen\Exception("Missing type for header");
+				}
 				$name = self::words_shift($data);
+				if (empty($name)) {
+					throw new \SwaggerGen\Exception("Missing name for header type '{$type}'");
+				}
 				$Header = new Header($this, $type, $data);
 				$this->Headers[$name] = $Header;
 				return $Header;
