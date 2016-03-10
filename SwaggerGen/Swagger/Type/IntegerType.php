@@ -73,7 +73,7 @@ class IntegerType extends AbstractType
 				return $this;
 
 			case 'enum':
-				$words = self::words_split($data);
+				$words = self::wordSplit($data);
 				foreach ($words as &$word) {
 					$word = $this->validateDefault($word);
 				}
@@ -92,7 +92,7 @@ class IntegerType extends AbstractType
 
 	public function toArray()
 	{
-		return self::array_filter_null(array(
+		return self::arrayFilterNull(array(
 					'type' => 'integer',
 					'format' => $this->format,
 					'default' => $this->default,

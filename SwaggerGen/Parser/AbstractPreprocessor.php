@@ -46,7 +46,7 @@ abstract class AbstractPreprocessor
 		return empty($this->stack) || (bool) end($this->stack);
 	}
 
-	private static function words_shift(&$data)
+	private static function wordShift(&$data)
 	{
 		if (preg_match('~^(\S+)\s*(.*)$~', $data, $matches) === 1) {
 			$data = $matches[2];
@@ -59,7 +59,7 @@ abstract class AbstractPreprocessor
 	{
 		switch (strtolower($command)) {
 			case 'if':
-				$name = self::words_shift($expression);
+				$name = self::wordShift($expression);
 				$state = $this->getState();
 				if (empty($expression)) {
 					$this->stack[] = $state && !empty($this->defines[$name]);
@@ -83,7 +83,7 @@ abstract class AbstractPreprocessor
 				break;
 
 			case 'elif':
-				$name = self::words_shift($expression);
+				$name = self::wordShift($expression);
 				$state = $this->getState();
 				array_pop($this->stack);
 				if (empty($expression)) {
@@ -94,7 +94,7 @@ abstract class AbstractPreprocessor
 				break;
 
 			case 'define':
-				$name = self::words_shift($expression);
+				$name = self::wordShift($expression);
 				$this->defines[$name] = $expression;
 				break;
 

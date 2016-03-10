@@ -42,7 +42,7 @@ class Contact extends AbstractObject
 
 	public function toArray()
 	{
-		return self::array_filter_null(array_merge(array(
+		return self::arrayFilterNull(array_merge(array(
 					'name' => $this->name,
 					'url' => $this->url,
 					'email' => $this->email,

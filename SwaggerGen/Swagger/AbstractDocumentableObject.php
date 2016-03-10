@@ -30,7 +30,7 @@ abstract class AbstractDocumentableObject extends AbstractObject
 		switch (strtolower($command)) {
 			case 'doc':
 			case 'docs':
-				$url = self::words_shift($data);
+				$url = self::wordShift($data);
 				$this->externalDocs = new ExternalDocumentation($this, $url, $data);
 				return $this->externalDocs;
 		}
@@ -43,7 +43,7 @@ abstract class AbstractDocumentableObject extends AbstractObject
 	 */
 	public function toArray()
 	{
-		return self::array_filter_null(array_merge(array(
+		return self::arrayFilterNull(array_merge(array(
 					'externalDocs' => $this->externalDocs ? $this->externalDocs->toArray() : null,
 								), parent::toArray()
 		));

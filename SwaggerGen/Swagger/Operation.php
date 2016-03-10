@@ -57,13 +57,13 @@ class Operation extends AbstractDocumentableObject
 			// string[]
 			case 'tags':
 			case 'schemes':
-				$this->$command = array_merge($this->$command, self::words_split($data));
+				$this->$command = array_merge($this->$command, self::wordSplit($data));
 				return $this;
 
 			// MIME[]
 			case 'consumes':
 			case 'produces':
-				$this->$command = array_merge($this->$command, self::translateMimeTypes(self::words_split($data)));
+				$this->$command = array_merge($this->$command, self::translateMimeTypes(self::wordSplit($data)));
 				return $this;
 
 			// boolean
@@ -72,14 +72,14 @@ class Operation extends AbstractDocumentableObject
 				return $this;
 
 			case 'error':
-				$code = Response::getCode(self::words_shift($data));
+				$code = Response::getCode(self::wordShift($data));
 				$description = $data;
 				$Error = new Error($this, $code, $description);
 				$this->responses[$code] = $Error;
 				return $Error;
 
 			case 'errors':
-				foreach (self::words_split($data) as $code) {
+				foreach (self::wordSplit($data) as $code) {
 					$code = Response::getCode($code);
 					$this->responses[$code] = new Error($this, $code);
 				}
@@ -101,16 +101,16 @@ class Operation extends AbstractDocumentableObject
 				return $Parameter;
 
 			case 'response':
-				$code = Response::getCode(strtolower(self::words_shift($data)));
-				$definition = self::words_shift($data);
+				$code = Response::getCode(strtolower(self::wordShift($data)));
+				$definition = self::wordShift($data);
 				$description = $data;
 				$Response = new Response($this, $code, $definition, $description);
 				$this->responses[$code] = $Response;
 				return $Response;
 
 			case 'require':
-				$name = self::words_shift($data);
-				$this->security[$name] = self::words_split($data);
+				$name = self::wordShift($data);
+				$this->security[$name] = self::wordSplit($data);
 				return $this;
 
 			//@todo operationId			
@@ -121,15 +121,15 @@ class Operation extends AbstractDocumentableObject
 
 	public function toArray()
 	{
-		return self::array_filter_null(array_merge(array(
+		return self::arrayFilterNull(array_merge(array(
 					'tags' => $this->tags,
 					'summary' => $this->summary,
 					'description' => $this->description,
 					//'operationId' => $this->description,
 					'consumes' => $this->consumes,
 					'produces' => $this->produces,
-					'parameters' => $this->parameters ? self::array_toArray($this->parameters) : null,
-					'responses' => $this->responses ? self::array_toArray($this->responses) : null,
+					'parameters' => $this->parameters ? self::objectsToArray($this->parameters) : null,
+					'responses' => $this->responses ? self::objectsToArray($this->responses) : null,
 					'schemes' => $this->schemes,
 					'security' => $this->security,
 								), parent::toArray()));

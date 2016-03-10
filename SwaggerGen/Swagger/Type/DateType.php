@@ -72,7 +72,7 @@ class DateType extends AbstractType
 
 	public function toArray()
 	{
-		return self::array_filter_null(array(
+		return self::arrayFilterNull(array(
 					'type' => 'string',
 					'format' => $this->format,
 					'default' => $this->default ? $this->default->format(self::$datetime_formats[$this->format]) : null,

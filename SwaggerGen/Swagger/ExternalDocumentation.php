@@ -38,7 +38,7 @@ class ExternalDocumentation extends AbstractObject
 
 	public function toArray()
 	{
-		return self::array_filter_null(array_merge(array(
+		return self::arrayFilterNull(array_merge(array(
 					'url' => $this->url,
 					'description' => empty($this->description) ? null : $this->description,
 								), parent::toArray()));

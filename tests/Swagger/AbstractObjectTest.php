@@ -10,19 +10,19 @@ class AbstractObjectTest extends PHPUnit_Framework_TestCase
 	{
 		$text = 'quite a few words';
 
-		$this->assertSame('quite', \SwaggerGen\Swagger\AbstractObject::words_shift($text));
+		$this->assertSame('quite', \SwaggerGen\Swagger\AbstractObject::wordShift($text));
 		$this->assertSame('a few words', $text);
 
-		$this->assertSame('a', \SwaggerGen\Swagger\AbstractObject::words_shift($text));
+		$this->assertSame('a', \SwaggerGen\Swagger\AbstractObject::wordShift($text));
 		$this->assertSame('few words', $text);
 
-		$this->assertSame('few', \SwaggerGen\Swagger\AbstractObject::words_shift($text));
+		$this->assertSame('few', \SwaggerGen\Swagger\AbstractObject::wordShift($text));
 		$this->assertSame('words', $text);
 
-		$this->assertSame('words', \SwaggerGen\Swagger\AbstractObject::words_shift($text));
+		$this->assertSame('words', \SwaggerGen\Swagger\AbstractObject::wordShift($text));
 		$this->assertSame('', $text);
 
-		$this->assertSame(false, \SwaggerGen\Swagger\AbstractObject::words_shift($text));
+		$this->assertSame(false, \SwaggerGen\Swagger\AbstractObject::wordShift($text));
 		$this->assertSame('', $text);
 	}
 
@@ -33,11 +33,11 @@ class AbstractObjectTest extends PHPUnit_Framework_TestCase
 	{
 		$text = "    quite  a\nfew   \r  \n\r words \t";
 
-		$this->assertSame('quite', \SwaggerGen\Swagger\AbstractObject::words_shift($text));
-		$this->assertSame('a', \SwaggerGen\Swagger\AbstractObject::words_shift($text));
-		$this->assertSame('few', \SwaggerGen\Swagger\AbstractObject::words_shift($text));
-		$this->assertSame('words', \SwaggerGen\Swagger\AbstractObject::words_shift($text));
-		$this->assertSame(false, \SwaggerGen\Swagger\AbstractObject::words_shift($text));
+		$this->assertSame('quite', \SwaggerGen\Swagger\AbstractObject::wordShift($text));
+		$this->assertSame('a', \SwaggerGen\Swagger\AbstractObject::wordShift($text));
+		$this->assertSame('few', \SwaggerGen\Swagger\AbstractObject::wordShift($text));
+		$this->assertSame('words', \SwaggerGen\Swagger\AbstractObject::wordShift($text));
+		$this->assertSame(false, \SwaggerGen\Swagger\AbstractObject::wordShift($text));
 		$this->assertSame('', $text);
 	}
 
@@ -46,11 +46,11 @@ class AbstractObjectTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testMb_trim()
 	{
-		$this->assertSame('trimmed', \SwaggerGen\Swagger\AbstractObject::mb_trim("trimmed"));
-		$this->assertSame('trimmed', \SwaggerGen\Swagger\AbstractObject::mb_trim("trimmed "));
-		$this->assertSame('trimmed', \SwaggerGen\Swagger\AbstractObject::mb_trim(" trimmed"));
-		$this->assertSame('trimmed', \SwaggerGen\Swagger\AbstractObject::mb_trim("   trimmed   "));
-		$this->assertSame('trimmed', \SwaggerGen\Swagger\AbstractObject::mb_trim("\n \t trimmed \f \r"));
+		$this->assertSame('trimmed', \SwaggerGen\Swagger\AbstractObject::trim("trimmed"));
+		$this->assertSame('trimmed', \SwaggerGen\Swagger\AbstractObject::trim("trimmed "));
+		$this->assertSame('trimmed', \SwaggerGen\Swagger\AbstractObject::trim(" trimmed"));
+		$this->assertSame('trimmed', \SwaggerGen\Swagger\AbstractObject::trim("   trimmed   "));
+		$this->assertSame('trimmed', \SwaggerGen\Swagger\AbstractObject::trim("\n \t trimmed \f \r"));
 	}
 
 	/**

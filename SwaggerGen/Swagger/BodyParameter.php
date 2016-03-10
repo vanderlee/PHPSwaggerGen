@@ -26,12 +26,12 @@ class BodyParameter extends AbstractObject implements IParameter
 	{
 		parent::__construct($parent);
 
-		$type = self::words_shift($data);
+		$type = self::wordShift($data);
 		if (empty($type)) {
 			throw new \SwaggerGen\Exception('No type definition for body parameter');
 		}
 
-		$this->name = self::words_shift($data);
+		$this->name = self::wordShift($data);
 		if (empty($this->name)) {
 			throw new \SwaggerGen\Exception('No name for body parameter');
 		}
@@ -55,7 +55,7 @@ class BodyParameter extends AbstractObject implements IParameter
 
 	public function toArray()
 	{
-		return self::array_filter_null(array_merge(array(
+		return self::arrayFilterNull(array_merge(array(
 					'name' => $this->name,
 					'in' => 'body',
 					'description' => empty($this->description) ? null : $this->description,

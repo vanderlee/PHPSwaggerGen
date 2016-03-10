@@ -30,7 +30,7 @@ class StringType extends AbstractType
 
 	protected function parseDefinition($definition)
 	{
-		$definition = self::mb_trim($definition);
+		$definition = self::trim($definition);
 
 		$match = array();
 		if (preg_match(self::REGEX_START . self::REGEX_FORMAT . self::REGEX_CONTENT . self::REGEX_RANGE . self::REGEX_DEFAULT . self::REGEX_END, $definition, $match) !== 1) {
@@ -87,7 +87,7 @@ class StringType extends AbstractType
 				if ($this->minLength !== null || $this->maxLength !== null) {
 					throw new \SwaggerGen\Exception("Enumeration not allowed in ranged string: '{$data}'");
 				}
-				$words = self::words_split($data);
+				$words = self::wordSplit($data);
 				$this->enum = is_array($this->enum) ? array_merge($this->enum, $words) : $words;
 				return $this;
 		}
@@ -97,7 +97,7 @@ class StringType extends AbstractType
 
 	public function toArray()
 	{
-		return self::array_filter_null([
+		return self::arrayFilterNull([
 					'type' => 'string',
 					'format' => empty($this->format) ? null : $this->format,
 					'pattern' => $this->pattern,

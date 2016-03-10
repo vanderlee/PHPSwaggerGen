@@ -110,7 +110,7 @@ abstract class AbstractObject
 	 * @param string $string
 	 * @return string
 	 */
-	public static function mb_trim($string)
+	public static function trim($string)
 	{
 		return mb_ereg_replace('^\s*([\s\S]*?)\s*$', '\1', $string);
 	}
@@ -121,7 +121,7 @@ abstract class AbstractObject
 	 * @param Array $array
 	 * @return Array
 	 */
-	public static function array_filter_null($array)
+	public static function arrayFilterNull($array)
 	{
 		return array_filter($array, function($value) {
 			return $value !== null && $value !== array();
@@ -133,7 +133,7 @@ abstract class AbstractObject
 	 * @param Array $array
 	 * @return Array
 	 */
-	public static function array_toArray(&$array)
+	public static function objectsToArray(&$array)
 	{
 		return array_map(function(AbstractObject $item) {
 			return $item->toArray();
@@ -145,7 +145,7 @@ abstract class AbstractObject
 	 * @param string $data
 	 * @return string|bool Either the first word or false if no more words available
 	 */
-	public static function words_shift(&$data)
+	public static function wordShift(&$data)
 	{
 		if (preg_match('~^\s*(\S+)\s*(.*)$~s', $data, $matches) === 1) {
 			$data = $matches[2];
@@ -159,7 +159,7 @@ abstract class AbstractObject
 	 * @param string $data
 	 * @return string
 	 */
-	public static function words_split($data)
+	public static function wordSplit($data)
 	{
 		return array_values(preg_grep('~\S~', preg_split('~\s+~', $data)));
 	}

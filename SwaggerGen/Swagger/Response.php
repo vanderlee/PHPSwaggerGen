@@ -125,11 +125,11 @@ class Response extends AbstractObject
 	{
 		switch (strtolower($command)) {
 			case 'header':
-				$type = self::words_shift($data);
+				$type = self::wordShift($data);
 				if (empty($type)) {
 					throw new \SwaggerGen\Exception("Missing type for header");
 				}
-				$name = self::words_shift($data);
+				$name = self::wordShift($data);
 				if (empty($name)) {
 					throw new \SwaggerGen\Exception("Missing name for header type '{$type}'");
 				}
@@ -143,10 +143,10 @@ class Response extends AbstractObject
 
 	public function toArray()
 	{
-		return self::array_filter_null(array_merge(array(
+		return self::arrayFilterNull(array_merge(array(
 					'description' => $this->description,
 					'schema' => $this->schema ? $this->schema->toArray() : null,
-					'headers' => self::array_toArray($this->Headers),
+					'headers' => self::objectsToArray($this->Headers),
 //			'examples' => $this->examples ? self::array_toArray($this->examples) : null,
 								), parent::toArray()));
 	}

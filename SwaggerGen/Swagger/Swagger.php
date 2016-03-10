@@ -93,7 +93,7 @@ class Swagger extends AbstractDocumentableObject
 			// string[]
 			case 'scheme':
 			case 'schemes':
-				$this->$command = array_unique(array_merge($this->$command, self::words_split($data)));
+				$this->$command = array_unique(array_merge($this->$command, self::wordSplit($data)));
 				return $this;
 
 			// MIME[]
@@ -101,14 +101,14 @@ class Swagger extends AbstractDocumentableObject
 			case 'consumes':
 			case 'produce':
 			case 'produces':
-				$this->$command = array_merge($this->$command, self::translateMimeTypes(self::words_split($data)));
+				$this->$command = array_merge($this->$command, self::translateMimeTypes(self::wordSplit($data)));
 				return $this;
 
 			case 'model': // alias
 				$data = 'params ' . $data;
 			case 'define':
 			case 'definition':
-				$type = self::words_shift($data);
+				$type = self::wordShift($data);
 				switch ($type) {
 					case 'response':
 //						$definition = new SwaggerResponseDefinition($this);
@@ -122,12 +122,12 @@ class Swagger extends AbstractDocumentableObject
 						throw new \SwaggerGen\Exception('Unsupported definition type: ' . $type);
 				}
 
-				$this->definitions[self::words_shift($data)] = $definition;
+				$this->definitions[self::wordShift($data)] = $definition;
 				return $definition;
 
 			case 'api': // alias
 			case 'tag':
-				$tagname = self::words_shift($data);
+				$tagname = self::wordShift($data);
 
 				$Tag = null;
 				foreach ($this->Tags as $T) {
@@ -147,13 +147,13 @@ class Swagger extends AbstractDocumentableObject
 				return $Tag;
 
 			case 'endpoint':
-				$path = self::words_shift($data);
+				$path = self::wordShift($data);
 				if ($path{0} !== '/') {
 					$path = '/' . $path;
 				}
 
 				$Tag = null;
-				if (($tagname = self::words_shift($data)) !== false) {
+				if (($tagname = self::wordShift($data)) !== false) {
 					foreach ($this->Tags as $T) {
 						if (strtolower($T->getName()) === strtolower($tagname)) {
 							$Tag = $T;
@@ -172,15 +172,15 @@ class Swagger extends AbstractDocumentableObject
 				return $this->Paths[$path];
 
 			case 'security':
-				$name = self::words_shift($data);
-				$type = self::words_shift($data);
+				$name = self::wordShift($data);
+				$type = self::wordShift($data);
 				$SecurityScheme = new SecurityScheme($this, $type, $data);
 				$this->securityDefinitions[$name] = $SecurityScheme;
 				return $SecurityScheme;
 
 			case 'require':
-				$name = self::words_shift($data);
-				$this->security[$name] = self::words_split($data);
+				$name = self::wordShift($data);
+				$this->security[$name] = self::wordSplit($data);
 				return $this;
 		}
 
@@ -189,7 +189,7 @@ class Swagger extends AbstractDocumentableObject
 
 	public function toArray()
 	{
-		return self::array_filter_null(array_merge(array(
+		return self::arrayFilterNull(array_merge(array(
 					'swagger' => $this->swagger,
 					'info' => $this->Info->toArray(),
 					'host' => $this->host,
@@ -197,13 +197,13 @@ class Swagger extends AbstractDocumentableObject
 					'schemes' => $this->schemes,
 					'consumes' => $this->consumes,
 					'produces' => $this->produces,
-					'paths' => self::array_toArray($this->Paths),
-					'definitions' => self::array_toArray($this->definitions),
+					'paths' => self::objectsToArray($this->Paths),
+					'definitions' => self::objectsToArray($this->definitions),
 //					'parameters' => $this->parameters ? $this->parameters->toArray() : null,
 //					'responses' => $this->responses ? $this->responses->toArray() : null,
-					'securityDefinitions' => self::array_toArray($this->securityDefinitions),
+					'securityDefinitions' => self::objectsToArray($this->securityDefinitions),
 					'security' => $this->security,
-					'tags' => self::array_toArray($this->Tags),
+					'tags' => self::objectsToArray($this->Tags),
 								), parent::toArray()));
 	}
 

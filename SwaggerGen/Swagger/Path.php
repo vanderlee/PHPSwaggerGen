@@ -43,7 +43,7 @@ class Path extends AbstractObject
 		switch (strtolower($command)) {
 			case 'method': // alias
 			case 'operation':
-				$method = strtolower(self::words_shift($data));
+				$method = strtolower(self::wordShift($data));
 
 				if (!in_array($method, self::$methods)) {
 					throw new \SwaggerGen\Exception("Unrecognized operation method '{$method}'.");
@@ -75,8 +75,8 @@ class Path extends AbstractObject
 			return array_search($a, self::$methods) - array_search($b, self::$methods);
 		});
 
-		return self::array_filter_null(array_merge(
-								self::array_toArray($this->operations)
+		return self::arrayFilterNull(array_merge(
+								self::objectsToArray($this->operations)
 								, parent::toArray())
 		);
 	}

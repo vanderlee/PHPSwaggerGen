@@ -104,12 +104,12 @@ class ObjectType extends AbstractType
 			// type name description...
 			case 'property':
 			case 'property?':
-				$definition = self::words_shift($data);
+				$definition = self::wordShift($data);
 				if (empty($definition)) {
 					throw new \SwaggerGen\Exception("Missing property definition");
 				}
 
-				$name = self::words_shift($data);
+				$name = self::wordShift($data);
 				if (empty($name)) {
 					throw new \SwaggerGen\Exception("Missing property name: '{$definition}'");
 				}
@@ -148,10 +148,10 @@ class ObjectType extends AbstractType
 
 	public function toArray()
 	{
-		return self::array_filter_null(array(
+		return self::arrayFilterNull(array(
 					'type' => 'object',
 					'required' => $this->required,
-					'properties' => self::array_toArray($this->properties),
+					'properties' => self::objectsToArray($this->properties),
 					'minProperties' => $this->minProperties,
 					'maxProperties' => $this->maxProperties,
 		));

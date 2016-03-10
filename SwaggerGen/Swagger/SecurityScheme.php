@@ -58,9 +58,9 @@ class SecurityScheme extends AbstractObject
 				break;
 
 			case 'apikey':
-				$this->name = self::words_shift($data);
+				$this->name = self::wordShift($data);
 
-				$in = strtolower(self::words_shift($data));
+				$in = strtolower(self::wordShift($data));
 				if (!in_array($in, array('query', 'header'))) {
 					throw new \SwaggerGen\Exception("ApiKey in must be either 'query' or 'header', not '{$in}'");
 				}
@@ -70,14 +70,14 @@ class SecurityScheme extends AbstractObject
 				break;
 
 			case 'oauth2':
-				$flow = strtolower(self::words_shift($data));
+				$flow = strtolower(self::wordShift($data));
 				if (!in_array($flow, array('implicit', 'password', 'application', 'accesscode'))) {
 					throw new \SwaggerGen\Exception("OAuth2 flow must be either 'implicit', 'password', 'application' or 'accesscode', not '{$flow}'");
 				}
 				$this->flow = $flow;
 
 				if (in_array($flow, array('implicit', 'password'))) {
-					$authUrl = self::words_shift($data);
+					$authUrl = self::wordShift($data);
 					if (!filter_var($authUrl, FILTER_VALIDATE_URL)) {
 						throw new \SwaggerGen\Exception("OAuth2 authorization URL invalid: '{$authUrl}'");
 					}
@@ -85,7 +85,7 @@ class SecurityScheme extends AbstractObject
 				}
 
 				if (in_array($flow, array('password', 'application', 'accesscode'))) {
-					$tokenUrl = self::words_shift($data);
+					$tokenUrl = self::wordShift($data);
 					if (!filter_var($tokenUrl, FILTER_VALIDATE_URL)) {
 						throw new \SwaggerGen\Exception("OAuth2 token URL invalid: '{$tokenUrl}'");
 					}
@@ -109,7 +109,7 @@ class SecurityScheme extends AbstractObject
 					throw new \SwaggerGen\Exception("Cannot set scope on type '{$this->type}'");
 				}
 
-				$name = self::words_shift($data);
+				$name = self::wordShift($data);
 				$this->scopes[$name] = $data;
 				return $this;
 		}
@@ -119,7 +119,7 @@ class SecurityScheme extends AbstractObject
 
 	public function toArray()
 	{
-		return self::array_filter_null(array_merge(array(
+		return self::arrayFilterNull(array_merge(array(
 					'type' => $this->type === 'apikey' ? 'apiKey' : $this->type,
 					'description' => empty($this->description) ? null : $this->description,
 					'name' => $this->name,

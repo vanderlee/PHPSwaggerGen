@@ -63,7 +63,7 @@ class Info extends AbstractObject
 				$name = array();
 				$url = null;
 				$email = null;
-				foreach (self::words_split($data) as $word) {
+				foreach (self::wordSplit($data) as $word) {
 					if (filter_var($word, FILTER_VALIDATE_URL)) {
 						$url = $word;
 					} elseif (filter_var($word, FILTER_VALIDATE_EMAIL)) {
@@ -79,7 +79,7 @@ class Info extends AbstractObject
 			case 'license':
 				$name = array();
 				$url = null;
-				foreach (self::words_split($data) as $word) {
+				foreach (self::wordSplit($data) as $word) {
 					if (filter_var($word, FILTER_VALIDATE_URL)) {
 						$url = $word;
 					} else {
@@ -96,7 +96,7 @@ class Info extends AbstractObject
 
 	public function toArray()
 	{
-		return self::array_filter_null(array_merge(array(
+		return self::arrayFilterNull(array_merge(array(
 					'title' => $this->title,
 					'description' => $this->description,
 					'termsOfService' => $this->termsofservice,

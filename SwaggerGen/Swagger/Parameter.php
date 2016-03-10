@@ -78,12 +78,12 @@ class Parameter extends AbstractObject implements IParameter
 		}
 		$this->in = $in;
 
-		$definition = self::words_shift($data);
+		$definition = self::wordShift($data);
 		if (empty($definition)) {
 			throw new \SwaggerGen\Exception('No type definition for parameter');
 		}
 
-		$this->name = self::words_shift($data);
+		$this->name = self::wordShift($data);
 		if (empty($this->name)) {
 			throw new \SwaggerGen\Exception('No name for parameter');
 		}
@@ -116,7 +116,7 @@ class Parameter extends AbstractObject implements IParameter
 
 	public function toArray()
 	{
-		return self::array_filter_null(array_merge(array(
+		return self::arrayFilterNull(array_merge(array(
 					'name' => $this->name,
 					'in' => $this->in === 'form' ? 'formData' : $this->in,
 					'description' => empty($this->description) ? null : $this->description,

@@ -81,7 +81,7 @@ class Schema extends AbstractDocumentableObject implements IDefinition
 
 	public function toArray()
 	{
-		return self::array_filter_null(array_merge($this->type->toArray(), array(
+		return self::arrayFilterNull(array_merge($this->type->toArray(), array(
 					'description' => empty($this->description) ? null : $this->description,
 								), parent::toArray()));
 	}

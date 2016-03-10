@@ -39,7 +39,7 @@ class FileType extends AbstractType
 
 	public function toArray()
 	{
-		return self::array_filter_null(array(
+		return self::arrayFilterNull(array(
 					'type' => 'file',
 		));
 	}
