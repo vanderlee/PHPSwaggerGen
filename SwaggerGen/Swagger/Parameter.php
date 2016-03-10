@@ -73,9 +73,21 @@ class Parameter extends AbstractObject implements IParameter
 	{
 		parent::__construct($parent);
 
+		if ($in !== 'path' && $in !== 'form' && $in !== 'query' && $in !== 'head') {
+			throw new \SwaggerGen\Exception("Invalid in for parameter: '{$in}'");
+		}
 		$this->in = $in;
+
 		$definition = self::words_shift($data);
+		if (empty($definition)) {
+			throw new \SwaggerGen\Exception('No type definition for parameter');
+		}
+
 		$this->name = self::words_shift($data);
+		if (empty($this->name)) {
+			throw new \SwaggerGen\Exception('No name for parameter');
+		}
+
 		$this->description = $data;
 		$this->required = (bool) $required;
 
@@ -88,7 +100,7 @@ class Parameter extends AbstractObject implements IParameter
 			$class = "SwaggerGen\\Swagger\\Type\\{$type}Type";
 			$this->Type = new $class($this, $definition);
 		} else {
-			throw new \SwaggerGen\Exception('Type format not recognized: ' . $format);
+			throw new \SwaggerGen\Exception("Type format not recognized: '{$format}'");
 		}
 	}
 
@@ -107,8 +119,8 @@ class Parameter extends AbstractObject implements IParameter
 		return self::array_filter_null(array_merge(array(
 					'name' => $this->name,
 					'in' => $this->in === 'form' ? 'formData' : $this->in,
-					'description' => $this->description,
-					'required' => $this->in === 'path' || $this->required ? 'true' : null,
+					'description' => empty($this->description) ? null : $this->description,
+					'required' => $this->in === 'path' || $this->required ? true : null,
 								), $this->Type->toArray(), parent::toArray()));
 	}
 

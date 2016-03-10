@@ -33,14 +33,6 @@ class BodyParameterTest extends PHPUnit_Framework_TestCase
 		$this->setExpectedException('\SwaggerGen\Exception', "No name for body parameter");
 
 		$object = new \SwaggerGen\Swagger\BodyParameter($this->parent, 'wrong');
-
-		$this->assertInstanceOf('\SwaggerGen\Swagger\BodyParameter', $object);
-
-		$this->assertSame(array(
-			'name' => 'Name',
-			'url' => 'http://example.com',
-			'email' => 'somebody@somewhere.test',
-				), $object->toArray());
 	}
 
 	/**
@@ -139,7 +131,6 @@ class BodyParameterTest extends PHPUnit_Framework_TestCase
 			),
 				), $object->toArray());
 	}
-
 
 	/**
 	 * @covers \SwaggerGen\Swagger\Type\BodyParameter->handleCommand

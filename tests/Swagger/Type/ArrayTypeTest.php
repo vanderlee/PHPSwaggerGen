@@ -50,7 +50,7 @@ class ArrayTypeTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testConstructMultiOnFormParam()
 	{
-		$param = new \SwaggerGen\Swagger\Parameter($this->parent, 'form', 'multi');
+		$param = new \SwaggerGen\Swagger\Parameter($this->parent, 'form', 'multi foo');
 
 		$this->assertInstanceOf('\SwaggerGen\Swagger\Parameter', $param);
 	}
