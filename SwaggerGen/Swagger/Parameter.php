@@ -73,7 +73,7 @@ class Parameter extends AbstractObject implements IParameter
 	{
 		parent::__construct($parent);
 
-		if ($in !== 'path' && $in !== 'form' && $in !== 'query' && $in !== 'head') {
+		if ($in !== 'path' && $in !== 'form' && $in !== 'query' && $in !== 'header') {
 			throw new \SwaggerGen\Exception("Invalid in for parameter: '{$in}'");
 		}
 		$this->in = $in;
