@@ -137,6 +137,39 @@ class ParameterTest extends PHPUnit_Framework_TestCase
 				), $object->toArray());
 	}
 
+	/**
+	 * @covers \SwaggerGen\Swagger\Parameter::__construct
+	 */
+	public function testConstructor_Form()
+	{
+		$object = new \SwaggerGen\Swagger\Parameter($this->parent, 'form', 'int foo', false);
+
+		$this->assertInstanceOf('\SwaggerGen\Swagger\Parameter', $object);
+
+		$this->assertSame(array(
+			'name' => 'foo',
+			'in' => 'formData',
+			'type' => 'integer',
+			'format' => 'int32',
+				), $object->toArray());
+	}
+
+	/**
+	 * @covers \SwaggerGen\Swagger\Parameter::__construct
+	 */
+	public function testConstructor_Header()
+	{
+		$object = new \SwaggerGen\Swagger\Parameter($this->parent, 'header', 'int foo', false);
+
+		$this->assertInstanceOf('\SwaggerGen\Swagger\Parameter', $object);
+
+		$this->assertSame(array(
+			'name' => 'foo',
+			'in' => 'header',
+			'type' => 'integer',
+			'format' => 'int32',
+				), $object->toArray());
+	}
 
 	/**
 	 * @covers \SwaggerGen\Swagger\Type\Parameter->handleCommand
