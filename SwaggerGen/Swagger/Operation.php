@@ -35,7 +35,7 @@ class Operation extends AbstractDocumentableObject
 		return $this->consumes;
 	}
 
-	public function __construct(AbstractObject $parent, $summary = '', Tag $tag = null)
+	public function __construct(AbstractObject $parent, $summary = null, Tag $tag = null)
 	{
 		parent::__construct($parent);
 		$this->summary = $summary;
@@ -72,20 +72,27 @@ class Operation extends AbstractDocumentableObject
 				return $this;
 
 			case 'error':
-				$code = Response::getCode(self::wordShift($data));
+				$code = self::wordShift($data);
+				$reasoncode = Response::getCode($code);
+				if ($reasoncode === null) {
+					throw new \SwaggerGen\Exception("Invalid error code: '$code'");
+				}
 				$description = $data;
-				$Error = new Error($this, $code, $description);
-				$this->responses[$code] = $Error;
+				$Error = new Error($this, $reasoncode, $description);
+				$this->responses[$reasoncode] = $Error;
 				return $Error;
 
 			case 'errors':
 				foreach (self::wordSplit($data) as $code) {
-					$code = Response::getCode($code);
-					$this->responses[$code] = new Error($this, $code);
+					$reasoncode = Response::getCode($code);
+					if ($reasoncode === null) {
+						throw new \SwaggerGen\Exception("Invalid error code: '$code'");
+					}
+					$this->responses[$reasoncode] = new Error($this, $reasoncode);
 				}
 				return $this;
 
-			case 'path': case 'path?':
+			case 'path':
 			case 'query': case 'query?':
 			case 'header': case 'header?':
 			case 'form': case 'form?':
@@ -95,22 +102,30 @@ class Operation extends AbstractDocumentableObject
 				return $Parameter;
 
 			case 'body': case 'body?':
-				$in = rtrim($command, '?');
 				$Parameter = new BodyParameter($this, $data, substr($command, -1) !== '?');
 				$this->parameters[] = $Parameter;
 				return $Parameter;
 
 			case 'response':
-				$code = Response::getCode(strtolower(self::wordShift($data)));
+				$code = self::wordShift($data);
+				$reasoncode = Response::getCode($code);
+				if ($reasoncode === null) {
+					throw new \SwaggerGen\Exception("Invalid response code: '$code'");
+				}
 				$definition = self::wordShift($data);
 				$description = $data;
-				$Response = new Response($this, $code, $definition, $description);
-				$this->responses[$code] = $Response;
+				$Response = new Response($this, $reasoncode, $definition, $description);
+				$this->responses[$reasoncode] = $Response;
 				return $Response;
 
 			case 'require':
 				$name = self::wordShift($data);
-				$this->security[$name] = self::wordSplit($data);
+				if (empty($name)) {
+					throw new \SwaggerGen\Exception('Empty security requirement name');
+				}
+				$scopes = self::wordSplit($data);
+				sort($scopes);
+				$this->security[$name] = $scopes;
 				return $this;
 
 			//@todo operationId			
@@ -121,16 +136,34 @@ class Operation extends AbstractDocumentableObject
 
 	public function toArray()
 	{
+		if (empty($this->responses)) {
+			throw new \SwaggerGen\Exception('No response defined for operation');
+		}
+		ksort($this->responses);
+
+		$tags = array_unique($this->tags);
+		sort($tags);
+
+		$schemes = array_unique($this->schemes);
+		sort($schemes);
+
+		$consumes = array_unique($this->consumes);
+		sort($consumes);
+
+		$produces = array_unique($this->produces);
+		sort($produces);
+
 		return self::arrayFilterNull(array_merge(array(
-					'tags' => $this->tags,
-					'summary' => $this->summary,
-					'description' => $this->description,
+					'deprecated' => $this->deprecated ? true : null,
+					'tags' => $tags,
+					'summary' => empty($this->summary) ? null : $this->summary,
+					'description' => empty($this->description) ? null : $this->description,
 					//'operationId' => $this->description,
-					'consumes' => $this->consumes,
-					'produces' => $this->produces,
+					'consumes' => $consumes,
+					'produces' => $produces,
 					'parameters' => $this->parameters ? self::objectsToArray($this->parameters) : null,
+					'schemes' => $schemes,
 					'responses' => $this->responses ? self::objectsToArray($this->responses) : null,
-					'schemes' => $this->schemes,
 					'security' => $this->security,
 								), parent::toArray()));
 	}

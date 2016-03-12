@@ -1,5 +1,5 @@
 # SwaggerGen
-Version v2.0.11
+Version v2.0.12
 
 [![Build Status](https://travis-ci.org/vanderlee/PHPSwaggerGen.svg?branch=master)](https://travis-ci.org/vanderlee/PHPSwaggerGen)
 
@@ -369,11 +369,10 @@ Describes an operation; a call to a specifc path using a specific method.
 	See the chapter on  **Parameter definitions** for a detailed
 	description of all the possible definition formats.
 
-*	### `path`/`path?` *`definition name [description ...]`* &rArr; Parameter
+*	### `path`` *`definition name [description ...]`* &rArr; Parameter
 	Add a new path Parameter to this operation.
 
-	Use `path` to make the parameter required.
-	Use `path?` (with a question mark) to make the parameter optional.
+	`path` parameters are always required; they cannot be optional.
 
 	See the chapter on  **Parameter definitions** for a detailed
 	description of all the possible definition formats.
