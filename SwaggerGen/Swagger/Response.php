@@ -99,7 +99,6 @@ class Response extends AbstractObject
 			foreach (self::$httpCodes as $code => $text) {
 				$lookup[preg_replace('/[^a-z]+/', '', strtolower($text))] = $code;
 			}
-			var_dump($lookup);
 		}
 
 		$search = preg_replace('/[^a-z]+/', '', strtolower($search));
