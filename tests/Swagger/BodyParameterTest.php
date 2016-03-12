@@ -21,7 +21,6 @@ class BodyParameterTest extends PHPUnit_Framework_TestCase
 	public function testConstructorNoType()
 	{
 		$this->setExpectedException('\SwaggerGen\Exception', "No type definition for body parameter");
-
 		$object = new \SwaggerGen\Swagger\BodyParameter($this->parent, '');
 	}
 
@@ -31,7 +30,6 @@ class BodyParameterTest extends PHPUnit_Framework_TestCase
 	public function testConstructorNoName()
 	{
 		$this->setExpectedException('\SwaggerGen\Exception', "No name for body parameter");
-
 		$object = new \SwaggerGen\Swagger\BodyParameter($this->parent, 'wrong');
 	}
 
@@ -41,7 +39,6 @@ class BodyParameterTest extends PHPUnit_Framework_TestCase
 	public function testConstructorType()
 	{
 		$object = new \SwaggerGen\Swagger\BodyParameter($this->parent, 'int foo');
-
 		$this->assertInstanceOf('\SwaggerGen\Swagger\BodyParameter', $object);
 
 		$this->assertSame(array(
@@ -60,7 +57,6 @@ class BodyParameterTest extends PHPUnit_Framework_TestCase
 	public function testConstructorReference()
 	{
 		$object = new \SwaggerGen\Swagger\BodyParameter($this->parent, 'User foo');
-
 		$this->assertInstanceOf('\SwaggerGen\Swagger\BodyParameter', $object);
 
 		$this->assertSame(array(
@@ -79,7 +75,6 @@ class BodyParameterTest extends PHPUnit_Framework_TestCase
 	public function testConstructorDescription()
 	{
 		$object = new \SwaggerGen\Swagger\BodyParameter($this->parent, 'int foo Some more words');
-
 		$this->assertInstanceOf('\SwaggerGen\Swagger\BodyParameter', $object);
 
 		$this->assertSame(array(
@@ -99,7 +94,6 @@ class BodyParameterTest extends PHPUnit_Framework_TestCase
 	public function testConstructorRequired()
 	{
 		$object = new \SwaggerGen\Swagger\BodyParameter($this->parent, 'int foo', true);
-
 		$this->assertInstanceOf('\SwaggerGen\Swagger\BodyParameter', $object);
 
 		$this->assertSame(array(
@@ -119,7 +113,6 @@ class BodyParameterTest extends PHPUnit_Framework_TestCase
 	public function testConstructorNotRequired()
 	{
 		$object = new \SwaggerGen\Swagger\BodyParameter($this->parent, 'int foo', false);
-
 		$this->assertInstanceOf('\SwaggerGen\Swagger\BodyParameter', $object);
 
 		$this->assertSame(array(
@@ -138,7 +131,6 @@ class BodyParameterTest extends PHPUnit_Framework_TestCase
 	public function testCommandPassing()
 	{
 		$object = new \SwaggerGen\Swagger\BodyParameter($this->parent, 'int foo', false);
-
 		$this->assertInstanceOf('\SwaggerGen\Swagger\BodyParameter', $object);
 
 		$object->handleCommand('default', '123');
