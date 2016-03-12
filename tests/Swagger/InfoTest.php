@@ -21,7 +21,6 @@ class InfoTest extends PHPUnit_Framework_TestCase
 	public function testNoConstructor()
 	{
 		$object = new \SwaggerGen\Swagger\Info;
-
 		$this->assertInstanceOf('\SwaggerGen\Swagger\Info', $object);
 
 		$this->assertSame(array(
@@ -36,7 +35,6 @@ class InfoTest extends PHPUnit_Framework_TestCase
 	public function testCommandTitle()
 	{
 		$object = new \SwaggerGen\Swagger\Info;
-
 		$this->assertInstanceOf('\SwaggerGen\Swagger\Info', $object);
 
 		$object->handleCommand('title', 'This is the title');
@@ -53,7 +51,6 @@ class InfoTest extends PHPUnit_Framework_TestCase
 	public function testCommandDescription()
 	{
 		$object = new \SwaggerGen\Swagger\Info;
-
 		$this->assertInstanceOf('\SwaggerGen\Swagger\Info', $object);
 
 		$object->handleCommand('description', 'This is the description');
@@ -71,7 +68,6 @@ class InfoTest extends PHPUnit_Framework_TestCase
 	public function testCommandVersion()
 	{
 		$object = new \SwaggerGen\Swagger\Info;
-
 		$this->assertInstanceOf('\SwaggerGen\Swagger\Info', $object);
 
 		$object->handleCommand('version', '1.2.3a');
@@ -88,7 +84,6 @@ class InfoTest extends PHPUnit_Framework_TestCase
 	public function testCommandTermsofservice()
 	{
 		$object = new \SwaggerGen\Swagger\Info;
-
 		$this->assertInstanceOf('\SwaggerGen\Swagger\Info', $object);
 
 		$object->handleCommand('termsofservice', 'These are the terms');
@@ -106,7 +101,6 @@ class InfoTest extends PHPUnit_Framework_TestCase
 	public function testCommandTerms()
 	{
 		$object = new \SwaggerGen\Swagger\Info;
-
 		$this->assertInstanceOf('\SwaggerGen\Swagger\Info', $object);
 
 		$object->handleCommand('terms', 'These are the terms');
@@ -124,7 +118,6 @@ class InfoTest extends PHPUnit_Framework_TestCase
 	public function testCommandContactNameUrlEmail()
 	{
 		$object = new \SwaggerGen\Swagger\Info;
-
 		$this->assertInstanceOf('\SwaggerGen\Swagger\Info', $object);
 
 		$object->handleCommand('contact', 'Arthur D. Author http://example.test arthur@author.test');
@@ -146,7 +139,6 @@ class InfoTest extends PHPUnit_Framework_TestCase
 	public function testCommandContactNameEmailNameUrlName()
 	{
 		$object = new \SwaggerGen\Swagger\Info;
-
 		$this->assertInstanceOf('\SwaggerGen\Swagger\Info', $object);
 
 		$object->handleCommand('contact', 'Arthur arthur@author.test D. http://example.test Author    ');
@@ -168,7 +160,6 @@ class InfoTest extends PHPUnit_Framework_TestCase
 	public function testCommandLicenseNameUrl()
 	{
 		$object = new \SwaggerGen\Swagger\Info;
-
 		$this->assertInstanceOf('\SwaggerGen\Swagger\Info', $object);
 
 		$object->handleCommand('license', 'NAME http://example.test');
@@ -189,7 +180,6 @@ class InfoTest extends PHPUnit_Framework_TestCase
 	public function testCommandLicenseUrlName()
 	{
 		$object = new \SwaggerGen\Swagger\Info;
-
 		$this->assertInstanceOf('\SwaggerGen\Swagger\Info', $object);
 
 		$object->handleCommand('license', 'http://example.test NAME');
@@ -210,7 +200,6 @@ class InfoTest extends PHPUnit_Framework_TestCase
 	public function testCommandLicenseShorthand()
 	{
 		$object = new \SwaggerGen\Swagger\Info;
-
 		$this->assertInstanceOf('\SwaggerGen\Swagger\Info', $object);
 
 		$object->handleCommand('license', 'BSD');
@@ -231,7 +220,6 @@ class InfoTest extends PHPUnit_Framework_TestCase
 	public function testCommandAll()
 	{
 		$object = new \SwaggerGen\Swagger\Info;
-
 		$this->assertInstanceOf('\SwaggerGen\Swagger\Info', $object);
 
 		$object->handleCommand('description', 'This is the description');
