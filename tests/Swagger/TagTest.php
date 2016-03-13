@@ -34,6 +34,21 @@ class TagTest extends PHPUnit_Framework_TestCase
 	 * @covers \SwaggerGen\Swagger\Tag::__construct
 	 * @covers \SwaggerGen\Swagger\License::toArray
 	 */
+	public function testConstructor_Description_Empty()
+	{
+		$object = new \SwaggerGen\Swagger\Tag($this->parent, 'Name', '');
+
+		$this->assertInstanceOf('\SwaggerGen\Swagger\Tag', $object);
+
+		$this->assertSame(array(
+			'name' => 'Name',
+				), $object->toArray());
+	}
+
+	/**
+	 * @covers \SwaggerGen\Swagger\Tag::__construct
+	 * @covers \SwaggerGen\Swagger\License::toArray
+	 */
 	public function testConstructor3()
 	{
 		$object = new \SwaggerGen\Swagger\Tag($this->parent, 'Name', 'Description');

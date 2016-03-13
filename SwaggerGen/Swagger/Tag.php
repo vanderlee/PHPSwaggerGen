@@ -38,7 +38,7 @@ class Tag extends AbstractDocumentableObject
 	{
 		return self::arrayFilterNull(array_merge(array(
 					'name' => $this->name,
-					'description' => $this->description,
+					'description' => empty($this->description) ? null : $this->description,
 								), parent::toArray()));
 	}
 
