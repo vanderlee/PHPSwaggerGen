@@ -97,7 +97,7 @@ class StringType extends AbstractType
 
 	public function toArray()
 	{
-		return self::arrayFilterNull([
+		return self::arrayFilterNull(array(
 					'type' => 'string',
 					'format' => empty($this->format) ? null : $this->format,
 					'pattern' => $this->pattern,
@@ -105,7 +105,7 @@ class StringType extends AbstractType
 					'minLength' => $this->minLength ? intval($this->minLength) : null,
 					'maxLength' => $this->maxLength ? intval($this->maxLength) : null,
 					'enum' => $this->enum,
-		]);
+		));
 	}
 
 	private function validateDefault($value)
