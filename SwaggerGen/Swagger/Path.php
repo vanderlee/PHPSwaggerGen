@@ -71,8 +71,9 @@ class Path extends AbstractObject
 
 	public function toArray()
 	{
-		uksort($this->operations, function($a, $b) {
-			return array_search($a, Path::$methods) - array_search($b, Path::$methods);
+		$methods = self::$methods;
+		uksort($this->operations, function($a, $b) use ($methods) {
+			return array_search($a, $methods) - array_search($b, $methods);
 		});
 
 		return self::arrayFilterNull(array_merge(
