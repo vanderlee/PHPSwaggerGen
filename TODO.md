@@ -27,9 +27,6 @@
 *	PSR-* compliance
 
 ## Validations
-*	'body' and 'formData' Parameters cannot exist in single Operation.
-*	'path' Parameters must reference part of Path.
-
-## Documentation
-*	Explain basic command context. How does PHPDoc/JavaDoc explain this?
-*	PHPDoc reference documentation.
+*	`body` and `formData` Parameters cannot exist in single Operation.
+*	`path` Parameters must reference part of Path.
+*	Check required `security` objects exist in `toArray`.
