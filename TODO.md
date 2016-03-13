@@ -29,4 +29,4 @@
 ## Validations
 *	`body` and `formData` Parameters cannot exist in single Operation.
 *	`path` Parameters must reference part of Path.
-*	Check required `security` objects exist in `toArray`.
+*	For `oauth2` security, check scopes in `require` and vice versa.
