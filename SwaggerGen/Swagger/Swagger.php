@@ -48,7 +48,7 @@ class Swagger extends AbstractDocumentableObject
 
 	//private $security;
 
-	public function __construct($host = '', $basePath = '')
+	public function __construct($host = null, $basePath = null)
 	{
 		parent::__construct(null);
 
@@ -58,28 +58,38 @@ class Swagger extends AbstractDocumentableObject
 		$this->Info = new Info($this);
 	}
 
-	public function getRoot()
+	protected function getRoot()
 	{
 		return $this;
 	}
 
-	public function getInfo()
-	{
-		if (!$this->Info) {
-			$this->Info;
-		}
-		return $this->Info;
-	}
-
+	/**
+	 * Return all consumes
+	 * @todo Deprecate in favour of a getConsume($name);
+	 * @return string
+	 */
 	public function getConsumes()
 	{
 		return $this->consumes;
 	}
 
+	/**
+	 * Return the named security if it exists. Otherwise return FALSE
+	 * @param string $name
+	 * @return boolean|SecurityScheme
+	 */
+	public function getSecurity($name) {
+		if (isset($this->securityDefinitions[$name])) {
+			return $this->securityDefinitions[$name];
+		}
+
+		return false;
+	}
+
 	public function handleCommand($command, $data = null)
 	{
 		switch (strtolower($command)) {
-			// Info.string
+			// pass to Info
 			case 'title':
 			case 'description':
 			case 'version':
@@ -110,7 +120,7 @@ class Swagger extends AbstractDocumentableObject
 			case 'definition':
 				$type = self::wordShift($data);
 				switch ($type) {
-					case 'response':
+//					case 'response':
 //						$definition = new SwaggerResponseDefinition($this);
 //						break;
 					case 'params':
@@ -119,15 +129,22 @@ class Swagger extends AbstractDocumentableObject
 						break;
 
 					default:
-						throw new \SwaggerGen\Exception('Unsupported definition type: ' . $type);
+						throw new \SwaggerGen\Exception("Unsupported definition type: '{$type}'");
 				}
 
-				$this->definitions[self::wordShift($data)] = $definition;
+				$name = self::wordShift($data);
+				if (empty($name)) {
+					throw new \SwaggerGen\Exception('Missing definition name');
+				}
+				$this->definitions[$name] = $definition;
 				return $definition;
 
 			case 'api': // alias
 			case 'tag':
 				$tagname = self::wordShift($data);
+				if (empty($tagname)) {
+					throw new \SwaggerGen\Exception('Missing tag name');
+				}
 
 				$Tag = null;
 				foreach ($this->Tags as $T) {
@@ -173,6 +190,9 @@ class Swagger extends AbstractDocumentableObject
 
 			case 'security':
 				$name = self::wordShift($data);
+				if (empty($name)) {
+					throw new \SwaggerGen\Exception('Missing security name');
+				}
 				$type = self::wordShift($data);
 				$SecurityScheme = new SecurityScheme($this, $type, $data);
 				$this->securityDefinitions[$name] = $SecurityScheme;
@@ -180,6 +200,9 @@ class Swagger extends AbstractDocumentableObject
 
 			case 'require':
 				$name = self::wordShift($data);
+				if (empty($name)) {
+					throw new \SwaggerGen\Exception('Missing require name');
+				}
 				$this->security[$name] = self::wordSplit($data);
 				return $this;
 		}
@@ -189,17 +212,37 @@ class Swagger extends AbstractDocumentableObject
 
 	public function toArray()
 	{
+		if (empty($this->Paths)) {
+			throw new \SwaggerGen\Exception('No path defined');
+		}
+
+
+		$schemes = array_unique($this->schemes);
+		sort($schemes);
+
+		$consumes = array_unique($this->consumes);
+		sort($consumes);
+
+		$produces = array_unique($this->produces);
+		sort($produces);
+
+		foreach ($this->security as $name => $scopes) {
+			if (!isset($this->securityDefinitions[$name])) {
+				throw new \SwaggerGen\Exception("Required security scheme not defined: '{$name}'");
+			}
+		}
+
 		return self::arrayFilterNull(array_merge(array(
 					'swagger' => $this->swagger,
 					'info' => $this->Info->toArray(),
-					'host' => $this->host,
-					'basePath' => $this->basePath,
-					'schemes' => $this->schemes,
-					'consumes' => $this->consumes,
-					'produces' => $this->produces,
+					'host' => empty($this->host) ? null : $this->host,
+					'basePath' => empty($this->basePath) ? null : $this->basePath,
+					'consumes' => $consumes,
+					'produces' => $produces,
+//					'parameters' => $this->parameters ? $this->parameters->toArray() : null,
+					'schemes' => $schemes,
 					'paths' => self::objectsToArray($this->Paths),
 					'definitions' => self::objectsToArray($this->definitions),
-//					'parameters' => $this->parameters ? $this->parameters->toArray() : null,
 //					'responses' => $this->responses ? $this->responses->toArray() : null,
 					'securityDefinitions' => self::objectsToArray($this->securityDefinitions),
 					'security' => $this->security,
