@@ -27,8 +27,8 @@ class Operation extends AbstractDocumentableObject
 	private $parameters = array();
 	private $responses = array();
 	private $schemes = array();
-	private $deprecated; // bool
-	private $security; // SwaggerSecurity
+	private $deprecated = false;
+	private $security = array();
 
 	public function getConsumes()
 	{
@@ -152,6 +152,12 @@ class Operation extends AbstractDocumentableObject
 
 		$produces = array_unique($this->produces);
 		sort($produces);
+
+		foreach ($this->security as $name => $scopes) {
+			if ($this->getRoot()->getSecurity($name) === false) {
+				throw new \SwaggerGen\Exception("Required security scheme not defined: '{$name}'");
+			}
+		}
 
 		return self::arrayFilterNull(array_merge(array(
 					'deprecated' => $this->deprecated ? true : null,

@@ -692,7 +692,29 @@ class OperationTest extends PHPUnit_Framework_TestCase
 		$this->assertInstanceOf('\SwaggerGen\Swagger\Operation', $object);
 
 		$this->setExpectedException('\SwaggerGen\Exception', "Empty security requirement name");
-		$return = $object->handleCommand('require');
+		$object->handleCommand('require');
+	}
+
+	/**
+	 * @covers \SwaggerGen\Swagger\Operation::handleCommand
+	 */
+	public function testHandleCommand_Require_Basic_Undefined()
+	{
+		// precondition
+		$swagger = new \SwaggerGen\Swagger\Swagger();
+		$this->assertInstanceOf('\SwaggerGen\Swagger\Swagger', $swagger);
+
+		$object = new \SwaggerGen\Swagger\Operation($swagger);
+		$this->assertInstanceOf('\SwaggerGen\Swagger\Operation', $object);
+
+		$return = $object->handleCommand('require', 'basic');
+		$this->assertInstanceOf('\SwaggerGen\Swagger\Operation', $return);
+
+		$return = $object->handleCommand('response', '200');
+		$this->assertInstanceOf('\SwaggerGen\Swagger\Response', $return);
+
+		$this->setExpectedException('\SwaggerGen\Exception', "Required security scheme not defined: 'basic'");
+		$object->toArray();
 	}
 
 	/**
@@ -700,7 +722,12 @@ class OperationTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testHandleCommand_Require_Basic()
 	{
-		$object = new \SwaggerGen\Swagger\Operation($this->parent);
+		// precondition
+		$swagger = new \SwaggerGen\Swagger\Swagger();
+		$this->assertInstanceOf('\SwaggerGen\Swagger\Swagger', $swagger);
+		$swagger->handleCommand('security', 'basic basic');
+
+		$object = new \SwaggerGen\Swagger\Operation($swagger);
 		$this->assertInstanceOf('\SwaggerGen\Swagger\Operation', $object);
 
 		$return = $object->handleCommand('require', 'basic');
@@ -726,7 +753,12 @@ class OperationTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testHandleCommand_Require_Oauth2()
 	{
-		$object = new \SwaggerGen\Swagger\Operation($this->parent);
+		// precondition
+		$swagger = new \SwaggerGen\Swagger\Swagger();
+		$this->assertInstanceOf('\SwaggerGen\Swagger\Swagger', $swagger);
+		$swagger->handleCommand('security', 'oauth oauth2 implicit http://www.test');
+
+		$object = new \SwaggerGen\Swagger\Operation($swagger);
 		$this->assertInstanceOf('\SwaggerGen\Swagger\Operation', $object);
 
 		$return = $object->handleCommand('require', 'oauth user:name user:email');
