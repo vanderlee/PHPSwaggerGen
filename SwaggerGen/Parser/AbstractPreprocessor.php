@@ -46,6 +46,12 @@ abstract class AbstractPreprocessor
 		return empty($this->stack) || (bool) end($this->stack);
 	}
 
+	/**
+	 * Get the first word from a string and remove it from the string.
+	 *
+	 * @param string $data
+	 * @return boolean|string
+	 */
 	private static function wordShift(&$data)
 	{
 		if (preg_match('~^(\S+)\s*(.*)$~', $data, $matches) === 1) {
