@@ -7,14 +7,26 @@ namespace SwaggerGen\Parser\Text;
  *
  * @package    SwaggerGen
  * @author     Martijn van der Lee <martijn@vanderlee.com>
- * @copyright  2014-2015 Martijn van der Lee
+ * @copyright  2014-2016 Martijn van der Lee
  * @license    https://opensource.org/licenses/MIT MIT
  */
 class Parser implements \SwaggerGen\Parser\IParser
 {
 
+	/**
+	 * List of directories to scan for class files referenced in the parsed
+	 * command statements.
+	 *
+	 * @var string[]
+	 */
 	protected $common_dirs = array();
 
+	/**
+	 * Create a new text parser and set directories to scan for referenced
+	 * class files.
+	 *
+	 * @param string[] $dirs
+	 */
 	public function __construct(Array $dirs = array())
 	{
 		foreach ($dirs as $dir) {
@@ -22,6 +34,11 @@ class Parser implements \SwaggerGen\Parser\IParser
 		}
 	}
 
+	/**
+	 * Add additional directories to scan for referenced class files.
+	 *
+	 * @param string[] $dirs
+	 */
 	public function addDirs(Array $dirs)
 	{
 		foreach ($dirs as $dir) {
@@ -29,11 +46,25 @@ class Parser implements \SwaggerGen\Parser\IParser
 		}
 	}
 
+	/**
+	 * Parse a text file
+	 *
+	 * @param string $file
+	 * @param string[] $dirs
+	 * @return \SwaggerGen\Statement[]
+	 */
 	public function parse($file, Array $dirs = array())
 	{
 		return $this->parseText(file_get_contents(realpath($file)), $dirs);
 	}
 
+	/**
+	 * Parse plain text
+	 *
+	 * @param string $text
+	 * @param string[] $dirs
+	 * @return \SwaggerGen\Statement
+	 */
 	public function parseText($text, Array $dirs = array())
 	{
 		$this->dirs = $this->common_dirs;
@@ -54,6 +85,12 @@ class Parser implements \SwaggerGen\Parser\IParser
 		return $Statements;
 	}
 
+	/**
+	 * Get the first word from a string and remove it from the string.
+	 *
+	 * @param string $data
+	 * @return boolean|string
+	 */
 	private static function wordShift(&$data)
 	{
 		if (preg_match('~^(\S+)\s*(.*)$~', $data, $matches) === 1) {
