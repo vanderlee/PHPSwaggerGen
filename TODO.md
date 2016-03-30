@@ -27,6 +27,7 @@
 *	PHP: Cache previously parsed files; do not re-parse?
 *	Unittests and Travis-CI integration.
 *	PSR-* compliance
+*	Document comment structure in classes; before/in/after class/method/function
 
 ## Validations
 *	`body` and `formData` Parameters cannot exist in single Operation.
