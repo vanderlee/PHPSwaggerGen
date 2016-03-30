@@ -10,6 +10,8 @@
 *	Command aliassing system.
 *	Command line interface. Netbeans integration.
 *	Use different mechanism for preprocessor: # or such prefix
+*	Standardize the Parser interface; parseFile(), parseText(), defines
+*	Add text preprocessor
 
 ## Swagger
 *	Full Type support in Swagger\Header object
