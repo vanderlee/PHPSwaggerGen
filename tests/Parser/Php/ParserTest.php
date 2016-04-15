@@ -17,6 +17,22 @@ class Parser_Php_ParserTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Test if the statement matches the expected values
+	 * @param array[] $expected
+	 * @param SwaggerGen\Parser\Php\Statement[] $statements
+	 */
+	private function assertStatements(array $expected, array $statements)
+	{
+		$this->assertCount(count($expected), $statements);
+		foreach ($expected as $index => $command) {
+			$statement = $statements[$index];
+			$this->assertInstanceOf('\SwaggerGen\Parser\Php\Statement', $statement);
+			$this->assertSame($command[0], $statement->command);
+			$this->assertSame($command[1], $statement->data);
+		}
+	}
+
+	/**
 	 * @covers \SwaggerGen\Parser\Php\Parser::__construct
 	 */
 	public function testConstructor_Empty()
@@ -191,13 +207,239 @@ class Parser_Php_ParserTest extends PHPUnit_Framework_TestCase
 		$this->assertStatement($statements[0], 'title', 'Some words');
 	}
 
-	//@todo Including+referencing class files
-	//@todo Including+referencing function files
-	//@todo self::MethodName
-	//@todo static::MethodName(implemented even?
-	//@todo $this->MethodName
-	//@todo ClassName->MethodName
-	//@todo ClassNameMethodName
-	//@todo ClassName
-	//@todo functionname
+	/**
+	 * @covers \SwaggerGen\Parser\Php\Parser::parse
+	 */
+	public function testParse_Minimal()
+	{
+		$object = new \SwaggerGen\Parser\Php\Parser();
+		$this->assertInstanceOf('\SwaggerGen\Parser\Php\Parser', $object);
+
+		$statements = $object->parse(__DIR__ . '/ParserTest/testParse_Minimal.php');
+
+		$this->assertCount(4, $statements);
+
+		$this->assertStatement($statements[0], 'title', 'Minimal');
+		$this->assertStatement($statements[1], 'api', 'MyApi Example');
+		$this->assertStatement($statements[2], 'endpoint', '/endpoint');
+		$this->assertStatement($statements[3], 'method', 'GET Something');
+	}
+
+	/**
+	 * Tests FunctionName
+	 * @covers \SwaggerGen\Parser\Php\Parser::parse
+	 */
+	public function testParse_SeeFunction()
+	{
+		$object = new \SwaggerGen\Parser\Php\Parser();
+		$this->assertInstanceOf('\SwaggerGen\Parser\Php\Parser', $object);
+
+		$statements = $object->parse(__DIR__ . '/ParserTest/testParse_SeeFunction.php');
+
+		$this->assertStatements(array(
+			array('api', 'MyApi Example'),
+			array('endpoint', '/endpoint'),
+			array('method', 'GET Something'),
+			array('error', '400'),
+				), $statements);
+	}
+
+	/**
+	 * Tests $this->MethodName
+	 * @covers \SwaggerGen\Parser\Php\Parser::parse
+	 */
+	public function testParse_SeeThisMethod()
+	{
+		$object = new \SwaggerGen\Parser\Php\Parser();
+		$this->assertInstanceOf('\SwaggerGen\Parser\Php\Parser', $object);
+
+		$statements = $object->parse(__DIR__ . '/ParserTest/testParse_SeeThisMethod.php');
+
+		$this->assertStatements(array(
+			array('api', 'MyApi Example'),
+			array('endpoint', '/endpoint'),
+			array('method', 'GET Something'),
+			array('error', '400'),
+				), $statements);
+	}
+
+	/**
+	 * Tests Class->MethodName
+	 * @covers \SwaggerGen\Parser\Php\Parser::parse
+	 */
+	public function testParse_SeeObjectMethod()
+	{
+		$object = new \SwaggerGen\Parser\Php\Parser();
+		$this->assertInstanceOf('\SwaggerGen\Parser\Php\Parser', $object);
+
+		$statements = $object->parse(__DIR__ . '/ParserTest/testParse_SeeObjectMethod.php');
+
+		$this->assertStatements(array(
+			array('api', 'MyApi Example'),
+			array('endpoint', '/endpoint'),
+			array('method', 'GET Something'),
+			array('error', '400'),
+				), $statements);
+	}
+
+	/**
+	 * Tests self::MethodName
+	 * @covers \SwaggerGen\Parser\Php\Parser::parse
+	 */
+	public function testParse_SeeSelfMethod()
+	{
+		$object = new \SwaggerGen\Parser\Php\Parser();
+		$this->assertInstanceOf('\SwaggerGen\Parser\Php\Parser', $object);
+
+		$statements = $object->parse(__DIR__ . '/ParserTest/testParse_SeeSelfMethod.php');
+
+		$this->assertStatements(array(
+			array('api', 'MyApi Example'),
+			array('endpoint', '/endpoint'),
+			array('method', 'GET Something'),
+			array('error', '400'),
+				), $statements);
+	}
+
+	/**
+	 * Tests Class::MethodName
+	 * @covers \SwaggerGen\Parser\Php\Parser::parse
+	 */
+	public function testParse_SeeClassMethod()
+	{
+		$object = new \SwaggerGen\Parser\Php\Parser();
+		$this->assertInstanceOf('\SwaggerGen\Parser\Php\Parser', $object);
+
+		$statements = $object->parse(__DIR__ . '/ParserTest/testParse_SeeClassMethod.php');
+
+		$this->assertStatements(array(
+			array('api', 'MyApi Example'),
+			array('endpoint', '/endpoint'),
+			array('method', 'GET Something'),
+			array('error', '400'),
+				), $statements);
+	}
+
+	/**
+	 * Tests static::MethodName
+	 * @covers \SwaggerGen\Parser\Php\Parser::parse
+	 */
+	public function testParse_StaticMethod()
+	{
+		$object = new \SwaggerGen\Parser\Php\Parser();
+		$this->assertInstanceOf('\SwaggerGen\Parser\Php\Parser', $object);
+
+		$statements = $object->parse(__DIR__ . '/ParserTest/testParse_StaticMethod.php');
+
+		$this->assertStatements(array(
+			array('api', 'MyApi Example'),
+			array('endpoint', '/endpoint'),
+			array('method', 'GET Something'),
+			array('error', '400'),
+				), $statements);
+	}
+
+	/**
+	 * Tests $this->MethodName with inheritance
+	 * @covers \SwaggerGen\Parser\Php\Parser::parse
+	 */
+	public function testParse_SeeInheritedThisMethod()
+	{
+		$object = new \SwaggerGen\Parser\Php\Parser();
+		$this->assertInstanceOf('\SwaggerGen\Parser\Php\Parser', $object);
+
+		$statements = $object->parse(__DIR__ . '/ParserTest/testParse_SeeInheritedThisMethod.php');
+
+		$this->assertStatements(array(
+			array('api', 'MyApi Example'),
+			array('endpoint', '/endpoint'),
+			array('method', 'GET Something'),
+			array('error', '400'),
+				), $statements);
+	}
+
+	/**
+	 * Tests Class->MethodName with inheritance
+	 * @covers \SwaggerGen\Parser\Php\Parser::parse
+	 */
+	public function testParse_SeeInheritedObjectMethod()
+	{
+		$object = new \SwaggerGen\Parser\Php\Parser();
+		$this->assertInstanceOf('\SwaggerGen\Parser\Php\Parser', $object);
+
+		$statements = $object->parse(__DIR__ . '/ParserTest/testParse_SeeInheritedObjectMethod.php');
+
+		$this->assertStatements(array(
+			array('api', 'MyApi Example'),
+			array('endpoint', '/endpoint'),
+			array('method', 'GET Something'),
+			array('error', '400'),
+				), $statements);
+	}
+
+	/**
+	 * Tests Autoloading other class when referenced
+	 * @covers \SwaggerGen\Parser\Php\Parser::parse
+	 */
+	public function testParse_Autoload_Parse()
+	{
+		$object = new \SwaggerGen\Parser\Php\Parser();
+		$this->assertInstanceOf('\SwaggerGen\Parser\Php\Parser', $object);
+
+		$statements = $object->parse(__DIR__ . '/ParserTest/testParse_Autoload.php', array(
+			__DIR__ . '/ParserTest',
+		));
+
+		$this->assertStatements(array(
+			array('api', 'MyApi Example'),
+			array('endpoint', '/endpoint'),
+			array('method', 'GET Something'),
+			array('error', '400'),
+				), $statements);
+	}
+
+	/**
+	 * Tests Autoloading other class when referenced
+	 * @covers \SwaggerGen\Parser\Php\Parser::parse
+	 */
+	public function testParse_Autoload_Construct()
+	{
+		$object = new \SwaggerGen\Parser\Php\Parser(array(
+			__DIR__ . '/ParserTest',
+		));
+		$this->assertInstanceOf('\SwaggerGen\Parser\Php\Parser', $object);
+
+		$statements = $object->parse(__DIR__ . '/ParserTest/testParse_Autoload.php');
+
+		$this->assertStatements(array(
+			array('api', 'MyApi Example'),
+			array('endpoint', '/endpoint'),
+			array('method', 'GET Something'),
+			array('error', '400'),
+				), $statements);
+	}
+
+	/**
+	 * Tests Autoloading other class when referenced
+	 * @covers \SwaggerGen\Parser\Php\Parser::parse
+	 */
+	public function testParse_Autoload_AddDirs()
+	{
+		$object = new \SwaggerGen\Parser\Php\Parser();
+		$this->assertInstanceOf('\SwaggerGen\Parser\Php\Parser', $object);
+
+		$object->addDirs(array(
+			__DIR__ . '/ParserTest',
+		));
+
+		$statements = $object->parse(__DIR__ . '/ParserTest/testParse_Autoload.php');
+
+		$this->assertStatements(array(
+			array('api', 'MyApi Example'),
+			array('endpoint', '/endpoint'),
+			array('method', 'GET Something'),
+			array('error', '400'),
+				), $statements);
+	}
+
 }

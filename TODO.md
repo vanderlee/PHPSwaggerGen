@@ -1,4 +1,7 @@
 # Todo
+## Test
+*	SeeNamespaceClass (build support first)
+
 ## Code
 *	Add full Schema-level type support for response headers.
 *	Options to enable/disable comment types.
