@@ -442,4 +442,26 @@ class Parser_Php_ParserTest extends PHPUnit_Framework_TestCase
 				), $statements);
 	}
 
+	/**
+	 * @covers \SwaggerGen\Parser\Php\Parser::parse
+	 */
+	public function testParse_XTag()
+	{
+		$object = new \SwaggerGen\Parser\Php\Parser();
+		$this->assertInstanceOf('\SwaggerGen\Parser\Php\Parser', $object);
+
+		$object->addDirs(array(
+			__DIR__ . '/ParserTest',
+		));
+
+		$statements = $object->parse(__DIR__ . '/ParserTest/testParse_XTag.php');
+
+		$this->assertStatements(array(
+			array('api', 'MyApi Example'),
+			array('endpoint', '/endpoint'),
+			array('x-something', 'else'),
+			array('method', 'GET Something'),
+				), $statements);
+	}
+
 }
