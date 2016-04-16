@@ -41,7 +41,7 @@ abstract class AbstractPreprocessor
 		unset($this->defines[$name]);
 	}
 
-	public function getState()
+	protected function getState()
 	{
 		return empty($this->stack) || (bool) end($this->stack);
 	}
