@@ -34,7 +34,7 @@ class Parser_Php_PreprocessorTest extends PHPUnit_Framework_TestCase
 	/**
 	 * @covers \SwaggerGen\Parser\Php\Preprocessor::preprocess
 	 */
-	public function testConstructor_PreProcess_Ifdef_NotDefined()
+	public function testPreprocess_Ifdef_NotDefined()
 	{
 		$object = new \SwaggerGen\Parser\Php\Preprocessor();
 		$this->assertInstanceOf('\SwaggerGen\Parser\Php\Preprocessor', $object);
@@ -59,7 +59,7 @@ class Parser_Php_PreprocessorTest extends PHPUnit_Framework_TestCase
 	 * @covers \SwaggerGen\Parser\Php\Preprocessor::define
 	 * @covers \SwaggerGen\Parser\Php\Preprocessor::preprocess
 	 */
-	public function testConstructor_PreProcess_Ifdef_Defined()
+	public function testPreprocess_Ifdef_Defined()
 	{
 		$object = new \SwaggerGen\Parser\Php\Preprocessor();
 		$this->assertInstanceOf('\SwaggerGen\Parser\Php\Preprocessor', $object);
@@ -84,7 +84,7 @@ class Parser_Php_PreprocessorTest extends PHPUnit_Framework_TestCase
 	/**
 	 * @covers \SwaggerGen\Parser\Php\Preprocessor::preprocess
 	 */
-	public function testConstructor_PreProcess_Ifndef_NotDefined()
+	public function testPreprocess_Ifndef_NotDefined()
 	{
 		$object = new \SwaggerGen\Parser\Php\Preprocessor();
 		$this->assertInstanceOf('\SwaggerGen\Parser\Php\Preprocessor', $object);
@@ -109,7 +109,7 @@ class Parser_Php_PreprocessorTest extends PHPUnit_Framework_TestCase
 	 * @covers \SwaggerGen\Parser\Php\Preprocessor::define
 	 * @covers \SwaggerGen\Parser\Php\Preprocessor::preprocess
 	 */
-	public function testConstructor_PreProcess_Ifndef_Defined()
+	public function testPreprocess_Ifndef_Defined()
 	{
 		$object = new \SwaggerGen\Parser\Php\Preprocessor();
 		$this->assertInstanceOf('\SwaggerGen\Parser\Php\Preprocessor', $object);
@@ -134,7 +134,7 @@ class Parser_Php_PreprocessorTest extends PHPUnit_Framework_TestCase
 	/**
 	 * @covers \SwaggerGen\Parser\Php\Preprocessor::preprocess
 	 */
-	public function testConstructor_PreProcess_Define()
+	public function testPreprocess_Define()
 	{
 		$object = new \SwaggerGen\Parser\Php\Preprocessor();
 		$this->assertInstanceOf('\SwaggerGen\Parser\Php\Preprocessor', $object);
@@ -160,7 +160,7 @@ class Parser_Php_PreprocessorTest extends PHPUnit_Framework_TestCase
 	/**
 	 * @covers \SwaggerGen\Parser\Php\Preprocessor::preprocess
 	 */
-	public function testConstructor_PreProcess_Undef()
+	public function testPreprocess_Undef()
 	{
 		$object = new \SwaggerGen\Parser\Php\Preprocessor();
 		$this->assertInstanceOf('\SwaggerGen\Parser\Php\Preprocessor', $object);
@@ -190,7 +190,7 @@ class Parser_Php_PreprocessorTest extends PHPUnit_Framework_TestCase
 	/**
 	 * @covers \SwaggerGen\Parser\Php\Preprocessor::preprocess
 	 */
-	public function testConstructor_PreProcess_If_NotDefined()
+	public function testPreprocess_If_NotDefined()
 	{
 		$object = new \SwaggerGen\Parser\Php\Preprocessor();
 		$this->assertInstanceOf('\SwaggerGen\Parser\Php\Preprocessor', $object);
@@ -215,7 +215,7 @@ class Parser_Php_PreprocessorTest extends PHPUnit_Framework_TestCase
 	 * @covers \SwaggerGen\Parser\Php\Preprocessor::define
 	 * @covers \SwaggerGen\Parser\Php\Preprocessor::preprocess
 	 */
-	public function testConstructor_PreProcess_If_AnyValue()
+	public function testPreprocess_If_AnyValue()
 	{
 		$object = new \SwaggerGen\Parser\Php\Preprocessor();
 		$this->assertInstanceOf('\SwaggerGen\Parser\Php\Preprocessor', $object);
@@ -241,7 +241,7 @@ class Parser_Php_PreprocessorTest extends PHPUnit_Framework_TestCase
 	 * @covers \SwaggerGen\Parser\Php\Preprocessor::define
 	 * @covers \SwaggerGen\Parser\Php\Preprocessor::preprocess
 	 */
-	public function testConstructor_PreProcess_If_NoValue()
+	public function testPreprocess_If_NoValue()
 	{
 		$object = new \SwaggerGen\Parser\Php\Preprocessor();
 		$this->assertInstanceOf('\SwaggerGen\Parser\Php\Preprocessor', $object);
@@ -267,7 +267,7 @@ class Parser_Php_PreprocessorTest extends PHPUnit_Framework_TestCase
 	 * @covers \SwaggerGen\Parser\Php\Preprocessor::define
 	 * @covers \SwaggerGen\Parser\Php\Preprocessor::preprocess
 	 */
-	public function testConstructor_PreProcess_If_Mismatch()
+	public function testPreprocess_If_Mismatch()
 	{
 		$object = new \SwaggerGen\Parser\Php\Preprocessor();
 		$this->assertInstanceOf('\SwaggerGen\Parser\Php\Preprocessor', $object);
@@ -295,7 +295,7 @@ class Parser_Php_PreprocessorTest extends PHPUnit_Framework_TestCase
 	 * @covers \SwaggerGen\Parser\Php\Preprocessor::define
 	 * @covers \SwaggerGen\Parser\Php\Preprocessor::preprocess
 	 */
-	public function testConstructor_PreProcess_If_Match()
+	public function testPreprocess_If_Match()
 	{
 		$object = new \SwaggerGen\Parser\Php\Preprocessor();
 		$this->assertInstanceOf('\SwaggerGen\Parser\Php\Preprocessor', $object);
@@ -321,7 +321,7 @@ class Parser_Php_PreprocessorTest extends PHPUnit_Framework_TestCase
 	 * @covers \SwaggerGen\Parser\Php\Preprocessor::define
 	 * @covers \SwaggerGen\Parser\Php\Preprocessor::preprocess
 	 */
-	public function testConstructor_PreProcess_Else_Match()
+	public function testPreprocess_Else_Match()
 	{
 		$object = new \SwaggerGen\Parser\Php\Preprocessor();
 		$this->assertInstanceOf('\SwaggerGen\Parser\Php\Preprocessor', $object);
@@ -351,7 +351,7 @@ class Parser_Php_PreprocessorTest extends PHPUnit_Framework_TestCase
 	 * @covers \SwaggerGen\Parser\Php\Preprocessor::define
 	 * @covers \SwaggerGen\Parser\Php\Preprocessor::preprocess
 	 */
-	public function testConstructor_PreProcess_Elif_Match()
+	public function testPreprocess_Elif_Match()
 	{
 		$object = new \SwaggerGen\Parser\Php\Preprocessor();
 		$this->assertInstanceOf('\SwaggerGen\Parser\Php\Preprocessor', $object);
@@ -384,7 +384,7 @@ class Parser_Php_PreprocessorTest extends PHPUnit_Framework_TestCase
 	 * @covers \SwaggerGen\Parser\Php\Preprocessor::define
 	 * @covers \SwaggerGen\Parser\Php\Preprocessor::preprocess
 	 */
-	public function testConstructor_PreProcess_Elif_NoValue()
+	public function testPreprocess_Elif_NoValue()
 	{
 		$object = new \SwaggerGen\Parser\Php\Preprocessor();
 		$this->assertInstanceOf('\SwaggerGen\Parser\Php\Preprocessor', $object);
@@ -417,7 +417,7 @@ class Parser_Php_PreprocessorTest extends PHPUnit_Framework_TestCase
 	/**
 	 * @covers \SwaggerGen\Parser\Php\Preprocessor::preprocess
 	 */
-	public function testConstructor_PreProcess_Ifdef_AffectPrefixedOnly()
+	public function testPreprocess_Ifdef_AffectPrefixedOnly()
 	{
 		$object = new \SwaggerGen\Parser\Php\Preprocessor();
 		$this->assertInstanceOf('\SwaggerGen\Parser\Php\Preprocessor', $object);
@@ -450,7 +450,7 @@ class Parser_Php_PreprocessorTest extends PHPUnit_Framework_TestCase
 	 * @covers \SwaggerGen\Parser\Php\Preprocessor::undefine
 	 * @covers \SwaggerGen\Parser\Php\Preprocessor::preprocess
 	 */
-	public function testConstructor_PreProcess_Undefine()
+	public function testPreprocess_Undefine()
 	{
 		$object = new \SwaggerGen\Parser\Php\Preprocessor();
 		$this->assertInstanceOf('\SwaggerGen\Parser\Php\Preprocessor', $object);
@@ -477,7 +477,7 @@ class Parser_Php_PreprocessorTest extends PHPUnit_Framework_TestCase
 	 * @covers \SwaggerGen\Parser\Php\Preprocessor::resetDefines
 	 * @covers \SwaggerGen\Parser\Php\Preprocessor::preprocess
 	 */
-	public function testConstructor_PreProcess_ResetDefines()
+	public function testPreprocess_ResetDefines()
 	{
 		$object = new \SwaggerGen\Parser\Php\Preprocessor();
 		$this->assertInstanceOf('\SwaggerGen\Parser\Php\Preprocessor', $object);
@@ -503,7 +503,7 @@ class Parser_Php_PreprocessorTest extends PHPUnit_Framework_TestCase
 	 * @covers \SwaggerGen\Parser\Php\Preprocessor::addDefines
 	 * @covers \SwaggerGen\Parser\Php\Preprocessor::preprocess
 	 */
-	public function testConstructor_PreProcess_AddDefines()
+	public function testPreprocess_AddDefines()
 	{
 		$object = new \SwaggerGen\Parser\Php\Preprocessor();
 		$this->assertInstanceOf('\SwaggerGen\Parser\Php\Preprocessor', $object);
@@ -525,10 +525,55 @@ class Parser_Php_PreprocessorTest extends PHPUnit_Framework_TestCase
 		', $out);
 	}
 
-	//@todo  with alternative prefix
-	//@todo  getState()
-	//@todo  preprocessFile($filename)
-	//@todo  preprocess($content) -> mingle with other PHP constructs
+
+	/**
+	 * @covers \SwaggerGen\Parser\Php\Preprocessor::preprocess
+	 */
+	public function testPreprocess_AlternativePrefix()
+	{
+		$object = new \SwaggerGen\Parser\Php\Preprocessor('foo');
+		$this->assertInstanceOf('\SwaggerGen\Parser\Php\Preprocessor', $object);
+		$out = $object->preprocess('<?php
+			/**
+			 * @foo\ifdef test
+			 * @foo\whatever
+			 * @rest\whatever
+			 * @foo\endif
+			 */
+		');
+
+		$this->assertEquals('<?php
+			/**
+			 * !foo\ifdef test
+			 * !foo\whatever
+			 * @rest\whatever
+			 * !foo\endif
+			 */
+		', $out);
+	}
+
+/**
+	 * @covers \SwaggerGen\Parser\Php\Preprocessor::define
+	 * @covers \SwaggerGen\Parser\Php\Preprocessor::preprocessFile
+	 */
+	public function testPreprocessFile()
+	{
+		$object = new \SwaggerGen\Parser\Php\Preprocessor();
+		$this->assertInstanceOf('\SwaggerGen\Parser\Php\Preprocessor', $object);
+		$object->define('test');
+
+		$out = $object->preprocessFile(__DIR__ . '/PreprocessorTest/testPreprocessFile.php');
+
+		$this->assertEquals('<?php
+
+/**
+ * !rest\ifdef test
+ * @rest\whatever
+ * !rest\endif
+ */', $out);
+	}
+
+	//@todo  preprocess($content) -> mingle with other PHP code
 	//@todo  preprocess($content) -> Condition within comment
 	//@todo  preprocess($content) -> Condition over comments
 	//@todo  preprocess($content) -> Condition over code
