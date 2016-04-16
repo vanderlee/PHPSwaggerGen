@@ -32,7 +32,7 @@ function NotFound()
 class Example
 {
 
-	private $data = [];
+	private $data = array();
 
 	public function __construct()
 	{
@@ -66,6 +66,7 @@ class Example
 	 * @rest\endpoint /user
 	 * @rest\method GET Get a list of all users
 	 * @rest\require api_key
+	 * @rest\response 200 array(string)
 	 */
 	private function getUser_data()
 	{
