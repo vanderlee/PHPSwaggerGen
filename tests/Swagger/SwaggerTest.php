@@ -765,7 +765,7 @@ class SwaggerTest extends PHPUnit_Framework_TestCase
 		$path = $object->handleCommand('endpoint');
 		$this->assertInstanceOf('\SwaggerGen\Swagger\Path', $path);
 
-		$this->assertSame(array(
+		$this->assertEquals(array(
 			'swagger' => '2.0',
 			'info' => array(
 				'title' => 'undefined',
@@ -780,7 +780,7 @@ class SwaggerTest extends PHPUnit_Framework_TestCase
 				),
 			),
 			'security' => array(
-				'foo' => array(),
+				'foo' => (object) null,
 			),
 				), $object->toArray());
 	}

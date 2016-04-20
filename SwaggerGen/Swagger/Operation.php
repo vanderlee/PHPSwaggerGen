@@ -125,7 +125,7 @@ class Operation extends AbstractDocumentableObject
 				}
 				$scopes = self::wordSplit($data);
 				sort($scopes);
-				$this->security[$name] = $scopes;
+				$this->security[$name] = empty($scopes) ? (object) null : $scopes;
 				return $this;
 
 			//@todo operationId			

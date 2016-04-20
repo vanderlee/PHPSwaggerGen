@@ -17,6 +17,7 @@
 *	Add text preprocessor
 
 ## Swagger
+*	Export JSON or YML from class; do not require separate json_encode call.
 *	Full Type support in Swagger\Header object
 *	Use (optional) Namespaces in @see and @uses
 *	Set type (array of enumerated strings; can force unique?)

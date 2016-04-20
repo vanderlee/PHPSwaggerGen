@@ -203,7 +203,9 @@ class Swagger extends AbstractDocumentableObject
 				if (empty($name)) {
 					throw new \SwaggerGen\Exception('Missing require name');
 				}
-				$this->security[$name] = self::wordSplit($data);
+				$scopes = self::wordSplit($data);
+				sort($scopes);
+				$this->security[$name] = empty($scopes) ? (object) null : $scopes;;
 				return $this;
 		}
 

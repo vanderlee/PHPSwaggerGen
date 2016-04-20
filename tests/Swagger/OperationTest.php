@@ -736,14 +736,14 @@ class OperationTest extends PHPUnit_Framework_TestCase
 		$return = $object->handleCommand('response', '200');
 		$this->assertInstanceOf('\SwaggerGen\Swagger\Response', $return);
 
-		$this->assertSame(array(
+		$this->assertEquals(array(
 			'responses' => array(
 				200 => array(
 					'description' => 'OK',
 				),
 			),
 			'security' => array(
-				'basic' => array(),
+				'basic' => (object) null,
 			),
 				), $object->toArray());
 	}
