@@ -32,6 +32,10 @@ namespace SwaggerGen;
  */
 class SwaggerGen
 {
+	const FORMAT_ARRAY = '';
+	const FORMAT_JSON = 'json';
+	const FORMAT_JSON_PRETTY = 'json+';
+	const FORMAT_YAML = 'yaml';
 
 	private $host;
 	private $basePath;
@@ -89,12 +93,15 @@ class SwaggerGen
 	}
 
 	/**
+	 * Get Swagger 2.x output
 	 *
-	 * @param type $files
-	 * @param type $dirs
+	 * @param string[] $files
+	 * @param string[] $dirs
+	 * @param string $format
 	 * @return type
+	 * @throws \SwaggerGen\Exception
 	 */
-	public function getSwagger($files, $dirs = array())
+	public function getSwagger($files, $dirs = array(), $format = self::FORMAT_ARRAY)
 	{
 		$dirs = array_merge($this->dirs, $dirs);
 
@@ -159,7 +166,36 @@ class SwaggerGen
 			}
 		}
 
-		return $Swagger->toArray();
+		$output = $Swagger->toArray();
+
+		switch ($format) {
+			case self::FORMAT_JSON:
+				$output = json_encode($output, JSON_NUMERIC_CHECK);
+				break;
+
+			case self::FORMAT_JSON_PRETTY:
+				$output = json_encode($output, JSON_NUMERIC_CHECK | JSON_PRETTY_PRINT);
+				break;
+
+			case self::FORMAT_YAML:
+				if (!function_exists('yaml_emit')) {
+					throw new Exception('YAML extension not installed.');
+				}
+				array_walk_recursive($output, function(&$value) {
+					if (is_object($value)) {
+						$value = (array) $value;
+					}
+				});
+				$output = yaml_emit($output, YAML_UTF8_ENCODING, YAML_LN_BREAK);
+				break;
+
+			default:
+			case self::FORMAT_ARRAY:
+				// we're already done.
+				break;
+		}
+
+		return $output;
 	}
 
 }

@@ -7,7 +7,9 @@
 	$SwaggerGen = new \SwaggerGen\SwaggerGen($_SERVER['HTTP_HOST'],  dirname($_SERVER['REQUEST_URI']));
 	//$SwaggerGen->define('admin');
 	//$SwaggerGen->define('root');
-	$array = $SwaggerGen->getSwagger($files);
 	
 	header('Content-type: application/json');
-	echo json_encode($array, JSON_NUMERIC_CHECK | JSON_PRETTY_PRINT);	
+	echo $SwaggerGen->getSwagger($files, array(), \SwaggerGen\SwaggerGen::FORMAT_JSON_PRETTY);
+
+	//header('Content-type: application/x-yaml');
+	//echo $SwaggerGen->getSwagger($files, array(), \SwaggerGen\SwaggerGen::FORMAT_YAML);

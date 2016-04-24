@@ -1,5 +1,5 @@
 # SwaggerGen
-Version v2.0.15
+Version v2.1.0
 
 [![Build Status](https://travis-ci.org/vanderlee/PHPSwaggerGen.svg?branch=master)](https://travis-ci.org/vanderlee/PHPSwaggerGen)
 
@@ -97,6 +97,38 @@ The following is a typical example:
 	header('Content-type: application/json');
 	echo json_encode($swagger);
 
+# SwaggerGen class
+The only class you need to know about is the `SwaggerGen` class in the similarly
+names `SwaggerGen` namespace.
+
+## `__construct($host = '', $basePath = '', $dirs = array())`
+Create a new SwaggerGen object with the given `host` and `basePath` and provide
+a set of `dirs` to use for scanning for classes that may be referenced
+from the sourcecode files you're about to scan.
+*	`$host` should be the domain name, i.e. `"www.example.com"`.
+*	`$basePath` should be the URL path to the root of the API, i.e. `"\api\v1"`.
+
+## `mixed getSwagger($files, $dirs = array(), $format = self::FORMAT_ARRAY)`
+Generate Swagger/OpenAPI documentation by scanning the provided list of `files`.
+Optionally you can specify additional `dirs` to scan for class files and
+provide a `format` to specify how you want to output the documentation.
+
+By default, the documentation is output as an array, ready for encoding as JSON,
+YAML or for manual post-processing. The following formats are available as
+constants of the `SwaggerGen` class.
+*	`FORMAT_ARRAY` output the raw array.
+*	`FORMAT_JSON` JSON-encoded output (mimetype `application/json`).
+*	`FORMAT_JSON_PRETTY` JSON-encouded output with a human-friendly layout
+	(mimetype `application/json`).
+*	`FORMAT_YAML` YAML (UTF-8 character encoding) output
+	(mimetype `application/x-yaml` (most common) or `text/yaml`).
+
+## `define($name, $value = 1)`
+Define a value to be used by the preprocessor commands.
+By default, it's value will be set to `1`.
+
+## `undefine($name)`
+Undefine a value, so it is no longer recognized by the preprocessor commands.
 
 # Creating documentation
 SwaggerGen takes a number of of source files and scans the comments for
