@@ -1,5 +1,5 @@
 # SwaggerGen
-Version v2.1.0
+Version v2.2.0
 
 [![Build Status](https://travis-ci.org/vanderlee/PHPSwaggerGen.svg?branch=master)](https://travis-ci.org/vanderlee/PHPSwaggerGen)
 
@@ -199,7 +199,7 @@ variable name is defined or checking if a variables name has a specific value.
 SwaggerGen currently has no predefined variables, but you can define variables
 yourself by assigning them to the SwaggerGen parser before scanning starts.
 
-Preprocessor statments may be nested.
+Preprocessor statments may be nested and are available for PHP and text.
 
 *	### `define` *`name [value]`*
 	Define a variable name and optionally assign a value to it.
