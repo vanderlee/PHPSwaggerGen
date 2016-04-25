@@ -20,6 +20,11 @@ class Parser implements \SwaggerGen\Parser\IParser
 	 * @var string[]
 	 */
 	protected $common_dirs = array();
+	
+	/**
+	 * @var \SwaggerGen\Parser\AbstractPreprocessor
+	 */
+	private $Preprocessor;
 
 	/**
 	 * Create a new text parser and set directories to scan for referenced
@@ -32,6 +37,8 @@ class Parser implements \SwaggerGen\Parser\IParser
 		foreach ($dirs as $dir) {
 			$this->common_dirs[] = realpath($dir);
 		}
+
+		$this->Preprocessor = new Preprocessor();
 	}
 
 	/**
@@ -51,9 +58,10 @@ class Parser implements \SwaggerGen\Parser\IParser
 	 *
 	 * @param string $file
 	 * @param string[] $dirs
+	 * @param string[] $defines
 	 * @return \SwaggerGen\Statement[]
 	 */
-	public function parse($file, Array $dirs = array())
+	public function parse($file, Array $dirs = array(), Array $defines = array())
 	{
 		return $this->parseText(file_get_contents(realpath($file)), $dirs);
 	}
@@ -63,14 +71,19 @@ class Parser implements \SwaggerGen\Parser\IParser
 	 *
 	 * @param string $text
 	 * @param string[] $dirs
+	 * @param string[] $defines
 	 * @return \SwaggerGen\Statement
 	 */
-	public function parseText($text, Array $dirs = array())
+	public function parseText($text, Array $dirs = array(), Array $defines = array())
 	{
 		$this->dirs = $this->common_dirs;
 		foreach ($dirs as $dir) {
 			$this->dirs[] = realpath($dir);
 		}
+
+		$this->Preprocessor->resetDefines();
+		$this->Preprocessor->addDefines($defines);
+		$text = $this->Preprocessor->preprocess($text);
 
 		$Statements = array();
 

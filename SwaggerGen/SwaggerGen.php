@@ -78,7 +78,7 @@ class SwaggerGen
 	private function parseTextFile($file, $dirs)
 	{
 		$Parser = new Parser\Text\Parser();
-		return $Parser->parse($file, $dirs);
+		return $Parser->parse($file, $dirs, $this->defines);
 	}
 
 	/**
@@ -89,7 +89,7 @@ class SwaggerGen
 	private function parseText($text, $dirs)
 	{
 		$Parser = new Parser\Text\Parser();
-		return $Parser->parseText($text, $dirs);
+		return $Parser->parseText($text, $dirs, $this->defines);
 	}
 
 	/**
