@@ -88,16 +88,19 @@ class SwaggerGenTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetSwagger_YAML()
 	{
-		$object = new \SwaggerGen\SwaggerGen();
-		$this->assertInstanceof('\SwaggerGen\SwaggerGen', $object);
+		if (!extension_loaded('yaml')) {
+			$this->markTestSkipped('The YAML extension is not available.');
+		} else {
+			$object = new \SwaggerGen\SwaggerGen();
+			$this->assertInstanceof('\SwaggerGen\SwaggerGen', $object);
 
-		$output = $object->getSwagger(array('
-			endpoint
-			method GET
-			response 202
-		'), array(), \SwaggerGen\SwaggerGen::FORMAT_YAML);
+			$output = $object->getSwagger(array('
+				endpoint
+				method GET
+				response 202
+			'), array(), \SwaggerGen\SwaggerGen::FORMAT_YAML);
 
-		$this->assertSame('---
+			$this->assertSame('---
 swagger: "2.0"
 info:
   title: undefined
@@ -110,6 +113,7 @@ paths:
           description: Accepted
 ...
 ', $output);
+		}
 	}
 
 	/**
