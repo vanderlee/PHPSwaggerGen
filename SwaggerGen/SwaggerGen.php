@@ -170,11 +170,14 @@ class SwaggerGen
 
 		switch ($format) {
 			case self::FORMAT_JSON:
-				$output = json_encode($output, JSON_NUMERIC_CHECK);
+				$flags = (defined('JSON_NUMERIC_CHECK') ? JSON_NUMERIC_CHECK : 0);	// Since PHP 5.3.3
+				$output = json_encode($output, $flags);
 				break;
 
 			case self::FORMAT_JSON_PRETTY:
-				$output = json_encode($output, JSON_NUMERIC_CHECK | JSON_PRETTY_PRINT);
+				$flags = (defined('JSON_NUMERIC_CHECK') ? JSON_NUMERIC_CHECK : 0)	// Since PHP 5.3.3
+					   | (defined('JSON_PRETTY_PRINT') ? JSON_PRETTY_PRINT : 0);	// Since PHP 5.4.0
+				$output = json_encode($output, $flags);
 				break;
 
 			case self::FORMAT_YAML:
