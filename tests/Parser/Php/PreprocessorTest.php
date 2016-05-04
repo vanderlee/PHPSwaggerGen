@@ -185,8 +185,6 @@ class Parser_Php_PreprocessorTest extends PHPUnit_Framework_TestCase
 		', $out);
 	}
 
-
-
 	/**
 	 * @covers \SwaggerGen\Parser\Php\Preprocessor::preprocess
 	 */
@@ -289,8 +287,6 @@ class Parser_Php_PreprocessorTest extends PHPUnit_Framework_TestCase
 		', $out);
 	}
 
-
-
 	/**
 	 * @covers \SwaggerGen\Parser\Php\Preprocessor::define
 	 * @covers \SwaggerGen\Parser\Php\Preprocessor::preprocess
@@ -380,6 +376,7 @@ class Parser_Php_PreprocessorTest extends PHPUnit_Framework_TestCase
 			 */
 		', $out);
 	}
+
 	/**
 	 * @covers \SwaggerGen\Parser\Php\Preprocessor::define
 	 * @covers \SwaggerGen\Parser\Php\Preprocessor::preprocess
@@ -444,7 +441,6 @@ class Parser_Php_PreprocessorTest extends PHPUnit_Framework_TestCase
 		', $out);
 	}
 
-
 	/**
 	 * @covers \SwaggerGen\Parser\Php\Preprocessor::define
 	 * @covers \SwaggerGen\Parser\Php\Preprocessor::undefine
@@ -472,6 +468,7 @@ class Parser_Php_PreprocessorTest extends PHPUnit_Framework_TestCase
 			 */
 		', $out);
 	}
+
 	/**
 	 * @covers \SwaggerGen\Parser\Php\Preprocessor::define
 	 * @covers \SwaggerGen\Parser\Php\Preprocessor::resetDefines
@@ -499,6 +496,7 @@ class Parser_Php_PreprocessorTest extends PHPUnit_Framework_TestCase
 			 */
 		', $out);
 	}
+
 	/**
 	 * @covers \SwaggerGen\Parser\Php\Preprocessor::addDefines
 	 * @covers \SwaggerGen\Parser\Php\Preprocessor::preprocess
@@ -524,7 +522,6 @@ class Parser_Php_PreprocessorTest extends PHPUnit_Framework_TestCase
 			 */
 		', $out);
 	}
-
 
 	/**
 	 * @covers \SwaggerGen\Parser\Php\Preprocessor::preprocess
@@ -552,7 +549,7 @@ class Parser_Php_PreprocessorTest extends PHPUnit_Framework_TestCase
 		', $out);
 	}
 
-/**
+	/**
 	 * @covers \SwaggerGen\Parser\Php\Preprocessor::define
 	 * @covers \SwaggerGen\Parser\Php\Preprocessor::preprocessFile
 	 */

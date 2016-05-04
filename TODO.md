@@ -1,7 +1,6 @@
 # Todo
 ## Test
 *	SeeNamespaceClass (build support first)
-*	Text preprocessor
 
 ## Code
 *	Add full Schema-level type support for response headers.
