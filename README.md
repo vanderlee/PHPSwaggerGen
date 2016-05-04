@@ -36,14 +36,18 @@ SwaggerGen is compatible with the latest
 which forms the basis of the [Open API Initiative](https://openapis.org/).
 
 ## Installation
-This library should be PSR-4 compatible, so you should be able to use it in any
-package manager (though no package manager will be supported until the code has
-stabilized).
+Requires PHP 5.4 or greater. PHP 5.3 is supported as long as no more recent
+features are absolutely necessary. There is no guarantee SwaggerGen will
+continue to work on PHP 5.3 in the future.
 
-Requires PHP 5.4 or greater.
+To install using Composer:
 
-PHP 5.3 is supported as long as no more recent features are necessary.
-There is no guarantee SwaggerGen will continue to work on PHP 5.3 in the future.
+	composer require vanderlee/swaggergen
+
+Make sure you use version 2.x.x or up.
+
+SwaggerGen aims to be PSR-4 compatible, so you should be able to use it in any
+package manager.
 
 ## Using SwaggerGen
 The easiest part of generating Swagger documentation with SwaggerGen is setting
