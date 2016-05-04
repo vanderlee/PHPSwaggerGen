@@ -54,6 +54,10 @@ class SwaggerGenTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetSwagger_JSON_Pretty()
 	{
+		if (!defined('JSON_PRETTY_PRINT')) {
+			$this->markTestSkipped('JSON_PRETTY_PRINT available since PHP 5.4.0');
+		}
+
 		$object = new \SwaggerGen\SwaggerGen();
 		$this->assertInstanceof('\SwaggerGen\SwaggerGen', $object);
 
