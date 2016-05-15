@@ -1,7 +1,4 @@
 # Todo
-## Test
-*	SeeNamespaceClass (build support first)
-
 ## Code
 *	Add full Schema-level type support for response headers.
 *	Options to enable/disable comment types.
@@ -17,7 +14,6 @@
 *	Add text preprocessor
 
 ## Swagger
-*	Export JSON or YML from class; do not require separate json_encode call.
 *	Full Type support in Swagger\Header object
 *	Use (optional) Namespaces in @see and @uses
 *	Set type (array of enumerated strings; can force unique?)
