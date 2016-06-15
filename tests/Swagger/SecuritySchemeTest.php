@@ -1,6 +1,6 @@
 <?php
 
-class SecuritySChemeTest extends PHPUnit_Framework_TestCase
+class SecuritySchemeTest extends PHPUnit_Framework_TestCase
 {
 
 	protected $parent;
@@ -194,9 +194,9 @@ class SecuritySChemeTest extends PHPUnit_Framework_TestCase
 	/**
 	 * @covers \SwaggerGen\Swagger\SecurityScheme::__construct
 	 */
-	public function testConstructor_Oauth2PasswordNoUrl1()
+	public function testConstructor_Oauth2PasswordNoUrl()
 	{
-		$this->setExpectedException('\SwaggerGen\Exception', "OAuth2 authorization URL invalid: ''");
+		$this->setExpectedException('\SwaggerGen\Exception', "OAuth2 token URL invalid: ''");
 
 		$object = new \SwaggerGen\Swagger\SecurityScheme($this->parent, 'oauth2', 'password');
 	}
@@ -204,9 +204,9 @@ class SecuritySChemeTest extends PHPUnit_Framework_TestCase
 	/**
 	 * @covers \SwaggerGen\Swagger\SecurityScheme::__construct
 	 */
-	public function testConstructor_Oauth2PasswordBadUrl1()
+	public function testConstructor_Oauth2PasswordBadUrl()
 	{
-		$this->setExpectedException('\SwaggerGen\Exception', "OAuth2 authorization URL invalid: 'bad'");
+		$this->setExpectedException('\SwaggerGen\Exception', "OAuth2 token URL invalid: 'bad'");
 
 		$object = new \SwaggerGen\Swagger\SecurityScheme($this->parent, 'oauth2', 'password bad');
 	}
@@ -214,36 +214,15 @@ class SecuritySChemeTest extends PHPUnit_Framework_TestCase
 	/**
 	 * @covers \SwaggerGen\Swagger\SecurityScheme::__construct
 	 */
-	public function testConstructor_Oauth2PasswordNoUrl2()
-	{
-		$this->setExpectedException('\SwaggerGen\Exception', "OAuth2 token URL invalid: ''");
-
-		$object = new \SwaggerGen\Swagger\SecurityScheme($this->parent, 'oauth2', 'password http://auth.test');
-	}
-
-	/**
-	 * @covers \SwaggerGen\Swagger\SecurityScheme::__construct
-	 */
-	public function testConstructor_Oauth2PasswordBadUrl2()
-	{
-		$this->setExpectedException('\SwaggerGen\Exception', "OAuth2 token URL invalid: 'bad'");
-
-		$object = new \SwaggerGen\Swagger\SecurityScheme($this->parent, 'oauth2', 'password http://auth.test bad');
-	}
-
-	/**
-	 * @covers \SwaggerGen\Swagger\SecurityScheme::__construct
-	 */
 	public function testConstructor_Oauth2Password()
 	{
-		$object = new \SwaggerGen\Swagger\SecurityScheme($this->parent, 'oauth2', 'password http://auth.test http://token.test');
+		$object = new \SwaggerGen\Swagger\SecurityScheme($this->parent, 'oauth2', 'password http://token.test');
 
 		$this->assertInstanceOf('\SwaggerGen\Swagger\SecurityScheme', $object);
 
 		$this->assertSame(array(
 			'type' => 'oauth2',
 			'flow' => 'password',
-			'authorizationUrl' => 'http://auth.test',
 			'tokenUrl' => 'http://token.test',
 				), $object->toArray());
 	}
@@ -253,7 +232,7 @@ class SecuritySChemeTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testConstructor_Oauth2PasswordDescription()
 	{
-		$object = new \SwaggerGen\Swagger\SecurityScheme($this->parent, 'oauth2', 'password http://auth.test http://token.test Some words');
+		$object = new \SwaggerGen\Swagger\SecurityScheme($this->parent, 'oauth2', 'password http://token.test Some words');
 
 		$this->assertInstanceOf('\SwaggerGen\Swagger\SecurityScheme', $object);
 
@@ -261,7 +240,6 @@ class SecuritySChemeTest extends PHPUnit_Framework_TestCase
 			'type' => 'oauth2',
 			'description' => 'Some words',
 			'flow' => 'password',
-			'authorizationUrl' => 'http://auth.test',
 			'tokenUrl' => 'http://token.test',
 				), $object->toArray());
 	}
@@ -319,12 +297,13 @@ class SecuritySChemeTest extends PHPUnit_Framework_TestCase
 				), $object->toArray());
 	}
 
+
 	/**
 	 * @covers \SwaggerGen\Swagger\SecurityScheme::__construct
 	 */
-	public function testConstructor_Oauth2AccesscodeNoUrl()
+	public function testConstructor_Oauth2AccesscodeNoUrl1()
 	{
-		$this->setExpectedException('\SwaggerGen\Exception', "OAuth2 token URL invalid: ''");
+		$this->setExpectedException('\SwaggerGen\Exception', "OAuth2 authorization URL invalid: ''");
 
 		$object = new \SwaggerGen\Swagger\SecurityScheme($this->parent, 'oauth2', 'accesscode');
 	}
@@ -332,11 +311,31 @@ class SecuritySChemeTest extends PHPUnit_Framework_TestCase
 	/**
 	 * @covers \SwaggerGen\Swagger\SecurityScheme::__construct
 	 */
-	public function testConstructor_Oauth2AccesscodeBadUrl()
+	public function testConstructor_Oauth2AccesscodeBadUrl1()
+	{
+		$this->setExpectedException('\SwaggerGen\Exception', "OAuth2 authorization URL invalid: 'bad'");
+
+		$object = new \SwaggerGen\Swagger\SecurityScheme($this->parent, 'oauth2', 'accesscode bad');
+	}
+	
+	/**
+	 * @covers \SwaggerGen\Swagger\SecurityScheme::__construct
+	 */
+	public function testConstructor_Oauth2AccesscodeNoUrl2()
+	{
+		$this->setExpectedException('\SwaggerGen\Exception', "OAuth2 token URL invalid: ''");
+
+		$object = new \SwaggerGen\Swagger\SecurityScheme($this->parent, 'oauth2', 'accesscode http://auth.test');
+	}
+
+	/**
+	 * @covers \SwaggerGen\Swagger\SecurityScheme::__construct
+	 */
+	public function testConstructor_Oauth2AccesscodeBadUrl2()
 	{
 		$this->setExpectedException('\SwaggerGen\Exception', "OAuth2 token URL invalid: 'bad'");
 
-		$object = new \SwaggerGen\Swagger\SecurityScheme($this->parent, 'oauth2', 'accesscode bad');
+		$object = new \SwaggerGen\Swagger\SecurityScheme($this->parent, 'oauth2', 'accesscode http://auth.test bad');
 	}
 
 	/**
@@ -344,13 +343,14 @@ class SecuritySChemeTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testConstructor_Oauth2Accesscode()
 	{
-		$object = new \SwaggerGen\Swagger\SecurityScheme($this->parent, 'oauth2', 'accesscode http://token.test');
+		$object = new \SwaggerGen\Swagger\SecurityScheme($this->parent, 'oauth2', 'accesscode http://auth.test http://token.test');
 
 		$this->assertInstanceOf('\SwaggerGen\Swagger\SecurityScheme', $object);
 
 		$this->assertSame(array(
 			'type' => 'oauth2',
 			'flow' => 'accessCode',
+			'authorizationUrl' => 'http://auth.test',
 			'tokenUrl' => 'http://token.test',
 				), $object->toArray());
 	}
@@ -360,7 +360,7 @@ class SecuritySChemeTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testConstructor_Oauth2AccesscodeDescription()
 	{
-		$object = new \SwaggerGen\Swagger\SecurityScheme($this->parent, 'oauth2', 'accesscode http://token.test Some words');
+		$object = new \SwaggerGen\Swagger\SecurityScheme($this->parent, 'oauth2', 'accesscode  http://auth.test http://token.test Some words');
 
 		$this->assertInstanceOf('\SwaggerGen\Swagger\SecurityScheme', $object);
 
@@ -368,6 +368,7 @@ class SecuritySChemeTest extends PHPUnit_Framework_TestCase
 			'type' => 'oauth2',
 			'description' => 'Some words',
 			'flow' => 'accessCode',
+			'authorizationUrl' => 'http://auth.test',
 			'tokenUrl' => 'http://token.test',
 				), $object->toArray());
 	}
@@ -377,7 +378,7 @@ class SecuritySChemeTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testCommandDescription()
 	{
-		$object = new \SwaggerGen\Swagger\SecurityScheme($this->parent, 'oauth2', 'accesscode http://token.test');
+		$object = new \SwaggerGen\Swagger\SecurityScheme($this->parent, 'oauth2', 'accesscode http://auth.test http://token.test');
 
 		$this->assertInstanceOf('\SwaggerGen\Swagger\SecurityScheme', $object);
 
@@ -387,6 +388,7 @@ class SecuritySChemeTest extends PHPUnit_Framework_TestCase
 			'type' => 'oauth2',
 			'description' => 'Some words',
 			'flow' => 'accessCode',
+			'authorizationUrl' => 'http://auth.test',
 			'tokenUrl' => 'http://token.test',
 				), $object->toArray());
 	}
@@ -396,7 +398,7 @@ class SecuritySChemeTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testCommandDescriptionEmpty()
 	{
-		$object = new \SwaggerGen\Swagger\SecurityScheme($this->parent, 'oauth2', 'accesscode http://token.test Some words');
+		$object = new \SwaggerGen\Swagger\SecurityScheme($this->parent, 'oauth2', 'accesscode http://auth.test http://token.test Some words');
 
 		$this->assertInstanceOf('\SwaggerGen\Swagger\SecurityScheme', $object);
 
@@ -405,6 +407,7 @@ class SecuritySChemeTest extends PHPUnit_Framework_TestCase
 		$this->assertSame(array(
 			'type' => 'oauth2',
 			'flow' => 'accessCode',
+			'authorizationUrl' => 'http://auth.test',
 			'tokenUrl' => 'http://token.test',
 				), $object->toArray());
 	}
@@ -428,7 +431,7 @@ class SecuritySChemeTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testCommandScope()
 	{
-		$object = new \SwaggerGen\Swagger\SecurityScheme($this->parent, 'oauth2', 'accesscode http://token.test');
+		$object = new \SwaggerGen\Swagger\SecurityScheme($this->parent, 'oauth2', 'accesscode http://auth.test http://token.test');
 
 		$this->assertInstanceOf('\SwaggerGen\Swagger\SecurityScheme', $object);
 
@@ -437,6 +440,7 @@ class SecuritySChemeTest extends PHPUnit_Framework_TestCase
 		$this->assertSame(array(
 			'type' => 'oauth2',
 			'flow' => 'accessCode',
+			'authorizationUrl' => 'http://auth.test',
 			'tokenUrl' => 'http://token.test',
 			'scopes' => array(
 				'scope1' => '',
@@ -449,7 +453,7 @@ class SecuritySChemeTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testCommandScopeDescription()
 	{
-		$object = new \SwaggerGen\Swagger\SecurityScheme($this->parent, 'oauth2', 'accesscode http://token.test');
+		$object = new \SwaggerGen\Swagger\SecurityScheme($this->parent, 'oauth2', 'accesscode http://auth.test http://token.test');
 
 		$this->assertInstanceOf('\SwaggerGen\Swagger\SecurityScheme', $object);
 
@@ -458,6 +462,7 @@ class SecuritySChemeTest extends PHPUnit_Framework_TestCase
 		$this->assertSame(array(
 			'type' => 'oauth2',
 			'flow' => 'accessCode',
+			'authorizationUrl' => 'http://auth.test',
 			'tokenUrl' => 'http://token.test',
 			'scopes' => array(
 				'scope1' => 'Some text',
@@ -470,7 +475,7 @@ class SecuritySChemeTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testCommandScopes()
 	{
-		$object = new \SwaggerGen\Swagger\SecurityScheme($this->parent, 'oauth2', 'accesscode http://token.test');
+		$object = new \SwaggerGen\Swagger\SecurityScheme($this->parent, 'oauth2', 'accesscode http://auth.test http://token.test');
 
 		$this->assertInstanceOf('\SwaggerGen\Swagger\SecurityScheme', $object);
 
@@ -480,6 +485,7 @@ class SecuritySChemeTest extends PHPUnit_Framework_TestCase
 		$this->assertSame(array(
 			'type' => 'oauth2',
 			'flow' => 'accessCode',
+			'authorizationUrl' => 'http://auth.test',
 			'tokenUrl' => 'http://token.test',
 			'scopes' => array(
 				'scope2' => 'Some text',

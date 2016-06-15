@@ -1,5 +1,5 @@
 # SwaggerGen
-Version v2.2.0
+Version v2.3.0
 
 [![Build Status](https://travis-ci.org/vanderlee/PHPSwaggerGen.svg?branch=master)](https://travis-ci.org/vanderlee/PHPSwaggerGen)
 
@@ -571,7 +571,7 @@ This is the initial context for commands.
 	Optionally followed by a description text.
 
 	For `oauth2`, you must set the flow type `implicit`, `password`, `application`
-	or `accesscode`. For type `password` you must specify two URL's, for
+	or `accesscode`. For type `accesscode` you must specify two URL's, for
 	authorization and token respectively, for the other types only one URL is
 	needed. Optionally follow with a description text. You may need to add scopes
 	using the `scope` command afterwards.
@@ -580,9 +580,9 @@ This is the initial context for commands.
 	*	`security` *`name`* `apikey` *`header-name`* `header` *`[description ...]`*
 	*	`security` *`name`* `apikey` *`query-variable`* `query` *`[description ...]`*
 	*	`security` *`name`* `oauth2 implicit` *`auth-url [description ...]`*
-	*	`security` *`name`* `oauth2 password` *`auth-url token-url [description ...]`*
+	*	`security` *`name`* `oauth2 password` *`token-url [description ...]`*
 	*	`security` *`name`* `oauth2 application` *`token-url [description ...]`*
-	*	`security` *`name`* `oauth2 accesscode` *`token-url [description ...]`*
+	*	`security` *`name`* `oauth2 accesscode` *`auth-url token-url [description ...]`*
 
 *	### `tag` *`tag [description ...]`* &rArr; Tag
 	Specifies a tag definition; essentially the category in which an endpoint path
@@ -880,7 +880,3 @@ The following is a fragment of code from this example:
 		 */
 		return $this->data['users'][$name]; // @rest\response OK object(age:int[0,100>,height:float) User
 	}
-
-
-
-

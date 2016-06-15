@@ -76,7 +76,7 @@ class SecurityScheme extends AbstractObject
 				}
 				$this->flow = $flow;
 
-				if (in_array($flow, array('implicit', 'password'))) {
+				if (in_array($flow, array('implicit', 'accesscode'))) {
 					$authUrl = self::wordShift($data);
 					if (!filter_var($authUrl, FILTER_VALIDATE_URL)) {
 						throw new \SwaggerGen\Exception("OAuth2 authorization URL invalid: '{$authUrl}'");
