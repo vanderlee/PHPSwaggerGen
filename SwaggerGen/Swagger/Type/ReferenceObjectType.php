@@ -44,7 +44,6 @@ class ReferenceObjectType extends AbstractType
 	public function toArray()
 	{
 		return self::arrayFilterNull(array(
-					'type' => 'object',
 					'$ref' => '#/definitions/' . $this->reference,
 		));
 	}

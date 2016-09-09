@@ -89,7 +89,7 @@ class Property extends \SwaggerGen\Swagger\AbstractObject
 	public function toArray()
 	{
 		return self::arrayFilterNull(array_merge($this->Type->toArray(), array(
-					'description' => $this->description,
+					'description' => empty($this->description) ? null : $this->description,
 								), parent::toArray()));
 	}
 
