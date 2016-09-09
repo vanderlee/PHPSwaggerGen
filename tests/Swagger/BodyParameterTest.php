@@ -63,7 +63,6 @@ class BodyParameterTest extends PHPUnit_Framework_TestCase
 			'name' => 'foo',
 			'in' => 'body',
 			'schema' => array(
-				'type' => 'object',
 				'$ref' => '#/definitions/User',
 			),
 				), $object->toArray());
