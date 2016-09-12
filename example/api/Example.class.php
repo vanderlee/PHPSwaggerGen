@@ -29,8 +29,7 @@ function NotFound()
  *
  * @rest\api Users Get some useful information on users
  */
-class Example
-{
+class Example {
 
 	private $data = array();
 
@@ -152,6 +151,7 @@ class Example
 	 * @rest\endpoint /user/{username}/image
 	 * @rest\method put
 	 * @rest\consumes fileform
+	 * @rest\path String username Name of the user
 	 * @rest\form file File Image file (PNG, GIF or JPEG) for the user.
 	 * Any transparency in the file is replaced with a white background color.
 	 * Files will be cropped to a square image.
