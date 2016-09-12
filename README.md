@@ -1,5 +1,5 @@
 # SwaggerGen
-Version v2.3.0
+Version v2.3.1
 
 [![Build Status](https://travis-ci.org/vanderlee/PHPSwaggerGen.svg?branch=master)](https://travis-ci.org/vanderlee/PHPSwaggerGen)
 
