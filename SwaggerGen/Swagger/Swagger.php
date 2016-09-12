@@ -10,8 +10,7 @@ namespace SwaggerGen\Swagger;
  * @copyright  2014-2015 Martijn van der Lee
  * @license    https://opensource.org/licenses/MIT MIT
  */
-class Swagger extends AbstractDocumentableObject
-{
+class Swagger extends AbstractDocumentableObject {
 
 	private $swagger = '2.0';
 	private $host;
@@ -78,7 +77,8 @@ class Swagger extends AbstractDocumentableObject
 	 * @param string $name
 	 * @return boolean|SecurityScheme
 	 */
-	public function getSecurity($name) {
+	public function getSecurity($name)
+	{
 		if (isset($this->securityDefinitions[$name])) {
 			return $this->securityDefinitions[$name];
 		}
@@ -205,7 +205,9 @@ class Swagger extends AbstractDocumentableObject
 				}
 				$scopes = self::wordSplit($data);
 				sort($scopes);
-				$this->security[$name] = empty($scopes) ? (object) null : $scopes;;
+				$this->security[] = array(
+					$name => empty($scopes) ? array() : $scopes,
+				);
 				return $this;
 		}
 
@@ -228,9 +230,11 @@ class Swagger extends AbstractDocumentableObject
 		$produces = array_unique($this->produces);
 		sort($produces);
 
-		foreach ($this->security as $name => $scopes) {
-			if (!isset($this->securityDefinitions[$name])) {
-				throw new \SwaggerGen\Exception("Required security scheme not defined: '{$name}'");
+		foreach ($this->security as $security) {
+			foreach ($security as $name => $scopes) {
+				if (!isset($this->securityDefinitions[$name])) {
+					throw new \SwaggerGen\Exception("Required security scheme not defined: '{$name}'");
+				}
 			}
 		}
 

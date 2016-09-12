@@ -743,7 +743,9 @@ class OperationTest extends PHPUnit_Framework_TestCase
 				),
 			),
 			'security' => array(
-				'basic' => (object) null,
+				array(
+					'basic' => array(),					
+				),
 			),
 				), $object->toArray());
 	}
@@ -774,9 +776,11 @@ class OperationTest extends PHPUnit_Framework_TestCase
 				),
 			),
 			'security' => array(
-				'oauth' => array(
-					'user:email',
-					'user:name',
+				array (
+					'oauth' => array(
+						'user:email',
+						'user:name',
+					),
 				),
 			),
 				), $object->toArray());

@@ -22,8 +22,8 @@ class Issue0002Test extends PHPUnit_Framework_TestCase
 
 		$this->assertSame('{"swagger":2,"info":{"title":"undefined","version":0}'
 				. ',"paths":{"\/test":{"get":{"tags":["Test"],"summary":"something","responses":{"202":{"description":"Accepted"}}'
-				. ',"security":{"api_key":{}}}}},"securityDefinitions":{"api_key":{"type":"apiKey","name":"X-Api-Authentication","in":"header"}}'
-				. ',"security":{"api_key":{}},"tags":[{"name":"Test"}]}', json_encode($array, JSON_NUMERIC_CHECK));
+				. ',"security":[{"api_key":[]}]}}},"securityDefinitions":{"api_key":{"type":"apiKey","name":"X-Api-Authentication","in":"header"}}'
+				. ',"security":[{"api_key":[]}],"tags":[{"name":"Test"}]}', json_encode($array, JSON_NUMERIC_CHECK));
 	}
 
 	public function testRequireAsObjectWithScopes()
@@ -41,8 +41,8 @@ class Issue0002Test extends PHPUnit_Framework_TestCase
 
 		$this->assertSame('{"swagger":2,"info":{"title":"undefined","version":0}'
 				. ',"paths":{"\/test":{"get":{"tags":["Test"],"summary":"something","responses":{"202":{"description":"Accepted"}}'
-				. ',"security":{"oauth":["user:name"]}}}},"securityDefinitions":{"oauth":{"type":"oauth2","flow":"implicit","authorizationUrl":"http:\/\/www.test"}}'
-				. ',"security":{"oauth":["user:name"]},"tags":[{"name":"Test"}]}', json_encode($array, JSON_NUMERIC_CHECK));
+				. ',"security":[{"oauth":["user:name"]}]}}},"securityDefinitions":{"oauth":{"type":"oauth2","flow":"implicit","authorizationUrl":"http:\/\/www.test"}}'
+				. ',"security":[{"oauth":["user:name"]}],"tags":[{"name":"Test"}]}', json_encode($array, JSON_NUMERIC_CHECK));
 	}
 
 }

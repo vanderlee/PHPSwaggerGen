@@ -1,7 +1,6 @@
 <?php
 
-class SwaggerTest extends PHPUnit_Framework_TestCase
-{
+class SwaggerTest extends PHPUnit_Framework_TestCase {
 
 	protected $parent;
 
@@ -780,7 +779,9 @@ class SwaggerTest extends PHPUnit_Framework_TestCase
 				),
 			),
 			'security' => array(
-				'foo' => (object) null,
+				array(
+					'foo' => array(),
+				),
 			),
 				), $object->toArray());
 	}
