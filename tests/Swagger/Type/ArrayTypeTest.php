@@ -167,7 +167,6 @@ class ArrayTypeTest extends PHPUnit_Framework_TestCase
 		$this->assertSame(array(
 			'type' => 'array',
 			'items' => array(
-				'type' => 'object',
 				'$ref' => '#/definitions/Item',
 			),
 				), $object->toArray());
@@ -326,7 +325,6 @@ class ArrayTypeTest extends PHPUnit_Framework_TestCase
 		$this->assertSame(array(
 			'type' => 'array',
 			'items' => array(
-				'type' => 'object',
 				'$ref' => '#/definitions/Item',
 			),
 				), $object->toArray());

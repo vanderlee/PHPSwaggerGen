@@ -25,7 +25,6 @@ class ReferenceObjectTypeTest extends PHPUnit_Framework_TestCase
 		$this->assertInstanceOf('\SwaggerGen\Swagger\Type\ReferenceObjectType', $object);
 
 		$this->assertSame(array(
-			'type' => 'object',
 			'$ref' => '#/definitions/blah',
 				), $object->toArray());
 	}

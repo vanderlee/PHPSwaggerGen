@@ -73,7 +73,6 @@ class ResponseTest extends PHPUnit_Framework_TestCase
 		$this->assertSame(array(
 			'description' => 'OK',
 			'schema' => array(
-				'type' => 'object',
 				'$ref' => '#/definitions/User',
 			),
 				), $object->toArray());

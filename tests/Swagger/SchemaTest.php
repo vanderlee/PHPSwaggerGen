@@ -54,7 +54,6 @@ class SchemaTest extends PHPUnit_Framework_TestCase
 		$this->assertInstanceOf('\SwaggerGen\Swagger\Schema', $object);
 
 		$this->assertSame(array(
-			'type' => 'object',
 			'$ref' => '#/definitions/User',
 				), $object->toArray());
 	}
