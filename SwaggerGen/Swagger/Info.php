@@ -102,7 +102,7 @@ class Info extends AbstractObject
 					'termsOfService' => $this->termsofservice,
 					'contact' => $this->contact ? $this->contact->toArray() : null,
 					'license' => $this->license ? $this->license->toArray() : null,
-					'version' => $this->version,
+					'version' => (string) $this->version,
 								), parent::toArray()));
 	}
 

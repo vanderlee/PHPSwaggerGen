@@ -25,7 +25,7 @@ class InfoTest extends PHPUnit_Framework_TestCase
 
 		$this->assertSame(array(
 			'title' => 'undefined',
-			'version' => 0,
+			'version' => '0',
 		), $object->toArray());
 	}
 
@@ -41,7 +41,7 @@ class InfoTest extends PHPUnit_Framework_TestCase
 
 		$this->assertSame(array(
 			'title' => 'This is the title',
-			'version' => 0,
+			'version' => '0',
 				), $object->toArray());
 	}
 
@@ -58,7 +58,7 @@ class InfoTest extends PHPUnit_Framework_TestCase
 		$this->assertSame(array(
 			'title' => 'undefined',
 			'description' => 'This is the description',
-			'version' => 0,
+			'version' => '0',
 				), $object->toArray());
 	}
 
@@ -91,7 +91,7 @@ class InfoTest extends PHPUnit_Framework_TestCase
 		$this->assertSame(array(
 			'title' => 'undefined',
 			'termsOfService' => 'These are the terms',
-			'version' => 0,
+			'version' => '0',
 				), $object->toArray());
 	}
 
@@ -108,7 +108,7 @@ class InfoTest extends PHPUnit_Framework_TestCase
 		$this->assertSame(array(
 			'title' => 'undefined',
 			'termsOfService' => 'These are the terms',
-			'version' => 0,
+			'version' => '0',
 				), $object->toArray());
 	}
 
@@ -129,7 +129,7 @@ class InfoTest extends PHPUnit_Framework_TestCase
 				'url' => 'http://example.test',
 				'email' => 'arthur@author.test',
 			),
-			'version' => 0,
+			'version' => '0',
 				), $object->toArray());
 	}
 
@@ -150,7 +150,7 @@ class InfoTest extends PHPUnit_Framework_TestCase
 				'url' => 'http://example.test',
 				'email' => 'arthur@author.test',
 			),
-			'version' => 0,
+			'version' => '0',
 				), $object->toArray());
 	}
 
@@ -170,7 +170,7 @@ class InfoTest extends PHPUnit_Framework_TestCase
 				'name' => 'NAME',
 				'url' => 'http://example.test',
 			),
-			'version' => 0,
+			'version' => '0',
 				), $object->toArray());
 	}
 
@@ -190,7 +190,7 @@ class InfoTest extends PHPUnit_Framework_TestCase
 				'name' => 'NAME',
 				'url' => 'http://example.test',
 			),
-			'version' => 0,
+			'version' => '0',
 				), $object->toArray());
 	}
 
@@ -210,7 +210,7 @@ class InfoTest extends PHPUnit_Framework_TestCase
 				'name' => 'BSD',
 				'url' => 'https://opensource.org/licenses/BSD-2-Clause',
 			),
-			'version' => 0,
+			'version' => '0',
 				), $object->toArray());
 	}
 

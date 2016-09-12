@@ -42,7 +42,7 @@ class SwaggerTest extends PHPUnit_Framework_TestCase
 			'swagger' => '2.0',
 			'info' => array(
 				'title' => 'undefined',
-				'version' => 0,
+				'version' => '0',
 			),
 			'paths' => array(
 				'/' => array(),
@@ -65,7 +65,7 @@ class SwaggerTest extends PHPUnit_Framework_TestCase
 			'swagger' => '2.0',
 			'info' => array(
 				'title' => 'undefined',
-				'version' => 0,
+				'version' => '0',
 			),
 			'host' => 'http://localhost',
 			'paths' => array(
@@ -89,7 +89,7 @@ class SwaggerTest extends PHPUnit_Framework_TestCase
 			'swagger' => '2.0',
 			'info' => array(
 				'title' => 'undefined',
-				'version' => 0,
+				'version' => '0',
 			),
 			'host' => 'http://localhost',
 			'basePath' => 'api',
@@ -160,7 +160,7 @@ class SwaggerTest extends PHPUnit_Framework_TestCase
 			'swagger' => '2.0',
 			'info' => array(
 				'title' => 'undefined',
-				'version' => 0,
+				'version' => '0',
 			),
 			'paths' => array(
 				'/' => array(),
@@ -186,7 +186,7 @@ class SwaggerTest extends PHPUnit_Framework_TestCase
 			'swagger' => '2.0',
 			'info' => array(
 				'title' => 'undefined',
-				'version' => 0,
+				'version' => '0',
 			),
 			'schemes' => array(
 				'http',
@@ -219,7 +219,7 @@ class SwaggerTest extends PHPUnit_Framework_TestCase
 			'swagger' => '2.0',
 			'info' => array(
 				'title' => 'undefined',
-				'version' => 0,
+				'version' => '0',
 			),
 			'schemes' => array(
 				'http',
@@ -250,7 +250,7 @@ class SwaggerTest extends PHPUnit_Framework_TestCase
 			'swagger' => '2.0',
 			'info' => array(
 				'title' => 'undefined',
-				'version' => 0,
+				'version' => '0',
 			),
 			'paths' => array(
 				'/' => array(),
@@ -276,7 +276,7 @@ class SwaggerTest extends PHPUnit_Framework_TestCase
 			'swagger' => '2.0',
 			'info' => array(
 				'title' => 'undefined',
-				'version' => 0,
+				'version' => '0',
 			),
 			'consumes' => array(
 				'image/png',
@@ -309,7 +309,7 @@ class SwaggerTest extends PHPUnit_Framework_TestCase
 			'swagger' => '2.0',
 			'info' => array(
 				'title' => 'undefined',
-				'version' => 0,
+				'version' => '0',
 			),
 			'consumes' => array(
 				'application/json',
@@ -340,7 +340,7 @@ class SwaggerTest extends PHPUnit_Framework_TestCase
 			'swagger' => '2.0',
 			'info' => array(
 				'title' => 'undefined',
-				'version' => 0,
+				'version' => '0',
 			),
 			'paths' => array(
 				'/' => array(),
@@ -366,7 +366,7 @@ class SwaggerTest extends PHPUnit_Framework_TestCase
 			'swagger' => '2.0',
 			'info' => array(
 				'title' => 'undefined',
-				'version' => 0,
+				'version' => '0',
 			),
 			'produces' => array(
 				'image/png',
@@ -399,7 +399,7 @@ class SwaggerTest extends PHPUnit_Framework_TestCase
 			'swagger' => '2.0',
 			'info' => array(
 				'title' => 'undefined',
-				'version' => 0,
+				'version' => '0',
 			),
 			'produces' => array(
 				'application/json',
@@ -446,7 +446,7 @@ class SwaggerTest extends PHPUnit_Framework_TestCase
 			'swagger' => '2.0',
 			'info' => array(
 				'title' => 'undefined',
-				'version' => 0,
+				'version' => '0',
 			),
 			'paths' => array(
 				'/' => array(
@@ -489,7 +489,7 @@ class SwaggerTest extends PHPUnit_Framework_TestCase
 			'swagger' => '2.0',
 			'info' => array(
 				'title' => 'undefined',
-				'version' => 0,
+				'version' => '0',
 			),
 			'paths' => array(
 				'/' => array(
@@ -534,7 +534,7 @@ class SwaggerTest extends PHPUnit_Framework_TestCase
 			'swagger' => '2.0',
 			'info' => array(
 				'title' => 'undefined',
-				'version' => 0,
+				'version' => '0',
 			),
 			'paths' => array(
 				'/' => array(),
@@ -563,7 +563,7 @@ class SwaggerTest extends PHPUnit_Framework_TestCase
 			'swagger' => '2.0',
 			'info' => array(
 				'title' => 'undefined',
-				'version' => 0,
+				'version' => '0',
 			),
 			'paths' => array(
 				'/' => array(),
@@ -586,7 +586,7 @@ class SwaggerTest extends PHPUnit_Framework_TestCase
 			'swagger' => '2.0',
 			'info' => array(
 				'title' => 'undefined',
-				'version' => 0,
+				'version' => '0',
 			),
 			'paths' => array(
 				'/users/:userid/rights' => array(),
@@ -609,7 +609,7 @@ class SwaggerTest extends PHPUnit_Framework_TestCase
 			'swagger' => '2.0',
 			'info' => array(
 				'title' => 'undefined',
-				'version' => 0,
+				'version' => '0',
 			),
 			'paths' => array(
 				'/users/:userid/rights' => array(),
@@ -637,7 +637,7 @@ class SwaggerTest extends PHPUnit_Framework_TestCase
 			'swagger' => '2.0',
 			'info' => array(
 				'title' => 'undefined',
-				'version' => 0,
+				'version' => '0',
 			),
 			'paths' => array(
 				'/users/:userid/rights' => array(),
@@ -705,7 +705,7 @@ class SwaggerTest extends PHPUnit_Framework_TestCase
 			'swagger' => '2.0',
 			'info' => array(
 				'title' => 'undefined',
-				'version' => 0,
+				'version' => '0',
 			),
 			'paths' => array(
 				'/' => array(),
@@ -769,7 +769,7 @@ class SwaggerTest extends PHPUnit_Framework_TestCase
 			'swagger' => '2.0',
 			'info' => array(
 				'title' => 'undefined',
-				'version' => 0,
+				'version' => '0',
 			),
 			'paths' => array(
 				'/' => array(),
@@ -840,7 +840,7 @@ class SwaggerTest extends PHPUnit_Framework_TestCase
 			'swagger' => '2.0',
 			'info' => array(
 				'title' => 'undefined',
-				'version' => 0,
+				'version' => '0',
 			),
 			'paths' => array(
 				'/' => array(),
@@ -872,7 +872,7 @@ class SwaggerTest extends PHPUnit_Framework_TestCase
 			'swagger' => '2.0',
 			'info' => array(
 				'title' => 'undefined',
-				'version' => 0,
+				'version' => '0',
 			),
 			'paths' => array(
 				'/' => array(),

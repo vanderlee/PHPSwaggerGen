@@ -46,7 +46,7 @@ class SwaggerGenTest extends PHPUnit_Framework_TestCase
 			response 202
 		'), array(), \SwaggerGen\SwaggerGen::FORMAT_JSON);
 
-		$this->assertSame('{"swagger":2,"info":{"title":"undefined","version":0},"paths":{"\/":{"get":{"responses":{"202":{"description":"Accepted"}}}}}}', $output);
+		$this->assertSame('{"swagger":"2.0","info":{"title":"undefined","version":"0"},"paths":{"\/":{"get":{"responses":{"202":{"description":"Accepted"}}}}}}', $output);
 	}
 
 	/**
@@ -68,10 +68,10 @@ class SwaggerGenTest extends PHPUnit_Framework_TestCase
 		'), array(), \SwaggerGen\SwaggerGen::FORMAT_JSON_PRETTY);
 
 		$this->assertSame('{
-    "swagger": 2,
+    "swagger": "2.0",
     "info": {
         "title": "undefined",
-        "version": 0
+        "version": "0"
     },
     "paths": {
         "\/": {
