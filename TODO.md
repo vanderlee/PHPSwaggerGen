@@ -1,26 +1,28 @@
 # Todo
 ## Code
+*	No need to add `type` of it's the default for a `format`.
 *	Add full Schema-level type support for response headers.
 *	Options to enable/disable comment types.
-*	Option to specify comment command prefix. "rest" or "@rest\".
+*	Option to specify comment command prefix. `rest` or `@rest\`.
 *	Ordering options for tags and/or paths and/or operations; sort according to list for tags
 *	Parse and reference functions
 *	Rethink pre-function comment(s); add to function/method or class?
 *	Type alias/extension system
 *	Command aliassing system.
 *	Command line interface. Netbeans integration.
-*	Use different mechanism for preprocessor: # or such prefix
-*	Standardize the Parser interface; parseFile(), parseText(), defines
+*	Use different mechanism for preprocessor: `#` or such prefix
+*	Standardize the Parser interface; `parseFile()`, `parseText()`, defines
 *	Add text preprocessor
 
 ## Swagger
 *	Full Type support in Swagger\Header object
-*	Use (optional) Namespaces in @see and @uses
+*	Use (optional) Namespaces in `@see` and `@uses`
 *	Set type (array of enumerated strings; can force unique?)
 *	License: full/formatted names
 *	Date(-time) format helpers; if no timezone, add 'Z'. Use PHP Date parser.
 *	Support object "additionalProperties" and "allOf"
 *	Shortcut "get", "put", etc. operation methods as proper commands.
+*	Force correct defaults on models. [See issue](https://github.com/swagger-api/swagger-ui/issues/2436)
 
 ## Quality
 *	Parsers; pass state object instead of keeping state in parser objects properties.
