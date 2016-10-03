@@ -620,6 +620,36 @@ class SwaggerTest extends PHPUnit_Framework_TestCase {
 			),
 				), $object->toArray());
 	}
+	
+/**
+	 * @covers \SwaggerGen\Swagger\Swagger::__construct
+	 */
+	public function testHandleCommand_EndPoint_Tag_NoDescriptionOverwrite()
+	{
+		$object = new \SwaggerGen\Swagger\Swagger();
+		$this->assertInstanceOf('\SwaggerGen\Swagger\Swagger', $object);
+
+		$path = $object->handleCommand('api', 'Users something here');
+		$path = $object->handleCommand('endpoint', 'users/:userid/rights Users');
+		$this->assertInstanceOf('\SwaggerGen\Swagger\Path', $path);
+
+		$this->assertSame(array(
+			'swagger' => '2.0',
+			'info' => array(
+				'title' => 'undefined',
+				'version' => '0',
+			),
+			'paths' => array(
+				'/users/:userid/rights' => array(),
+			),
+			'tags' => array(
+				array(
+					'name' => 'Users',
+					'description' => 'something here',
+				),
+			),
+				), $object->toArray());
+	}	
 
 	/**
 	 * @covers \SwaggerGen\Swagger\Swagger::__construct
