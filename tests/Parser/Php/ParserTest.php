@@ -58,6 +58,20 @@ class Parser_Php_ParserTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Test all open-curlies are (ac-)counted for in functions
+	 * @covers \SwaggerGen\Parser\Php\Parser::parse
+	 */
+	public function testParse_CurlyBraceFunction()
+	{
+		$object = new \SwaggerGen\Parser\Php\Parser();
+		$this->assertInstanceOf('\SwaggerGen\Parser\Php\Parser', $object);
+
+		$statements = $object->parse(__DIR__ . '/ParserTest/testParse_CurlyBraceFunction.php');
+		$this->assertCount(6, $statements);
+		$this->assertStatement($statements[0], 'title', 'CurlyBraceFunction');
+	}
+
+	/**
 	 * @covers \SwaggerGen\Parser\Php\Parser::parse
 	 */
 	public function testParse_NoMethods()

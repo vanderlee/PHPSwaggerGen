@@ -68,6 +68,9 @@ class ParserClass extends AbstractEntity
 					break;
 
 				case '{':
+				case T_CURLY_OPEN:
+				case T_DOLLAR_OPEN_CURLY_BRACES:
+				case T_STRING_VARNAME:
 					$mode = null;
 					++$depth;
 					break;
