@@ -4,4 +4,3 @@ filter:
         - example/*
 checks:
     php: true
-    javascript: false
