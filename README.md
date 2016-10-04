@@ -205,68 +205,68 @@ yourself by assigning them to the SwaggerGen parser before scanning starts.
 
 Preprocessor statments may be nested and are available for PHP and text.
 
-*	### `define` *`name [value]`*
-	Define a variable name and optionally assign a value to it.
+### `define` *`name [value]`*
+Define a variable name and optionally assign a value to it.
 
-*	### `undef` *`name`*
-	Remove the definition a variable name.
+### `undef` *`name`*
+Remove the definition a variable name.
 
-*	### `if` *`name [value]`*
-	If the variable name is defined *and*, if provided, it's value is equal to
-	the specified value, then process all following SwaggerGen commands upto
-	the next preprocessor command.
-	Otherwise, do not process those commands.
+### `if` *`name [value]`*
+If the variable name is defined *and*, if provided, it's value is equal to
+the specified value, then process all following SwaggerGen commands upto
+the next preprocessor command.
+Otherwise, do not process those commands.
 
-*	### `ifdef` *`name`*
-	If the variable name is defined, then process all following SwaggerGen
-	commands upto the next preprocessor	command.
-	Otherwise, do not process those commands.
+### `ifdef` *`name`*
+If the variable name is defined, then process all following SwaggerGen
+commands upto the next preprocessor	command.
+Otherwise, do not process those commands.
 
-*	### `ifndef` *`name`*
-	If the variable name is *not* defined, then process all following SwaggerGen
-	commands upto the next preprocessor	command.
-	Otherwise, do not process those commands.
+### `ifndef` *`name`*
+If the variable name is *not* defined, then process all following SwaggerGen
+commands upto the next preprocessor	command.
+Otherwise, do not process those commands.
 
-*	### `else`
-	If the previous `if...` or `elif` preprocessor command did *not* match,
-	then process all following SwaggerGen commands upto the next preprocessor
-	command.
-	Otherwise, do not process those commands.
+### `else`
+If the previous `if...` or `elif` preprocessor command did *not* match,
+then process all following SwaggerGen commands upto the next preprocessor
+command.
+Otherwise, do not process those commands.
 
-*	### `elif` *`name [value]`*
-	If the previous `if...` or `elif` preprocessor command did *not* match
-	*and* if the variable name is defined *and*, if provided, it's value is
-	equal to the specified value, then process all following SwaggerGen
-	commands upto the next preprocessor command.
-	Otherwise, do not process those commands.
+### `elif` *`name [value]`*
+If the previous `if...` or `elif` preprocessor command did *not* match
+*and* if the variable name is defined *and*, if provided, it's value is
+equal to the specified value, then process all following SwaggerGen
+commands upto the next preprocessor command.
+Otherwise, do not process those commands.
 
-*	### `endif`
-	End the previous `if...`, `elif` or `else` preprocessor command's block of
-	SwaggerGen commands.
+### `endif`
+End the previous `if...`, `elif` or `else` preprocessor command's block of
+SwaggerGen commands.
 
 # SwaggerGen context and commands
 Ordered alphabetically for reference
 
 The following commands can be used from within any context.
 
-*	### `uses` *`reference`*
-	Include a reference to another function, method or class.
+### `uses` *`reference`*
+Include a reference to another function, method or class.
 
-	For example:
-	*	`uses functionName`
-	*	`uses self::staticMethodName`
-	*	`uses $this->methodName`
-	*	`uses ClassName::staticMethodName`
-	*	`uses ClassName->methodName`
+For example:
+*	`uses functionName`
+*	`uses self::staticMethodName`
+*	`uses $this->methodName`
+*	`uses ClassName::staticMethodName`
+*	`uses ClassName->methodName`
 
-	SwaggerGen makes no distinction between the `self` and `this` or between
-	the static and dynamic `::` and `->`. These can be interchanged without
-	any impact. Though it is advised to stick to the proper terms.
+SwaggerGen makes no distinction between the `self` and `this` or between
+the static and dynamic `::` and `->`. These can be interchanged without
+any impact. Though it is advised to stick to the proper terms.
 
-	Class inheritance is used if a method cannot be found within the indicated
-	class.
+Class inheritance is used if a method cannot be found within the indicated
+class.
 
-	alias: `see`
+alias: `see`
 
 ## BodyParameter
 Represents a body parameter.
@@ -277,14 +277,14 @@ The available command depend on the particular type.
 ## Contact
 Contains the contact information for the API.
 
-*	### `email` *`email`*
-	Set the email address of the contact person.
+### `email` *`email`*
+Set the email address of the contact person.
 
-*	### `name` *`text ...`*
-	Set the name of the contact person.
+### `name` *`text ...`*
+Set the name of the contact person.
 
-*	### `url` *`email`*
-	Set the URL where users can contact the maintainer(s).
+### `url` *`email`*
+Set the URL where users can contact the maintainer(s).
 
 ## Error
 Represents a response with an error statuscode.
@@ -295,159 +295,159 @@ See the Response context for commands.
 Contains an URL reference to additional documentation of the context which
 created this context.
 
-*	### `description` *`text ...`*
-	Set the description text for this external documentation.
+### `description` *`text ...`*
+Set the description text for this external documentation.
 
-*	### `url` *`url`*
-	Set the URL to the external documentation.
+### `url` *`url`*
+Set the URL to the external documentation.
 
 ## Header
 Represents a response header.
 
-*	### `description` *`text ...`*
-	Set the description text of this response header.
+### `description` *`text ...`*
+Set the description text of this response header.
 
 ## Info
 Contains non-technical information about the API, such as a description,
 contact details and legal small-print.
 
-*	### `contact` *`[url] [email] [name ...]`* &rArr; Contact
-	Set the contactpoint or -person for this API.
-	You can specify the URL, email address and name in any order you want.
-	The URL and email address will be automatically detected, the name will
-	consist	of all text remaining (properly separated with whitespace).
+### `contact` *`[url] [email] [name ...]`* &rArr; Contact
+Set the contactpoint or -person for this API.
+You can specify the URL, email address and name in any order you want.
+The URL and email address will be automatically detected, the name will
+consist	of all text remaining (properly separated with whitespace).
 
-*	### `description` *`text ...`*
+### `description` *`text ...`*
 	Set the description for the API.
 
-*	### `license` *`[url] [name ...]`* &rArr; License
-	Set the license for this API.
-	You can specify the URL in name in any order you want.
-	If you omit the URL, you can use any number of predefined names, which are
-	automatically expanded to a full URL, such as `gpl`, `gpl-2.1` or `bsd`.
+### `license` *`[url] [name ...]`* &rArr; License
+Set the license for this API.
+You can specify the URL in name in any order you want.
+If you omit the URL, you can use any number of predefined names, which are
+automatically expanded to a full URL, such as `gpl`, `gpl-2.1` or `bsd`.
 
-*	### `terms` *`text ...`*
-	Set the text for the terms of service of this API.
+### `terms` *`text ...`*
+Set the text for the terms of service of this API.
 
-	alias: `tos`, `termsofservice`
+alias: `tos`, `termsofservice`
 
-*	### `title` *`text ...`*
-	Set the API title.
+### `title` *`text ...`*
+Set the API title.
 
-*	### `version` *`number`*
-	Set the API version number.
+### `version` *`number`*
+Set the API version number.
 
 ## License
 Represents the name and URL of the license that applies to the API.
 
-*	### `name` *`text ...`*
-	Set the name of the license.
-	If you haven't set a URL yet, a URL may be automatically set if it is one
-	of a number of recognized license names, such as `mpl` or `apache-2`
+### `name` *`text ...`*
+Set the name of the license.
+If you haven't set a URL yet, a URL may be automatically set if it is one
+of a number of recognized license names, such as `mpl` or `apache-2`
 
-*	### `url` *`text ...`*
-	Set the URL of the license.
+### `url` *`text ...`*
+Set the URL of the license.
 
 ## Operation
 Describes an operation; a call to a specifc path using a specific method.
 
-*	### `body`/`body?` *`definition name [description ...]`* &rArr; BodyParameter
-	Add a new form Parameter to this operation.
+### `body`/`body?` *`definition name [description ...]`* &rArr; BodyParameter
+Add a new form Parameter to this operation.
 
-	Use `form` to make the parameter required.
-	Use `form?` (with a question mark) to make the parameter optional.
+Use `form` to make the parameter required.
+Use `form?` (with a question mark) to make the parameter optional.
 
-	See the chapter on  **Parameter definitions** for a detailed
-	description of all the possible definition formats.
+See the chapter on  **Parameter definitions** for a detailed
+description of all the possible definition formats.
 
-*	### `consumes` *`mime1 [mime2 ... mimeN]`*
-	Adds mime types that this operation is able to understand.
-	E.g. "application/json",  "multipart/form-data" or
-	"application/x-www-form-urlencoded".
+### `consumes` *`mime1 [mime2 ... mimeN]`*
+Adds mime types that this operation is able to understand.
+E.g. "application/json",  "multipart/form-data" or
+"application/x-www-form-urlencoded".
 
-*	### `deprecated`
-	Mark this operation as deprecated.
+### `deprecated`
+Mark this operation as deprecated.
 
-*	### `description` *`text ...`*
-	Set the long description of the operation.
+### `description` *`text ...`*
+Set the long description of the operation.
 
-*	### `doc` *`url [description ...]`* &rArr; ExternalDocumentation
-	Set an URL pointing to more documentation.
+### `doc` *`url [description ...]`* &rArr; ExternalDocumentation
+Set an URL pointing to more documentation.
 
-	alias: `docs`
+alias: `docs`
 
-*	### `error` *`statuscode [description]`* &rArr; Error
-	Add a possible error statuscode that may be returned by this
-	operation, including an optional description text.
+### `error` *`statuscode [description]`* &rArr; Error
+Add a possible error statuscode that may be returned by this
+operation, including an optional description text.
 
-	If no description is given, the standard reason for the statuscode will
-	be used instead.
+If no description is given, the standard reason for the statuscode will
+be used instead.
 
-*	### `errors` *`statuscode1 [statuscode2 ... statuscodeN]`*
-	Add several possible error statuscodes that may be returned by this
-	operation.
+### `errors` *`statuscode1 [statuscode2 ... statuscodeN]`*
+Add several possible error statuscodes that may be returned by this
+operation.
 
-*	### `form`/`form?` *`definition name [description ...]`* &rArr; Parameter
-	Add a new form Parameter to this operation.
+### `form`/`form?` *`definition name [description ...]`* &rArr; Parameter
+Add a new form Parameter to this operation.
 
-	Use `form` to make the parameter required.
-	Use `form?` (with a question mark) to make the parameter optional.
+Use `form` to make the parameter required.
+Use `form?` (with a question mark) to make the parameter optional.
 
-	See the chapter on  **Parameter definitions** for a detailed
-	description of all the possible definition formats.
+See the chapter on  **Parameter definitions** for a detailed
+description of all the possible definition formats.
 
-*	### `header`/`header?` *`definition name [description ...]`* &rArr; Parameter
-	Add a new header Parameter to this operation.
+### `header`/`header?` *`definition name [description ...]`* &rArr; Parameter
+Add a new header Parameter to this operation.
 
-	Use `header` to make the parameter required.
-	Use `header?` (with a question mark) to make the parameter optional.
+Use `header` to make the parameter required.
+Use `header?` (with a question mark) to make the parameter optional.
 
-	See the chapter on  **Parameter definitions** for a detailed
-	description of all the possible definition formats.
+See the chapter on  **Parameter definitions** for a detailed
+description of all the possible definition formats.
 
-*	### `path`` *`definition name [description ...]`* &rArr; Parameter
-	Add a new path Parameter to this operation.
+### `path`` *`definition name [description ...]`* &rArr; Parameter
+Add a new path Parameter to this operation.
 
-	`path` parameters are always required; they cannot be optional.
+`path` parameters are always required; they cannot be optional.
 
-	See the chapter on  **Parameter definitions** for a detailed
-	description of all the possible definition formats.
+See the chapter on  **Parameter definitions** for a detailed
+description of all the possible definition formats.
 
-*	### `produces` *`mime1 [mime2 ... mimeN]`*
-	Adds mime types that this operation is able to produce.
-	E.g. "application/xml" or "application/json".
+### `produces` *`mime1 [mime2 ... mimeN]`*
+Adds mime types that this operation is able to produce.
+E.g. "application/xml" or "application/json".
 
-*	### `query`/`query?` *`definition name [description ...]`* &rArr; Parameter
-	Add a new query Parameter to this operation.
+### `query`/`query?` *`definition name [description ...]`* &rArr; Parameter
+Add a new query Parameter to this operation.
 
-	Use `query` to make the parameter required.
-	Use `query?` (with a question mark) to make the parameter optional.
+Use `query` to make the parameter required.
+Use `query?` (with a question mark) to make the parameter optional.
 
-	See the chapter on  **Parameter definitions** for a detailed
-	description of all the possible definition formats.
+See the chapter on  **Parameter definitions** for a detailed
+description of all the possible definition formats.
 
-*	### `require` *`security1 [security2 ... securityN]`*
-	Set the required security scheme(s) for this operation.
+### `require` *`security1 [security2 ... securityN]`*
+Set the required security scheme(s) for this operation.
 
-	Security schemes can be defined in the **Swagger** context.
+Security schemes can be defined in the **Swagger** context.
 
-*	### `response` *`statuscode definition description`* &rArr; Response
-	Adds a possible response status code with a definition of the data that
-	will be returned. Though for error statuscodes you would typically use
-	the `error` or `errors` commands, you can use this command for those
-	status codes as well, including a return definition.
+### `response` *`statuscode definition description`* &rArr; Response
+Adds a possible response status code with a definition of the data that
+will be returned. Though for error statuscodes you would typically use
+the `error` or `errors` commands, you can use this command for those
+status codes as well, including a return definition.
 
-	See the chapter on  **Parameter definitions** for a detailed
-	description of all the possible definition formats.
+See the chapter on  **Parameter definitions** for a detailed
+description of all the possible definition formats.
 
-*	### `schemes` *`scheme1 [scheme2 ... schemeN]`*
-	Add any number of schemes to the operation.
+### `schemes` *`scheme1 [scheme2 ... schemeN]`*
+Add any number of schemes to the operation.
 
-*	### `summary` *`text ...`*
-	Set the a short summary description of the operation.
+### `summary` *`text ...`*
+Set the a short summary description of the operation.
 
-*	### `tags` *`tag1 [tag2 ... tagN]`*
-	Add any number of tags to the operation.
+### `tags` *`tag1 [tag2 ... tagN]`*
+Add any number of tags to the operation.
 
 ## Parameter
 Represents either a form, query, header of path parameter.
@@ -458,31 +458,30 @@ The available command depend on the particular type.
 ## Path
 Represents a URL endpoint or Path.
 
-*	### `operation` *`method [summary ...]`* &rArr; Operation
-	Add a new operation to the most recently specified endpoint.
-	Method can be any one of `get`, `put`, `post`, `delete` or `patch`.
+### `operation` *`method [summary ...]`* &rArr; Operation
+Add a new operation to the most recently specified endpoint.
+Method can be any one of `get`, `put`, `post`, `delete` or `patch`.
 
-*	### `description` *`text ...`*
-	If a tag exists, sets the description for the tag, otherwise to nothing.
-
+### `description` *`text ...`*
+If a tag exists, sets the description for the tag, otherwise to nothing.
 
 ## Response
 Represents a response.
 
-*	### `header` *`type name [description]`* &rArr; Header
-	Add a header to the response.
+### `header` *`type name [description]`* &rArr; Header
+Add a header to the response.
 
-	`type` must be either `string`, `number`, `integer`, `boolean` or `array`.
+`type` must be either `string`, `number`, `integer`, `boolean` or `array`.
 
-	`name` must be a valid HTTP header name. I.e. `X-Rate-Limit-Limit`.
+`name` must be a valid HTTP header name. I.e. `X-Rate-Limit-Limit`.
 
 ## Schema
 Represents a definitions of a type, such as an array.
 
-*	### `doc` *`url [description ...]`* &rArr; ExternalDocumentation
-	Set an URL pointing to more documentation.
+### `doc` *`url [description ...]`* &rArr; ExternalDocumentation
+Set an URL pointing to more documentation.
 
-	alias: `docs`
+alias: `docs`
 
 For a list of other commands, read the chapter on  **Parameter definitions**.
 The available command depend on the particular type.
@@ -492,125 +491,125 @@ Represents a single way of authenticating the user/client to the server.
 You specify the type of security scheme and it's settings using the `security`
 command from the Swagger context.
 
-*	### `description` *`text ...`*
-	Set the description.
+### `description` *`text ...`*
+Set the description.
 
-*	### `scope` *`name [description ...]`*
-	Add a new oAuth2 scope name with optional description.
+### `scope` *`name [description ...]`*
+Add a new oAuth2 scope name with optional description.
 
 ## Swagger
 Represents the entire API documentation.
 This is the initial context for commands.
 
-*	### `consumes` *`mime1 [mime2] ... [mimeN]`*
-	Adds mime types that the API is able to understand. E.g.
-	"application/json",  "multipart/form-data" or
-	"application/x-www-form-urlencoded".
+### `consumes` *`mime1 [mime2] ... [mimeN]`*
+Adds mime types that the API is able to understand. E.g.
+"application/json",  "multipart/form-data" or
+"application/x-www-form-urlencoded".
 
-	alias: `consume`
+alias: `consume`
 
-*	### `contact` *`[url] [email] [name ...]`* &rArr; Contact
-	Set the contactpoint or -person for this API.
-	You can specify the URL, email address and name in any order you want.
-	The URL and email address will be automatically detected, the name will consist
-	of all text remaining (properly separated with whitespace).
+### `contact` *`[url] [email] [name ...]`* &rArr; Contact
+Set the contactpoint or -person for this API.
+You can specify the URL, email address and name in any order you want.
+The URL and email address will be automatically detected, the name will consist
+of all text remaining (properly separated with whitespace).
 
-*	### `define` *`type name`* &rArr; Schema
-	Start definition of a Schema (type is either `params` or `parameters`), using
-	the reference name specified.
+### `define` *`type name`* &rArr; Schema
+Start definition of a Schema (type is either `params` or `parameters`), using
+the reference name specified.
 
-	alias: `definition`, `model` (don't specify type; always `params`)
+alias: `definition`, `model` (don't specify type; always `params`)
 
-*	### `description` *`text ...`* &rArr; Info
-	Set the description for the API.
+### `description` *`text ...`* &rArr; Info
+Set the description for the API.
 
-*	### `doc` *`url [description ...]`* &rArr; ExternalDocumentation
-	Set an URL pointing to more documentation.
+### `doc` *`url [description ...]`* &rArr; ExternalDocumentation
+Set an URL pointing to more documentation.
 
-	alias: `docs`
+alias: `docs`
 
-*	### `endpoint` *`/path [tag] [description ...]`* &rArr; Path
-	Create an endpoint using the /path.
-	If tag is set, the endpoint will be assigned to the tag group of that name.
-	If a description is set, the description of the group will be set.
+### `endpoint` *`/path [tag] [description ...]`* &rArr; Path
+Create an endpoint using the /path.
+If tag is set, the endpoint will be assigned to the tag group of that name.
+If a description is set, the description of the group will be set.
 
-*	### `license` *`[url] [name ...]`* &rArr; License
-	Set the license for this API.
-	You can specify the URL in name in any order you want.
-	If you omit the URL, you can use any number of predefined names, which are
-	automatically expanded to a full URL, such as `gpl`, `gpl-2.1`, `mit` or `bsd`.
+### `license` *`[url] [name ...]`* &rArr; License
+Set the license for this API.
+You can specify the URL in name in any order you want.
+If you omit the URL, you can use any number of predefined names, which are
+automatically expanded to a full URL, such as `gpl`, `gpl-2.1`, `mit` or `bsd`.
 
-*	### `produces` *`mime1 [mime2] ... [mimeN]`*
-	Adds mime types that the API is able to produce. E.g. "application/xml" or
-	"application/json".
+### `produces` *`mime1 [mime2] ... [mimeN]`*
+Adds mime types that the API is able to produce. E.g. "application/xml" or
+"application/json".
 
-	alias: `produce`
+alias: `produce`
 
-*	### `require` *`name [scopes]`*
-	Set the required security scheme names.
-	If multiple names are given, they must all apply.
-	If an `oath2` scheme is specified, you may
+### `require` *`name [scopes]`*
+Set the required security scheme names.
+If multiple names are given, they must all apply.
+If an `oath2` scheme is specified, you may
 
-*	### `schemes` *`scheme1 [scheme2] ... [schemeN]`*
-	Adds protocol schemes. E.g. "http" or "https".
+### `schemes` *`scheme1 [scheme2] ... [schemeN]`*
+Adds protocol schemes. E.g. "http" or "https".
 
-	alias: `scheme`
+alias: `scheme`
 
-*	### `security` *`name type [params ...]`* &rArr; SecurityScheme
-	Define a security method, available to the API and individual operations.
-	Name can be any random name you choose. These names will be used to reference
-	to the security shemes later on.
+### `security` *`name type [params ...]`* &rArr; SecurityScheme
+Define a security method, available to the API and individual operations.
+Name can be any random name you choose. These names will be used to reference
+to the security shemes later on.
 
-	`Type` must be either `basic`, `apikey` or `oauth2`.
-	The parameters depend on the type.
+`Type` must be either `basic`, `apikey` or `oauth2`.
+The parameters depend on the type.
 
-	For `basic`, you can only specify a description text.
+For `basic`, you can only specify a description text.
 
-	For `apikey`, you must first specify a name to use for the query parameter or
-	header, then use either `query` or `header` to set the type of apikey.
-	Optionally followed by a description text.
+For `apikey`, you must first specify a name to use for the query parameter or
+header, then use either `query` or `header` to set the type of apikey.
+Optionally followed by a description text.
 
-	For `oauth2`, you must set the flow type `implicit`, `password`, `application`
-	or `accesscode`. For type `accesscode` you must specify two URL's, for
-	authorization and token respectively, for the other types only one URL is
-	needed. Optionally follow with a description text. You may need to add scopes
-	using the `scope` command afterwards.
+For `oauth2`, you must set the flow type `implicit`, `password`, `application`
+or `accesscode`. For type `accesscode` you must specify two URL's, for
+authorization and token respectively, for the other types only one URL is
+needed. Optionally follow with a description text. You may need to add scopes
+using the `scope` command afterwards.
 
-	*	`security` *`name`* `basic` *`[description ...]`*
-	*	`security` *`name`* `apikey` *`header-name`* `header` *`[description ...]`*
-	*	`security` *`name`* `apikey` *`query-variable`* `query` *`[description ...]`*
-	*	`security` *`name`* `oauth2 implicit` *`auth-url [description ...]`*
-	*	`security` *`name`* `oauth2 password` *`token-url [description ...]`*
-	*	`security` *`name`* `oauth2 application` *`token-url [description ...]`*
-	*	`security` *`name`* `oauth2 accesscode` *`auth-url token-url [description ...]`*
+*	`security` *`name`* `basic` *`[description ...]`*
+*	`security` *`name`* `apikey` *`header-name`* `header` *`[description ...]`*
+*	`security` *`name`* `apikey` *`query-variable`* `query` *`[description ...]`*
+*	`security` *`name`* `oauth2 implicit` *`auth-url [description ...]`*
+*	`security` *`name`* `oauth2 password` *`token-url [description ...]`*
+*	`security` *`name`* `oauth2 application` *`token-url [description ...]`*
+*	`security` *`name`* `oauth2 accesscode` *`auth-url token-url [description ...]`*
 
-*	### `tag` *`tag [description ...]`* &rArr; Tag
-	Specifies a tag definition; essentially the category in which an endpoint path
-	will be grouped together.
+### `tag` *`tag [description ...]`* &rArr; Tag
+Specifies a tag definition; essentially the category in which an endpoint path
+will be grouped together.
 
-	alias: `api`
+alias: `api`
 
-*	### `terms` *`text ...`* &rArr; Info
-	Set the text for the terms of service of this API.
+### `terms` *`text ...`* &rArr; Info
+Set the text for the terms of service of this API.
 
-	alias: `tos`, `termsofservice`
+alias: `tos`, `termsofservice`
 
-*	### `title` *`text ...`* &rArr; Info
-	Set the API title.
+### `title` *`text ...`* &rArr; Info
+Set the API title.
 
-*	### `version` *`number`* &rArr; Info
-	Set the API version number.
+### `version` *`number`* &rArr; Info
+Set the API version number.
 
 ## Tag
 A tag is used to group paths and operations together in logical categories.
 
-*	### `description` *`text ...`*
-	Set the description.
+### `description` *`text ...`*
+Set the description.
 
-*	### `doc` *`url [description ...]`* &rArr; ExternalDocumentation
-	Set an URL pointing to more documentation.
+### `doc` *`url [description ...]`* &rArr; ExternalDocumentation
+Set an URL pointing to more documentation.
 
-	alias: `docs`
+alias: `docs`
 
 # Parameter definitions
 
