@@ -129,4 +129,9 @@ class Parameter extends AbstractObject implements IParameter
 		return __CLASS__ . " {$this->name} {$this->in}";
 	}
 
+	public function getName()
+	{
+		return $this->name;
+	}
+
 }

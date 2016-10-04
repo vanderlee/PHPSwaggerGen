@@ -69,4 +69,9 @@ class BodyParameter extends AbstractObject implements IParameter
 		return __CLASS__ . ' ' . $this->name;
 	}
 
+	public function getName()
+	{
+		return $this->name;
+	}
+
 }

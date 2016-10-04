@@ -620,8 +620,8 @@ class SwaggerTest extends PHPUnit_Framework_TestCase {
 			),
 				), $object->toArray());
 	}
-	
-/**
+
+	/**
 	 * @covers \SwaggerGen\Swagger\Swagger::__construct
 	 */
 	public function testHandleCommand_EndPoint_Tag_NoDescriptionOverwrite()
@@ -649,7 +649,7 @@ class SwaggerTest extends PHPUnit_Framework_TestCase {
 				),
 			),
 				), $object->toArray());
-	}	
+	}
 
 	/**
 	 * @covers \SwaggerGen\Swagger\Swagger::__construct
@@ -894,7 +894,6 @@ class SwaggerTest extends PHPUnit_Framework_TestCase {
 
 		$schema = $object->handleCommand('model', 'foo');
 		$this->assertInstanceOf('\SwaggerGen\Swagger\Schema', $schema);
-
 
 		$path = $object->handleCommand('endpoint');
 		$this->assertInstanceOf('\SwaggerGen\Swagger\Path', $path);

@@ -98,12 +98,12 @@ class Operation extends AbstractDocumentableObject
 			case 'form': case 'form?':
 				$in = rtrim($command, '?');
 				$Parameter = new Parameter($this, $in, $data, substr($command, -1) !== '?');
-				$this->parameters[] = $Parameter;
+				$this->parameters[$Parameter->getName()] = $Parameter;
 				return $Parameter;
 
 			case 'body': case 'body?':
 				$Parameter = new BodyParameter($this, $data, substr($command, -1) !== '?');
-				$this->parameters[] = $Parameter;
+				$this->parameters[$Parameter->getName()] = $Parameter;
 				return $Parameter;
 
 			case 'response':
@@ -162,6 +162,8 @@ class Operation extends AbstractDocumentableObject
 				}
 			}
 		}
+		
+		$parameters = $this->parameters ? array_values($this->parameters) : null;
 
 		return self::arrayFilterNull(array_merge(array(
 					'deprecated' => $this->deprecated ? true : null,
@@ -171,7 +173,7 @@ class Operation extends AbstractDocumentableObject
 					//'operationId' => $this->description,
 					'consumes' => $consumes,
 					'produces' => $produces,
-					'parameters' => $this->parameters ? self::objectsToArray($this->parameters) : null,
+					'parameters' => $parameters ? self::objectsToArray($parameters) : null,
 					'schemes' => $schemes,
 					'responses' => $this->responses ? self::objectsToArray($this->responses) : null,
 					'security' => $this->security,

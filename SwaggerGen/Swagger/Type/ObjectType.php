@@ -75,7 +75,7 @@ class ObjectType extends AbstractType
 			foreach ($prop_matches as $prop_match) {
 				$this->properties[$prop_match[1]] = new Property($this, $prop_match[3]);
 				if ($prop_match[2] !== '?') {
-					$this->required[] = $prop_match[1];
+					$this->required[$prop_match[1]] = true;
 				}
 			}
 		}
@@ -116,8 +116,9 @@ class ObjectType extends AbstractType
 
 				$this->properties[$name] = new Property($this, $definition, $data);
 
+				unset($this->required[$name]);
 				if (substr($command, -1) !== '?') {
-					$this->required[] = $name;
+					$this->required[$name] = true;
 				}
 				return $this;
 
@@ -150,7 +151,7 @@ class ObjectType extends AbstractType
 	{
 		return self::arrayFilterNull(array(
 					'type' => 'object',
-					'required' => $this->required,
+					'required' => array_keys($this->required),
 					'properties' => self::objectsToArray($this->properties),
 					'minProperties' => $this->minProperties,
 					'maxProperties' => $this->maxProperties,

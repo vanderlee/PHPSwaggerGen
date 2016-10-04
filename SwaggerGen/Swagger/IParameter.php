@@ -10,7 +10,7 @@ namespace SwaggerGen\Swagger;
  * @copyright  2014-2015 Martijn van der Lee
  * @license    https://opensource.org/licenses/MIT MIT
  */
-interface IParameter
-{
+interface IParameter {
 
+	public function getName();
 }
