@@ -141,7 +141,7 @@ class Parser extends Entity\AbstractEntity implements \SwaggerGen\Parser\IParser
 		$Statements = array();
 		foreach ($commentLines as $lineNumber => $line) {
 			// If new @-command, store any old and start new
-			if ($command && chr(ord($line)) === '@') {
+			if ($command !== null && chr(ord($line)) === '@') {
 				$Statements[] = new Statement($command, $data, $this->current_file, $commentLineNumber + $commandLineNumber);
 				$command = null;
 				$data = '';
@@ -151,7 +151,7 @@ class Parser extends Entity\AbstractEntity implements \SwaggerGen\Parser\IParser
 				$command = $match[1];
 				$data = $match[2];
 				$commandLineNumber = $lineNumber;
-			} elseif ($command) {
+			} elseif ($command !== null) {
 				if ($lineNumber < count($commentLines) - 1) {
 					$data.= ' ' . $line;
 				} else {
@@ -178,10 +178,8 @@ class Parser extends Entity\AbstractEntity implements \SwaggerGen\Parser\IParser
 			foreach ($paths as $path) {
 				$realpath = realpath($path);
 				if (in_array($realpath, $this->files_done)) {
-					//var_dump('already queued: '.$classname);
 					return;
 				} elseif (is_file($realpath)) {
-					//var_dump('new class queued: '.$classname.' as '.$realpath);
 					$this->files_queued[] = $realpath;
 					return;
 				}
@@ -213,8 +211,6 @@ class Parser extends Entity\AbstractEntity implements \SwaggerGen\Parser\IParser
 	{
 		$this->files_queued = $files;
 
-		$Statements = array();
-
 		$index = 0;
 		while (($file = array_shift($this->files_queued)) !== null) {
 			$file = realpath($file);
@@ -243,8 +239,8 @@ class Parser extends Entity\AbstractEntity implements \SwaggerGen\Parser\IParser
 						$mode = T_NAMESPACE;
 						break;
 
-					case T_NS_SEPARATOR;
-					case T_STRING;
+					case T_NS_SEPARATOR:
+					case T_STRING:
 						if ($mode === T_NAMESPACE) {
 							$namespace .= $token[1];
 						}
@@ -289,8 +285,6 @@ class Parser extends Entity\AbstractEntity implements \SwaggerGen\Parser\IParser
 
 				$token = next($tokens);
 			}
-
-			//var_dump($namespace);	//@todo do something with this -> assign to classes and use for queueing, classloader and inheritance (relative/absolute!)
 
 			if ($this->lastStatements) {
 				$this->Statements = array_merge($this->Statements, $this->lastStatements);

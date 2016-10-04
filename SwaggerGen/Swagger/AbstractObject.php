@@ -69,7 +69,7 @@ abstract class AbstractObject
 	/**
 	 * @param string $command
 	 * @param string $data
-	 * @return AbstractObject
+	 * @return AbstractObject|boolean
 	 */
 	public function handleCommand($command, $data = null)
 	{

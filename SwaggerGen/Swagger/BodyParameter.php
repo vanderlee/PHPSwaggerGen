@@ -13,6 +13,9 @@ namespace SwaggerGen\Swagger;
 class BodyParameter extends AbstractObject implements IParameter
 {
 
+	/**
+	 * @var string|boolean
+	 */
 	private $name = '';
 	private $description;
 	private $required = false;

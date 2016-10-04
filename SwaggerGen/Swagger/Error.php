@@ -14,7 +14,7 @@ namespace SwaggerGen\Swagger;
 class Error extends Response
 {
 
-	public function __construct(AbstractObject $parent = null, $code, $description = null)
+	public function __construct(AbstractObject $parent, $code, $description = null)
 	{
 		parent::__construct($parent, $code, null, $description);
 	}

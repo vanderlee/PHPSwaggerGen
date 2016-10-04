@@ -20,11 +20,12 @@ class Parser implements \SwaggerGen\Parser\IParser
 	 * @var string[]
 	 */
 	protected $common_dirs = array();
-	
+
 	/**
 	 * @var \SwaggerGen\Parser\AbstractPreprocessor
 	 */
 	private $Preprocessor;
+	private $dirs = array();
 
 	/**
 	 * Create a new text parser and set directories to scan for referenced

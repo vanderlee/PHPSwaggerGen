@@ -108,13 +108,12 @@ abstract class AbstractPreprocessor
 				unset($this->defines[$expression]);
 				break;
 
-			case 'endif';
+			case 'endif':
 				array_pop($this->stack);
 				break;
 
 			default:
 				return false;
-				break;
 		}
 
 		return true;

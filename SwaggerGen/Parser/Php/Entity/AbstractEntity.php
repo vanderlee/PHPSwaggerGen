@@ -20,7 +20,7 @@ class AbstractEntity
 
 	/**
 	 * Returns true if a statement with the specified command exists.
-	 * @param type $command
+	 * @param string $command
 	 * @return boolean
 	 */
 	public function hasCommand($command)
