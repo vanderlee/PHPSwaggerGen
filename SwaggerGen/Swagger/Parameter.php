@@ -38,7 +38,6 @@ class Parameter extends AbstractObject implements IParameter
 		'datetime' => 'Date',
 		'date-time' => 'Date',
 		'file' => 'File',
-			//'set'		=> 'EnumArray',
 	);
 	private $name = '';
 	private $in;

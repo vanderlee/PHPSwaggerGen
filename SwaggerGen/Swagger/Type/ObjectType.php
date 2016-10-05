@@ -20,39 +20,12 @@ class ObjectType extends AbstractType
 	const REGEX_PROP_DEFAULT = '(?:=.+?)?';
 	const REGEX_PROP_END = '(?:,|$)/i';
 
-	private static $classTypes = array(
-		'integer' => 'Integer',
-		'int' => 'Integer',
-		'int32' => 'Integer',
-		'int64' => 'Integer',
-		'long' => 'Integer',
-		'float' => 'Number',
-		'double' => 'Number',
-		'string' => 'String',
-		'byte' => 'String',
-		'binary' => 'String',
-		'password' => 'String',
-		'enum' => 'String',
-		'boolean' => 'Boolean',
-		'bool' => 'Boolean',
-		'array' => 'Array',
-		'csv' => 'Array',
-		'ssv' => 'Array',
-		'tsv' => 'Array',
-		'pipes' => 'Array',
-		'date' => 'Date',
-		'datetime' => 'Date',
-		'date-time' => 'Date',
-			//'set'		=> 'EnumArray';
-	);
-
-	/**
-	 * @var AbstractType
-	 */
-	private $Properties = array();
 	private $minProperties = null;
 	private $maxProperties = null;
 	private $required = array();
+	/**
+	 * @var Property[]
+	 */
 	private $properties = array();
 
 	protected function parseDefinition($definition)

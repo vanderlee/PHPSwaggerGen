@@ -21,7 +21,6 @@ class StringType extends AbstractType
 		'enum' => '',
 	);
 	private $format;
-	//private $allowEmptyValue; // for query/formData
 	private $pattern = null;
 	private $default = null;
 	private $maxLength = null;

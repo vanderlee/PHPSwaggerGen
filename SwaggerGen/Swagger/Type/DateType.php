@@ -35,8 +35,6 @@ class DateType extends AbstractType
 	 */
 	private $format;
 
-	//private $allowEmptyValue; // for query/formData
-
 	/**
 	 * @var \DateTime
 	 */

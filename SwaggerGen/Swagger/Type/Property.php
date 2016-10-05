@@ -39,8 +39,6 @@ class Property extends \SwaggerGen\Swagger\AbstractObject
 		'date-time' => 'Date',
 		'object' => 'Object',
         'refobject' => 'ReferenceObject',
-			//'file'	=> 'File';
-			//'set'		=> 'EnumArray';
 	);
 
 	/**

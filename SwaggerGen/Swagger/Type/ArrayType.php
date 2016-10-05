@@ -48,9 +48,6 @@ class ArrayType extends AbstractType
 		'multi' => 'multi',
 	);
 
-//	//private $allowEmptyValue; // for query/formData
-//	private $default;
-
 	/**
 	 * @var AbstractType
 	 */

@@ -21,7 +21,6 @@ class NumberType extends AbstractType
 		'double' => 'double',
 	);
 	private $format;
-	//private $allowEmptyValue; // for query/formData
 	private $default = null;
 	private $maximum = null;
 	private $exclusiveMaximum = null;

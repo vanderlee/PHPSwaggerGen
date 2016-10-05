@@ -24,7 +24,6 @@ class IntegerType extends AbstractType
 		'long' => 'int64',
 	);
 	private $format;
-	//private $allowEmptyValue; // for query/formData
 	private $default = null;
 	private $maximum = null;
 	private $exclusiveMaximum = null;

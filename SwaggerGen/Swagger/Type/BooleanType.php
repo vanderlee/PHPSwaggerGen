@@ -15,7 +15,6 @@ class BooleanType extends AbstractType
 
 	const REGEX_DEFAULT = '(?:=(true|false|1|0))?';
 
-	//private $allowEmptyValue; // for query/formData
 	private $default = null;
 
 	protected function parseDefinition($definition)
