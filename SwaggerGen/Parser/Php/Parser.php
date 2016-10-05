@@ -27,7 +27,7 @@ class Parser extends Entity\AbstractEntity implements \SwaggerGen\Parser\IParser
 	public $Statements = array();
 	
 	/**
-	 * @var string[]|null
+	 * @var \SwaggerGen\Statement[]|null
 	 */
 	private $lastStatements = array();
 
