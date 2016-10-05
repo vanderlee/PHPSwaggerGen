@@ -108,7 +108,7 @@ class SwaggerGenTest extends PHPUnit_Framework_TestCase
 swagger: "2.0"
 info:
   title: undefined
-  version: 0
+  version: "0"
 paths:
   /:
     get:
