@@ -189,11 +189,6 @@ class SwaggerGen
 				});
 				$output = yaml_emit($output, YAML_UTF8_ENCODING, YAML_LN_BREAK);
 				break;
-
-			default:
-			case self::FORMAT_ARRAY:
-				// we're already done.
-				break;
 		}
 
 		return $output;

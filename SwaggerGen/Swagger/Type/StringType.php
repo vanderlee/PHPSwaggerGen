@@ -60,7 +60,7 @@ class StringType extends AbstractType
 			$this->minLength = $match[4] === '' ? null : $match[4];
 			$this->maxLength = $match[5] === '' ? null : $match[5];
 			$exclusiveMaximum = isset($match[6]) ? ($match[6] == '>') : null;
-			if ($this->minLength && $this->maxLength && $this->minLength > $this->maxLength) {
+			if ($this->minLength !== null && $this->maxLength !== null && $this->minLength > $this->maxLength) {
 				self::swap($this->minLength, $this->maxLength);
 				self::swap($exclusiveMinimum, $exclusiveMaximum);
 			}
