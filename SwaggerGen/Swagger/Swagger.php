@@ -7,10 +7,11 @@ namespace SwaggerGen\Swagger;
  *
  * @package    SwaggerGen
  * @author     Martijn van der Lee <martijn@vanderlee.com>
- * @copyright  2014-2015 Martijn van der Lee
+ * @copyright  2014-2016 Martijn van der Lee
  * @license    https://opensource.org/licenses/MIT MIT
  */
-class Swagger extends AbstractDocumentableObject {
+class Swagger extends AbstractDocumentableObject
+{
 
 	private $swagger = '2.0';
 	private $host;
@@ -40,13 +41,12 @@ class Swagger extends AbstractDocumentableObject {
 	 * @var Tag
 	 */
 	private $defaultTag = null;
-	//private $parameters;
-	//private $responses;
 	private $securityDefinitions = array();
 	private $security = array();
 
-	//private $security;
-
+	/**
+	 * @inheritDoc
+	 */
 	public function __construct($host = null, $basePath = null)
 	{
 		parent::__construct(null);
@@ -57,6 +57,9 @@ class Swagger extends AbstractDocumentableObject {
 		$this->Info = new Info($this);
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	protected function getRoot()
 	{
 		return $this;
@@ -86,6 +89,9 @@ class Swagger extends AbstractDocumentableObject {
 		return false;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function handleCommand($command, $data = null)
 	{
 		switch (strtolower($command)) {
@@ -157,7 +163,7 @@ class Swagger extends AbstractDocumentableObject {
 					$Tag = new Tag($this, $tagname, $data);
 					$this->Tags[] = $Tag;
 				}
-				// @todo remove this; it's for backwards compatibility only
+
 				if ($command === 'api') { // backwards compatibility
 					$this->defaultTag = $Tag;
 				}
@@ -184,7 +190,7 @@ class Swagger extends AbstractDocumentableObject {
 				}
 
 				if (!isset($this->Paths[$path])) {
-					$this->Paths[$path] = new Path($this, $Tag ? : $this->defaultTag);
+					$this->Paths[$path] = new Path($this, $Tag ?: $this->defaultTag);
 				}
 				return $this->Paths[$path];
 
@@ -214,6 +220,9 @@ class Swagger extends AbstractDocumentableObject {
 		return parent::handleCommand($command, $data);
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function toArray()
 	{
 		if (empty($this->Paths)) {

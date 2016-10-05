@@ -44,7 +44,7 @@ abstract class AbstractType extends \SwaggerGen\Swagger\AbstractObject
 	 * extensions themselves.
 	 * @param string $command
 	 * @param string $data
-	 * @return boolean
+	 * @return \SwaggerGen\Swagger\Type\AbstractType|boolean
 	 */
 	public function handleCommand($command, $data = null)
 	{

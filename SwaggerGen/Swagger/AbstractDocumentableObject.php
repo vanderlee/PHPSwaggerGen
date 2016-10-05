@@ -20,6 +20,9 @@ abstract class AbstractDocumentableObject extends AbstractObject
 	 */
 	private $externalDocs = null;
 
+	/**
+	 * @inheritDoc
+	 */
 	public function handleCommand($command, $data = null)
 	{
 		switch (strtolower($command)) {

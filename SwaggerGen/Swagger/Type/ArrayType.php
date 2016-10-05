@@ -99,6 +99,9 @@ class ArrayType extends AbstractType
 		}
 	}
 
+	/**
+	 * @inheritDoc
+	 */	
 	public function handleCommand($command, $data = null)
 	{
 		if ($this->Items) {

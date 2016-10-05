@@ -44,7 +44,10 @@ class Operation extends AbstractDocumentableObject
 			$this->tags[] = $tag->getName();
 		}
 	}
-
+	
+	/**
+	 * @inheritDoc
+	 */
 	public function handleCommand($command, $data = null)
 	{
 		switch (strtolower($command)) {

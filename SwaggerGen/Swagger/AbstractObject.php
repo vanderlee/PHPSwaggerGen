@@ -59,7 +59,7 @@ abstract class AbstractObject
 	}
 
 	/**
-	 * @return SwaggerGen\Swagger
+	 * @return \SwaggerGen\Swagger
 	 */
 	protected function getRoot()
 	{
@@ -69,7 +69,7 @@ abstract class AbstractObject
 	/**
 	 * @param string $command
 	 * @param string $data
-	 * @return AbstractObject|boolean
+	 * @return \SwaggerGen\Swagger\AbstractObject|boolean
 	 */
 	public function handleCommand($command, $data = null)
 	{

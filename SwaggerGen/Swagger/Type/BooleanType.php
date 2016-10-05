@@ -33,6 +33,9 @@ class BooleanType extends AbstractType
 		}
 	}
 
+	/**
+	 * @inheritDoc
+	 */	
 	public function handleCommand($command, $data = null)
 	{
 		switch (strtolower($command)) {

@@ -25,6 +25,10 @@ class Parser extends Entity\AbstractEntity implements \SwaggerGen\Parser\IParser
 // States
 
 	public $Statements = array();
+	
+	/**
+	 * @var string[]|null
+	 */
 	private $lastStatements = array();
 
 	/**
@@ -160,7 +164,7 @@ class Parser extends Entity\AbstractEntity implements \SwaggerGen\Parser\IParser
 			}
 		}
 
-		if ($command) {
+		if ($command !== null) {
 			$Statements[] = new Statement($command, $data, $this->current_file, $commentLineNumber + $commandLineNumber);
 		}
 
@@ -264,7 +268,7 @@ class Parser extends Entity\AbstractEntity implements \SwaggerGen\Parser\IParser
 						break;
 
 					case T_COMMENT:
-						if ($this->lastStatements) {
+						if ($this->lastStatements !== null) {
 							$this->Statements = array_merge($this->Statements, $this->lastStatements);
 							$this->lastStatements = null;
 						}
@@ -274,7 +278,7 @@ class Parser extends Entity\AbstractEntity implements \SwaggerGen\Parser\IParser
 						break;
 
 					case T_DOC_COMMENT:
-						if ($this->lastStatements) {
+						if ($this->lastStatements !== null) {
 							$this->Statements = array_merge($this->Statements, $this->lastStatements);
 						}
 						$Statements = $this->tokenToStatements($token);
@@ -286,7 +290,7 @@ class Parser extends Entity\AbstractEntity implements \SwaggerGen\Parser\IParser
 				$token = next($tokens);
 			}
 
-			if ($this->lastStatements) {
+			if ($this->lastStatements !== null) {
 				$this->Statements = array_merge($this->Statements, $this->lastStatements);
 				$this->lastStatements = null;
 			}

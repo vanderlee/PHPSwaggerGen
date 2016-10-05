@@ -92,7 +92,7 @@ class Parameter extends AbstractObject implements IParameter
 
 		// Parse regex
 		$match = array();
-		$count = preg_match('/^([a-z]+)/i', $definition, $match);
+		preg_match('/^([a-z]+)/i', $definition, $match);
 		$format = strtolower($match[1]);
 		if (isset(self::$classTypes[$format])) {
 			$type = self::$classTypes[$format];
