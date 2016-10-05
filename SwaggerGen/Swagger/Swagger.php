@@ -46,6 +46,8 @@ class Swagger extends AbstractDocumentableObject
 
 	/**
 	 * @inheritDoc
+	 * @param string $host
+	 * @param string $basePath
 	 */
 	public function __construct($host = null, $basePath = null)
 	{
