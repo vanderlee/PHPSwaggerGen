@@ -59,7 +59,7 @@ abstract class AbstractObject
 	}
 
 	/**
-	 * @return \SwaggerGen\Swagger
+	 * @return \SwaggerGen\Swagger\Swagger
 	 */
 	protected function getRoot()
 	{
