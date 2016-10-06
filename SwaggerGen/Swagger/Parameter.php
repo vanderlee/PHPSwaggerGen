@@ -103,6 +103,11 @@ class Parameter extends AbstractObject implements IParameter
 		}
 	}
 
+	/**
+	 * @param string $command
+	 * @param string $data
+	 * @return \SwaggerGen\Swagger\AbstractObject|boolean
+	 */
 	public function handleCommand($command, $data = null)
 	{
 		// Pass through to Type

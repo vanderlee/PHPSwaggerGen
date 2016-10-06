@@ -42,6 +42,7 @@ abstract class AbstractType extends \SwaggerGen\Swagger\AbstractObject
 	/**
 	 * Overwrites default AbstractObject parser, since Types should not handle
 	 * extensions themselves.
+	 * 
 	 * @param string $command
 	 * @param string $data
 	 * @return \SwaggerGen\Swagger\Type\AbstractType|boolean

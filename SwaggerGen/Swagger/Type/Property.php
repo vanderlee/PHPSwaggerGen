@@ -38,7 +38,7 @@ class Property extends \SwaggerGen\Swagger\AbstractObject
 		'datetime' => 'Date',
 		'date-time' => 'Date',
 		'object' => 'Object',
-        'refobject' => 'ReferenceObject',
+		'refobject' => 'ReferenceObject',
 	);
 
 	/**
@@ -74,6 +74,11 @@ class Property extends \SwaggerGen\Swagger\AbstractObject
 		$this->description = $description;
 	}
 
+	/**
+	 * @param string $command The comment command
+	 * @param string $data Any data added after the command
+	 * @return \SwaggerGen\Swagger\Type\AbstractType|boolean
+	 */
 	public function handleCommand($command, $data = null)
 	{
 		// Pass through to Type

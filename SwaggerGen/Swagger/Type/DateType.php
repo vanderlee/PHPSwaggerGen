@@ -24,7 +24,6 @@ class DateType extends AbstractType
 		'date-time' => 'date-time',
 		'datetime' => 'date-time',
 	);
-
 	private static $datetime_formats = array(
 		'date' => 'Y-m-d',
 		'date-time' => \DateTime::RFC3339,
@@ -57,6 +56,11 @@ class DateType extends AbstractType
 		$this->default = isset($match[2]) && $match[2] !== '' ? $this->validateDefault($match[2]) : null;
 	}
 
+	/**
+	 * @param string $command The comment command
+	 * @param string $data Any data added after the command
+	 * @return \SwaggerGen\Swagger\Type\AbstractType|boolean
+	 */
 	public function handleCommand($command, $data = null)
 	{
 		switch (strtolower($command)) {

@@ -34,8 +34,10 @@ class BooleanType extends AbstractType
 	}
 
 	/**
-	 * @inheritDoc
-	 */	
+	 * @param string $command The comment command
+	 * @param string $data Any data added after the command
+	 * @return \SwaggerGen\Swagger\Type\AbstractType|boolean
+	 */
 	public function handleCommand($command, $data = null)
 	{
 		switch (strtolower($command)) {

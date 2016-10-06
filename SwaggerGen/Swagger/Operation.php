@@ -44,9 +44,11 @@ class Operation extends AbstractDocumentableObject
 			$this->tags[] = $tag->getName();
 		}
 	}
-	
+
 	/**
-	 * @inheritDoc
+	 * @param string $command
+	 * @param string $data
+	 * @return \SwaggerGen\Swagger\AbstractObject|boolean
 	 */
 	public function handleCommand($command, $data = null)
 	{
@@ -165,7 +167,7 @@ class Operation extends AbstractDocumentableObject
 				}
 			}
 		}
-		
+
 		$parameters = $this->parameters ? array_values($this->parameters) : null;
 
 		return self::arrayFilterNull(array_merge(array(

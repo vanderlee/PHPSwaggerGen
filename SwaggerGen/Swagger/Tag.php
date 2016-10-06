@@ -23,6 +23,11 @@ class Tag extends AbstractDocumentableObject
 		$this->description = $description;
 	}
 
+	/**
+	 * @param string $command
+	 * @param string $data
+	 * @return \SwaggerGen\Swagger\AbstractObject|boolean
+	 */
 	public function handleCommand($command, $data = null)
 	{
 		switch (strtolower($command)) {

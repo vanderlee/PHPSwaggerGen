@@ -27,6 +27,11 @@ class Contact extends AbstractObject
 		$this->email = empty($email) ? null : $email;
 	}
 
+	/**
+	 * @param string $command
+	 * @param string $data
+	 * @return \SwaggerGen\Swagger\AbstractObject|boolean
+	 */
 	public function handleCommand($command, $data = null)
 	{
 		switch (strtolower($command)) {

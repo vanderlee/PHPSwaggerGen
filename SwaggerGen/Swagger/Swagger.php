@@ -92,7 +92,9 @@ class Swagger extends AbstractDocumentableObject
 	}
 
 	/**
-	 * @inheritDoc
+	 * @param string $command
+	 * @param string $data
+	 * @return \SwaggerGen\Swagger\AbstractObject|boolean
 	 */
 	public function handleCommand($command, $data = null)
 	{
@@ -111,20 +113,23 @@ class Swagger extends AbstractDocumentableObject
 			// string[]
 			case 'scheme':
 			case 'schemes':
-				$this->$command = array_unique(array_merge($this->$command, self::wordSplit($data)));
+				$this->schemes = array_unique(array_merge($this->schemes, self::wordSplit($data)));
 				return $this;
 
 			// MIME[]
 			case 'consume':
 			case 'consumes':
+				$this->consumes = array_merge($this->consumes, self::translateMimeTypes(self::wordSplit($data)));
+				return $this;
+				
 			case 'produce':
 			case 'produces':
-				$this->$command = array_merge($this->$command, self::translateMimeTypes(self::wordSplit($data)));
+				$this->produces = array_merge($this->produces, self::translateMimeTypes(self::wordSplit($data)));
 				return $this;
 
 			case 'model': // alias
 				$data = 'params ' . $data;
-				// Fallthrough intentional
+			// Fallthrough intentional
 			case 'define':
 			case 'definition':
 				$type = self::wordShift($data);
