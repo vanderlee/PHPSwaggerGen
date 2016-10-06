@@ -134,8 +134,6 @@ class Operation extends AbstractDocumentableObject
 					$name => empty($scopes) ? array() : $scopes,
 				);
 				return $this;
-
-			//@todo operationId			
 		}
 
 		return parent::handleCommand($command, $data);
@@ -175,7 +173,6 @@ class Operation extends AbstractDocumentableObject
 					'tags' => $tags,
 					'summary' => empty($this->summary) ? null : $this->summary,
 					'description' => empty($this->description) ? null : $this->description,
-					//'operationId' => $this->description,
 					'consumes' => $consumes,
 					'produces' => $produces,
 					'parameters' => $parameters ? self::objectsToArray($parameters) : null,

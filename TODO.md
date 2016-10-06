@@ -30,13 +30,14 @@
 *	Implement `parameters` in `Swagger`.
 *	Implement `responses` in `Swagger`.
 *	Add command aliasses `tag`, `scheme`, `consumes` and `produces` in `Operations`.
+*	Implement `operationId` in `Operations`.
 
 ## Quality
 *	Parsers; pass state object instead of keeping state in parser objects properties.
 *	PHP: Cache previously parsed files; do not re-parse?
-*	Unittests and Travis-CI integration.
 *	PSR-* compliance
 *	Document comment structure in classes; before/in/after class/method/function
+*	Scrutinizer perfection
 
 ## Validations
 *	`body` and `formData` Parameters cannot exist in single Operation.
