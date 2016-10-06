@@ -150,10 +150,6 @@ class SwaggerGen
 
 			if (!$result && !$top) {
 				$messages = array('Unsupported or unknown command: ' . $Statement);
-				if (!empty($this->Paths)) {
-					end($this->Paths);
-					$messages[] = 'Current endpoint is ' . key($this->Paths);
-				}
 
 				$stacktrace = array();
 				foreach ($stack as $object) {
