@@ -38,7 +38,6 @@ class Schema extends AbstractDocumentableObject implements IDefinition
 		'datetime' => 'Date',
 		'date-time' => 'Date',
 		'object' => 'Object',
-			//'file'		=> 'File',	// @todo Only if parent is_a Response and with the right "produces" mime-type
 	);
 
 	/**
@@ -47,8 +46,6 @@ class Schema extends AbstractDocumentableObject implements IDefinition
 	 */
 	private $description = null;
 	private $type;
-
-	//private $required = false;
 
 	public function __construct(AbstractObject $parent, $definition = 'object', $description = null)
 	{

@@ -21,7 +21,9 @@ abstract class AbstractDocumentableObject extends AbstractObject
 	private $externalDocs = null;
 
 	/**
-	 * @inheritDoc
+	 * @param string $command
+	 * @param string $data
+	 * @return \SwaggerGen\Swagger\AbstractObject|boolean
 	 */
 	public function handleCommand($command, $data = null)
 	{

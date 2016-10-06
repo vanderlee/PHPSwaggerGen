@@ -26,7 +26,7 @@ class Swagger extends AbstractDocumentableObject
 	private $produces = array();
 
 	/**
-	 * @var Path[] $Paths
+	 * @var \SwaggerGen\Swagger\Path[] $Paths
 	 */
 	private $Paths = array();
 	private $definitions = array();
@@ -124,13 +124,11 @@ class Swagger extends AbstractDocumentableObject
 
 			case 'model': // alias
 				$data = 'params ' . $data;
+				// Fallthrough intentional
 			case 'define':
 			case 'definition':
 				$type = self::wordShift($data);
 				switch ($type) {
-//					case 'response':
-//						$definition = new SwaggerResponseDefinition($this);
-//						break;
 					case 'params':
 					case 'parameters': // alias
 						$definition = new Schema($this);
@@ -256,11 +254,9 @@ class Swagger extends AbstractDocumentableObject
 					'basePath' => empty($this->basePath) ? null : $this->basePath,
 					'consumes' => $consumes,
 					'produces' => $produces,
-//					'parameters' => $this->parameters ? $this->parameters->toArray() : null,
 					'schemes' => $schemes,
 					'paths' => self::objectsToArray($this->Paths),
 					'definitions' => self::objectsToArray($this->definitions),
-//					'responses' => $this->responses ? $this->responses->toArray() : null,
 					'securityDefinitions' => self::objectsToArray($this->securityDefinitions),
 					'security' => $this->security,
 					'tags' => self::objectsToArray($this->Tags),
