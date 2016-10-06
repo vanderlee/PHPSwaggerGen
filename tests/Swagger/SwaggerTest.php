@@ -700,7 +700,7 @@ class SwaggerTest extends PHPUnit_Framework_TestCase {
 		$object = new \SwaggerGen\Swagger\Swagger();
 		$this->assertInstanceOf('\SwaggerGen\Swagger\Swagger', $object);
 
-		$this->setExpectedException('\SwaggerGen\Exception', "Security scheme type must be either 'basic', 'apiKey' or 'oauth2', not ''");
+		$this->setExpectedException('\SwaggerGen\Exception', "Missing security type");
 		$path = $object->handleCommand('security', 'foo');
 	}
 

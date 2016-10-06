@@ -82,9 +82,11 @@ class Parameter extends AbstractObject implements IParameter
 			throw new \SwaggerGen\Exception('No type definition for parameter');
 		}
 
-		$this->name = self::wordShift($data);
-		if (empty($this->name)) {
+		$name = self::wordShift($data);
+		if (empty($name)) {
 			throw new \SwaggerGen\Exception('No name for parameter');
+		} else {
+			$this->name = $name;
 		}
 
 		$this->description = $data;

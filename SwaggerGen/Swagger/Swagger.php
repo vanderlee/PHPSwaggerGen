@@ -205,6 +205,9 @@ class Swagger extends AbstractDocumentableObject
 					throw new \SwaggerGen\Exception('Missing security name');
 				}
 				$type = self::wordShift($data);
+				if (empty($type)) {
+					throw new \SwaggerGen\Exception('Missing security type');
+				}
 				$SecurityScheme = new SecurityScheme($this, $type, $data);
 				$this->securityDefinitions[$name] = $SecurityScheme;
 				return $SecurityScheme;

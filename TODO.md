@@ -23,12 +23,13 @@
 *	Support object "additionalProperties" and "allOf"
 *	Shortcut "get", "put", etc. operation methods as proper commands.
 *	Force correct defaults on models. [See issue](https://github.com/swagger-api/swagger-ui/issues/2436)
-*	Implement `examples` in `response`.
-*	Implement `file` type in `schema`.
-*	Implement `required` in `schema`.
-*	Implement `response` definition type in `swagger`.
-*	Implement `parameters` in `swagger`.
-*	Implement `responses` in `swagger`.
+*	Implement `examples` in `Response`.
+*	Implement `file` type in `Schema`.
+*	Implement `required` in `Schema`.
+*	Implement `response` definition type in `Swagger`.
+*	Implement `parameters` in `Swagger`.
+*	Implement `responses` in `Swagger`.
+*	Add command aliasses `tag`, `scheme`, `consumes` and `produces` in `Operations`.
 
 ## Quality
 *	Parsers; pass state object instead of keeping state in parser objects properties.
