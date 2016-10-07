@@ -68,6 +68,30 @@ class Parser extends Entity\AbstractEntity implements \SwaggerGen\Parser\IParser
 			$this->common_dirs[] = realpath($dir);
 		}
 	}
+	
+	private function extractStatements() {
+		// Core comments
+		$Statements = $this->Statements;
+
+		// Functions
+		foreach ($this->Functions as $Function) {
+			if ($Function->hasCommand('method')) {
+				$Statements = array_merge($Statements, $Function->Statements);
+			}
+		}
+
+		// Classes
+		foreach ($this->Classes as $Class) {
+			$Statements = array_merge($Statements, $Class->Statements);
+			foreach ($Class->Methods as $Method) {
+				if ($Method->hasCommand('method')) {
+					$Statements = array_merge($Statements, $Method->Statements);
+				}
+			}
+		}
+
+		return $Statements;
+	}
 
 	public function parse($file, Array $dirs = array(), Array $defines = array())
 	{
@@ -90,27 +114,7 @@ class Parser extends Entity\AbstractEntity implements \SwaggerGen\Parser\IParser
 			}
 		}
 
-		// Core comments
-		$Statements = $this->Statements;
-
-		// Functions
-		foreach ($this->Functions as $Function) {
-			if ($Function->hasCommand('method')) {
-				$Statements = array_merge($Statements, $Function->Statements);
-			}
-		}
-
-		// Classes
-		foreach ($this->Classes as $Class) {
-			$Statements = array_merge($Statements, $Class->Statements);
-			foreach ($Class->Methods as $Method) {
-				if ($Method->hasCommand('method')) {
-					$Statements = array_merge($Statements, $Method->Statements);
-				}
-			}
-		}
-
-		return $Statements;
+		return $this->extractStatements();
 	}
 
 	/**
@@ -211,6 +215,66 @@ class Parser extends Entity\AbstractEntity implements \SwaggerGen\Parser\IParser
 		}
 	}
 
+	private function parseTokens($source) {
+		$mode = null;
+		$namespace = '';
+
+		$tokens = token_get_all($source);
+		$token = reset($tokens);
+		while ($token) {
+			switch ($token[0]) {
+				case T_NAMESPACE:
+					$mode = T_NAMESPACE;
+					break;
+
+				case T_NS_SEPARATOR:
+				case T_STRING:
+					if ($mode === T_NAMESPACE) {
+						$namespace .= $token[1];
+					}
+					break;
+
+				case ';':
+					$mode = null;
+					break;
+
+				case T_CLASS:
+				case T_INTERFACE:
+					$Class = new Entity\ParserClass($this, $tokens, $this->lastStatements);
+					$this->Classes[strtolower($Class->name)] = $Class;
+					$this->lastStatements = null;
+					break;
+
+				case T_FUNCTION:
+					$Function = new Entity\ParserFunction($this, $tokens, $this->lastStatements);
+					$this->Functions[strtolower($Function->name)] = $Function;
+					$this->lastStatements = null;
+					break;
+
+				case T_COMMENT:
+					if ($this->lastStatements !== null) {
+						$this->Statements = array_merge($this->Statements, $this->lastStatements);
+						$this->lastStatements = null;
+					}
+					$Statements = $this->tokenToStatements($token);
+					$this->queueClassesFromComments($Statements);
+					$this->Statements = array_merge($this->Statements, $Statements);
+					break;
+
+				case T_DOC_COMMENT:
+					if ($this->lastStatements !== null) {
+						$this->Statements = array_merge($this->Statements, $this->lastStatements);
+					}
+					$Statements = $this->tokenToStatements($token);
+					$this->queueClassesFromComments($Statements);
+					$this->lastStatements = $Statements;
+					break;
+			}
+
+			$token = next($tokens);
+		}
+	}
+	
 	private function parseFiles(Array $files, Array $defines = array())
 	{
 		$this->files_queued = $files;
@@ -232,63 +296,7 @@ class Parser extends Entity\AbstractEntity implements \SwaggerGen\Parser\IParser
 			$this->Preprocessor->addDefines($defines);
 			$source = $this->Preprocessor->preprocessFile($file);
 
-			$mode = null;
-			$namespace = '';
-
-			$tokens = token_get_all($source);
-			$token = reset($tokens);
-			while ($token) {
-				switch ($token[0]) {
-					case T_NAMESPACE:
-						$mode = T_NAMESPACE;
-						break;
-
-					case T_NS_SEPARATOR:
-					case T_STRING:
-						if ($mode === T_NAMESPACE) {
-							$namespace .= $token[1];
-						}
-						break;
-
-					case ';':
-						$mode = null;
-						break;
-
-					case T_CLASS:
-					case T_INTERFACE:
-						$Class = new Entity\ParserClass($this, $tokens, $this->lastStatements);
-						$this->Classes[strtolower($Class->name)] = $Class;
-						$this->lastStatements = null;
-						break;
-
-					case T_FUNCTION:
-						$Function = new Entity\ParserFunction($this, $tokens, $this->lastStatements);
-						$this->Functions[strtolower($Function->name)] = $Function;
-						$this->lastStatements = null;
-						break;
-
-					case T_COMMENT:
-						if ($this->lastStatements !== null) {
-							$this->Statements = array_merge($this->Statements, $this->lastStatements);
-							$this->lastStatements = null;
-						}
-						$Statements = $this->tokenToStatements($token);
-						$this->queueClassesFromComments($Statements);
-						$this->Statements = array_merge($this->Statements, $Statements);
-						break;
-
-					case T_DOC_COMMENT:
-						if ($this->lastStatements !== null) {
-							$this->Statements = array_merge($this->Statements, $this->lastStatements);
-						}
-						$Statements = $this->tokenToStatements($token);
-						$this->queueClassesFromComments($Statements);
-						$this->lastStatements = $Statements;
-						break;
-				}
-
-				$token = next($tokens);
-			}
+			$this->parseTokens($source);
 
 			if ($this->lastStatements !== null) {
 				$this->Statements = array_merge($this->Statements, $this->lastStatements);
