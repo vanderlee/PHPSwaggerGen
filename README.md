@@ -1,8 +1,9 @@
 # SwaggerGen
 Version v2.3.3
 
-[![license](https://img.shields.io/github/license/vanderlee/PHPSwaggerGen.svg?maxAge=2592000)]()
+[![License](https://img.shields.io/github/license/vanderlee/PHPSwaggerGen.svg?maxAge=2592000)]()
 [![Build Status](https://travis-ci.org/vanderlee/PHPSwaggerGen.svg?branch=master)](https://travis-ci.org/vanderlee/PHPSwaggerGen)
+[![Quality](https://scrutinizer-ci.com/g/vanderlee/PHPSwaggerGen/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/vanderlee/PHPSwaggerGen)
 
 Copyright &copy; 2014-2016 Martijn van der Lee [Toyls.com](http://toyls.com).
 
