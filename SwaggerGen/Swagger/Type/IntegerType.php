@@ -34,18 +34,29 @@ class IntegerType extends AbstractType
 
 	protected function parseDefinition($definition)
 	{
-		$match = array();
+		$definition = self::trim($definition);
 
+		$match = array();
 		if (preg_match(self::REGEX_START . self::REGEX_FORMAT . self::REGEX_RANGE . self::REGEX_DEFAULT . self::REGEX_END, $definition, $match) !== 1) {
 			throw new \SwaggerGen\Exception("Unparseable integer definition: '{$definition}'");
 		}
 
+		$this->parseFormat($definition, $match);
+		$this->parseRange($definition, $match);
+		$this->parseDefault($definition, $match);
+	}
+
+	private function parseFormat($definition, $match)
+	{
 		$type = strtolower($match[1]);
 		if (!isset(self::$formats[$type])) {
 			throw new \SwaggerGen\Exception("Not an integer: '{$definition}'");
 		}
 		$this->format = self::$formats[$type];
+	}
 
+	private function parseRange($definition, $match)
+	{
 		if (!empty($match[2])) {
 			if ($match[3] === '' && $match[4] === '') {
 				throw new \SwaggerGen\Exception("Empty integer range: '{$definition}'");
@@ -60,7 +71,10 @@ class IntegerType extends AbstractType
 				self::swap($this->exclusiveMinimum, $this->exclusiveMaximum);
 			}
 		}
+	}
 
+	private function parseDefault($definition, $match)
+	{
 		$this->default = isset($match[6]) && $match[6] !== '' ? $this->validateDefault($match[6]) : null;
 	}
 
