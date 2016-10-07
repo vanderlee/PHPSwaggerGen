@@ -95,7 +95,7 @@ class ObjectTypeTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testConstructBadProperties()
 	{
-		$this->setExpectedException('\SwaggerGen\Exception', "Unparseable properties definition: '1'");
+		$this->setExpectedException('\SwaggerGen\Exception', "Unparseable properties definition: 'object(1)'");
 
 		$object = new SwaggerGen\Swagger\Type\ObjectType($this->parent, 'object(1)');
 	}
