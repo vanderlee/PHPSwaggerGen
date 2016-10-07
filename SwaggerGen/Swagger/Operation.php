@@ -98,15 +98,19 @@ class Operation extends AbstractDocumentableObject
 				return $this;
 
 			case 'path':
-			case 'query': case 'query?':
-			case 'header': case 'header?':
-			case 'form': case 'form?':
+			case 'query':
+			case 'query?':
+			case 'header':
+			case 'header?':
+			case 'form':
+			case 'form?':
 				$in = rtrim($command, '?');
 				$Parameter = new Parameter($this, $in, $data, substr($command, -1) !== '?');
 				$this->parameters[$Parameter->getName()] = $Parameter;
 				return $Parameter;
 
-			case 'body': case 'body?':
+			case 'body':
+			case 'body?':
 				$Parameter = new BodyParameter($this, $data, substr($command, -1) !== '?');
 				$this->parameters[$Parameter->getName()] = $Parameter;
 				return $Parameter;
