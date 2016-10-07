@@ -15,7 +15,7 @@ class ObjectType extends AbstractType
 
 	const REGEX_PROP_START = '/([^:\?]+)(\?)?:';
 	const REGEX_PROP_FORMAT = '[a-z]+';
-	const REGEX_PROP_CONTENT = '(?:\(.*\))?';
+	const REGEX_PROP_PROPERTIES = '(?:\(.*\))?';
 	const REGEX_PROP_RANGE = '(?:[[<][^,]*,[^,]*[\\]>])?';
 	const REGEX_PROP_DEFAULT = '(?:=.+?)?';
 	const REGEX_PROP_END = '(?:,|$)/i';
@@ -36,15 +36,24 @@ class ObjectType extends AbstractType
 			throw new \SwaggerGen\Exception("Unparseable object definition: '{$definition}'");
 		}
 
-		$type = strtolower($match[1]);
-		if ($type !== 'object') {
+		$this->parseFormat($definition, $match);
+		$this->parseProperties($definition, $match);
+		$this->parseRange($definition, $match);
+	}
+
+	private function parseFormat($definition, $match)
+	{
+		if (strtolower($match[1]) !== 'object') {
 			throw new \SwaggerGen\Exception("Not an object: '{$definition}'");
 		}
+	}
 
+	private function parseProperties($definition, $match)
+	{
 		if (!empty($match[2])) {
 			$prop_matches = array();
-			if (preg_match_all(self::REGEX_PROP_START . '(' . self::REGEX_PROP_FORMAT . self::REGEX_PROP_CONTENT . self::REGEX_PROP_RANGE . self::REGEX_PROP_DEFAULT . ')' . self::REGEX_PROP_END, $match[2], $prop_matches, PREG_SET_ORDER) === 0) {
-				throw new \SwaggerGen\Exception("Unparseable properties definition: '{$match[2]}'");
+			if (preg_match_all(self::REGEX_PROP_START . '(' . self::REGEX_PROP_FORMAT . self::REGEX_PROP_PROPERTIES . self::REGEX_PROP_RANGE . self::REGEX_PROP_DEFAULT . ')' . self::REGEX_PROP_END, $match[2], $prop_matches, PREG_SET_ORDER) === 0) {
+				throw new \SwaggerGen\Exception("Unparseable properties definition: '{$definition}'");
 			}
 			foreach ($prop_matches as $prop_match) {
 				$this->properties[$prop_match[1]] = new Property($this, $prop_match[3]);
@@ -53,7 +62,10 @@ class ObjectType extends AbstractType
 				}
 			}
 		}
+	}
 
+	private function parseRange($definition, $match)
+	{
 		if (!empty($match[3])) {
 			if ($match[4] === '' && $match[5] === '') {
 				throw new \SwaggerGen\Exception("Empty object range: '{$definition}'");
