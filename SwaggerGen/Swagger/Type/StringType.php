@@ -36,18 +36,32 @@ class StringType extends AbstractType
 			throw new \SwaggerGen\Exception("Unparseable string definition: '{$definition}'");
 		}
 
-		$type = strtolower($match[1]);
+		$this->parseFormat($definition, $match);
+		$this->parseContent($definition, $match);
+		$this->parseRange($definition, $match);
+		$this->parseDefault($definition, $match);
+	}
 
+	private function parseFormat($definition, $match)
+	{
+		$type = strtolower($match[1]);
 		if (!isset(self::$formats[$type])) {
 			throw new \SwaggerGen\Exception("Not a string: '{$definition}'");
 		}
 		$this->format = self::$formats[$type];
+	}
 
-		if ($type === 'enum') {
+	private function parseContent($definition, $match)
+	{
+		if (strtolower($match[1]) === 'enum') {
 			$this->enum = preg_split('/,/', $match[2]);
 		} else {
 			$this->pattern = empty($match[2]) ? null : $match[2];
 		}
+	}
+
+	private function parseRange($definition, $match)
+	{
 
 		if (!empty($match[3])) {
 			if ($match[1] === 'enum') {
@@ -67,7 +81,10 @@ class StringType extends AbstractType
 			$this->minLength = $this->minLength === null ? null : max(0, $exclusiveMinimum ? $this->minLength + 1 : $this->minLength);
 			$this->maxLength = $this->maxLength === null ? null : max(0, $exclusiveMaximum ? $this->maxLength - 1 : $this->maxLength);
 		}
+	}
 
+	private function parseDefault($definition, $match)
+	{
 		$this->default = isset($match[7]) && $match[7] !== '' ? $this->validateDefault($match[7]) : null;
 	}
 

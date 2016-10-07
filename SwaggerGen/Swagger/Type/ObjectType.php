@@ -31,6 +31,8 @@ class ObjectType extends AbstractType
 
 	protected function parseDefinition($definition)
 	{
+		$definition = self::trim($definition);
+		
 		$match = array();
 		if (preg_match(self::REGEX_START . self::REGEX_FORMAT . self::REGEX_CONTENT . self::REGEX_RANGE . self::REGEX_END, $definition, $match) !== 1) {
 			throw new \SwaggerGen\Exception("Unparseable object definition: '{$definition}'");
