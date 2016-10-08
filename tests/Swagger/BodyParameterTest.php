@@ -7,7 +7,7 @@ class BodyParameterTest extends PHPUnit_Framework_TestCase
 
 	protected function setUp()
 	{
-		$this->parent = $this->getMockForAbstractClass('\SwaggerGen\Swagger\AbstractObject');
+		$this->parent = $this->getMockForAbstractClass('\SwaggerGen\Swagger\Swagger');
 	}
 
 	protected function assertPreConditions()
@@ -56,6 +56,8 @@ class BodyParameterTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testConstructorReference()
 	{
+		$this->parent->handleCommand('model', 'User');
+		
 		$object = new \SwaggerGen\Swagger\BodyParameter($this->parent, 'User foo');
 		$this->assertInstanceOf('\SwaggerGen\Swagger\BodyParameter', $object);
 

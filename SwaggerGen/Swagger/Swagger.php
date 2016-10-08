@@ -275,5 +275,11 @@ class Swagger extends AbstractDocumentableObject
 	{
 		return __CLASS__;
 	}
+	
+	public function resolveReference($name) {
+		if (isset($this->definitions[$name])) {
+			return '#/definitions/' . $name;
+		}
+	}
 
 }

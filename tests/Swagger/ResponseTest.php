@@ -7,7 +7,7 @@ class ResponseTest extends PHPUnit_Framework_TestCase
 
 	protected function setUp()
 	{
-		$this->parent = $this->getMockForAbstractClass('\SwaggerGen\Swagger\AbstractObject');
+		$this->parent = $this->getMockForAbstractClass('\SwaggerGen\Swagger\Swagger');
 	}
 
 	protected function assertPreConditions()
@@ -66,6 +66,8 @@ class ResponseTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testConstructor_Reference()
 	{
+		$this->parent->handleCommand('model', 'User');
+		
 		$object = new \SwaggerGen\Swagger\Response($this->parent, 200, 'User');
 
 		$this->assertInstanceOf('\SwaggerGen\Swagger\Response', $object);

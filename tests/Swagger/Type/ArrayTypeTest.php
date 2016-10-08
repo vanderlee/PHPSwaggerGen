@@ -7,7 +7,7 @@ class ArrayTypeTest extends PHPUnit_Framework_TestCase
 
 	protected function setUp()
 	{
-		$this->parent = $this->getMockForAbstractClass('\SwaggerGen\Swagger\AbstractObject');
+		$this->parent = $this->getMockForAbstractClass('\SwaggerGen\Swagger\Swagger');
 	}
 
 	protected function assertPreConditions()
@@ -160,6 +160,8 @@ class ArrayTypeTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testConstructReferenceItems()
 	{
+		$this->parent->handleCommand('model', 'Item');
+
 		$object = new SwaggerGen\Swagger\Type\ArrayType($this->parent, 'array(Item)');
 
 		$this->assertInstanceOf('\SwaggerGen\Swagger\Type\ArrayType', $object);
@@ -316,6 +318,8 @@ class ArrayTypeTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testCommandReferenceItems()
 	{
+		$this->parent->handleCommand('model', 'Item');
+
 		$object = new SwaggerGen\Swagger\Type\ArrayType($this->parent, 'array');
 
 		$this->assertInstanceOf('\SwaggerGen\Swagger\Type\ArrayType', $object);

@@ -1,6 +1,5 @@
 # Todo
 ## Code
-*	No need to add `type` of it's the default for a `format`.
 *	Add full Schema-level type support for response headers.
 *	Options to enable/disable comment types.
 *	Option to specify comment command prefix. `rest` or `@rest\`.

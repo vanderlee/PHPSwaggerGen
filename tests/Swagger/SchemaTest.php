@@ -7,7 +7,7 @@ class SchemaTest extends PHPUnit_Framework_TestCase
 
 	protected function setUp()
 	{
-		$this->parent = $this->getMockForAbstractClass('\SwaggerGen\Swagger\AbstractObject');
+		$this->parent = $this->getMockForAbstractClass('\SwaggerGen\Swagger\Swagger');
 	}
 
 	protected function assertPreConditions()
@@ -49,6 +49,8 @@ class SchemaTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testConstructorReference()
 	{
+		$this->parent->handleCommand('model', 'User');
+		
 		$object = new \SwaggerGen\Swagger\Schema($this->parent, 'User');
 
 		$this->assertInstanceOf('\SwaggerGen\Swagger\Schema', $object);
