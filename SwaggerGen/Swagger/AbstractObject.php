@@ -61,9 +61,9 @@ abstract class AbstractObject
 	/**
 	 * @return \SwaggerGen\Swagger\Swagger
 	 */
-	protected function getRoot()
+	protected function getSwagger()
 	{
-		return $this->parent->getRoot();
+		return $this->parent->getSwagger();
 	}
 
 	/**

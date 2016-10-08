@@ -1,5 +1,10 @@
 # Todo
+## Tests
+*	Reference response definition
+*	Explicitely reference response definition
+
 ## Code
+*	Exception; record statement source
 *	Add full Schema-level type support for response headers.
 *	Options to enable/disable comment types.
 *	Option to specify comment command prefix. `rest` or `@rest\`.
@@ -25,11 +30,8 @@
 *	Implement `examples` in `Response`.
 *	Implement `file` type in `Schema`.
 *	Implement `required` in `Schema`.
-*	Implement `response` definition type in `Swagger`.
 *	Implement `parameters` in `Swagger`.
-*	Implement `responses` in `Swagger`.
 *	Add command aliasses `tag`, `scheme`, `consumes` and `produces` in `Operations`.
-*	Implement `operationId` in `Operations`.
 
 ## Quality
 *	Parsers; pass state object instead of keeping state in parser objects properties.

@@ -1,18 +1,7 @@
 <?php
 
-class SwaggerTest extends PHPUnit_Framework_TestCase {
-
-	protected $parent;
-
-	protected function setUp()
-	{
-		$this->parent = $this->getMockForAbstractClass('\SwaggerGen\Swagger\AbstractObject');
-	}
-
-	protected function assertPreConditions()
-	{
-		$this->assertInstanceOf('\SwaggerGen\Swagger\AbstractObject', $this->parent);
-	}
+class SwaggerTest extends PHPUnit_Framework_TestCase
+{
 
 	/**
 	 * @covers \SwaggerGen\Swagger\Swagger::__construct
@@ -910,6 +899,96 @@ class SwaggerTest extends PHPUnit_Framework_TestCase {
 			'definitions' => array(
 				'foo' => array(
 					'type' => 'object',
+				),
+			),
+				), $object->toArray());
+	}
+
+	/**
+	 * @covers \SwaggerGen\Swagger\Swagger::__construct
+	 */
+	public function testHandleCommand_Response_NoType()
+	{
+		$object = new \SwaggerGen\Swagger\Swagger();
+		$this->assertInstanceOf('\SwaggerGen\Swagger\Swagger', $object);
+
+		$this->setExpectedException('\SwaggerGen\Exception', "Response definition missing description");
+		$response = $object->handleCommand('response', 'NotFound');
+	}
+
+	/**
+	 * @covers \SwaggerGen\Swagger\Swagger::__construct
+	 */
+	public function testHandleCommand_Response_NoDescription()
+	{
+		$object = new \SwaggerGen\Swagger\Swagger();
+		$this->assertInstanceOf('\SwaggerGen\Swagger\Swagger', $object);
+
+		$this->setExpectedException('\SwaggerGen\Exception', "Response definition missing description");
+		$response = $object->handleCommand('response', 'NotFound null');
+	}
+
+	/**
+	 * @covers \SwaggerGen\Swagger\Swagger::__construct
+	 */
+	public function testHandleCommand_Response_WithoutDefinition()
+	{
+		$object = new \SwaggerGen\Swagger\Swagger();
+		$this->assertInstanceOf('\SwaggerGen\Swagger\Swagger', $object);
+
+		$response = $object->handleCommand('response', 'NotFound null Entity not found');
+		$this->assertInstanceOf('\SwaggerGen\Swagger\Response', $response);
+
+		$path = $object->handleCommand('endpoint');
+		$this->assertInstanceOf('\SwaggerGen\Swagger\Path', $path);
+
+		$this->assertSame(array(
+			'swagger' => '2.0',
+			'info' => array(
+				'title' => 'undefined',
+				'version' => '0',
+			),
+			'paths' => array(
+				'/' => array(),
+			),
+			'responses' => array(
+				'NotFound' => array(
+					'description' => 'Entity not found',
+				),
+			),
+				), $object->toArray());
+	}
+
+	/**
+	 * @covers \SwaggerGen\Swagger\Swagger::__construct
+	 */
+	public function testHandleCommand_Response_WithDefinition()
+	{
+		$object = new \SwaggerGen\Swagger\Swagger();
+		$this->assertInstanceOf('\SwaggerGen\Swagger\Swagger', $object);
+
+		$response = $object->handleCommand('response', 'NotFound int Entity not found');
+		$this->assertInstanceOf('\SwaggerGen\Swagger\Response', $response);
+
+		$path = $object->handleCommand('endpoint');
+		$this->assertInstanceOf('\SwaggerGen\Swagger\Path', $path);
+
+		$this->assertSame(array(
+			'swagger' => '2.0',
+			'info' => array(
+				'title' => 'undefined',
+				'version' => '0',
+			),
+			'paths' => array(
+				'/' => array(),
+			),
+			'responses' => array(
+				'NotFound' => array(
+					'description' => 'Entity not found',
+					'schema' => array(
+						'type' => 'integer',
+						'format' => 'int32'
+					),
 				),
 			),
 				), $object->toArray());

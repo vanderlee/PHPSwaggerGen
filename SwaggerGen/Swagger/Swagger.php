@@ -20,7 +20,7 @@ class Swagger extends AbstractDocumentableObject
 	/**
 	 * @var Info $Info
 	 */
-	private $Info;
+	private $info;
 	private $schemes = array();
 	private $consumes = array();
 	private $produces = array();
@@ -28,13 +28,27 @@ class Swagger extends AbstractDocumentableObject
 	/**
 	 * @var \SwaggerGen\Swagger\Path[] $Paths
 	 */
-	private $Paths = array();
+	private $paths = array();
+
+	/**
+	 * @var \SwaggerGen\Swagger\Schema[] $definitions
+	 */
 	private $definitions = array();
+
+	/**
+	 * @var \SwaggerGen\Swagger\IParameter[] $parameters
+	 */
+	private $parameters = array();
+
+	/**
+	 * @var \SwaggerGen\Swagger\Response[] $responses
+	 */
+	private $responses = array();
 
 	/**
 	 * @var Tag[] $Tags
 	 */
-	private $Tags = array();
+	private $tags = array();
 
 	/**
 	 * Default tag for new endpoints/operations. Set by the api command.
@@ -56,13 +70,13 @@ class Swagger extends AbstractDocumentableObject
 		$this->host = $host;
 		$this->basePath = $basePath;
 
-		$this->Info = new Info($this);
+		$this->info = new Info($this);
 	}
 
 	/**
 	 * @inheritDoc
 	 */
-	protected function getRoot()
+	protected function getSwagger()
 	{
 		return $this;
 	}
@@ -108,7 +122,7 @@ class Swagger extends AbstractDocumentableObject
 			case 'termsofservice':
 			case 'contact':
 			case 'license':
-				return $this->Info->handleCommand($command, $data);
+				return $this->info->handleCommand($command, $data);
 
 			// string[]
 			case 'scheme':
@@ -121,7 +135,7 @@ class Swagger extends AbstractDocumentableObject
 			case 'consumes':
 				$this->consumes = array_merge($this->consumes, self::translateMimeTypes(self::wordSplit($data)));
 				return $this;
-				
+
 			case 'produce':
 			case 'produces':
 				$this->produces = array_merge($this->produces, self::translateMimeTypes(self::wordSplit($data)));
@@ -150,6 +164,17 @@ class Swagger extends AbstractDocumentableObject
 				$this->definitions[$name] = $definition;
 				return $definition;
 
+			case 'response':
+				$name = self::wordShift($data);
+				$definition = self::wordShift($data);
+				$description = $data;
+				if (empty($description)) {
+					throw new \SwaggerGen\Exception('Response definition missing description');
+				}
+				$Response = new Response($this, $name, $definition === 'null' ? null : $definition, $description);
+				$this->responses[$name] = $Response;
+				return $Response;
+
 			case 'api': // alias
 			case 'tag':
 				$tagname = self::wordShift($data);
@@ -158,7 +183,7 @@ class Swagger extends AbstractDocumentableObject
 				}
 
 				$Tag = null;
-				foreach ($this->Tags as $T) {
+				foreach ($this->tags as $T) {
 					if ($T->getName() === $tagname) {
 						$Tag = $T;
 						break;
@@ -166,7 +191,7 @@ class Swagger extends AbstractDocumentableObject
 				}
 				if (!$Tag) {
 					$Tag = new Tag($this, $tagname, $data);
-					$this->Tags[] = $Tag;
+					$this->tags[] = $Tag;
 				}
 
 				if ($command === 'api') { // backwards compatibility
@@ -182,7 +207,7 @@ class Swagger extends AbstractDocumentableObject
 
 				$Tag = null;
 				if (($tagname = self::wordShift($data)) !== false) {
-					foreach ($this->Tags as $T) {
+					foreach ($this->tags as $T) {
 						if (strtolower($T->getName()) === strtolower($tagname)) {
 							$Tag = $T;
 							break;
@@ -190,14 +215,14 @@ class Swagger extends AbstractDocumentableObject
 					}
 					if (!$Tag) {
 						$Tag = new Tag($this, $tagname, $data);
-						$this->Tags[] = $Tag;
+						$this->tags[] = $Tag;
 					}
 				}
 
-				if (!isset($this->Paths[$path])) {
-					$this->Paths[$path] = new Path($this, $Tag ?: $this->defaultTag);
+				if (!isset($this->paths[$path])) {
+					$this->paths[$path] = new Path($this, $Tag ?: $this->defaultTag);
 				}
-				return $this->Paths[$path];
+				return $this->paths[$path];
 
 			case 'security':
 				$name = self::wordShift($data);
@@ -233,7 +258,7 @@ class Swagger extends AbstractDocumentableObject
 	 */
 	public function toArray()
 	{
-		if (empty($this->Paths)) {
+		if (empty($this->paths)) {
 			throw new \SwaggerGen\Exception('No path defined');
 		}
 
@@ -257,17 +282,19 @@ class Swagger extends AbstractDocumentableObject
 
 		return self::arrayFilterNull(array_merge(array(
 					'swagger' => $this->swagger,
-					'info' => $this->Info->toArray(),
+					'info' => $this->info->toArray(),
 					'host' => empty($this->host) ? null : $this->host,
 					'basePath' => empty($this->basePath) ? null : $this->basePath,
 					'consumes' => $consumes,
 					'produces' => $produces,
 					'schemes' => $schemes,
-					'paths' => self::objectsToArray($this->Paths),
+					'paths' => self::objectsToArray($this->paths),
 					'definitions' => self::objectsToArray($this->definitions),
+					'parameters' => self::objectsToArray($this->parameters),
+					'responses' => self::objectsToArray($this->responses),
 					'securityDefinitions' => self::objectsToArray($this->securityDefinitions),
 					'security' => $this->security,
-					'tags' => self::objectsToArray($this->Tags),
+					'tags' => self::objectsToArray($this->tags),
 								), parent::toArray()));
 	}
 
@@ -275,7 +302,7 @@ class Swagger extends AbstractDocumentableObject
 	{
 		return __CLASS__;
 	}
-	
+
 	/**
 	 * Return a reference string for the named reference by looking it up in the
 	 * various definitions
@@ -283,12 +310,34 @@ class Swagger extends AbstractDocumentableObject
 	 * @param string $name
 	 * @returnstring
 	 */
-	public function resolveReference($name) {
-		if (isset($this->definitions[$name])) {
+	public function resolveReference($name)
+	{
+		if (isset($this->responses[$name])) {
+			return '#/responses/' . $name;
+		} elseif (isset($this->parameters[$name])) {
+			return '#/parameters/' . $name;
+		} elseif (isset($this->definitions[$name])) {
 			return '#/definitions/' . $name;
 		} else {
 			throw new \SwaggerGen\Exception("No reference definition found for '{$name}'");
 		}
+	}
+
+	/**
+	 * Check if an operation with the given id exists.
+	 * 
+	 * @param string $operationId
+	 * @return boolean
+	 */
+	public function hasOperationId($operationId)
+	{
+		foreach ($this->paths as $path) {
+			if ($path->hasOperationId($operationId)) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 }

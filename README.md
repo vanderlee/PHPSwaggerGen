@@ -1,5 +1,5 @@
 # SwaggerGen
-Version v2.3.3
+Version v2.3.4
 
 [![License](https://img.shields.io/github/license/vanderlee/PHPSwaggerGen.svg)]()
 [![Build Status](https://travis-ci.org/vanderlee/PHPSwaggerGen.svg?branch=master)](https://travis-ci.org/vanderlee/PHPSwaggerGen)
@@ -406,6 +406,12 @@ Use `header?` (with a question mark) to make the parameter optional.
 See the chapter on  **Parameter definitions** for a detailed
 description of all the possible definition formats.
 
+### `id`` *`name`*
+Set an operation id for this operation.
+
+`name`  The ID name must be uniue among all operations in the document.
+If you specify an ID that has already been set, an exception will be thrown.
+
 ### `path`` *`definition name [description ...]`* &rArr; Parameter
 Add a new path Parameter to this operation.
 
@@ -550,6 +556,13 @@ alias: `produce`
 Set the required security scheme names.
 If multiple names are given, they must all apply.
 If an `oath2` scheme is specified, you may
+
+### `response` *`name definition description`* &rArr; Response
+Adds a response definition with a schema definition of the data that will be
+returned. You can omit the `definition` by specifying `null` instead.
+
+See the chapter on  **Parameter definitions** for a detailed
+description of all the possible definition formats.
 
 ### `schemes` *`scheme1 [scheme2] ... [schemeN]`*
 Adds protocol schemes. E.g. "http" or "https".

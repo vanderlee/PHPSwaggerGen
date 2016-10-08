@@ -28,7 +28,7 @@ class FileType extends AbstractType
 
 		$consumes = $this->getParentClass('\SwaggerGen\Swagger\Operation')->getConsumes();
 		if (empty($consumes)) {
-			$consumes = $this->getRoot()->getConsumes();
+			$consumes = $this->getSwagger()->getConsumes();
 		}
 
 		$valid_consumes = ((int) in_array('multipart/form-data', $consumes)) + ((int) in_array('application/x-www-form-urlencoded', $consumes));

@@ -29,6 +29,7 @@ class Operation extends AbstractDocumentableObject
 	private $schemes = array();
 	private $deprecated = false;
 	private $security = array();
+	private $operationId = null;
 
 	public function getConsumes()
 	{
@@ -39,7 +40,6 @@ class Operation extends AbstractDocumentableObject
 	{
 		parent::__construct($parent);
 		$this->summary = $summary;
-		$this->operationid = uniqid('', true); //@todo getSwagger()->title -> Do some complex construction?
 		if ($tag) {
 			$this->tags[] = $tag->getName();
 		}
@@ -138,6 +138,14 @@ class Operation extends AbstractDocumentableObject
 					$name => empty($scopes) ? array() : $scopes,
 				);
 				return $this;
+
+			case 'id':
+				$operationId = self::trim($data);
+				if ($this->getSwagger()->hasOperationId($operationId)) {
+					throw new \SwaggerGen\Exception("Duplicate operation id '{$operationId}'");
+				}
+				$this->operationId = $operationId;
+				return $this;
 		}
 
 		return parent::handleCommand($command, $data);
@@ -164,7 +172,7 @@ class Operation extends AbstractDocumentableObject
 
 		foreach ($this->security as $security) {
 			foreach ($security as $name => $scope) {
-				if ($this->getRoot()->getSecurity($name) === false) {
+				if ($this->getSwagger()->getSecurity($name) === false) {
 					throw new \SwaggerGen\Exception("Required security scheme not defined: '{$name}'");
 				}
 			}
@@ -177,6 +185,7 @@ class Operation extends AbstractDocumentableObject
 					'tags' => $tags,
 					'summary' => empty($this->summary) ? null : $this->summary,
 					'description' => empty($this->description) ? null : $this->description,
+					'operationId' => $this->operationId,
 					'consumes' => $consumes,
 					'produces' => $produces,
 					'parameters' => $parameters ? self::objectsToArray($parameters) : null,
@@ -184,6 +193,16 @@ class Operation extends AbstractDocumentableObject
 					'responses' => $this->responses ? self::objectsToArray($this->responses) : null,
 					'security' => $this->security,
 								), parent::toArray()));
+	}
+
+	/**
+	 * Return the operation ID
+	 * 
+	 * @return string
+	 */
+	public function getId()
+	{
+		return $this->operationId;
 	}
 
 	public function __toString()

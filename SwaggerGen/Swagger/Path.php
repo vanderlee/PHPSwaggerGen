@@ -93,4 +93,21 @@ class Path extends AbstractObject
 		return __CLASS__ . ' ' . key($this->operations);
 	}
 
+	/**
+	 * Check if an operation with the given id is registered to this Path.
+	 * 
+	 * @param string $operationId
+	 * @return boolean
+	 */
+	public function hasOperationId($operationId)
+	{
+		foreach ($this->operations as $operation) {
+			if ($operation->getId() === $operationId) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
 }

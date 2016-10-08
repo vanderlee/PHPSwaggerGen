@@ -7,7 +7,7 @@ class OperationTest extends PHPUnit_Framework_TestCase
 
 	protected function setUp()
 	{
-		$this->parent = $this->getMockForAbstractClass('\SwaggerGen\Swagger\AbstractObject');
+		$this->parent = $this->getMockForAbstractClass('\SwaggerGen\Swagger\Swagger');
 	}
 
 	protected function assertPreConditions()
@@ -187,6 +187,79 @@ class OperationTest extends PHPUnit_Framework_TestCase
 				),
 			),
 				), $object->toArray());
+	}
+
+	/**
+	 * @covers \SwaggerGen\Swagger\Operation::handleCommand
+	 */
+	public function testHandleCommand_OperationId()
+	{
+		$object = new \SwaggerGen\Swagger\Operation($this->parent);
+		$this->assertInstanceOf('\SwaggerGen\Swagger\Operation', $object);
+
+		$return = $object->handleCommand('id', 'SomeOperation');
+		$this->assertInstanceOf('\SwaggerGen\Swagger\Operation', $return);
+
+		$return = $object->handleCommand('response', '200');
+		$this->assertInstanceOf('\SwaggerGen\Swagger\Response', $return);
+
+		$this->assertSame(array(
+			'operationId' => 'SomeOperation',
+			'responses' => array(
+				200 => array(
+					'description' => 'OK',
+				),
+			),
+				), $object->toArray());
+	}
+
+	/**
+	 * @covers \SwaggerGen\Swagger\Operation::handleCommand
+	 */
+	public function testHandleCommand_OperationId_UniqueInPath()
+	{
+		$path = $this->parent->handleCommand('endpoint', 'foo');
+		$this->assertInstanceOf('\SwaggerGen\Swagger\Path', $path);
+		
+		// First occurance
+		$operation = $path->handleCommand('operation', 'GET');
+		$this->assertInstanceOf('\SwaggerGen\Swagger\Operation', $operation);
+
+		$return = $operation->handleCommand('id', 'SomeOperation');
+		$this->assertInstanceOf('\SwaggerGen\Swagger\Operation', $return);
+
+		// Second occurance
+		$operation = $path->handleCommand('operation', 'GET');
+		$this->assertInstanceOf('\SwaggerGen\Swagger\Operation', $operation);
+
+		$this->setExpectedException('\SwaggerGen\Exception', "Duplicate operation id 'SomeOperation'");
+		$operation->handleCommand('id', 'SomeOperation');
+	}
+
+	/**
+	 * @covers \SwaggerGen\Swagger\Operation::handleCommand
+	 */
+	public function testHandleCommand_OperationId_UniqueInSwagger()
+	{	
+		// First occurance
+		$path = $this->parent->handleCommand('endpoint', 'foo');
+		$this->assertInstanceOf('\SwaggerGen\Swagger\Path', $path);
+		
+		$operation = $path->handleCommand('operation', 'GET');
+		$this->assertInstanceOf('\SwaggerGen\Swagger\Operation', $operation);
+
+		$return = $operation->handleCommand('id', 'SomeOperation');
+		$this->assertInstanceOf('\SwaggerGen\Swagger\Operation', $return);
+
+		// Second occurance
+		$path = $this->parent->handleCommand('endpoint', 'bar');
+		$this->assertInstanceOf('\SwaggerGen\Swagger\Path', $path);
+
+		$operation = $path->handleCommand('operation', 'GET');
+		$this->assertInstanceOf('\SwaggerGen\Swagger\Operation', $operation);
+
+		$this->setExpectedException('\SwaggerGen\Exception', "Duplicate operation id 'SomeOperation'");
+		$operation->handleCommand('id', 'SomeOperation');
 	}
 
 	/**
@@ -744,7 +817,7 @@ class OperationTest extends PHPUnit_Framework_TestCase
 			),
 			'security' => array(
 				array(
-					'basic' => array(),					
+					'basic' => array(),
 				),
 			),
 				), $object->toArray());
@@ -776,7 +849,7 @@ class OperationTest extends PHPUnit_Framework_TestCase
 				),
 			),
 			'security' => array(
-				array (
+				array(
 					'oauth' => array(
 						'user:email',
 						'user:name',
