@@ -276,9 +276,18 @@ class Swagger extends AbstractDocumentableObject
 		return __CLASS__;
 	}
 	
+	/**
+	 * Return a reference string for the named reference by looking it up in the
+	 * various definitions
+	 * 
+	 * @param string $name
+	 * @returnstring
+	 */
 	public function resolveReference($name) {
 		if (isset($this->definitions[$name])) {
 			return '#/definitions/' . $name;
+		} else {
+			throw new \SwaggerGen\Exception("No reference definition found for '{$name}'");
 		}
 	}
 

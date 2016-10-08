@@ -17,37 +17,34 @@ class ReferenceObjectType extends AbstractType
 
 	protected function parseDefinition($definition)
 	{
-        $definition = self::trim($definition);
+		$definition = self::trim($definition);
 
-        $match = array();
-        if (preg_match(self::REGEX_START . self::REGEX_FORMAT . self::REGEX_CONTENT . self::REGEX_RANGE . self::REGEX_DEFAULT . self::REGEX_END, $definition, $match) !== 1) {
-            throw new \SwaggerGen\Exception("Unparseable string definition: '{$definition}'");
-        }
+		$match = array();
+		if (preg_match(self::REGEX_START . self::REGEX_FORMAT . self::REGEX_CONTENT . self::REGEX_RANGE . self::REGEX_DEFAULT . self::REGEX_END, $definition, $match) !== 1) {
+			throw new \SwaggerGen\Exception("Unparseable string definition: '{$definition}'");
+		}
 
-        $type = strtolower($match[1]);
+		$type = strtolower($match[1]);
 
-        $reference = null;
-        if ($type === 'refobject') {
-            if (isset($match[2]))
-                $reference = $match[2];
-        } else {
-            $reference = $match[1];
-        }
+		$reference = null;
+		if ($type === 'refobject') {
+			if (isset($match[2]))
+				$reference = $match[2];
+		} else {
+			$reference = $match[1];
+		}
 
-        if (empty($reference)) {
-            throw new \SwaggerGen\Exception("Referenced object name missing: '{$definition}'");
-        }
+		if (empty($reference)) {
+			throw new \SwaggerGen\Exception("Referenced object name missing: '{$definition}'");
+		}
 
 		$this->reference = $reference;
 	}
 
 	public function toArray()
 	{
-//		$Swagger = $this->getRoot();
-//		$type = $Swagger->getReference($this->reference);
 		return self::arrayFilterNull(array(
 					'$ref' => $this->getRoot()->resolveReference($this->reference),
-//					'$ref' => '#/definitions/' . $this->reference,
 		));
 	}
 
