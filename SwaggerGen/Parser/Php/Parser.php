@@ -53,7 +53,7 @@ class Parser extends Entity\AbstractEntity implements \SwaggerGen\Parser\IParser
 	 */
 	protected $common_dirs = array();
 
-	public function __construct(Array $dirs = array())
+	public function __construct(array $dirs = array())
 	{
 		foreach ($dirs as $dir) {
 			$this->common_dirs[] = realpath($dir);
@@ -202,7 +202,7 @@ class Parser extends Entity\AbstractEntity implements \SwaggerGen\Parser\IParser
 	 * Add to the queue any classes based on the commands.
 	 * @param \SwaggerGen\Statement[] $Statements
 	 */
-	public function queueClassesFromComments(Array $Statements)
+	public function queueClassesFromComments(array $Statements)
 	{
 		foreach ($Statements as $Statement) {
 			if ($Statement->command === 'uses' || $Statement->command === 'see') {
@@ -336,7 +336,7 @@ class Parser extends Entity\AbstractEntity implements \SwaggerGen\Parser\IParser
 	 * @param \SwaggerGen\Statement[] $Statements
 	 * @return \SwaggerGen\Statement[]
 	 */
-	private function expand(Array $Statements, Entity\ParserClass $Self = null)
+	private function expand(array $Statements, Entity\ParserClass $Self = null)
 	{
 		$output = array();
 
