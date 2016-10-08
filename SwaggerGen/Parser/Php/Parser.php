@@ -62,7 +62,7 @@ class Parser extends Entity\AbstractEntity implements \SwaggerGen\Parser\IParser
 		$this->Preprocessor = new Preprocessor(self::COMMENT_TAG);
 	}
 
-	public function addDirs(Array $dirs)
+	public function addDirs(array $dirs)
 	{
 		foreach ($dirs as $dir) {
 			$this->common_dirs[] = realpath($dir);
@@ -94,7 +94,7 @@ class Parser extends Entity\AbstractEntity implements \SwaggerGen\Parser\IParser
 		return $Statements;
 	}
 
-	public function parse($file, Array $dirs = array(), Array $defines = array())
+	public function parse($file, array $dirs = array(), array $defines = array())
 	{
 		$this->dirs = $this->common_dirs;
 		foreach ($dirs as $dir) {
@@ -277,7 +277,7 @@ class Parser extends Entity\AbstractEntity implements \SwaggerGen\Parser\IParser
 		}
 	}
 
-	private function parseFiles(Array $files, Array $defines = array())
+	private function parseFiles(array $files, array $defines = array())
 	{
 		$this->files_queued = $files;
 
