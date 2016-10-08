@@ -26,7 +26,7 @@ abstract class AbstractPreprocessor
 		$this->defines = array();
 	}
 
-	public function addDefines(Array $defines)
+	public function addDefines(array $defines)
 	{
 		$this->defines = array_merge($this->defines, $defines);
 	}
