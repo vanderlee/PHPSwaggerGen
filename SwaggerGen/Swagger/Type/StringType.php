@@ -42,6 +42,10 @@ class StringType extends AbstractType
 		$this->parseDefault($definition, $match);
 	}
 
+	/**
+	 * @param string $definition
+	 * @param string[] $match
+	 */
 	private function parseFormat($definition, $match)
 	{
 		$type = strtolower($match[1]);
@@ -51,6 +55,10 @@ class StringType extends AbstractType
 		$this->format = self::$formats[$type];
 	}
 
+	/**
+	 * @param string $definition
+	 * @param string[] $match
+	 */
 	private function parseContent($definition, $match)
 	{
 		if (strtolower($match[1]) === 'enum') {
@@ -60,6 +68,10 @@ class StringType extends AbstractType
 		}
 	}
 
+	/**
+	 * @param string $definition
+	 * @param string[] $match
+	 */
 	private function parseRange($definition, $match)
 	{
 
@@ -83,6 +95,10 @@ class StringType extends AbstractType
 		}
 	}
 
+	/**
+	 * @param string $definition
+	 * @param string[] $match
+	 */
 	private function parseDefault($definition, $match)
 	{
 		$this->default = isset($match[7]) && $match[7] !== '' ? $this->validateDefault($match[7]) : null;

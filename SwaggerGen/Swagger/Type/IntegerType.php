@@ -46,6 +46,10 @@ class IntegerType extends AbstractType
 		$this->parseDefault($definition, $match);
 	}
 
+	/**
+	 * @param string $definition
+	 * @param string[] $match
+	 */
 	private function parseFormat($definition, $match)
 	{
 		$type = strtolower($match[1]);
@@ -55,6 +59,10 @@ class IntegerType extends AbstractType
 		$this->format = self::$formats[$type];
 	}
 
+	/**
+	 * @param string $definition
+	 * @param string[] $match
+	 */
 	private function parseRange($definition, $match)
 	{
 		if (!empty($match[2])) {

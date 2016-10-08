@@ -33,7 +33,7 @@ class Parser implements \SwaggerGen\Parser\IParser
 	 *
 	 * @param string[] $dirs
 	 */
-	public function __construct(Array $dirs = array())
+	public function __construct(array $dirs = array())
 	{
 		foreach ($dirs as $dir) {
 			$this->common_dirs[] = realpath($dir);
@@ -47,7 +47,7 @@ class Parser implements \SwaggerGen\Parser\IParser
 	 *
 	 * @param string[] $dirs
 	 */
-	public function addDirs(Array $dirs)
+	public function addDirs(array $dirs)
 	{
 		foreach ($dirs as $dir) {
 			$this->common_dirs[] = realpath($dir);
@@ -62,7 +62,7 @@ class Parser implements \SwaggerGen\Parser\IParser
 	 * @param string[] $defines
 	 * @return \SwaggerGen\Statement[]
 	 */
-	public function parse($file, Array $dirs = array(), Array $defines = array())
+	public function parse($file, array $dirs = array(), array $defines = array())
 	{
 		return $this->parseText(file_get_contents(realpath($file)), $dirs);
 	}
@@ -75,7 +75,7 @@ class Parser implements \SwaggerGen\Parser\IParser
 	 * @param string[] $defines
 	 * @return \SwaggerGen\Statement
 	 */
-	public function parseText($text, Array $dirs = array(), Array $defines = array())
+	public function parseText($text, array $dirs = array(), array $defines = array())
 	{
 		$this->dirs = $this->common_dirs;
 		foreach ($dirs as $dir) {

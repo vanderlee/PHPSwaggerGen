@@ -58,7 +58,7 @@ class Preprocessor extends \SwaggerGen\Parser\AbstractPreprocessor
 									if (!$this->handle($match[1], $match[2]) && $this->getState()) {
 										$output .= $line;
 									} else {
-										$output .= str_replace('@'.$this->getPrefix(), '!'.$this->getPrefix(), $line);
+										$output .= str_replace('@' . $this->getPrefix(), '!' . $this->getPrefix(), $line);
 									}
 								} else {
 									$output .= $line;

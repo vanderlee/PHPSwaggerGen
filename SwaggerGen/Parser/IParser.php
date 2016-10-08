@@ -13,5 +13,5 @@ namespace SwaggerGen\Parser;
 interface IParser
 {
 
-	public function parse($file, Array $dirs = array());
+	public function parse($file, array $dirs = array());
 }
