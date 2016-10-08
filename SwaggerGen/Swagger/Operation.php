@@ -17,7 +17,6 @@ class Operation extends AbstractDocumentableObject
 	private $tags = array();
 	private $summary;
 	private $description;
-	private $operationid;
 	private $consumes = array();
 	private $produces = array();
 
@@ -29,6 +28,10 @@ class Operation extends AbstractDocumentableObject
 	private $schemes = array();
 	private $deprecated = false;
 	private $security = array();
+
+	/**
+	 * @var string
+	 */
 	private $operationId = null;
 
 	public function getConsumes()
