@@ -28,8 +28,9 @@ class ReferenceObjectType extends AbstractType
 
 		$reference = null;
 		if ($type === 'refobject') {
-			if (isset($match[2]))
+			if (isset($match[2])) {
 				$reference = $match[2];
+			}
 		} else {
 			$reference = $match[1];
 		}
