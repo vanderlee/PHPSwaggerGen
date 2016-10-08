@@ -153,7 +153,7 @@ class SwaggerGen
 
 				$stacktrace = array();
 				foreach ($stack as $object) {
-					$stacktrace[] = (string)$object;
+					$stacktrace[] = (string) $object;
 				}
 				$messages[] = join(", \n", $stacktrace);
 				
@@ -170,7 +170,7 @@ class SwaggerGen
 				break;
 
 			case self::FORMAT_JSON_PRETTY:
-				$flags = (defined('JSON_PRETTY_PRINT') ? JSON_PRETTY_PRINT : 0);	// Since PHP 5.4.0
+				$flags = (defined('JSON_PRETTY_PRINT') ? JSON_PRETTY_PRINT : 0); // Since PHP 5.4.0
 				$output = json_encode($output, $flags);
 				break;
 
