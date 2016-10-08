@@ -25,7 +25,7 @@ class Parser extends Entity\AbstractEntity implements \SwaggerGen\Parser\IParser
 // States
 
 	public $Statements = array();
-	
+
 	/**
 	 * @var \SwaggerGen\Statement[]|null
 	 */
@@ -68,8 +68,9 @@ class Parser extends Entity\AbstractEntity implements \SwaggerGen\Parser\IParser
 			$this->common_dirs[] = realpath($dir);
 		}
 	}
-	
-	private function extractStatements() {
+
+	private function extractStatements()
+	{
 		// Core comments
 		$Statements = $this->Statements;
 
@@ -161,9 +162,9 @@ class Parser extends Entity\AbstractEntity implements \SwaggerGen\Parser\IParser
 				$commandLineNumber = $lineNumber;
 			} elseif ($command !== null) {
 				if ($lineNumber < count($commentLines) - 1) {
-					$data.= ' ' . $line;
+					$data .= ' ' . $line;
 				} else {
-					$data.= preg_replace('~\s*\**\/\s*$~', '', $line);
+					$data .= preg_replace('~\s*\**\/\s*$~', '', $line);
 				}
 			}
 		}
@@ -215,7 +216,8 @@ class Parser extends Entity\AbstractEntity implements \SwaggerGen\Parser\IParser
 		}
 	}
 
-	private function parseTokens($source) {
+	private function parseTokens($source)
+	{
 		$mode = null;
 		$namespace = '';
 
@@ -274,7 +276,7 @@ class Parser extends Entity\AbstractEntity implements \SwaggerGen\Parser\IParser
 			$token = next($tokens);
 		}
 	}
-	
+
 	private function parseFiles(Array $files, Array $defines = array())
 	{
 		$this->files_queued = $files;
