@@ -32,7 +32,8 @@ class StatementException extends \Exception
 		parent::__construct($message, $code, $previous);
 	}
 	
-	public function getStatement() {
+	public function getStatement()
+	{
 		return $this->statement;
 	}
 
