@@ -73,7 +73,7 @@ class SwaggerGen
 	/**
 	 * @param string $file
 	 * @param string[] $dirs
-	 * @return Php\Entity\Statement[]
+	 * @return Statement[]
 	 */
 	private function parseTextFile($file, $dirs)
 	{

@@ -342,7 +342,7 @@ class Parser extends Entity\AbstractEntity implements \SwaggerGen\Parser\IParser
 
 		$match = null;
 		foreach ($Statements as $Statement) {
-			if (in_array($Statement->getCommand(), array('uses', 'see'))) { 
+			if (in_array($Statement->getCommand(), array('uses', 'see'))) {
 				if (preg_match('/^((?:\\w+)|\$this)(?:(::|->)(\\w+))?(?:\\(\\))?$/', strtolower($Statement->getData()), $match) === 1) {
 					if (count($match) >= 3) {
 						$Class = null;
