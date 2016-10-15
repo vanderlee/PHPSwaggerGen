@@ -1,5 +1,5 @@
 # SwaggerGen
-Version v2.3.5
+Version v2.3.6
 
 [![License](https://img.shields.io/github/license/vanderlee/PHPSwaggerGen.svg)]()
 [![Build Status](https://travis-ci.org/vanderlee/PHPSwaggerGen.svg?branch=master)](https://travis-ci.org/vanderlee/PHPSwaggerGen)
