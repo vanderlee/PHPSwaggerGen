@@ -40,8 +40,8 @@ class Parser_Text_ParserTest extends PHPUnit_Framework_TestCase
 
 		$this->assertCount(1, $statements);
 		$this->assertInstanceOf('\SwaggerGen\Statement', $statements[0]);
-		$this->assertSame('title', $statements[0]->command);
-		$this->assertSame('Some words', $statements[0]->data);
+		$this->assertSame('title', $statements[0]->getCommand());
+		$this->assertSame('Some words', $statements[0]->getData());
 	}
 
 	/**
@@ -56,8 +56,8 @@ class Parser_Text_ParserTest extends PHPUnit_Framework_TestCase
 
 		$this->assertCount(1, $statements);
 		$this->assertInstanceOf('\SwaggerGen\Statement', $statements[0]);
-		$this->assertSame('title', $statements[0]->command);
-		$this->assertSame('Some words', $statements[0]->data);
+		$this->assertSame('title', $statements[0]->getCommand());
+		$this->assertSame('Some words', $statements[0]->getData());
 	}
 
 	/**
@@ -73,12 +73,12 @@ class Parser_Text_ParserTest extends PHPUnit_Framework_TestCase
 		$this->assertCount(2, $statements);
 
 		$this->assertInstanceOf('\SwaggerGen\Statement', $statements[0]);
-		$this->assertSame('title', $statements[0]->command);
-		$this->assertSame('Some words', $statements[0]->data);
+		$this->assertSame('title', $statements[0]->getCommand());
+		$this->assertSame('Some words', $statements[0]->getData());
 
 		$this->assertInstanceOf('\SwaggerGen\Statement', $statements[1]);
-		$this->assertSame('Some', $statements[1]->command);
-		$this->assertSame('Random words', $statements[1]->data);
+		$this->assertSame('Some', $statements[1]->getCommand());
+		$this->assertSame('Random words', $statements[1]->getData());
 	}
 
 	/**
@@ -94,12 +94,12 @@ class Parser_Text_ParserTest extends PHPUnit_Framework_TestCase
 		$this->assertCount(2, $statements);
 
 		$this->assertInstanceOf('\SwaggerGen\Statement', $statements[0]);
-		$this->assertSame('title', $statements[0]->command);
-		$this->assertSame('Some words', $statements[0]->data);
+		$this->assertSame('title', $statements[0]->getCommand());
+		$this->assertSame('Some words', $statements[0]->getData());
 
 		$this->assertInstanceOf('\SwaggerGen\Statement', $statements[1]);
-		$this->assertSame('Some', $statements[1]->command);
-		$this->assertSame('Random words', $statements[1]->data);
+		$this->assertSame('Some', $statements[1]->getCommand());
+		$this->assertSame('Random words', $statements[1]->getData());
 	}
 
 	/**
@@ -115,12 +115,12 @@ class Parser_Text_ParserTest extends PHPUnit_Framework_TestCase
 		$this->assertCount(2, $statements);
 
 		$this->assertInstanceOf('\SwaggerGen\Statement', $statements[0]);
-		$this->assertSame('title', $statements[0]->command);
-		$this->assertSame('Some words', $statements[0]->data);
+		$this->assertSame('title', $statements[0]->getCommand());
+		$this->assertSame('Some words', $statements[0]->getData());
 
 		$this->assertInstanceOf('\SwaggerGen\Statement', $statements[1]);
-		$this->assertSame('Some', $statements[1]->command);
-		$this->assertSame('Random words', $statements[1]->data);
+		$this->assertSame('Some', $statements[1]->getCommand());
+		$this->assertSame('Random words', $statements[1]->getData());
 	}
 
 	/**
@@ -136,12 +136,12 @@ class Parser_Text_ParserTest extends PHPUnit_Framework_TestCase
 		$this->assertCount(2, $statements);
 
 		$this->assertInstanceOf('\SwaggerGen\Statement', $statements[0]);
-		$this->assertSame('title', $statements[0]->command);
-		$this->assertSame('Some words', $statements[0]->data);
+		$this->assertSame('title', $statements[0]->getCommand());
+		$this->assertSame('Some words', $statements[0]->getData());
 
 		$this->assertInstanceOf('\SwaggerGen\Statement', $statements[1]);
-		$this->assertSame('Some', $statements[1]->command);
-		$this->assertSame('Random words', $statements[1]->data);
+		$this->assertSame('Some', $statements[1]->getCommand());
+		$this->assertSame('Random words', $statements[1]->getData());
 	}
 
 	/**
@@ -159,12 +159,12 @@ class Parser_Text_ParserTest extends PHPUnit_Framework_TestCase
 		$this->assertCount(2, $statements);
 
 		$this->assertInstanceOf('\SwaggerGen\Statement', $statements[0]);
-		$this->assertSame('title', $statements[0]->command);
-		$this->assertSame('Some words', $statements[0]->data);
+		$this->assertSame('title', $statements[0]->getCommand());
+		$this->assertSame('Some words', $statements[0]->getData());
 
 		$this->assertInstanceOf('\SwaggerGen\Statement', $statements[1]);
-		$this->assertSame('Some', $statements[1]->command);
-		$this->assertSame('Random words', $statements[1]->data);
+		$this->assertSame('Some', $statements[1]->getCommand());
+		$this->assertSame('Random words', $statements[1]->getData());
 	}
 
 	/**
@@ -182,12 +182,12 @@ class Parser_Text_ParserTest extends PHPUnit_Framework_TestCase
 		$this->assertCount(2, $statements);
 
 		$this->assertInstanceOf('\SwaggerGen\Statement', $statements[0]);
-		$this->assertSame('title', $statements[0]->command);
-		$this->assertSame('Some words', $statements[0]->data);
+		$this->assertSame('title', $statements[0]->getCommand());
+		$this->assertSame('Some words', $statements[0]->getData());
 
 		$this->assertInstanceOf('\SwaggerGen\Statement', $statements[1]);
-		$this->assertSame('Some', $statements[1]->command);
-		$this->assertSame('Random words', $statements[1]->data);
+		$this->assertSame('Some', $statements[1]->getCommand());
+		$this->assertSame('Random words', $statements[1]->getData());
 	}
 
 }

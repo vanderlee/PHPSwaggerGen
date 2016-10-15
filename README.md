@@ -1,5 +1,5 @@
 # SwaggerGen
-Version v2.3.4
+Version v2.3.5
 
 [![License](https://img.shields.io/github/license/vanderlee/PHPSwaggerGen.svg)]()
 [![Build Status](https://travis-ci.org/vanderlee/PHPSwaggerGen.svg?branch=master)](https://travis-ci.org/vanderlee/PHPSwaggerGen)
@@ -406,11 +406,18 @@ Use `header?` (with a question mark) to make the parameter optional.
 See the chapter on  **Parameter definitions** for a detailed
 description of all the possible definition formats.
 
-### `id`` *`name`*
+### `id` *`name`*
 Set an operation id for this operation.
 
 `name`  The ID name must be uniue among all operations in the document.
 If you specify an ID that has already been set, an exception will be thrown.
+
+### `parameter` *`name`*
+Add a new parameter by referencing the name of a globally defined parameter.
+
+`name`  The globally unique name of the parameter reference.
+
+alias: `param`
 
 ### `path`` *`definition name [description ...]`* &rArr; Parameter
 Add a new path Parameter to this operation.
@@ -446,6 +453,14 @@ status codes as well, including a return definition.
 
 See the chapter on  **Parameter definitions** for a detailed
 description of all the possible definition formats.
+
+### `response` *`reference statuscode`*
+Reference a response definition.
+
+The `reference` name must exist as a Response definition defined in the
+**Swagger** context.
+
+Note that this is one of two possible signatures for the `response` command.
 
 ### `schemes` *`scheme1 [scheme2 ... schemeN]`*
 Add any number of schemes to the operation.
@@ -490,6 +505,12 @@ Set an URL pointing to more documentation.
 
 alias: `docs`
 
+### `title` *`text ...`*
+Set the title of this schema.
+
+### `description` *`description ...`*
+Set the description of this schema.
+
 For a list of other commands, read the chapter on  **Parameter definitions**.
 The available command depend on the particular type.
 
@@ -521,11 +542,10 @@ You can specify the URL, email address and name in any order you want.
 The URL and email address will be automatically detected, the name will consist
 of all text remaining (properly separated with whitespace).
 
-### `define` *`type name`* &rArr; Schema
-Start definition of a Schema (type is either `params` or `parameters`), using
-the reference name specified.
+### `definintion` *`name`* &rArr; Schema
+Start definition of a Schema using the reference name specified.
 
-alias: `definition`, `model` (don't specify type; always `params`)
+alias: `model` (for historical reasons)
 
 ### `description` *`text ...`* &rArr; Info
 Set the description for the API.
@@ -601,7 +621,7 @@ using the `scope` command afterwards.
 Specifies a tag definition; essentially the category in which an endpoint path
 will be grouped together.
 
-alias: `api`
+alias: `api` (for historical reasons).
 
 ### `terms` *`text ...`* &rArr; Info
 Set the text for the terms of service of this API.

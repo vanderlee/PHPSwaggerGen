@@ -141,29 +141,34 @@ class Swagger extends AbstractDocumentableObject
 				$this->produces = array_merge($this->produces, self::translateMimeTypes(self::wordSplit($data)));
 				return $this;
 
-			case 'model': // alias
-				$data = 'params ' . $data;
-			// Fallthrough intentional
-			case 'define':
+			case 'model':
 			case 'definition':
-				$type = self::wordShift($data);
-				switch ($type) {
-					case 'params':
-					case 'parameters': // alias
-						$definition = new Schema($this);
-						break;
-
-					default:
-						throw new \SwaggerGen\Exception("Unsupported definition type: '{$type}'");
-				}
-
+				$definition = new Schema($this);
 				$name = self::wordShift($data);
 				if (empty($name)) {
 					throw new \SwaggerGen\Exception('Missing definition name');
 				}
 				$this->definitions[$name] = $definition;
-				return $definition;
+				return $definition;			
 
+			case 'path':
+			case 'query':
+			case 'query?':
+			case 'header':
+			case 'header?':
+			case 'form':
+			case 'form?':
+				$in = rtrim($command, '?');
+				$Parameter = new Parameter($this, $in, $data, substr($command, -1) !== '?');
+				$this->parameters[$Parameter->getName()] = $Parameter;
+				return $Parameter;
+
+			case 'body':
+			case 'body?':
+				$Parameter = new BodyParameter($this, $data, substr($command, -1) !== '?');
+				$this->parameters[$Parameter->getName()] = $Parameter;
+				return $Parameter;
+				
 			case 'response':
 				$name = self::wordShift($data);
 				$definition = self::wordShift($data);
@@ -262,7 +267,6 @@ class Swagger extends AbstractDocumentableObject
 			throw new \SwaggerGen\Exception('No path defined');
 		}
 
-
 		$schemes = array_unique($this->schemes);
 		sort($schemes);
 
@@ -301,26 +305,6 @@ class Swagger extends AbstractDocumentableObject
 	public function __toString()
 	{
 		return __CLASS__;
-	}
-
-	/**
-	 * Return a reference string for the named reference by looking it up in the
-	 * various definitions
-	 * 
-	 * @param string $name
-	 * @returnstring
-	 */
-	public function resolveReference($name)
-	{
-		if (isset($this->responses[$name])) {
-			return '#/responses/' . $name;
-		} elseif (isset($this->parameters[$name])) {
-			return '#/parameters/' . $name;
-		} elseif (isset($this->definitions[$name])) {
-			return '#/definitions/' . $name;
-		} else {
-			throw new \SwaggerGen\Exception("No reference definition found for '{$name}'");
-		}
 	}
 
 	/**

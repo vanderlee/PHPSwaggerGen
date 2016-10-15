@@ -21,7 +21,6 @@ class SchemaTest extends PHPUnit_Framework_TestCase
 	public function testConstructorEmpty()
 	{
 		$object = new \SwaggerGen\Swagger\Schema($this->parent);
-
 		$this->assertInstanceOf('\SwaggerGen\Swagger\Schema', $object);
 
 		$this->assertSame(array(
@@ -35,7 +34,6 @@ class SchemaTest extends PHPUnit_Framework_TestCase
 	public function testConstructorType()
 	{
 		$object = new \SwaggerGen\Swagger\Schema($this->parent, 'int');
-
 		$this->assertInstanceOf('\SwaggerGen\Swagger\Schema', $object);
 
 		$this->assertSame(array(
@@ -50,7 +48,6 @@ class SchemaTest extends PHPUnit_Framework_TestCase
 	public function testConstructorReference()
 	{
 		$this->parent->handleCommand('model', 'User');
-		
 		$object = new \SwaggerGen\Swagger\Schema($this->parent, 'User');
 
 		$this->assertInstanceOf('\SwaggerGen\Swagger\Schema', $object);
@@ -66,7 +63,6 @@ class SchemaTest extends PHPUnit_Framework_TestCase
 	public function testConstructorEmptyDescription()
 	{
 		$object = new \SwaggerGen\Swagger\Schema($this->parent, 'int', '');
-
 		$this->assertInstanceOf('\SwaggerGen\Swagger\Schema', $object);
 
 		$this->assertSame(array(
@@ -81,7 +77,6 @@ class SchemaTest extends PHPUnit_Framework_TestCase
 	public function testConstructorDescription()
 	{
 		$object = new \SwaggerGen\Swagger\Schema($this->parent, 'int', 'Some more words');
-
 		$this->assertInstanceOf('\SwaggerGen\Swagger\Schema', $object);
 
 		$this->assertSame(array(
@@ -97,7 +92,6 @@ class SchemaTest extends PHPUnit_Framework_TestCase
 	public function testCommandPassing()
 	{
 		$object = new \SwaggerGen\Swagger\Schema($this->parent, 'int');
-
 		$this->assertInstanceOf('\SwaggerGen\Swagger\Schema', $object);
 
 		$object->handleCommand('default', '123');
@@ -106,6 +100,40 @@ class SchemaTest extends PHPUnit_Framework_TestCase
 			'type' => 'integer',
 			'format' => 'int32',
 			'default' => 123,
+				), $object->toArray());
+	}
+
+	/**
+	 * @covers \SwaggerGen\Swagger\Type\Schema->handleCommand
+	 */
+	public function testCommand_Description()
+	{
+		$object = new \SwaggerGen\Swagger\Schema($this->parent, 'int');
+		$this->assertInstanceOf('\SwaggerGen\Swagger\Schema', $object);
+
+		$object->handleCommand('description', 'Some words');
+
+		$this->assertSame(array(
+			'type' => 'integer',
+			'format' => 'int32',
+			'description' => 'Some words',
+				), $object->toArray());
+	}
+
+	/**
+	 * @covers \SwaggerGen\Swagger\Type\Schema->handleCommand
+	 */
+	public function testCommand_Title()
+	{
+		$object = new \SwaggerGen\Swagger\Schema($this->parent, 'int');
+		$this->assertInstanceOf('\SwaggerGen\Swagger\Schema', $object);
+
+		$object->handleCommand('title', 'Title words');
+
+		$this->assertSame(array(
+			'type' => 'integer',
+			'format' => 'int32',
+			'title' => 'Title words',
 				), $object->toArray());
 	}
 

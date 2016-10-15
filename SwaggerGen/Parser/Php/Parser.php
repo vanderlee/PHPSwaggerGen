@@ -24,7 +24,7 @@ class Parser extends Entity\AbstractEntity implements \SwaggerGen\Parser\IParser
 	private $dirs = array();
 // States
 
-	public $Statements = array();
+	public $statements = array();
 
 	/**
 	 * @var \SwaggerGen\Statement[]|null
@@ -72,7 +72,7 @@ class Parser extends Entity\AbstractEntity implements \SwaggerGen\Parser\IParser
 	private function extractStatements()
 	{
 		// Core comments
-		$Statements = $this->Statements;
+		$Statements = $this->statements;
 
 		// Functions
 		foreach ($this->Functions as $Function) {
@@ -147,11 +147,11 @@ class Parser extends Entity\AbstractEntity implements \SwaggerGen\Parser\IParser
 		$command = null;
 		$data = '';
 		$commandLineNumber = 0;
-		$Statements = array();
+		$statements = array();
 		foreach ($commentLines as $lineNumber => $line) {
 			// If new @-command, store any old and start new
 			if ($command !== null && chr(ord($line)) === '@') {
-				$Statements[] = new Statement($command, $data, $this->current_file, $commentLineNumber + $commandLineNumber);
+				$statements[] = new \SwaggerGen\Statement($command, $data, $this->current_file, $commentLineNumber + $commandLineNumber);
 				$command = null;
 				$data = '';
 			}
@@ -170,10 +170,10 @@ class Parser extends Entity\AbstractEntity implements \SwaggerGen\Parser\IParser
 		}
 
 		if ($command !== null) {
-			$Statements[] = new Statement($command, $data, $this->current_file, $commentLineNumber + $commandLineNumber);
+			$statements[] = new \SwaggerGen\Statement($command, $data, $this->current_file, $commentLineNumber + $commandLineNumber);
 		}
 
-		return $Statements;
+		return $statements;
 	}
 
 	public function queueClass($classname)
@@ -205,9 +205,9 @@ class Parser extends Entity\AbstractEntity implements \SwaggerGen\Parser\IParser
 	public function queueClassesFromComments(array $Statements)
 	{
 		foreach ($Statements as $Statement) {
-			if ($Statement->command === 'uses' || $Statement->command === 'see') {
+			if (in_array($Statement->getCommand(), array('uses', 'see'))) {
 				$match = array();
-				if (preg_match('~^(\w+)(::|->)?(\w+)?(?:\(\))?$~', $Statement->data, $match) === 1) {
+				if (preg_match('~^(\w+)(::|->)?(\w+)?(?:\(\))?$~', $Statement->getData(), $match) === 1) {
 					if (!in_array($match[1], array('self', '$this'))) {
 						$this->queueClass($match[1]);
 					}
@@ -255,17 +255,17 @@ class Parser extends Entity\AbstractEntity implements \SwaggerGen\Parser\IParser
 
 				case T_COMMENT:
 					if ($this->lastStatements !== null) {
-						$this->Statements = array_merge($this->Statements, $this->lastStatements);
+						$this->statements = array_merge($this->statements, $this->lastStatements);
 						$this->lastStatements = null;
 					}
 					$Statements = $this->tokenToStatements($token);
 					$this->queueClassesFromComments($Statements);
-					$this->Statements = array_merge($this->Statements, $Statements);
+					$this->statements = array_merge($this->statements, $Statements);
 					break;
 
 				case T_DOC_COMMENT:
 					if ($this->lastStatements !== null) {
-						$this->Statements = array_merge($this->Statements, $this->lastStatements);
+						$this->statements = array_merge($this->statements, $this->lastStatements);
 					}
 					$Statements = $this->tokenToStatements($token);
 					$this->queueClassesFromComments($Statements);
@@ -301,7 +301,7 @@ class Parser extends Entity\AbstractEntity implements \SwaggerGen\Parser\IParser
 			$this->parseTokens($source);
 
 			if ($this->lastStatements !== null) {
-				$this->Statements = array_merge($this->Statements, $this->lastStatements);
+				$this->statements = array_merge($this->statements, $this->lastStatements);
 				$this->lastStatements = null;
 			}
 		}
@@ -342,8 +342,8 @@ class Parser extends Entity\AbstractEntity implements \SwaggerGen\Parser\IParser
 
 		$match = null;
 		foreach ($Statements as $Statement) {
-			if ($Statement->command === 'uses' || $Statement->command === 'see') { //@todo either one, not both?
-				if (preg_match('/^((?:\\w+)|\$this)(?:(::|->)(\\w+))?(?:\\(\\))?$/', strtolower($Statement->data), $match) === 1) {
+			if (in_array($Statement->getCommand(), array('uses', 'see'))) { 
+				if (preg_match('/^((?:\\w+)|\$this)(?:(::|->)(\\w+))?(?:\\(\\))?$/', strtolower($Statement->getData()), $match) === 1) {
 					if (count($match) >= 3) {
 						$Class = null;
 						if (in_array($match[1], array('$this', 'self', 'static'))) {

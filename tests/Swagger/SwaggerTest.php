@@ -808,48 +808,36 @@ class SwaggerTest extends PHPUnit_Framework_TestCase
 	/**
 	 * @covers \SwaggerGen\Swagger\Swagger::__construct
 	 */
-	public function testHandleCommand_Define_Empty()
-	{
-		$object = new \SwaggerGen\Swagger\Swagger();
-		$this->assertInstanceOf('\SwaggerGen\Swagger\Swagger', $object);
-
-		$this->setExpectedException('\SwaggerGen\Exception', "Unsupported definition type: ''");
-		$object->handleCommand('define');
-	}
-
-	/**
-	 * @covers \SwaggerGen\Swagger\Swagger::__construct
-	 */
-	public function testHandleCommand_Define_Unsupported()
-	{
-		$object = new \SwaggerGen\Swagger\Swagger();
-		$this->assertInstanceOf('\SwaggerGen\Swagger\Swagger', $object);
-
-		$this->setExpectedException('\SwaggerGen\Exception', "Unsupported definition type: 'foo'");
-		$object->handleCommand('define', 'foo');
-	}
-
-	/**
-	 * @covers \SwaggerGen\Swagger\Swagger::__construct
-	 */
-	public function testHandleCommand_Define_NoName()
+	public function testHandleCommand_Definition_Empty()
 	{
 		$object = new \SwaggerGen\Swagger\Swagger();
 		$this->assertInstanceOf('\SwaggerGen\Swagger\Swagger', $object);
 
 		$this->setExpectedException('\SwaggerGen\Exception', "Missing definition name");
-		$object->handleCommand('define', 'params');
+		$object->handleCommand('definition');
 	}
 
 	/**
 	 * @covers \SwaggerGen\Swagger\Swagger::__construct
 	 */
-	public function testHandleCommand_Define()
+	public function testHandleCommand_Definition_NoName()
 	{
 		$object = new \SwaggerGen\Swagger\Swagger();
 		$this->assertInstanceOf('\SwaggerGen\Swagger\Swagger', $object);
 
-		$schema = $object->handleCommand('define', 'params foo');
+		$this->setExpectedException('\SwaggerGen\Exception', "Missing definition name");
+		$object->handleCommand('definition', '');
+	}
+
+	/**
+	 * @covers \SwaggerGen\Swagger\Swagger::__construct
+	 */
+	public function testHandleCommand_Definition()
+	{
+		$object = new \SwaggerGen\Swagger\Swagger();
+		$this->assertInstanceOf('\SwaggerGen\Swagger\Swagger', $object);
+
+		$schema = $object->handleCommand('definition', 'foo');
 		$this->assertInstanceOf('\SwaggerGen\Swagger\Schema', $schema);
 
 

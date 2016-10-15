@@ -14,7 +14,7 @@ class SwaggerGenTest extends PHPUnit_Framework_TestCase
 		$this->setExpectedException('\SwaggerGen\Exception', 'No path defined');
 		$object->getSwagger(array());
 	}
-
+	
 	/**
 	 *  @covers \SwaggerGen\SwaggerGen::getSwagger
 	 */
@@ -32,6 +32,29 @@ class SwaggerGenTest extends PHPUnit_Framework_TestCase
 		$this->assertSame('{"swagger":2,"info":{"title":"undefined","version":0},"paths":{"\/":{"get":{"responses":{"202":{"description":"Accepted"}}}}}}', json_encode($array, JSON_NUMERIC_CHECK));
 	}
 
+	/**
+	 *  @covers \SwaggerGen\SwaggerGen::__construct
+	 */
+	public function testConstructor_BadContext()
+	{
+		$object = new \SwaggerGen\SwaggerGen();
+		$this->assertInstanceof('\SwaggerGen\SwaggerGen', $object);
+
+		$this->setExpectedException('\SwaggerGen\StatementException', 'Invalid error code: \'\'');
+		try {
+			$object->getSwagger(array('
+				endpoint
+				method GET
+				error
+			'));
+		} catch (\SwaggerGen\StatementException $e) {
+			$this->assertSame("Invalid error code: ''", $e->getMessage());
+			$this->assertSame(3, $e->getStatement()->getLine());
+			
+			throw $e; // rethrow to satisfy expected exception check
+		}
+	}
+	
 	/**
 	 *  @covers \SwaggerGen\SwaggerGen::getSwagger
 	 */

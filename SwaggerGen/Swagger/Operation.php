@@ -108,27 +108,41 @@ class Operation extends AbstractDocumentableObject
 			case 'form':
 			case 'form?':
 				$in = rtrim($command, '?');
-				$Parameter = new Parameter($this, $in, $data, substr($command, -1) !== '?');
-				$this->parameters[$Parameter->getName()] = $Parameter;
-				return $Parameter;
+				$parameter = new Parameter($this, $in, $data, substr($command, -1) !== '?');
+				$this->parameters[$parameter->getName()] = $parameter;
+				return $parameter;
 
 			case 'body':
 			case 'body?':
-				$Parameter = new BodyParameter($this, $data, substr($command, -1) !== '?');
-				$this->parameters[$Parameter->getName()] = $Parameter;
-				return $Parameter;
+				$parameter = new BodyParameter($this, $data, substr($command, -1) !== '?');
+				$this->parameters[$parameter->getName()] = $parameter;
+				return $parameter;
+
+			case 'param':
+			case 'parameter':
+				$parameter = new ParameterReference($this, $data);
+				$this->parameters[$parameter->getName()] = $parameter;
+				return $this;
 
 			case 'response':
 				$code = self::wordShift($data);
 				$reasoncode = Response::getCode($code);
 				if ($reasoncode === null) {
-					throw new \SwaggerGen\Exception("Invalid response code: '$code'");
+					$reference = $code;
+					$code = self::wordShift($data);
+					$reasoncode = Response::getCode($code);
+					if ($reasoncode === null) {
+						throw new \SwaggerGen\Exception("Invalid response code: '$reference'");
+					}
+					$this->responses[$reasoncode] = new ResponseReference($this, $reference);
+					return $this;
+				} else {
+					$definition = self::wordShift($data);
+					$description = $data;
+					$Response = new Response($this, $reasoncode, $definition, $description);
+					$this->responses[$reasoncode] = $Response;
+					return $Response;
 				}
-				$definition = self::wordShift($data);
-				$description = $data;
-				$Response = new Response($this, $reasoncode, $definition, $description);
-				$this->responses[$reasoncode] = $Response;
-				return $Response;
 
 			case 'require':
 				$name = self::wordShift($data);

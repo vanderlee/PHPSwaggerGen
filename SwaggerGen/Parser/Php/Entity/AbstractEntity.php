@@ -26,7 +26,7 @@ class AbstractEntity
 	public function hasCommand($command)
 	{
 		foreach ($this->Statements as $Statement) {
-			if ($Statement->command === $command) {
+			if ($Statement->getCommand() === $command) {
 				return true;
 			}
 		}

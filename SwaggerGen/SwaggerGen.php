@@ -105,7 +105,7 @@ class SwaggerGen
 	{
 		$dirs = array_merge($this->dirs, $dirs);
 
-		$Statements = array();
+		$statements = array();
 		foreach ($files as $file) {
 			switch (pathinfo($file, PATHINFO_EXTENSION)) {
 				case 'php':
@@ -121,48 +121,51 @@ class SwaggerGen
 					break;
 			}
 
-			$Statements = array_merge($Statements, $fileStatements);
+			$statements = array_merge($statements, $fileStatements);
 		}
 
-		$Swagger = new Swagger\Swagger($this->host, $this->basePath);
+		$swagger = new Swagger\Swagger($this->host, $this->basePath);
 
-		$stack = array($Swagger); /* @var Swagger\AbstractObject[] $stack */
-		foreach ($Statements as $Statement) {
-			$top = end($stack);
+		$stack = array($swagger); /* @var Swagger\AbstractObject[] $stack */
+		foreach ($statements as $statement) {
+			try {
+				$top = end($stack);
 
-			do {
-				$result = $top->handleCommand($Statement->command, $Statement->data);
+				do {
+					$result = $top->handleCommand($statement->getCommand(), $statement->getData());
 
-				if ($result) {
-					if ($result !== $top) {
-						// Remove all similar classes from array first!
-						$classname = get_class($result);
-						$stack = array_filter($stack, function($class) use($classname) {
-							return !(is_a($class, $classname));
-						});
+					if ($result) {
+						if ($result !== $top) {
+							// Remove all similar classes from array first!
+							$classname = get_class($result);
+							$stack = array_filter($stack, function($class) use($classname) {
+								return !(is_a($class, $classname));
+							});
 
-						$stack[] = $result;
+							$stack[] = $result;
+						}
+					} else {
+						$top = prev($stack);
 					}
-				} else {
-					$top = prev($stack);
-				}
-			} while (!$result && $top);
+				} while (!$result && $top);
+			} catch (\SwaggerGen\Exception $e) {
+				throw new \SwaggerGen\StatementException($e->getMessage(), $e->getCode(), $e, $statement);
+			}
 
 			if (!$result && !$top) {
-				$messages = array('Unsupported or unknown command: ' . $Statement);
+				$messages = array("Unsupported or unknown command: {$statement->getCommand()} {$statement->getData()}");
 
 				$stacktrace = array();
 				foreach ($stack as $object) {
 					$stacktrace[] = (string) $object;
 				}
 				$messages[] = join(", \n", $stacktrace);
-				
 
-				throw new \SwaggerGen\Exception(join('. ', $messages));
+				throw new \SwaggerGen\StatementException(join('. ', $messages), 0, null, $statement);
 			}
 		}
 
-		$output = $Swagger->toArray();
+		$output = $swagger->toArray();
 
 		switch ($format) {
 			case self::FORMAT_JSON:

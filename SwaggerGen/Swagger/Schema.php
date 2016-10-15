@@ -41,10 +41,18 @@ class Schema extends AbstractDocumentableObject implements IDefinition
 	);
 
 	/**
-	 *
-	 * @var type
+	 * @var string
 	 */
 	private $description = null;
+
+	/**
+	 * @var string
+	 */
+	private $title = null;
+
+	/**
+	 * @var \SwaggerGen\Swagger\Type\AbstractType
+	 */
 	private $type;
 
 	public function __construct(AbstractObject $parent, $definition = 'object', $description = null)
@@ -78,12 +86,24 @@ class Schema extends AbstractDocumentableObject implements IDefinition
 			return $this;
 		}
 
+		// handle all the rest manually
+		switch (strtolower($command)) {
+			case 'description':
+				$this->description = $data;
+				return $this;
+				
+			case 'title':
+				$this->title = $data;
+				return $this;
+		}
+
 		return parent::handleCommand($command, $data);
 	}
 
 	public function toArray()
 	{
 		return self::arrayFilterNull(array_merge($this->type->toArray(), array(
+					'title' => empty($this->title) ? null : $this->title,
 					'description' => empty($this->description) ? null : $this->description,
 								), parent::toArray()));
 	}

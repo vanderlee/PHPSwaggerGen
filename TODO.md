@@ -3,7 +3,13 @@
 *	Reference response definition
 *	Explicitely reference response definition
 
+## Document
+*	`x-...` on AbstractObject context
+
 ## Code
+*	Internal redesign of `handleCommand` Do a `handleStatement` instead.
+*	Command to move to `swagger` context; `goto`?
+*	Aliases for force global parameters and/or responses.
 *	Exception; record statement source
 *	Add full Schema-level type support for response headers.
 *	Options to enable/disable comment types.
@@ -24,13 +30,11 @@
 *	Set type (array of enumerated strings; can force unique?)
 *	License: full/formatted names
 *	Date(-time) format helpers; if no timezone, add 'Z'. Use PHP Date parser.
-*	Support object "additionalProperties" and "allOf"
+*	Support object `additionalProperties` and `allOf`
 *	Shortcut "get", "put", etc. operation methods as proper commands.
 *	Force correct defaults on models. [See issue](https://github.com/swagger-api/swagger-ui/issues/2436)
 *	Implement `examples` in `Response`.
-*	Implement `file` type in `Schema`.
-*	Implement `required` in `Schema`.
-*	Implement `parameters` in `Swagger`.
+*	Implement `required` in `Schema` for object properties. (JSON Schema, p.12)
 *	Add command aliasses `tag`, `scheme`, `consumes` and `produces` in `Operations`.
 
 ## Quality

@@ -88,11 +88,11 @@ class Parser implements \SwaggerGen\Parser\IParser
 
 		$Statements = array();
 
-		foreach (preg_split('/\\R/m', $text) as $line) {
-			$line = trim($line);
-			$command = self::wordShift($line);
+		foreach (preg_split('/\\R/m', $text) as $line => $data) {
+			$data = trim($data);
+			$command = self::wordShift($data);
 			if (!empty($command)) {
-				$Statements[] = new \SwaggerGen\Statement($command, $line);
+				$Statements[] = new \SwaggerGen\Statement($command, $data, null, $line);
 			}
 		}
 
