@@ -28,11 +28,30 @@ class PropertyTypeTest extends PHPUnit_Framework_TestCase
 	/**
 	 * @covers \SwaggerGen\Swagger\Type\PropertyType::__construct
 	 */
-	public function testConstructUnknown()
+	public function testConstructReference()
 	{
-		$this->setExpectedException('\SwaggerGen\Exception', "Property format not recognized: 'foo'");
+		$object = new SwaggerGen\Swagger\Type\Property($this->parent, 'Address');
+		$this->assertInstanceOf('\SwaggerGen\Swagger\Type\Property', $object);
 
-		new SwaggerGen\Swagger\Type\Property($this->parent, 'foo');
+		$this->assertSame(array(
+			'$ref' => '#/definitions/Address',
+				), $object->toArray());
+	}
+
+	/**
+	 * @covers \SwaggerGen\Swagger\Type\PropertyType::__construct
+	 */
+	public function testConstructReferences()
+	{
+		$object = new SwaggerGen\Swagger\Type\Property($this->parent, 'array(Address)');
+		$this->assertInstanceOf('\SwaggerGen\Swagger\Type\Property', $object);
+
+		$this->assertSame(array(
+			'type' => 'array',
+			'items' => array(
+				'$ref' => '#/definitions/Address',
+			),
+				), $object->toArray());
 	}
 
 	/**
@@ -41,7 +60,6 @@ class PropertyTypeTest extends PHPUnit_Framework_TestCase
 	public function testConstructString()
 	{
 		$object = new SwaggerGen\Swagger\Type\Property($this->parent, 'string');
-
 		$this->assertInstanceOf('\SwaggerGen\Swagger\Type\Property', $object);
 
 		$this->assertSame(array(
@@ -55,7 +73,6 @@ class PropertyTypeTest extends PHPUnit_Framework_TestCase
 	public function testConstructDescription()
 	{
 		$object = new SwaggerGen\Swagger\Type\Property($this->parent, 'string', 'Some words here');
-
 		$this->assertInstanceOf('\SwaggerGen\Swagger\Type\Property', $object);
 
 		$this->assertSame(array(
@@ -70,7 +87,6 @@ class PropertyTypeTest extends PHPUnit_Framework_TestCase
 	public function testConstructComplex()
 	{
 		$object = new SwaggerGen\Swagger\Type\Property($this->parent, 'int[3,10>=6');
-
 		$this->assertInstanceOf('\SwaggerGen\Swagger\Type\Property', $object);
 
 		$this->assertSame(array(
@@ -89,11 +105,9 @@ class PropertyTypeTest extends PHPUnit_Framework_TestCase
 	public function testCommandPassing()
 	{
 		$object = new SwaggerGen\Swagger\Type\Property($this->parent, 'string');
-
 		$this->assertInstanceOf('\SwaggerGen\Swagger\Type\Property', $object);
 
 		$object->handleCommand('default', 'good');
-
 		$this->assertSame(array(
 			'type' => 'string',
 			'default' => 'good',

@@ -20,11 +20,18 @@ class OutputTest extends PHPUnit_Framework_TestCase
 		foreach (glob(__DIR__ . '/*', GLOB_ONLYDIR) as $dir) {					
 			$path = realpath($dir);					
 			$json = json_encode(json_decode(file_get_contents($path . '/expected.json')));
+			
+			$files = array();
+			if (file_exists($path . '/source.php')) {
+				$files[] = $path . '/source.php';
+			}
+			if (file_exists($path . '/source.txt')) {
+				$files[] = $path . '/source.txt';
+			}
+			
 			$cases[] = array(
 				basename($dir),
-				array(
-					$path . '/source.php',
-				),
+				$files,
 				$json
 			);
 		}

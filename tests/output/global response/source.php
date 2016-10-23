@@ -6,15 +6,16 @@ namespace Test\Parser\Php\ParserTest;
  * Demonstrates a very simple but complete API
  * @rest\title Minimal
  * @rest\api MyApi Example
- * @rest\response user string[1,16] Username
+ * @rest\path long[0,> listid
  */
 class Example
 {
 
 	/**
-	 * @rest\endpoint /endpoint
+	 * @rest\endpoint /endpoint/{listid}
 	 * @rest\method GET Something
-	 * @rest\response user 200
+	 * @rest\param listid
+	 * @rest\response 200
 	 */
 	public function Dummy()
 	{

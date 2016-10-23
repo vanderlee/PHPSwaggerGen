@@ -1,5 +1,5 @@
 # SwaggerGen
-Version v2.3.6
+Version v2.3.7
 
 [![License](https://img.shields.io/github/license/vanderlee/PHPSwaggerGen.svg)]()
 [![Build Status](https://travis-ci.org/vanderlee/PHPSwaggerGen.svg?branch=master)](https://travis-ci.org/vanderlee/PHPSwaggerGen)
@@ -831,6 +831,32 @@ See string.
 ### Examples
 *	**`enum(red,green,blue)=red`** A string containing either "red", "green" or
 	"blue", default to "red".
+
+## refobject
+Reference to a globally defined `definition` (a.k.a. `model`) object.
+
+	refobject(definitionName)
+
+or
+
+	definitionName
+
+*	definitionName: the name of the globally defined `definition`.
+
+### Examples
+*	**`refobject(Address)`** Reference the a globally defined model named
+	`Address`.
+*	**`Address`** Reference the a globally defined model named
+	`Address`.
+
+### Notes
+Usually, using the definition name alone is good enough.
+Use `refobject(...)` if you are using a name which is also used as a builtin
+parameter type, such as `string` or `object`.
+It is best practice to start all definition names with an upper case character
+(i.e. `Address`).
+Using `refobject(...)` also offers the safest forward-compatible strategy if
+you do not start definition names with upper case (i.e. `address`).
 
 # Appendices
 ## Mime types

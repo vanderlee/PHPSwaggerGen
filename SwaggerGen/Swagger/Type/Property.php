@@ -68,7 +68,7 @@ class Property extends \SwaggerGen\Swagger\AbstractObject
 			$class = "SwaggerGen\\Swagger\\Type\\{$type}Type";
 			$this->Type = new $class($this, $definition);
 		} else {
-			throw new \SwaggerGen\Exception("Property format not recognized: '{$format}'");
+			$this->Type = new \SwaggerGen\Swagger\Type\ReferenceObjectType($this, $definition);
 		}
 
 		$this->description = $description;

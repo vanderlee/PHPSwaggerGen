@@ -4,7 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/) 
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## 2.3.5 - 2016-10-15
+## 2.3.7 - 2016-10-23
+### Fixed
+- Supports referencing a single `definition` (a.k.a. `model`) from within
+another `definition`. Fixes issue #10 by tecnom1k3.
+
+## 2.3.6 - 2016-10-15
 ### Added
 - Parameter commands (i.e. `path`, `query?` and `body`) in `Swagger` context to
 create global parameter definitions.

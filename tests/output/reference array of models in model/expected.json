@@ -1,0 +1,62 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "undefined",
+        "version": "0"
+    },
+	"host": "example.com",
+	"basePath": "\/base",
+    "paths": {
+        "\/customers": {
+            "get": {
+                "tags": [
+                    "Test"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#\/definitions\/Person"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "Address": {
+            "type": "object",
+            "required": [
+                "city"
+            ],
+            "properties": {
+                "city": {
+                    "type": "string"
+                }
+            }
+        },
+        "Person": {
+            "type": "object",
+            "required": [
+                "name",
+                "home"
+            ],
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "home": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#\/definitions\/Address"
+                    }
+                }
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Test"
+        }
+    ]
+}

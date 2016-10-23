@@ -7,28 +7,34 @@
     "host": "example.com",
     "basePath": "\/base",
     "paths": {
-        "\/endpoint": {
+        "\/endpoint\/{listid}": {
             "get": {
                 "tags": [
                     "MyApi"
                 ],
                 "summary": "Something",
+                "parameters": [
+                    {
+                        "$ref": "#\/parameters\/listid"
+                    }
+                ],
                 "responses": {
                     "200": {
-                        "$ref": "#\/responses\/user"
+                        "description": "OK"
                     }
                 }
             }
         }
     },
-    "responses": {
-        "user": {
-            "description": "Username",
-            "schema": {
-                "type": "string",
-                "minLength": 1,
-                "maxLength": 16
-            }
+    "parameters": {
+        "listid": {
+            "name": "listid",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "format": "int64",
+            "minimum": 0,
+            "exclusiveMaximum": true
         }
     },
     "tags": [
