@@ -53,6 +53,13 @@ class Property extends \SwaggerGen\Swagger\AbstractObject
 	 */
 	private $Type;
 
+	/**
+	 * Create a new property
+	 * @param \SwaggerGen\Swagger\AbstractObject $parent
+	 * @param string $definition Either a built-in type or a definition name
+	 * @param string $description description of the property
+	 * @throws \SwaggerGen\Exception
+	 */
 	public function __construct(\SwaggerGen\Swagger\AbstractObject $parent, $definition, $description = null)
 	{
 		parent::__construct($parent);
