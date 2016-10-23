@@ -49,7 +49,7 @@ class Property extends \SwaggerGen\Swagger\AbstractObject
 
 	/**
 	 * Type definition of this property
-	 * @var Type\AbstractType
+	 * @var \SwaggerGen\Swagger\Type\AbstractType
 	 */
 	private $Type;
 
