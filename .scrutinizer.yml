@@ -4,4 +4,5 @@ filter:
         - example/*
         - vendor/*
 checks:
-    php: true
+    php:
+        duplication: false
