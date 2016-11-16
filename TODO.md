@@ -24,6 +24,11 @@
 *	Standardize the Parser interface; `parseFile()`, `parseText()`, defines
 *	Add text preprocessor
 
+## Non-OpenAPI features
+*	`@rest\type definition typename` to define new "builtin" types on the fly.
+*	Global parameter definitions that are applied to all operations. This mostly
+	applies to `query` parameters. Perhaps `globalquery` et al.
+
 ## Swagger
 *	Full Type support in Swagger\Header object
 *	Use (optional) Namespaces in `@see` and `@uses`
