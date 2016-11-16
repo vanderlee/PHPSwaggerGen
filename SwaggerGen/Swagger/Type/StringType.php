@@ -151,6 +151,13 @@ class StringType extends AbstractType
 		));
 	}
 
+	/**
+	 * Validate a default string value, depending on subtype
+	 * 
+	 * @param string $value the value to validate
+	 * @return string the value after validation (may be trimmed and such)
+	 * @throws \SwaggerGen\Exception
+	 */
 	protected function validateDefault($value)
 	{
 		if (empty($value)) {

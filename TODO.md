@@ -28,6 +28,8 @@
 *	`@rest\type definition typename` to define new "builtin" types on the fly.
 *	Global parameter definitions that are applied to all operations. This mostly
 	applies to `query` parameters. Perhaps `globalquery` et al.
+*	Add more builtin regex-based types; `ipv4`, `ipv6`, `ip` (any kind), `url`,
+	`uri`, `ftp`, `http`, `https`, `email`
 
 ## Swagger
 *	Full Type support in Swagger\Header object

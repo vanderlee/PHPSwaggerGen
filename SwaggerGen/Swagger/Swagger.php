@@ -149,7 +149,7 @@ class Swagger extends AbstractDocumentableObject
 					throw new \SwaggerGen\Exception('Missing definition name');
 				}
 				$this->definitions[$name] = $definition;
-				return $definition;			
+				return $definition;
 
 			case 'path':
 			case 'query':
@@ -168,7 +168,7 @@ class Swagger extends AbstractDocumentableObject
 				$Parameter = new BodyParameter($this, $data, substr($command, -1) !== '?');
 				$this->parameters[$Parameter->getName()] = $Parameter;
 				return $Parameter;
-				
+
 			case 'response':
 				$name = self::wordShift($data);
 				$definition = self::wordShift($data);
@@ -199,7 +199,8 @@ class Swagger extends AbstractDocumentableObject
 					$this->tags[] = $Tag;
 				}
 
-				if ($command === 'api') { // backwards compatibility
+				// backwards compatibility
+				if ($command === 'api') {
 					$this->defaultTag = $Tag;
 				}
 				return $Tag;
@@ -330,8 +331,9 @@ class Swagger extends AbstractDocumentableObject
 	 * @param string $name
 	 * @return boolean
 	 */
-	public function hasDefinition($name) {
+	public function hasDefinition($name)
+	{
 		return isset($this->definitions[$name]);
 	}
-	
+
 }
