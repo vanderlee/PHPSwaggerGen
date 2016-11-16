@@ -22,6 +22,7 @@ class Property extends \SwaggerGen\Swagger\AbstractObject
 		'float' => 'Number',
 		'double' => 'Number',
 		'string' => 'String',
+		'uuid' => 'StringUuid',
 		'byte' => 'String',
 		'binary' => 'String',
 		'password' => 'String',

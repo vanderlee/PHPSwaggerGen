@@ -20,12 +20,18 @@ class StringType extends AbstractType
 		'password' => 'password',
 		'enum' => '',
 	);
-	private $format;
-	private $pattern = null;
-	private $default = null;
-	private $maxLength = null;
-	private $minLength = null;
-	private $enum = array();
+
+	/**
+	 * Name of the type
+	 * @var string
+	 */
+	protected $type = 'string';
+	protected $format = '';
+	protected $pattern = null;
+	protected $default = null;
+	protected $maxLength = null;
+	protected $minLength = null;
+	protected $enum = array();
 
 	protected function parseDefinition($definition)
 	{
@@ -145,10 +151,10 @@ class StringType extends AbstractType
 		));
 	}
 
-	private function validateDefault($value)
+	protected function validateDefault($value)
 	{
 		if (empty($value)) {
-			throw new \SwaggerGen\Exception("Empty string default");
+			throw new \SwaggerGen\Exception("Empty {$this->type} default");
 		}
 
 		if (!empty($this->enum) && !in_array($value, $this->enum)) {

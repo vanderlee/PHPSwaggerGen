@@ -26,6 +26,7 @@ class Parameter extends AbstractObject implements IParameter
 		'binary' => 'String',
 		'password' => 'String',
 		'enum' => 'String',
+		'uuid' => 'StringUuid',
 		'boolean' => 'Boolean',
 		'bool' => 'Boolean',
 		'array' => 'Array',

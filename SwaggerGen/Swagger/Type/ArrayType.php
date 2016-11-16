@@ -22,6 +22,7 @@ class ArrayType extends AbstractType
 		'float' => 'Number',
 		'double' => 'Number',
 		'string' => 'String',
+		'uuid' => 'StringUuid',
 		'byte' => 'String',
 		'binary' => 'String',
 		'password' => 'String',

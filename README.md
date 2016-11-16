@@ -1,5 +1,5 @@
 # SwaggerGen
-Version v2.3.7
+Version 2.3.8
 
 [![License](https://img.shields.io/github/license/vanderlee/PHPSwaggerGen.svg)]()
 [![Build Status](https://travis-ci.org/vanderlee/PHPSwaggerGen.svg?branch=master)](https://travis-ci.org/vanderlee/PHPSwaggerGen)
@@ -776,8 +776,7 @@ List of items
 	This choice is only available for `form` and `query` parameters.
 
 ### Examples
-*	**`enum(red,green,blue)=red`** A string containing either "red", "green" or
-	"blue", default to "red".
+*	**`csv(string)`** A comma-separated list of strings.
 
 ## file
 A file.
@@ -831,6 +830,23 @@ See string.
 ### Examples
 *	**`enum(red,green,blue)=red`** A string containing either "red", "green" or
 	"blue", default to "red".
+
+## uuid
+Special type of string which accepts
+[RFC 4122](https://www.ietf.org/rfc/rfc4122.txt) compliant Universally Unique
+IDentifier (UUID) strings. The default value is validated to ensure only valid
+UUID's are specified.
+
+	uuid=default
+
+*	default: any of the specified texts.
+
+### Commands
+See string.
+
+### Examples
+*	**`uuid=123e4567-e89b-12d3-a456-426655440000`** A uuid string, default to
+	the uuid "123e4567-e89b-12d3-a456-426655440000".
 
 ## refobject
 Reference to a globally defined `definition` (a.k.a. `model`) object.

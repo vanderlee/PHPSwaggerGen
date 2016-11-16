@@ -324,4 +324,14 @@ class Swagger extends AbstractDocumentableObject
 		return false;
 	}
 
+	/**
+	 * Check if a definition with the given name exists
+	 * 
+	 * @param string $name
+	 * @return boolean
+	 */
+	public function hasDefinition($name) {
+		return isset($this->definitions[$name]);
+	}
+	
 }

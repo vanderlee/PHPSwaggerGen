@@ -23,6 +23,7 @@ class Schema extends AbstractDocumentableObject implements IDefinition
 		'float' => 'Number',
 		'double' => 'Number',
 		'string' => 'String',
+		'uuid' => 'StringUuid',
 		'byte' => 'String',
 		'binary' => 'String',
 		'password' => 'String',
@@ -59,16 +60,23 @@ class Schema extends AbstractDocumentableObject implements IDefinition
 	{
 		parent::__construct($parent);
 
-		// Parse regex
-		$match = array();
-		preg_match('/^([a-z]+)/i', $definition, $match);
-		$format = strtolower($match[1]);
-		if (isset(self::$classTypes[$format])) {
-			$type = self::$classTypes[$format];
-			$class = "SwaggerGen\\Swagger\\Type\\{$type}Type";
-			$this->type = new $class($this, $definition);
-		} else {
+		// Check if definition set
+		if ($this->getSwagger()->hasDefinition($definition)) {
 			$this->type = new Type\ReferenceObjectType($this, $definition);
+		} else {
+			// Parse regex		
+			$match = array();
+			preg_match('/^([a-z]+)/i', $definition, $match);
+			$format = strtolower($match[1]);
+
+			// Internal type if type known and not overwritten by definition
+			if (isset(self::$classTypes[$format])) {
+				$type = self::$classTypes[$format];
+				$class = "SwaggerGen\\Swagger\\Type\\{$type}Type";
+				$this->type = new $class($this, $definition);
+			} else {
+				$this->type = new Type\ReferenceObjectType($this, $definition);
+			}		
 		}
 
 		$this->description = $description;
