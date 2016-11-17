@@ -28,11 +28,12 @@ class AbstractRegexType extends StringType
 	 * 
 	 * @param \SwaggerGen\Swagger\AbstractObject $parent
 	 * @param string $definition
-	 * @param string $regex
+	 * @param string $format Name of the string format
+	 * @param string $regex Regular expression to use as the format and for default validation
 	 */
-	public function __construct(\SwaggerGen\Swagger\AbstractObject $parent, $definition, $type, $regex)
+	public function __construct(\SwaggerGen\Swagger\AbstractObject $parent, $definition, $format, $regex)
 	{
-		$this->type = $type;
+		$this->format = $format;
 		$this->regex = $regex;
 
 		parent::__construct($parent, $definition);
@@ -44,11 +45,11 @@ class AbstractRegexType extends StringType
 
 		$match = array();
 		if (preg_match(self::REGEX_START . self::REGEX_FORMAT . self::REGEX_DEFAULT_START . $this->regex . self::REGEX_DEFAULT_END . self::REGEX_END, $definition, $match) !== 1) {
-			throw new \SwaggerGen\Exception("Unparseable {$this->type} definition: '{$definition}'");
+			throw new \SwaggerGen\Exception("Unparseable {$this->format} definition: '{$definition}'");
 		}
 
-		if (strtolower($match[1] !== $this->type)) {
-			throw new \SwaggerGen\Exception("Not a {$this->type}: '{$definition}'");
+		if (strtolower($match[1] !== $this->format)) {
+			throw new \SwaggerGen\Exception("Not a {$this->format}: '{$definition}'");
 		}
 
 		$this->pattern = '^' . $this->regex . '$';
@@ -60,7 +61,7 @@ class AbstractRegexType extends StringType
 		$value = parent::validateDefault($value);
 		
 		if (preg_match('/' . $this->pattern . '/', $value) !== 1) {
-			throw new \SwaggerGen\Exception("Invalid {$this->type} default value");
+			throw new \SwaggerGen\Exception("Invalid {$this->format} default value");
 		}
 		
 		return $value;

@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/) 
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## 2.3.9 - 2016-11-17
+### Fixed
+- Supply custom `format` for type `uuid`.
+- Improved some `string` type exception messages.
+
 ## 2.3.8 - 2016-11-16
 ### Added
 - New string-based builtin type `uuid`.

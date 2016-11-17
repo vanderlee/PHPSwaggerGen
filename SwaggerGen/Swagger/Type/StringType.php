@@ -25,7 +25,6 @@ class StringType extends AbstractType
 	 * Name of the type
 	 * @var string
 	 */
-	protected $type = 'string';
 	protected $format = '';
 	protected $pattern = null;
 	protected $default = null;
@@ -161,19 +160,22 @@ class StringType extends AbstractType
 	protected function validateDefault($value)
 	{
 		if (empty($value)) {
-			throw new \SwaggerGen\Exception("Empty {$this->type} default");
+			$type = $this->format ?: ($this->enum ? 'enum' : 'string');
+			throw new \SwaggerGen\Exception("Empty {$type} default");
 		}
 
 		if (!empty($this->enum) && !in_array($value, $this->enum)) {
-			throw new \SwaggerGen\Exception("Invalid enumeration default: '{$value}'");
+			throw new \SwaggerGen\Exception("Invalid enum default: '{$value}'");
 		}
 
 		if ($this->maxLength !== null && mb_strlen($value) > $this->maxLength) {
-			throw new \SwaggerGen\Exception("Default length beyond maximum: '{$value}'");
+			$type = $this->format ?: ($this->enum ? 'enum' : 'string');
+			throw new \SwaggerGen\Exception("Default {$type} length beyond maximum: '{$value}'");
 		}
 
 		if ($this->minLength !== null && mb_strlen($value) < $this->minLength) {
-			throw new \SwaggerGen\Exception("Default length beyond minimum: '{$value}'");
+			$type = $this->format ?: ($this->enum ? 'enum' : 'string');
+			throw new \SwaggerGen\Exception("Default {$type} length beyond minimum: '{$value}'");
 		}
 
 		return $value;

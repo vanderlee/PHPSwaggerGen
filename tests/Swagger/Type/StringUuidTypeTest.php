@@ -36,6 +36,7 @@ class StringUuidTypeTest extends PHPUnit_Framework_TestCase
 
 		$this->assertSame(array(
 			'type' => 'string',
+			'format' => 'uuid',
 			'pattern' => '^[a-f0-9]{8}-[a-f0-9]{4}-[1-5][a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$',
 				), $object->toArray());
 	}
@@ -71,6 +72,7 @@ class StringUuidTypeTest extends PHPUnit_Framework_TestCase
 
 		$this->assertSame(array(
 			'type' => 'string',
+			'format' => 'uuid',			
 			'pattern' => '^[a-f0-9]{8}-[a-f0-9]{4}-[1-5][a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$',
 			'default' => '123e4567-e89b-12d3-a456-426655440000',
 				), $object->toArray());
@@ -115,6 +117,7 @@ class StringUuidTypeTest extends PHPUnit_Framework_TestCase
 
 		$this->assertSame(array(
 			'type' => 'string',
+			'format' => 'uuid',			
 			'pattern' => '^[a-f0-9]{8}-[a-f0-9]{4}-[1-5][a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$',
 			'default' => '123e4567-e89b-12d3-a456-426655440000',
 				), $object->toArray());

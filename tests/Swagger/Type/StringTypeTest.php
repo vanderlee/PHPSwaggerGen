@@ -40,7 +40,7 @@ class StringTypeTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testConstructDefaultTooLongInclusive()
 	{
-		$this->setExpectedException('\SwaggerGen\Exception', "Default length beyond maximum: 'long'");
+		$this->setExpectedException('\SwaggerGen\Exception', "Default string length beyond maximum: 'long'");
 
 		$object = new SwaggerGen\Swagger\Type\StringType($this->parent, 'string[,3]=long');
 	}
@@ -50,7 +50,7 @@ class StringTypeTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testConstructDefaultTooLongExclusive()
 	{
-		$this->setExpectedException('\SwaggerGen\Exception', "Default length beyond maximum: 'long'");
+		$this->setExpectedException('\SwaggerGen\Exception', "Default string length beyond maximum: 'long'");
 
 		$object = new SwaggerGen\Swagger\Type\StringType($this->parent, 'string[,4>=long');
 	}
@@ -60,7 +60,7 @@ class StringTypeTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testConstructDefaultTooShortInclusive()
 	{
-		$this->setExpectedException('\SwaggerGen\Exception', "Default length beyond minimum: 'short'");
+		$this->setExpectedException('\SwaggerGen\Exception', "Default string length beyond minimum: 'short'");
 
 		$object = new SwaggerGen\Swagger\Type\StringType($this->parent, 'string[6,]=short');
 	}
@@ -70,7 +70,7 @@ class StringTypeTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testConstructDefaultTooShortExclusive()
 	{
-		$this->setExpectedException('\SwaggerGen\Exception', "Default length beyond minimum: 'short'");
+		$this->setExpectedException('\SwaggerGen\Exception', "Default string length beyond minimum: 'short'");
 
 		$object = new SwaggerGen\Swagger\Type\StringType($this->parent, 'string<5,]=short');
 	}
@@ -163,7 +163,7 @@ class StringTypeTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testConstructEnumInvalidDefault()
 	{
-		$this->setExpectedException('\SwaggerGen\Exception', "Invalid enumeration default: 'c'");
+		$this->setExpectedException('\SwaggerGen\Exception', "Invalid enum default: 'c'");
 
 		$object = new SwaggerGen\Swagger\Type\StringType($this->parent, 'enum(a,b)=c');
 	}
