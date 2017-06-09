@@ -13,8 +13,8 @@ namespace SwaggerGen\Swagger\Type;
 class ObjectType extends AbstractType
 {
 	const REGEX_PROP_START = '/^';
-	const REGEX_PROP_NAME = '([^?:]+)';
-	const REGEX_PROP_REQUIRED = '(\?)?';
+	const REGEX_PROP_NAME = '([^?*:]+)';
+	const REGEX_PROP_REQUIRED = '([\?\*])?';
 	const REGEX_PROP_ASSIGN = ':';
 	const REGEX_PROP_DEFINITION = '(.+)';
 	const REGEX_PROP_END = '$/';
@@ -22,6 +22,7 @@ class ObjectType extends AbstractType
 	private $minProperties = null;
 	private $maxProperties = null;
 	private $required = array();
+	private $readOnly = array();
 
 	/**
 	 * @var Property[]
@@ -59,7 +60,10 @@ class ObjectType extends AbstractType
 						throw new \SwaggerGen\Exception("Unparseable property definition: '{$property}'");
 					}
 					$this->properties[$prop_match[1]] = new Property($this, $prop_match[3]);
-					if ($prop_match[2] !== '?') {
+                    if ($prop_match[2] === '*') {
+                        $this->readOnly[$prop_match[1]] = true;
+                    }
+					else if ($prop_match[2] !== '?') {
 						$this->required[$prop_match[1]] = true;
 					}
 				}
@@ -98,6 +102,7 @@ class ObjectType extends AbstractType
 			// type name description...
 			case 'property':
 			case 'property?':
+            case 'property*':
 				$definition = self::wordShift($data);
 				if (empty($definition)) {
 					throw new \SwaggerGen\Exception("Missing property definition");
@@ -110,10 +115,15 @@ class ObjectType extends AbstractType
 
 				$this->properties[$name] = new Property($this, $definition, $data);
 
-				unset($this->required[$name]);
-				if (substr($command, -1) !== '?') {
+                unset($this->required[$name]);
+                unset($this->readOnly[$name]);
+                if (substr($command, -1) === '*') {
+                    $this->readOnly[$name] = true;
+                }
+				else if (substr($command, -1) !== '?') {
 					$this->required[$name] = true;
 				}
+
 				return $this;
 
 			case 'min':
@@ -146,6 +156,7 @@ class ObjectType extends AbstractType
 		return self::arrayFilterNull(array(
 					'type' => 'object',
 					'required' => array_keys($this->required),
+					'readOnly' => array_keys($this->readOnly),
 					'properties' => self::objectsToArray($this->properties),
 					'minProperties' => $this->minProperties,
 					'maxProperties' => $this->maxProperties,
