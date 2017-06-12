@@ -22,7 +22,6 @@ class ObjectType extends AbstractType
 	private $minProperties = null;
 	private $maxProperties = null;
 	private $required = array();
-	private $readOnly = array();
 
 	/**
 	 * @var Property[]
@@ -59,11 +58,8 @@ class ObjectType extends AbstractType
 					if (preg_match(self::REGEX_PROP_START . self::REGEX_PROP_NAME . self::REGEX_PROP_REQUIRED . self::REGEX_PROP_ASSIGN . self::REGEX_PROP_DEFINITION . self::REGEX_PROP_END, $property, $prop_match) !== 1) {
 						throw new \SwaggerGen\Exception("Unparseable property definition: '{$property}'");
 					}
-					$this->properties[$prop_match[1]] = new Property($this, $prop_match[3]);
-                    if ($prop_match[2] === '*') {
-                        $this->readOnly[$prop_match[1]] = true;
-                    }
-					else if ($prop_match[2] !== '?') {
+                    $this->properties[$prop_match[1]] = new Property($this, $prop_match[3]);
+                    if ($prop_match[2] !== '*' && $prop_match[2] !== '?') {
 						$this->required[$prop_match[1]] = true;
 					}
 				}
@@ -113,16 +109,19 @@ class ObjectType extends AbstractType
 					throw new \SwaggerGen\Exception("Missing property name: '{$definition}'");
 				}
 
-				$this->properties[$name] = new Property($this, $definition, $data);
+
 
                 unset($this->required[$name]);
-                unset($this->readOnly[$name]);
-                if (substr($command, -1) === '*') {
-                    $this->readOnly[$name] = true;
+				$readOnly = null;
+                $propertySuffix = substr($command, -1);
+                if ($propertySuffix === '*') {
+                    $readOnly = true;
                 }
-				else if (substr($command, -1) !== '?') {
+				else if ($propertySuffix !== '?') {
 					$this->required[$name] = true;
 				}
+
+                $this->properties[$name] = new Property($this, $definition, $data, $readOnly);
 
 				return $this;
 
@@ -156,7 +155,6 @@ class ObjectType extends AbstractType
 		return self::arrayFilterNull(array(
 					'type' => 'object',
 					'required' => array_keys($this->required),
-					'readOnly' => array_keys($this->readOnly),
 					'properties' => self::objectsToArray($this->properties),
 					'minProperties' => $this->minProperties,
 					'maxProperties' => $this->maxProperties,

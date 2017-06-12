@@ -152,42 +152,6 @@ class ObjectTypeTest extends PHPUnit_Framework_TestCase
 				), $object->toArray());
 	}
 
-    /**
-     * @covers \SwaggerGen\Swagger\Type\ObjectType::__construct
-     */
-    public function testConstructTypeReadOnlyProperty()
-    {
-        $object = new SwaggerGen\Swagger\Type\ObjectType($this->parent, 'object(foo:string,bar?:int[3,10>=5,baz*:string)');
-
-        $this->assertInstanceOf('\SwaggerGen\Swagger\Type\ObjectType', $object);
-
-        $this->assertSame(array(
-            'type' => 'object',
-            'required' => array(
-                'foo',
-            ),
-            'readOnly' => array(
-                'baz',
-            ),
-            'properties' => array(
-                'foo' => array(
-                    'type' => 'string',
-                ),
-                'bar' => array(
-                    'type' => 'integer',
-                    'format' => 'int32',
-                    'default' => 5,
-                    'minimum' => 3,
-                    'maximum' => 10,
-                    'exclusiveMaximum' => true,
-                ),
-                'baz' => array(
-                    'type' => 'string',
-                )
-            ),
-        ), $object->toArray());
-    }
-
 	/**
 	 * @covers \SwaggerGen\Swagger\Type\ObjectType->handleCommand
 	 */
@@ -355,31 +319,6 @@ class ObjectTypeTest extends PHPUnit_Framework_TestCase
 				), $object->toArray());
 	}
 
-    /**
-     * @covers \SwaggerGen\Swagger\Type\ObjectType->handleCommand
-     */
-    public function testCommandPropertyReadOnly()
-    {
-        $object = new SwaggerGen\Swagger\Type\ObjectType($this->parent, 'object');
-
-        $this->assertInstanceOf('\SwaggerGen\Swagger\Type\ObjectType', $object);
-
-        $object->handleCommand('property*', 'string foo Some words here');
-
-        $this->assertSame(array(
-            'type' => 'object',
-            'readOnly' => array(
-                'foo',
-            ),
-            'properties' => array(
-                'foo' => array(
-                    'type' => 'string',
-                    'description' => 'Some words here',
-                ),
-            ),
-        ), $object->toArray());
-    }
-
 	public function testObjectProperties()
 	{
 		$object = new \SwaggerGen\SwaggerGen();
@@ -397,6 +336,24 @@ class ObjectTypeTest extends PHPUnit_Framework_TestCase
 				. ',"b":{"type":"array","items":{"$ref":"#\/definitions\/B"}}}}}}}}}'
 				. ',"tags":[{"name":"Test"}]}', json_encode($array, JSON_NUMERIC_CHECK));
 	}
+
+    public function testObjectPropertiesReadOnly()
+    {
+        $object = new \SwaggerGen\SwaggerGen();
+        $array = $object->getSwagger(array('
+			api Test
+			endpoint /test
+			method GET something
+			response 200 object(a*:array(A),b:array(B))
+		'));
+
+        $this->assertSame('{"swagger":2,"info":{"title":"undefined","version":0}'
+            . ',"paths":{"\/test":{"get":{"tags":["Test"],"summary":"something"'
+            . ',"responses":{"200":{"description":"OK","schema":{"type":"object","required":["b"]'
+            . ',"properties":{"a":{"type":"array","items":{"$ref":"#\/definitions\/A"}}'
+            . ',"b":{"type":"array","items":{"$ref":"#\/definitions\/B"}}}}}}}}}'
+            . ',"tags":[{"name":"Test"}]}', json_encode($array, JSON_NUMERIC_CHECK));
+    }
 
 	public function testDeepObjectProperties()
 	{
