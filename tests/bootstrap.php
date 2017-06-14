@@ -8,11 +8,11 @@ spl_autoload_register(function ($classname) {
 });
 
 // backward compatibility
-if (!class_exists('\PHPUnit\Framework\TestCase') && class_exists('\PHPUnit_Framework_TestCase')) {
-	class_alias('\PHPUnit_Framework_TestCase', '\PHPUnit\Framework\TestCase');
+if (!class_exists('PHPUnit\Framework\TestCase') && class_exists('PHPUnit_Framework_TestCase')) {
+	class_alias('PHPUnit_Framework_TestCase', 'PHPUnit\Framework\TestCase');
 }
 
-class SwaggerGen_TestCase extends \PHPUnit\Framework\TestCase {
+class SwaggerGen_TestCase extends PHPUnit\Framework\TestCase {
 	public function expectException($exception) {
 		self::setExpectedException($exception);
 	}
