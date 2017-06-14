@@ -1,11 +1,11 @@
 # SwaggerGen
-Version 2.3.10
+Version 2.3.11
 
 [![License](https://img.shields.io/github/license/vanderlee/PHPSwaggerGen.svg)]()
 [![Build Status](https://travis-ci.org/vanderlee/PHPSwaggerGen.svg?branch=master)](https://travis-ci.org/vanderlee/PHPSwaggerGen)
 [![Quality](https://scrutinizer-ci.com/g/vanderlee/PHPSwaggerGen/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/vanderlee/PHPSwaggerGen)
 
-Copyright &copy; 2014-2016 Martijn van der Lee [Toyls.com](http://toyls.com).
+Copyright &copy; 2014-2017 Martijn van der Lee [Toyls.com](http://toyls.com).
 
 MIT Open Source license applies.
 
@@ -355,8 +355,8 @@ Describes an operation; a call to a specifc path using a specific method.
 ### `body`/`body?` *`definition name [description ...]`* &rArr; BodyParameter
 Add a new form Parameter to this operation.
 
-Use `form` to make the parameter required.
-Use `form?` (with a question mark) to make the parameter optional.
+Use `body` to make the parameter required.
+Use `body?` (with a question mark) to make the parameter optional.
 
 See the chapter on  **Parameter definitions** for a detailed
 description of all the possible definition formats.

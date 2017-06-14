@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/) 
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## 2.3.11 - 2017-06-14
+### Fixed
+- Read-only properties fix (#13) by petejohnson84.
+- Fixed issue with preprocessor statements being interpreted as plain text.
+
 ## 2.3.10 - 2016-12-17
 ### Fixed
 - Correctly parse parenthesis in object properties. Fixes issue #12 by
