@@ -1,6 +1,6 @@
 <?php
 
-class SwaggerTest extends PHPUnit_Framework_TestCase
+class SwaggerTest extends PHPUnit\Framework\TestCase
 {
 
 	/**
@@ -11,7 +11,7 @@ class SwaggerTest extends PHPUnit_Framework_TestCase
 		$object = new \SwaggerGen\Swagger\Swagger();
 		$this->assertInstanceOf('\SwaggerGen\Swagger\Swagger', $object);
 
-		$this->setExpectedException('\SwaggerGen\Exception', "No path defined");
+		$this->expectException('\SwaggerGen\Exception', "No path defined");
 		$object->toArray();
 	}
 
@@ -408,7 +408,7 @@ class SwaggerTest extends PHPUnit_Framework_TestCase
 		$object = new \SwaggerGen\Swagger\Swagger();
 		$this->assertInstanceOf('\SwaggerGen\Swagger\Swagger', $object);
 
-		$this->setExpectedException('\SwaggerGen\Exception', "Missing tag name");
+		$this->expectException('\SwaggerGen\Exception', "Missing tag name");
 		$object->handleCommand('tag');
 	}
 
@@ -677,7 +677,7 @@ class SwaggerTest extends PHPUnit_Framework_TestCase
 		$object = new \SwaggerGen\Swagger\Swagger();
 		$this->assertInstanceOf('\SwaggerGen\Swagger\Swagger', $object);
 
-		$this->setExpectedException('\SwaggerGen\Exception', "Missing security name");
+		$this->expectException('\SwaggerGen\Exception', "Missing security name");
 		$path = $object->handleCommand('security');
 	}
 
@@ -689,7 +689,7 @@ class SwaggerTest extends PHPUnit_Framework_TestCase
 		$object = new \SwaggerGen\Swagger\Swagger();
 		$this->assertInstanceOf('\SwaggerGen\Swagger\Swagger', $object);
 
-		$this->setExpectedException('\SwaggerGen\Exception', "Missing security type");
+		$this->expectException('\SwaggerGen\Exception', "Missing security type");
 		$path = $object->handleCommand('security', 'foo');
 	}
 
@@ -701,7 +701,7 @@ class SwaggerTest extends PHPUnit_Framework_TestCase
 		$object = new \SwaggerGen\Swagger\Swagger();
 		$this->assertInstanceOf('\SwaggerGen\Swagger\Swagger', $object);
 
-		$this->setExpectedException('\SwaggerGen\Exception', "Security scheme type must be either 'basic', 'apiKey' or 'oauth2', not 'bad'");
+		$this->expectException('\SwaggerGen\Exception', "Security scheme type must be either 'basic', 'apiKey' or 'oauth2', not 'bad'");
 		$path = $object->handleCommand('security', 'foo bad');
 	}
 
@@ -744,7 +744,7 @@ class SwaggerTest extends PHPUnit_Framework_TestCase
 		$object = new \SwaggerGen\Swagger\Swagger();
 		$this->assertInstanceOf('\SwaggerGen\Swagger\Swagger', $object);
 
-		$this->setExpectedException('\SwaggerGen\Exception', "Missing require name");
+		$this->expectException('\SwaggerGen\Exception', "Missing require name");
 		$object->handleCommand('require');
 	}
 
@@ -762,7 +762,7 @@ class SwaggerTest extends PHPUnit_Framework_TestCase
 		$path = $object->handleCommand('endpoint');
 		$this->assertInstanceOf('\SwaggerGen\Swagger\Path', $path);
 
-		$this->setExpectedException('\SwaggerGen\Exception', "Required security scheme not defined: 'foo'");
+		$this->expectException('\SwaggerGen\Exception', "Required security scheme not defined: 'foo'");
 		$object->toArray();
 	}
 
@@ -813,7 +813,7 @@ class SwaggerTest extends PHPUnit_Framework_TestCase
 		$object = new \SwaggerGen\Swagger\Swagger();
 		$this->assertInstanceOf('\SwaggerGen\Swagger\Swagger', $object);
 
-		$this->setExpectedException('\SwaggerGen\Exception', "Missing definition name");
+		$this->expectException('\SwaggerGen\Exception', "Missing definition name");
 		$object->handleCommand('definition');
 	}
 
@@ -825,7 +825,7 @@ class SwaggerTest extends PHPUnit_Framework_TestCase
 		$object = new \SwaggerGen\Swagger\Swagger();
 		$this->assertInstanceOf('\SwaggerGen\Swagger\Swagger', $object);
 
-		$this->setExpectedException('\SwaggerGen\Exception', "Missing definition name");
+		$this->expectException('\SwaggerGen\Exception', "Missing definition name");
 		$object->handleCommand('definition', '');
 	}
 
@@ -900,7 +900,7 @@ class SwaggerTest extends PHPUnit_Framework_TestCase
 		$object = new \SwaggerGen\Swagger\Swagger();
 		$this->assertInstanceOf('\SwaggerGen\Swagger\Swagger', $object);
 
-		$this->setExpectedException('\SwaggerGen\Exception', "Response definition missing description");
+		$this->expectException('\SwaggerGen\Exception', "Response definition missing description");
 		$response = $object->handleCommand('response', 'NotFound');
 	}
 
@@ -912,7 +912,7 @@ class SwaggerTest extends PHPUnit_Framework_TestCase
 		$object = new \SwaggerGen\Swagger\Swagger();
 		$this->assertInstanceOf('\SwaggerGen\Swagger\Swagger', $object);
 
-		$this->setExpectedException('\SwaggerGen\Exception', "Response definition missing description");
+		$this->expectException('\SwaggerGen\Exception', "Response definition missing description");
 		$response = $object->handleCommand('response', 'NotFound null');
 	}
 

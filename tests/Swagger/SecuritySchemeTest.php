@@ -1,6 +1,6 @@
 <?php
 
-class SecuritySchemeTest extends PHPUnit_Framework_TestCase
+class SecuritySchemeTest extends PHPUnit\Framework\TestCase
 {
 
 	protected $parent;
@@ -20,7 +20,7 @@ class SecuritySchemeTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testConstructor_UnknownType()
 	{
-		$this->setExpectedException('\SwaggerGen\Exception', "Security scheme type must be either 'basic', 'apiKey' or 'oauth2', not 'wrong'");
+		$this->expectException('\SwaggerGen\Exception', "Security scheme type must be either 'basic', 'apiKey' or 'oauth2', not 'wrong'");
 
 		new \SwaggerGen\Swagger\SecurityScheme($this->parent, 'wrong');
 	}
@@ -59,7 +59,7 @@ class SecuritySchemeTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testConstructor_ApiKeyNoName()
 	{
-		$this->setExpectedException('\SwaggerGen\Exception', "ApiKey in must be either 'query' or 'header', not ''"
+		$this->expectException('\SwaggerGen\Exception', "ApiKey in must be either 'query' or 'header', not ''"
 		);
 
 		$object = new \SwaggerGen\Swagger\SecurityScheme($this->parent, 'apikey');
@@ -70,7 +70,7 @@ class SecuritySchemeTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testConstructor_ApiKeyNoIn()
 	{
-		$this->setExpectedException('\SwaggerGen\Exception', "ApiKey in must be either 'query' or 'header', not ''");
+		$this->expectException('\SwaggerGen\Exception', "ApiKey in must be either 'query' or 'header', not ''");
 
 		$object = new \SwaggerGen\Swagger\SecurityScheme($this->parent, 'apikey', 'Name');
 	}
@@ -80,7 +80,7 @@ class SecuritySchemeTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testConstructor_ApiKeyWrongIn()
 	{
-		$this->setExpectedException('\SwaggerGen\Exception', "ApiKey in must be either 'query' or 'header', not 'bad'");
+		$this->expectException('\SwaggerGen\Exception', "ApiKey in must be either 'query' or 'header', not 'bad'");
 
 		$object = new \SwaggerGen\Swagger\SecurityScheme($this->parent, 'apikey', 'Name bad');
 	}
@@ -123,7 +123,7 @@ class SecuritySchemeTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testConstructor_Oauth2NoFlow()
 	{
-		$this->setExpectedException('\SwaggerGen\Exception', "OAuth2 flow must be either 'implicit', 'password', 'application' or 'accesscode', not ''");
+		$this->expectException('\SwaggerGen\Exception', "OAuth2 flow must be either 'implicit', 'password', 'application' or 'accesscode', not ''");
 
 		$object = new \SwaggerGen\Swagger\SecurityScheme($this->parent, 'oauth2');
 	}
@@ -133,7 +133,7 @@ class SecuritySchemeTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testConstructor_Oauth2WrongFlow()
 	{
-		$this->setExpectedException('\SwaggerGen\Exception', "OAuth2 flow must be either 'implicit', 'password', 'application' or 'accesscode', not 'flow'");
+		$this->expectException('\SwaggerGen\Exception', "OAuth2 flow must be either 'implicit', 'password', 'application' or 'accesscode', not 'flow'");
 
 		$object = new \SwaggerGen\Swagger\SecurityScheme($this->parent, 'oauth2', 'flow');
 	}
@@ -143,7 +143,7 @@ class SecuritySchemeTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testConstructor_Oauth2ImplicitNoUrl()
 	{
-		$this->setExpectedException('\SwaggerGen\Exception', "OAuth2 authorization URL invalid: ''");
+		$this->expectException('\SwaggerGen\Exception', "OAuth2 authorization URL invalid: ''");
 
 		$object = new \SwaggerGen\Swagger\SecurityScheme($this->parent, 'oauth2', 'implicit');
 	}
@@ -153,7 +153,7 @@ class SecuritySchemeTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testConstructor_Oauth2ImplicitBadUrl()
 	{
-		$this->setExpectedException('\SwaggerGen\Exception', "OAuth2 authorization URL invalid: 'bad'");
+		$this->expectException('\SwaggerGen\Exception', "OAuth2 authorization URL invalid: 'bad'");
 
 		$object = new \SwaggerGen\Swagger\SecurityScheme($this->parent, 'oauth2', 'implicit bad');
 	}
@@ -196,7 +196,7 @@ class SecuritySchemeTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testConstructor_Oauth2PasswordNoUrl()
 	{
-		$this->setExpectedException('\SwaggerGen\Exception', "OAuth2 token URL invalid: ''");
+		$this->expectException('\SwaggerGen\Exception', "OAuth2 token URL invalid: ''");
 
 		$object = new \SwaggerGen\Swagger\SecurityScheme($this->parent, 'oauth2', 'password');
 	}
@@ -206,7 +206,7 @@ class SecuritySchemeTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testConstructor_Oauth2PasswordBadUrl()
 	{
-		$this->setExpectedException('\SwaggerGen\Exception', "OAuth2 token URL invalid: 'bad'");
+		$this->expectException('\SwaggerGen\Exception', "OAuth2 token URL invalid: 'bad'");
 
 		$object = new \SwaggerGen\Swagger\SecurityScheme($this->parent, 'oauth2', 'password bad');
 	}
@@ -249,7 +249,7 @@ class SecuritySchemeTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testConstructor_Oauth2ApplicationNoUrl()
 	{
-		$this->setExpectedException('\SwaggerGen\Exception', "OAuth2 token URL invalid: ''");
+		$this->expectException('\SwaggerGen\Exception', "OAuth2 token URL invalid: ''");
 
 		$object = new \SwaggerGen\Swagger\SecurityScheme($this->parent, 'oauth2', 'application');
 	}
@@ -259,7 +259,7 @@ class SecuritySchemeTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testConstructor_Oauth2ApplicationBadUrl()
 	{
-		$this->setExpectedException('\SwaggerGen\Exception', "OAuth2 token URL invalid: 'bad'");
+		$this->expectException('\SwaggerGen\Exception', "OAuth2 token URL invalid: 'bad'");
 
 		$object = new \SwaggerGen\Swagger\SecurityScheme($this->parent, 'oauth2', 'application bad');
 	}
@@ -303,7 +303,7 @@ class SecuritySchemeTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testConstructor_Oauth2AccesscodeNoUrl1()
 	{
-		$this->setExpectedException('\SwaggerGen\Exception', "OAuth2 authorization URL invalid: ''");
+		$this->expectException('\SwaggerGen\Exception', "OAuth2 authorization URL invalid: ''");
 
 		$object = new \SwaggerGen\Swagger\SecurityScheme($this->parent, 'oauth2', 'accesscode');
 	}
@@ -313,7 +313,7 @@ class SecuritySchemeTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testConstructor_Oauth2AccesscodeBadUrl1()
 	{
-		$this->setExpectedException('\SwaggerGen\Exception', "OAuth2 authorization URL invalid: 'bad'");
+		$this->expectException('\SwaggerGen\Exception', "OAuth2 authorization URL invalid: 'bad'");
 
 		$object = new \SwaggerGen\Swagger\SecurityScheme($this->parent, 'oauth2', 'accesscode bad');
 	}
@@ -323,7 +323,7 @@ class SecuritySchemeTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testConstructor_Oauth2AccesscodeNoUrl2()
 	{
-		$this->setExpectedException('\SwaggerGen\Exception', "OAuth2 token URL invalid: ''");
+		$this->expectException('\SwaggerGen\Exception', "OAuth2 token URL invalid: ''");
 
 		$object = new \SwaggerGen\Swagger\SecurityScheme($this->parent, 'oauth2', 'accesscode http://auth.test');
 	}
@@ -333,7 +333,7 @@ class SecuritySchemeTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testConstructor_Oauth2AccesscodeBadUrl2()
 	{
-		$this->setExpectedException('\SwaggerGen\Exception', "OAuth2 token URL invalid: 'bad'");
+		$this->expectException('\SwaggerGen\Exception', "OAuth2 token URL invalid: 'bad'");
 
 		$object = new \SwaggerGen\Swagger\SecurityScheme($this->parent, 'oauth2', 'accesscode http://auth.test bad');
 	}
@@ -421,7 +421,7 @@ class SecuritySchemeTest extends PHPUnit_Framework_TestCase
 
 		$this->assertInstanceOf('\SwaggerGen\Swagger\SecurityScheme', $object);
 
-		$this->setExpectedException('\SwaggerGen\Exception', "Cannot set scope on type 'basic'");
+		$this->expectException('\SwaggerGen\Exception', "Cannot set scope on type 'basic'");
 
 		$object->handleCommand('scope', 'scope1');
 	}

@@ -1,6 +1,6 @@
 <?php
 
-class ParameterTest extends PHPUnit_Framework_TestCase
+class ParameterTest extends PHPUnit\Framework\TestCase
 {
 
 	protected $parent;
@@ -20,7 +20,7 @@ class ParameterTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testConstructor_InEmpty()
 	{
-		$this->setExpectedException('\SwaggerGen\Exception', "Invalid in for parameter: ''");
+		$this->expectException('\SwaggerGen\Exception', "Invalid in for parameter: ''");
 
 		$object = new \SwaggerGen\Swagger\Parameter($this->parent, '', '');
 	}
@@ -30,7 +30,7 @@ class ParameterTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testConstructor_InNotValid()
 	{
-		$this->setExpectedException('\SwaggerGen\Exception', "Invalid in for parameter: 'foo'");
+		$this->expectException('\SwaggerGen\Exception', "Invalid in for parameter: 'foo'");
 
 		$object = new \SwaggerGen\Swagger\Parameter($this->parent, 'foo', '');
 	}
@@ -40,7 +40,7 @@ class ParameterTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testConstructor_DefinitionEmpty()
 	{
-		$this->setExpectedException('\SwaggerGen\Exception', "No type definition for parameter");
+		$this->expectException('\SwaggerGen\Exception', "No type definition for parameter");
 
 		$object = new \SwaggerGen\Swagger\Parameter($this->parent, 'path', '');
 	}
@@ -50,7 +50,7 @@ class ParameterTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testConstructor_NameEmpty()
 	{
-		$this->setExpectedException('\SwaggerGen\Exception', "No name for parameter");
+		$this->expectException('\SwaggerGen\Exception', "No name for parameter");
 
 		$object = new \SwaggerGen\Swagger\Parameter($this->parent, 'path', 'int');
 	}
@@ -60,7 +60,7 @@ class ParameterTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testConstructor_DefinitionUnknownType()
 	{
-		$this->setExpectedException('\SwaggerGen\Exception', "Type format not recognized: 'foo'");
+		$this->expectException('\SwaggerGen\Exception', "Type format not recognized: 'foo'");
 
 		$object = new \SwaggerGen\Swagger\Parameter($this->parent, 'path', 'foo bar');
 	}

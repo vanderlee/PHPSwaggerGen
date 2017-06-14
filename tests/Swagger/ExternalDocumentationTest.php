@@ -1,6 +1,6 @@
 <?php
 
-class ExternalDocumentationTest extends PHPUnit_Framework_TestCase
+class ExternalDocumentationTest extends PHPUnit\Framework\TestCase
 {
 
 	protected $parent;

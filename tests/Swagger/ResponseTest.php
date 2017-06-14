@@ -1,6 +1,6 @@
 <?php
 
-class ResponseTest extends PHPUnit_Framework_TestCase
+class ResponseTest extends PHPUnit\Framework\TestCase
 {
 
 	protected $parent;
@@ -103,7 +103,7 @@ class ResponseTest extends PHPUnit_Framework_TestCase
 
 		$this->assertInstanceOf('\SwaggerGen\Swagger\Response', $object);
 
-		$this->setExpectedException('\SwaggerGen\Exception', "Missing type for header");
+		$this->expectException('\SwaggerGen\Exception', "Missing type for header");
 
 		$object->handleCommand('header', '');
 	}
@@ -117,7 +117,7 @@ class ResponseTest extends PHPUnit_Framework_TestCase
 
 		$this->assertInstanceOf('\SwaggerGen\Swagger\Response', $object);
 
-		$this->setExpectedException('\SwaggerGen\Exception', "Missing name for header type 'int'");
+		$this->expectException('\SwaggerGen\Exception', "Missing name for header type 'int'");
 
 		$object->handleCommand('header', 'int');
 	}
@@ -131,7 +131,7 @@ class ResponseTest extends PHPUnit_Framework_TestCase
 
 		$this->assertInstanceOf('\SwaggerGen\Swagger\Response', $object);
 
-		$this->setExpectedException('\SwaggerGen\Exception', "Header type not valid: 'foo'");
+		$this->expectException('\SwaggerGen\Exception', "Header type not valid: 'foo'");
 
 		$object->handleCommand('header', 'foo bar');
 	}

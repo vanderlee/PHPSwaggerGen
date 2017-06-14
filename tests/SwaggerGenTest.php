@@ -1,6 +1,6 @@
 <?php
 
-class SwaggerGenTest extends PHPUnit_Framework_TestCase
+class SwaggerGenTest extends PHPUnit\Framework\TestCase
 {
 
 	/**
@@ -11,7 +11,7 @@ class SwaggerGenTest extends PHPUnit_Framework_TestCase
 		$object = new \SwaggerGen\SwaggerGen();
 		$this->assertInstanceof('\SwaggerGen\SwaggerGen', $object);
 
-		$this->setExpectedException('\SwaggerGen\Exception', 'No path defined');
+		$this->expectException('\SwaggerGen\Exception', 'No path defined');
 		$object->getSwagger(array());
 	}
 	
@@ -40,7 +40,7 @@ class SwaggerGenTest extends PHPUnit_Framework_TestCase
 		$object = new \SwaggerGen\SwaggerGen();
 		$this->assertInstanceof('\SwaggerGen\SwaggerGen', $object);
 
-		$this->setExpectedException('\SwaggerGen\StatementException', 'Invalid error code: \'\'');
+		$this->expectException('\SwaggerGen\StatementException', 'Invalid error code: \'\'');
 		try {
 			$object->getSwagger(array('
 				endpoint

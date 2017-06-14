@@ -1,6 +1,6 @@
 <?php
 
-class BodyParameterTest extends PHPUnit_Framework_TestCase
+class BodyParameterTest extends PHPUnit\Framework\TestCase
 {
 
 	protected $parent;
@@ -20,7 +20,7 @@ class BodyParameterTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testConstructorNoType()
 	{
-		$this->setExpectedException('\SwaggerGen\Exception', "No type definition for body parameter");
+		$this->expectException('\SwaggerGen\Exception', "No type definition for body parameter");
 		$object = new \SwaggerGen\Swagger\BodyParameter($this->parent, '');
 	}
 
@@ -29,7 +29,7 @@ class BodyParameterTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testConstructorNoName()
 	{
-		$this->setExpectedException('\SwaggerGen\Exception', "No name for body parameter");
+		$this->expectException('\SwaggerGen\Exception', "No name for body parameter");
 		$object = new \SwaggerGen\Swagger\BodyParameter($this->parent, 'wrong');
 	}
 

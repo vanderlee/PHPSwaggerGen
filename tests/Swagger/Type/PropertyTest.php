@@ -1,6 +1,6 @@
 <?php
 
-class PropertyTypeTest extends PHPUnit_Framework_TestCase
+class PropertyTypeTest extends PHPUnit\Framework\TestCase
 {
 
 	protected $parent;
@@ -20,7 +20,7 @@ class PropertyTypeTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testConstructEmpty()
 	{
-		$this->setExpectedException('\SwaggerGen\Exception', "Not a property: ''");
+		$this->expectException('\SwaggerGen\Exception', "Not a property: ''");
 
 		new SwaggerGen\Swagger\Type\Property($this->parent, '');
 	}

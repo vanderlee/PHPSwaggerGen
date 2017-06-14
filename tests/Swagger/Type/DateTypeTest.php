@@ -1,6 +1,6 @@
 <?php
 
-class DateTypeTest extends PHPUnit_Framework_TestCase
+class DateTypeTest extends PHPUnit\Framework\TestCase
 {
 
 	protected $parent;
@@ -20,7 +20,7 @@ class DateTypeTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testConstructNotADate()
 	{
-		$this->setExpectedException('\SwaggerGen\Exception', "Not a date: 'wrong'");
+		$this->expectException('\SwaggerGen\Exception', "Not a date: 'wrong'");
 
 		$object = new SwaggerGen\Swagger\Type\DateType($this->parent, 'wrong');
 	}
@@ -30,7 +30,7 @@ class DateTypeTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testConstructRange()
 	{
-		$this->setExpectedException('\SwaggerGen\Exception', "Unparseable date definition: 'date[1,]'");
+		$this->expectException('\SwaggerGen\Exception', "Unparseable date definition: 'date[1,]'");
 
 		$object = new SwaggerGen\Swagger\Type\DateType($this->parent, 'date[1,]');
 	}
@@ -40,7 +40,7 @@ class DateTypeTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testConstructParentheses()
 	{
-		$this->setExpectedException('\SwaggerGen\Exception', "Unparseable date definition: 'date()'");
+		$this->expectException('\SwaggerGen\Exception', "Unparseable date definition: 'date()'");
 
 		$object = new SwaggerGen\Swagger\Type\DateType($this->parent, 'date()');
 	}
@@ -80,7 +80,7 @@ class DateTypeTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testConstructDateDefaultEmpty()
 	{
-		$this->setExpectedException('\SwaggerGen\Exception', "Unparseable date definition: 'date='");
+		$this->expectException('\SwaggerGen\Exception', "Unparseable date definition: 'date='");
 
 		$object = new SwaggerGen\Swagger\Type\DateType($this->parent, 'date=');
 	}
@@ -90,7 +90,7 @@ class DateTypeTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testConstructDateDefaultBlank()
 	{
-		$this->setExpectedException('\SwaggerGen\Exception', "Unparseable date definition: 'date= '");
+		$this->expectException('\SwaggerGen\Exception', "Unparseable date definition: 'date= '");
 
 		$object = new SwaggerGen\Swagger\Type\DateType($this->parent, 'date= ');
 	}
@@ -100,7 +100,7 @@ class DateTypeTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testConstructDateDefaultWrong()
 	{
-		$this->setExpectedException('\SwaggerGen\Exception', "Invalid 'date' default: 'wrong'");
+		$this->expectException('\SwaggerGen\Exception', "Invalid 'date' default: 'wrong'");
 
 		$object = new SwaggerGen\Swagger\Type\DateType($this->parent, 'date=wrong');
 	}
@@ -146,7 +146,7 @@ class DateTypeTest extends PHPUnit_Framework_TestCase
 
 		$this->assertInstanceOf('\SwaggerGen\Swagger\Type\DateType', $object);
 
-		$this->setExpectedException('\SwaggerGen\Exception', "Empty date default");
+		$this->expectException('\SwaggerGen\Exception', "Empty date default");
 		$object->handleCommand('default', '');
 	}
 
@@ -159,7 +159,7 @@ class DateTypeTest extends PHPUnit_Framework_TestCase
 
 		$this->assertInstanceOf('\SwaggerGen\Swagger\Type\DateType', $object);
 
-		$this->setExpectedException('\SwaggerGen\Exception', "Invalid 'date' default: 'wrong'");
+		$this->expectException('\SwaggerGen\Exception', "Invalid 'date' default: 'wrong'");
 		$object->handleCommand('default', 'wrong');
 
 		$this->assertSame(array(

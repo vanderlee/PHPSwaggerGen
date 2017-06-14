@@ -1,6 +1,6 @@
 <?php
 
-class ArrayTypeTest extends PHPUnit_Framework_TestCase
+class ArrayTypeTest extends PHPUnit\Framework\TestCase
 {
 
 	protected $parent;
@@ -20,7 +20,7 @@ class ArrayTypeTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testConstructNotAArray()
 	{
-		$this->setExpectedException('\SwaggerGen\Exception', "Not an array: 'wrong'");
+		$this->expectException('\SwaggerGen\Exception', "Not an array: 'wrong'");
 
 		$object = new SwaggerGen\Swagger\Type\ArrayType($this->parent, 'wrong');
 	}
@@ -30,7 +30,7 @@ class ArrayTypeTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testConstructInvalidDefault()
 	{
-		$this->setExpectedException('\SwaggerGen\Exception', "Unparseable array definition: 'array=null'");
+		$this->expectException('\SwaggerGen\Exception', "Unparseable array definition: 'array=null'");
 
 		$object = new SwaggerGen\Swagger\Type\ArrayType($this->parent, 'array=null');
 	}
@@ -40,7 +40,7 @@ class ArrayTypeTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testConstructMultiLimit()
 	{
-		$this->setExpectedException('\SwaggerGen\Exception', "Multi array only allowed on query or form parameter: 'multi'");
+		$this->expectException('\SwaggerGen\Exception', "Multi array only allowed on query or form parameter: 'multi'");
 
 		$object = new SwaggerGen\Swagger\Type\ArrayType($this->parent, 'multi');
 	}
@@ -60,7 +60,7 @@ class ArrayTypeTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testConstructEmptyRange()
 	{
-		$this->setExpectedException('\SwaggerGen\Exception', "Empty array range: 'array[,]'");
+		$this->expectException('\SwaggerGen\Exception', "Empty array range: 'array[,]'");
 
 		$object = new SwaggerGen\Swagger\Type\ArrayType($this->parent, 'array[,]');
 	}
@@ -115,7 +115,7 @@ class ArrayTypeTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testConstructBadItems()
 	{
-		$this->setExpectedException('\SwaggerGen\Exception', "Unparseable items definition: '1'");
+		$this->expectException('\SwaggerGen\Exception', "Unparseable items definition: '1'");
 
 		$object = new SwaggerGen\Swagger\Type\ArrayType($this->parent, 'array(1)');
 	}
@@ -183,7 +183,7 @@ class ArrayTypeTest extends PHPUnit_Framework_TestCase
 
 		$this->assertInstanceOf('\SwaggerGen\Swagger\Type\ArrayType', $object);
 
-		$this->setExpectedException('\SwaggerGen\Exception', "Minimum greater than maximum: '6'");
+		$this->expectException('\SwaggerGen\Exception', "Minimum greater than maximum: '6'");
 
 		$object->handleCommand('min', '6');
 	}
@@ -197,7 +197,7 @@ class ArrayTypeTest extends PHPUnit_Framework_TestCase
 
 		$this->assertInstanceOf('\SwaggerGen\Swagger\Type\ArrayType', $object);
 
-		$this->setExpectedException('\SwaggerGen\Exception', "Minimum less than zero: '-1'");
+		$this->expectException('\SwaggerGen\Exception', "Minimum less than zero: '-1'");
 
 		$object->handleCommand('min', '-1');
 	}
@@ -229,7 +229,7 @@ class ArrayTypeTest extends PHPUnit_Framework_TestCase
 
 		$this->assertInstanceOf('\SwaggerGen\Swagger\Type\ArrayType', $object);
 
-		$this->setExpectedException('\SwaggerGen\Exception', "Maximum less than minimum: '2'");
+		$this->expectException('\SwaggerGen\Exception', "Maximum less than minimum: '2'");
 
 		$object->handleCommand('max', '2');
 	}
@@ -243,7 +243,7 @@ class ArrayTypeTest extends PHPUnit_Framework_TestCase
 
 		$this->assertInstanceOf('\SwaggerGen\Swagger\Type\ArrayType', $object);
 
-		$this->setExpectedException('\SwaggerGen\Exception', "Maximum less than zero: '-1'");
+		$this->expectException('\SwaggerGen\Exception', "Maximum less than zero: '-1'");
 
 		$object->handleCommand('max', '-1');
 	}
@@ -275,7 +275,7 @@ class ArrayTypeTest extends PHPUnit_Framework_TestCase
 
 		$this->assertInstanceOf('\SwaggerGen\Swagger\Type\ArrayType', $object);
 
-		$this->setExpectedException('\SwaggerGen\Exception', "Empty items definition: ''");
+		$this->expectException('\SwaggerGen\Exception', "Empty items definition: ''");
 
 		$object->handleCommand('items', '');
 	}
@@ -289,7 +289,7 @@ class ArrayTypeTest extends PHPUnit_Framework_TestCase
 
 		$this->assertInstanceOf('\SwaggerGen\Swagger\Type\ArrayType', $object);
 
-		$this->setExpectedException('\SwaggerGen\Exception', "Unparseable items definition: '1'");
+		$this->expectException('\SwaggerGen\Exception', "Unparseable items definition: '1'");
 
 		$object->handleCommand('items', '1');
 	}

@@ -1,6 +1,6 @@
 <?php
 
-class OperationTest extends PHPUnit_Framework_TestCase
+class OperationTest extends PHPUnit\Framework\TestCase
 {
 
 	protected $parent;
@@ -23,7 +23,7 @@ class OperationTest extends PHPUnit_Framework_TestCase
 		$object = new \SwaggerGen\Swagger\Operation($this->parent);
 		$this->assertInstanceOf('\SwaggerGen\Swagger\Operation', $object);
 
-		$this->setExpectedException('\SwaggerGen\Exception', "No response defined for operation");
+		$this->expectException('\SwaggerGen\Exception', "No response defined for operation");
 		$object->toArray();
 	}
 
@@ -232,7 +232,7 @@ class OperationTest extends PHPUnit_Framework_TestCase
 		$operation = $path->handleCommand('operation', 'GET');
 		$this->assertInstanceOf('\SwaggerGen\Swagger\Operation', $operation);
 
-		$this->setExpectedException('\SwaggerGen\Exception', "Duplicate operation id 'SomeOperation'");
+		$this->expectException('\SwaggerGen\Exception', "Duplicate operation id 'SomeOperation'");
 		$operation->handleCommand('id', 'SomeOperation');
 	}
 
@@ -258,7 +258,7 @@ class OperationTest extends PHPUnit_Framework_TestCase
 		$operation = $path->handleCommand('operation', 'GET');
 		$this->assertInstanceOf('\SwaggerGen\Swagger\Operation', $operation);
 
-		$this->setExpectedException('\SwaggerGen\Exception', "Duplicate operation id 'SomeOperation'");
+		$this->expectException('\SwaggerGen\Exception', "Duplicate operation id 'SomeOperation'");
 		$operation->handleCommand('id', 'SomeOperation');
 	}
 
@@ -595,7 +595,7 @@ class OperationTest extends PHPUnit_Framework_TestCase
 		$object = new \SwaggerGen\Swagger\Operation($this->parent);
 		$this->assertInstanceOf('\SwaggerGen\Swagger\Operation', $object);
 
-		$this->setExpectedException('\SwaggerGen\Exception', "Invalid error code: ''");
+		$this->expectException('\SwaggerGen\Exception', "Invalid error code: ''");
 		$object->handleCommand('error');
 	}
 
@@ -649,7 +649,7 @@ class OperationTest extends PHPUnit_Framework_TestCase
 
 		$object->handleCommand('errors');
 
-		$this->setExpectedException('\SwaggerGen\Exception', "No response defined for operation");
+		$this->expectException('\SwaggerGen\Exception', "No response defined for operation");
 		$object->toArray();
 	}
 
@@ -684,7 +684,7 @@ class OperationTest extends PHPUnit_Framework_TestCase
 		$object = new \SwaggerGen\Swagger\Operation($this->parent);
 		$this->assertInstanceOf('\SwaggerGen\Swagger\Operation', $object);
 
-		$this->setExpectedException('\SwaggerGen\Exception', "Invalid response code: ''");
+		$this->expectException('\SwaggerGen\Exception', "Invalid response code: ''");
 		$object->handleCommand('response');
 	}
 
@@ -764,7 +764,7 @@ class OperationTest extends PHPUnit_Framework_TestCase
 		$object = new \SwaggerGen\Swagger\Operation($this->parent);
 		$this->assertInstanceOf('\SwaggerGen\Swagger\Operation', $object);
 
-		$this->setExpectedException('\SwaggerGen\Exception', "Empty security requirement name");
+		$this->expectException('\SwaggerGen\Exception', "Empty security requirement name");
 		$object->handleCommand('require');
 	}
 
@@ -786,7 +786,7 @@ class OperationTest extends PHPUnit_Framework_TestCase
 		$return = $object->handleCommand('response', '200');
 		$this->assertInstanceOf('\SwaggerGen\Swagger\Response', $return);
 
-		$this->setExpectedException('\SwaggerGen\Exception', "Required security scheme not defined: 'basic'");
+		$this->expectException('\SwaggerGen\Exception', "Required security scheme not defined: 'basic'");
 		$object->toArray();
 	}
 

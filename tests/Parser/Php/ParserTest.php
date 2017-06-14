@@ -1,6 +1,6 @@
 <?php
 
-class Parser_Php_ParserTest extends PHPUnit_Framework_TestCase
+class Parser_Php_ParserTest extends PHPUnit\Framework\TestCase
 {
 
 	/**

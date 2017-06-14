@@ -1,6 +1,6 @@
 <?php
 
-class NumberTypeTest extends PHPUnit_Framework_TestCase
+class NumberTypeTest extends PHPUnit\Framework\TestCase
 {
 
 	protected $parent;
@@ -20,7 +20,7 @@ class NumberTypeTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testConstructNotANumber()
 	{
-		$this->setExpectedException('\SwaggerGen\Exception', "Not a number: 'wrong'");
+		$this->expectException('\SwaggerGen\Exception', "Not a number: 'wrong'");
 
 		$object = new SwaggerGen\Swagger\Type\NumberType($this->parent, 'wrong');
 	}
@@ -30,7 +30,7 @@ class NumberTypeTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testConstructInvalidDefault()
 	{
-		$this->setExpectedException('\SwaggerGen\Exception', "Unparseable number definition: 'float=null'");
+		$this->expectException('\SwaggerGen\Exception', "Unparseable number definition: 'float=null'");
 
 		$object = new SwaggerGen\Swagger\Type\NumberType($this->parent, 'float=null');
 	}
@@ -40,7 +40,7 @@ class NumberTypeTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testConstructNoSpecificationAllowed()
 	{
-		$this->setExpectedException('\SwaggerGen\Exception', "Unparseable number definition: 'float()=1'");
+		$this->expectException('\SwaggerGen\Exception', "Unparseable number definition: 'float()=1'");
 
 		$object = new SwaggerGen\Swagger\Type\NumberType($this->parent, 'float()=1');
 	}
@@ -50,7 +50,7 @@ class NumberTypeTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testConstructEmptyRange()
 	{
-		$this->setExpectedException('\SwaggerGen\Exception', "Empty number range: 'float[,]=1'");
+		$this->expectException('\SwaggerGen\Exception', "Empty number range: 'float[,]=1'");
 
 		$object = new SwaggerGen\Swagger\Type\NumberType($this->parent, 'float[,]=1');
 	}
@@ -195,7 +195,7 @@ class NumberTypeTest extends PHPUnit_Framework_TestCase
 		$object = new SwaggerGen\Swagger\Type\NumberType($this->parent, 'float<2,5>=4');
 		$this->assertInstanceOf('\SwaggerGen\Swagger\Type\NumberType', $object);
 
-		$this->setExpectedException('\SwaggerGen\Exception', "Default number beyond maximum: '5'");
+		$this->expectException('\SwaggerGen\Exception', "Default number beyond maximum: '5'");
 
 		$object = new SwaggerGen\Swagger\Type\NumberType($this->parent, 'float<2,5>=5');
 	}
@@ -208,7 +208,7 @@ class NumberTypeTest extends PHPUnit_Framework_TestCase
 		$object = new SwaggerGen\Swagger\Type\NumberType($this->parent, 'float[2,5]=5');
 		$this->assertInstanceOf('\SwaggerGen\Swagger\Type\NumberType', $object);
 
-		$this->setExpectedException('\SwaggerGen\Exception', "Default number beyond maximum: '6'");
+		$this->expectException('\SwaggerGen\Exception', "Default number beyond maximum: '6'");
 
 		$object = new SwaggerGen\Swagger\Type\NumberType($this->parent, 'float[2,5]=6');
 	}
@@ -221,7 +221,7 @@ class NumberTypeTest extends PHPUnit_Framework_TestCase
 		$object = new SwaggerGen\Swagger\Type\NumberType($this->parent, 'float<2,5>=3');
 		$this->assertInstanceOf('\SwaggerGen\Swagger\Type\NumberType', $object);
 
-		$this->setExpectedException('\SwaggerGen\Exception', "Default number beyond minimum: '2'");
+		$this->expectException('\SwaggerGen\Exception', "Default number beyond minimum: '2'");
 
 		$object = new SwaggerGen\Swagger\Type\NumberType($this->parent, 'float<2,5>=2');
 	}
@@ -234,7 +234,7 @@ class NumberTypeTest extends PHPUnit_Framework_TestCase
 		$object = new SwaggerGen\Swagger\Type\NumberType($this->parent, 'float[2,5]=2');
 		$this->assertInstanceOf('\SwaggerGen\Swagger\Type\NumberType', $object);
 
-		$this->setExpectedException('\SwaggerGen\Exception', "Default number beyond minimum: '1'");
+		$this->expectException('\SwaggerGen\Exception', "Default number beyond minimum: '1'");
 
 		$object = new SwaggerGen\Swagger\Type\NumberType($this->parent, 'float[2,5]=1');
 	}
@@ -248,7 +248,7 @@ class NumberTypeTest extends PHPUnit_Framework_TestCase
 
 		$this->assertInstanceOf('\SwaggerGen\Swagger\Type\NumberType', $object);
 
-		$this->setExpectedException('\SwaggerGen\Exception', "Invalid number default: ''");
+		$this->expectException('\SwaggerGen\Exception', "Invalid number default: ''");
 		$object->handleCommand('default', '');
 	}
 
@@ -261,7 +261,7 @@ class NumberTypeTest extends PHPUnit_Framework_TestCase
 
 		$this->assertInstanceOf('\SwaggerGen\Swagger\Type\NumberType', $object);
 
-		$this->setExpectedException('\SwaggerGen\Exception', "Invalid number default: 'foo'");
+		$this->expectException('\SwaggerGen\Exception', "Invalid number default: 'foo'");
 		$object->handleCommand('default', 'foo');
 	}
 
@@ -310,7 +310,7 @@ class NumberTypeTest extends PHPUnit_Framework_TestCase
 
 		$this->assertInstanceOf('\SwaggerGen\Swagger\Type\NumberType', $object);
 
-		$this->setExpectedException('\SwaggerGen\Exception', "Default number beyond minimum: '-1.23'");
+		$this->expectException('\SwaggerGen\Exception', "Default number beyond minimum: '-1.23'");
 		$object->handleCommand('default', '-1.23');
 	}
 

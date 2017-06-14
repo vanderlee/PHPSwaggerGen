@@ -1,6 +1,6 @@
 <?php
 
-class HeaderTest extends PHPUnit_Framework_TestCase
+class HeaderTest extends PHPUnit\Framework\TestCase
 {
 
 	protected $parent;
@@ -34,7 +34,7 @@ class HeaderTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testConstructorInvalidType()
 	{
-		$this->setExpectedException('\SwaggerGen\Exception', "Header type not valid: 'BadType'");
+		$this->expectException('\SwaggerGen\Exception', "Header type not valid: 'BadType'");
 		
 		new \SwaggerGen\Swagger\Header($this->parent, 'BadType');
 	}

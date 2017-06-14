@@ -1,6 +1,6 @@
 <?php
 
-class BooleanTypeTest extends PHPUnit_Framework_TestCase
+class BooleanTypeTest extends PHPUnit\Framework\TestCase
 {
 
 	protected $parent;
@@ -20,7 +20,7 @@ class BooleanTypeTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testConstructNotABoolean()
 	{
-		$this->setExpectedException('\SwaggerGen\Exception', "Not a boolean: 'wrong'");
+		$this->expectException('\SwaggerGen\Exception', "Not a boolean: 'wrong'");
 
 		$object = new SwaggerGen\Swagger\Type\BooleanType($this->parent, 'wrong');
 	}
@@ -30,7 +30,7 @@ class BooleanTypeTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testConstructInvalidDefault()
 	{
-		$this->setExpectedException('\SwaggerGen\Exception', "Unparseable boolean definition: 'boolean=null'");
+		$this->expectException('\SwaggerGen\Exception', "Unparseable boolean definition: 'boolean=null'");
 
 		$object = new SwaggerGen\Swagger\Type\BooleanType($this->parent, 'boolean=null');
 	}
@@ -40,7 +40,7 @@ class BooleanTypeTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testConstructNoSpecificationAllowed()
 	{
-		$this->setExpectedException('\SwaggerGen\Exception', "Unparseable boolean definition: 'boolean()=true'");
+		$this->expectException('\SwaggerGen\Exception', "Unparseable boolean definition: 'boolean()=true'");
 
 		$object = new SwaggerGen\Swagger\Type\BooleanType($this->parent, 'boolean()=true');
 	}
@@ -50,7 +50,7 @@ class BooleanTypeTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testConstructNoRangeAllowed()
 	{
-		$this->setExpectedException('\SwaggerGen\Exception', "Unparseable boolean definition: 'boolean[0,1]=true'");
+		$this->expectException('\SwaggerGen\Exception', "Unparseable boolean definition: 'boolean[0,1]=true'");
 
 		$object = new SwaggerGen\Swagger\Type\BooleanType($this->parent, 'boolean[0,1]=true');
 	}
@@ -108,7 +108,7 @@ class BooleanTypeTest extends PHPUnit_Framework_TestCase
 
 		$this->assertInstanceOf('\SwaggerGen\Swagger\Type\BooleanType', $object);
 
-		$this->setExpectedException('\SwaggerGen\Exception', "Invalid boolean default: ''");
+		$this->expectException('\SwaggerGen\Exception', "Invalid boolean default: ''");
 		$object->handleCommand('default', '');
 	}
 
@@ -121,7 +121,7 @@ class BooleanTypeTest extends PHPUnit_Framework_TestCase
 
 		$this->assertInstanceOf('\SwaggerGen\Swagger\Type\BooleanType', $object);
 
-		$this->setExpectedException('\SwaggerGen\Exception', "Invalid boolean default: 'null'");
+		$this->expectException('\SwaggerGen\Exception', "Invalid boolean default: 'null'");
 		$object->handleCommand('default', 'null');
 	}
 

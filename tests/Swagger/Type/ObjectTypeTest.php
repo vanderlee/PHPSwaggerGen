@@ -1,6 +1,6 @@
 <?php
 
-class ObjectTypeTest extends PHPUnit_Framework_TestCase
+class ObjectTypeTest extends PHPUnit\Framework\TestCase
 {
 
 	protected $parent;
@@ -20,7 +20,7 @@ class ObjectTypeTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testConstructNotAnObject()
 	{
-		$this->setExpectedException('\SwaggerGen\Exception', "Not an object: 'wrong'");
+		$this->expectException('\SwaggerGen\Exception', "Not an object: 'wrong'");
 
 		$object = new SwaggerGen\Swagger\Type\ObjectType($this->parent, 'wrong');
 	}
@@ -30,7 +30,7 @@ class ObjectTypeTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testConstructNoDefault()
 	{
-		$this->setExpectedException('\SwaggerGen\Exception', "Unparseable object definition: 'object=a'");
+		$this->expectException('\SwaggerGen\Exception', "Unparseable object definition: 'object=a'");
 
 		$object = new SwaggerGen\Swagger\Type\ObjectType($this->parent, 'object=a');
 	}
@@ -40,7 +40,7 @@ class ObjectTypeTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testConstructEmptyRange()
 	{
-		$this->setExpectedException('\SwaggerGen\Exception', "Empty object range: 'object[,]'");
+		$this->expectException('\SwaggerGen\Exception', "Empty object range: 'object[,]'");
 
 		$object = new SwaggerGen\Swagger\Type\ObjectType($this->parent, 'object[,]');
 	}
@@ -95,7 +95,7 @@ class ObjectTypeTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testConstructBadProperties()
 	{
-		$this->setExpectedException('\SwaggerGen\Exception', "Unparseable property definition: '1'");
+		$this->expectException('\SwaggerGen\Exception', "Unparseable property definition: '1'");
 
 		$object = new SwaggerGen\Swagger\Type\ObjectType($this->parent, 'object(1)');
 	}
@@ -161,7 +161,7 @@ class ObjectTypeTest extends PHPUnit_Framework_TestCase
 
 		$this->assertInstanceOf('\SwaggerGen\Swagger\Type\ObjectType', $object);
 
-		$this->setExpectedException('\SwaggerGen\Exception', "Minimum greater than maximum: '6'");
+		$this->expectException('\SwaggerGen\Exception', "Minimum greater than maximum: '6'");
 
 		$object->handleCommand('min', '6');
 	}
@@ -175,7 +175,7 @@ class ObjectTypeTest extends PHPUnit_Framework_TestCase
 
 		$this->assertInstanceOf('\SwaggerGen\Swagger\Type\ObjectType', $object);
 
-		$this->setExpectedException('\SwaggerGen\Exception', "Minimum less than zero: '-1'");
+		$this->expectException('\SwaggerGen\Exception', "Minimum less than zero: '-1'");
 
 		$object->handleCommand('min', '-1');
 	}
@@ -207,7 +207,7 @@ class ObjectTypeTest extends PHPUnit_Framework_TestCase
 
 		$this->assertInstanceOf('\SwaggerGen\Swagger\Type\ObjectType', $object);
 
-		$this->setExpectedException('\SwaggerGen\Exception', "Maximum less than minimum: '2'");
+		$this->expectException('\SwaggerGen\Exception', "Maximum less than minimum: '2'");
 
 		$object->handleCommand('max', '2');
 	}
@@ -221,7 +221,7 @@ class ObjectTypeTest extends PHPUnit_Framework_TestCase
 
 		$this->assertInstanceOf('\SwaggerGen\Swagger\Type\ObjectType', $object);
 
-		$this->setExpectedException('\SwaggerGen\Exception', "Maximum less than zero: '-1'");
+		$this->expectException('\SwaggerGen\Exception', "Maximum less than zero: '-1'");
 
 		$object->handleCommand('max', '-1');
 	}
@@ -253,7 +253,7 @@ class ObjectTypeTest extends PHPUnit_Framework_TestCase
 
 		$this->assertInstanceOf('\SwaggerGen\Swagger\Type\ObjectType', $object);
 
-		$this->setExpectedException('\SwaggerGen\Exception', "Missing property definition");
+		$this->expectException('\SwaggerGen\Exception', "Missing property definition");
 
 		$object->handleCommand('property', '');
 	}
@@ -267,7 +267,7 @@ class ObjectTypeTest extends PHPUnit_Framework_TestCase
 
 		$this->assertInstanceOf('\SwaggerGen\Swagger\Type\ObjectType', $object);
 
-		$this->setExpectedException('\SwaggerGen\Exception', "Missing property name: 'string'");
+		$this->expectException('\SwaggerGen\Exception', "Missing property name: 'string'");
 
 		$object->handleCommand('property', 'string');
 	}

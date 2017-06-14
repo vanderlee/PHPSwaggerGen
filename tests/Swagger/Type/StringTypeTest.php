@@ -1,6 +1,6 @@
 <?php
 
-class StringTypeTest extends PHPUnit_Framework_TestCase
+class StringTypeTest extends PHPUnit\Framework\TestCase
 {
 
 	protected $parent;
@@ -20,7 +20,7 @@ class StringTypeTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testConstructNotAString()
 	{
-		$this->setExpectedException('\SwaggerGen\Exception', "Not a string: 'wrong'");
+		$this->expectException('\SwaggerGen\Exception', "Not a string: 'wrong'");
 
 		$object = new SwaggerGen\Swagger\Type\StringType($this->parent, 'wrong');
 	}
@@ -30,7 +30,7 @@ class StringTypeTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testConstructEmptyRange()
 	{
-		$this->setExpectedException('\SwaggerGen\Exception', "Empty string range: 'string[,]=1'");
+		$this->expectException('\SwaggerGen\Exception', "Empty string range: 'string[,]=1'");
 
 		$object = new SwaggerGen\Swagger\Type\StringType($this->parent, 'string[,]=1');
 	}
@@ -40,7 +40,7 @@ class StringTypeTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testConstructDefaultTooLongInclusive()
 	{
-		$this->setExpectedException('\SwaggerGen\Exception', "Default string length beyond maximum: 'long'");
+		$this->expectException('\SwaggerGen\Exception', "Default string length beyond maximum: 'long'");
 
 		$object = new SwaggerGen\Swagger\Type\StringType($this->parent, 'string[,3]=long');
 	}
@@ -50,7 +50,7 @@ class StringTypeTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testConstructDefaultTooLongExclusive()
 	{
-		$this->setExpectedException('\SwaggerGen\Exception', "Default string length beyond maximum: 'long'");
+		$this->expectException('\SwaggerGen\Exception', "Default string length beyond maximum: 'long'");
 
 		$object = new SwaggerGen\Swagger\Type\StringType($this->parent, 'string[,4>=long');
 	}
@@ -60,7 +60,7 @@ class StringTypeTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testConstructDefaultTooShortInclusive()
 	{
-		$this->setExpectedException('\SwaggerGen\Exception', "Default string length beyond minimum: 'short'");
+		$this->expectException('\SwaggerGen\Exception', "Default string length beyond minimum: 'short'");
 
 		$object = new SwaggerGen\Swagger\Type\StringType($this->parent, 'string[6,]=short');
 	}
@@ -70,7 +70,7 @@ class StringTypeTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testConstructDefaultTooShortExclusive()
 	{
-		$this->setExpectedException('\SwaggerGen\Exception', "Default string length beyond minimum: 'short'");
+		$this->expectException('\SwaggerGen\Exception', "Default string length beyond minimum: 'short'");
 
 		$object = new SwaggerGen\Swagger\Type\StringType($this->parent, 'string<5,]=short');
 	}
@@ -94,7 +94,7 @@ class StringTypeTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testConstructStringEmptyDefault()
 	{
-		$this->setExpectedException('\SwaggerGen\Exception', "Unparseable string definition: 'string='");
+		$this->expectException('\SwaggerGen\Exception', "Unparseable string definition: 'string='");
 
 		$object = new SwaggerGen\Swagger\Type\StringType($this->parent, 'string= ');
 	}
@@ -153,7 +153,7 @@ class StringTypeTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testConstructEnumRange()
 	{
-		$this->setExpectedException('\SwaggerGen\Exception', "Range not allowed in enumeration definition: 'enum(a,b)[,]'");
+		$this->expectException('\SwaggerGen\Exception', "Range not allowed in enumeration definition: 'enum(a,b)[,]'");
 
 		$object = new SwaggerGen\Swagger\Type\StringType($this->parent, 'enum(a,b)[,]');
 	}
@@ -163,7 +163,7 @@ class StringTypeTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testConstructEnumInvalidDefault()
 	{
-		$this->setExpectedException('\SwaggerGen\Exception', "Invalid enum default: 'c'");
+		$this->expectException('\SwaggerGen\Exception', "Invalid enum default: 'c'");
 
 		$object = new SwaggerGen\Swagger\Type\StringType($this->parent, 'enum(a,b)=c');
 	}
@@ -223,7 +223,7 @@ class StringTypeTest extends PHPUnit_Framework_TestCase
 
 		$this->assertInstanceOf('\SwaggerGen\Swagger\Type\StringType', $object);
 
-		$this->setExpectedException('\SwaggerGen\Exception', "Empty string default");
+		$this->expectException('\SwaggerGen\Exception', "Empty string default");
 		$object->handleCommand('default', '');
 	}
 
@@ -270,7 +270,7 @@ class StringTypeTest extends PHPUnit_Framework_TestCase
 
 		$this->assertInstanceOf('\SwaggerGen\Swagger\Type\StringType', $object);
 
-		$this->setExpectedException('\SwaggerGen\Exception', "Enumeration not allowed in ranged string: 'red green blue'");
+		$this->expectException('\SwaggerGen\Exception', "Enumeration not allowed in ranged string: 'red green blue'");
 
 		$object->handleCommand('enum', 'red green blue');
 	}

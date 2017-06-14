@@ -1,6 +1,6 @@
 <?php
 
-class AbstractDocumentableObjectTest extends PHPUnit_Framework_TestCase
+class AbstractDocumentableObjectTest extends PHPUnit\Framework\TestCase
 {
 
 	protected $parent;

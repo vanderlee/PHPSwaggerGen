@@ -1,6 +1,6 @@
 <?php
 
-class ExceptionTest extends PHPUnit_Framework_TestCase
+class ExceptionTest extends PHPUnit\Framework\TestCase
 {
 
 	/**
@@ -8,7 +8,7 @@ class ExceptionTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testConstructor0()
 	{
-		$this->setExpectedException('\SwaggerGen\Exception');
+		$this->expectException('\SwaggerGen\Exception');
 
 		throw new \SwaggerGen\Exception('', 0);
 	}
@@ -18,7 +18,7 @@ class ExceptionTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testConstructor1()
 	{
-		$this->setExpectedException('\SwaggerGen\Exception', 'This is a message');
+		$this->expectException('\SwaggerGen\Exception', 'This is a message');
 
 		throw new \SwaggerGen\Exception('This is a message', 0);
 	}
@@ -28,7 +28,7 @@ class ExceptionTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testConstructor2()
 	{
-		$this->setExpectedException('\SwaggerGen\Exception', 'This is a message', 1234);
+		$this->expectException('\SwaggerGen\Exception', 'This is a message', 1234);
 
 		throw new \SwaggerGen\Exception('This is a message', 1234);
 	}
