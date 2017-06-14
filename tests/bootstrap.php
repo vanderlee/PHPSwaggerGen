@@ -12,8 +12,12 @@ if (!class_exists('PHPUnit\Framework\TestCase') && class_exists('PHPUnit_Framewo
 	class_alias('PHPUnit_Framework_TestCase', 'PHPUnit\Framework\TestCase');
 }
 
-class SwaggerGen_TestCase extends PHPUnit\Framework\TestCase {
-	public function expectException($exception) {
-		self::setExpectedException($exception);
+class SwaggerGen_TestCase extends PHPUnit\Framework\TestCase
+{
+
+	public function expectException($exception)
+	{
+		return method_exists($this, 'setExpectedException') ? self::setExpectedException($exception) : parent::expectException($exception);
 	}
+
 }
