@@ -34,7 +34,7 @@ class HeaderTest extends PHPUnit\Framework\TestCase
 	 */
 	public function testConstructorInvalidType()
 	{
-		$this->setExpectedException('\SwaggerGen\Exception', "Header type not valid: 'BadType'");
+		$this->expectException('\SwaggerGen\Exception', "Header type not valid: 'BadType'");
 		
 		new \SwaggerGen\Swagger\Header($this->parent, 'BadType');
 	}

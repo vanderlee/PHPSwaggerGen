@@ -20,7 +20,7 @@ class IntegerTypeTest extends PHPUnit\Framework\TestCase
 	 */
 	public function testConstructNotAInteger()
 	{
-		$this->setExpectedException('\SwaggerGen\Exception', "Not an integer: 'wrong'");
+		$this->expectException('\SwaggerGen\Exception', "Not an integer: 'wrong'");
 
 		$object = new SwaggerGen\Swagger\Type\IntegerType($this->parent, 'wrong');
 	}
@@ -30,7 +30,7 @@ class IntegerTypeTest extends PHPUnit\Framework\TestCase
 	 */
 	public function testConstructInvalidDefault()
 	{
-		$this->setExpectedException('\SwaggerGen\Exception', "Unparseable integer definition: 'integer=null'");
+		$this->expectException('\SwaggerGen\Exception', "Unparseable integer definition: 'integer=null'");
 
 		$object = new SwaggerGen\Swagger\Type\IntegerType($this->parent, 'integer=null');
 	}
@@ -40,7 +40,7 @@ class IntegerTypeTest extends PHPUnit\Framework\TestCase
 	 */
 	public function testConstructNoSpecificationAllowed()
 	{
-		$this->setExpectedException('\SwaggerGen\Exception', "Unparseable integer definition: 'integer()=1'");
+		$this->expectException('\SwaggerGen\Exception', "Unparseable integer definition: 'integer()=1'");
 
 		$object = new SwaggerGen\Swagger\Type\IntegerType($this->parent, 'integer()=1');
 	}
@@ -50,7 +50,7 @@ class IntegerTypeTest extends PHPUnit\Framework\TestCase
 	 */
 	public function testConstructEmptyRange()
 	{
-		$this->setExpectedException('\SwaggerGen\Exception', "Empty integer range: 'integer[,]=1'");
+		$this->expectException('\SwaggerGen\Exception', "Empty integer range: 'integer[,]=1'");
 
 		$object = new SwaggerGen\Swagger\Type\IntegerType($this->parent, 'integer[,]=1');
 	}
@@ -195,7 +195,7 @@ class IntegerTypeTest extends PHPUnit\Framework\TestCase
 		$object = new SwaggerGen\Swagger\Type\IntegerType($this->parent, 'integer<2,5>=4');
 		$this->assertInstanceOf('\SwaggerGen\Swagger\Type\IntegerType', $object);
 
-		$this->setExpectedException('\SwaggerGen\Exception', "Default integer beyond maximum: '5'");
+		$this->expectException('\SwaggerGen\Exception', "Default integer beyond maximum: '5'");
 
 		$object = new SwaggerGen\Swagger\Type\IntegerType($this->parent, 'integer<2,5>=5');
 	}
@@ -208,7 +208,7 @@ class IntegerTypeTest extends PHPUnit\Framework\TestCase
 		$object = new SwaggerGen\Swagger\Type\IntegerType($this->parent, 'integer[2,5]=5');
 		$this->assertInstanceOf('\SwaggerGen\Swagger\Type\IntegerType', $object);
 
-		$this->setExpectedException('\SwaggerGen\Exception', "Default integer beyond maximum: '6'");
+		$this->expectException('\SwaggerGen\Exception', "Default integer beyond maximum: '6'");
 
 		$object = new SwaggerGen\Swagger\Type\IntegerType($this->parent, 'integer[2,5]=6');
 	}
@@ -221,7 +221,7 @@ class IntegerTypeTest extends PHPUnit\Framework\TestCase
 		$object = new SwaggerGen\Swagger\Type\IntegerType($this->parent, 'integer<2,5>=3');
 		$this->assertInstanceOf('\SwaggerGen\Swagger\Type\IntegerType', $object);
 
-		$this->setExpectedException('\SwaggerGen\Exception', "Default integer beyond minimum: '2'");
+		$this->expectException('\SwaggerGen\Exception', "Default integer beyond minimum: '2'");
 
 		$object = new SwaggerGen\Swagger\Type\IntegerType($this->parent, 'integer<2,5>=2');
 	}
@@ -234,7 +234,7 @@ class IntegerTypeTest extends PHPUnit\Framework\TestCase
 		$object = new SwaggerGen\Swagger\Type\IntegerType($this->parent, 'integer[2,5]=2');
 		$this->assertInstanceOf('\SwaggerGen\Swagger\Type\IntegerType', $object);
 
-		$this->setExpectedException('\SwaggerGen\Exception', "Default integer beyond minimum: '1'");
+		$this->expectException('\SwaggerGen\Exception', "Default integer beyond minimum: '1'");
 
 		$object = new SwaggerGen\Swagger\Type\IntegerType($this->parent, 'integer[2,5]=1');
 	}
@@ -248,7 +248,7 @@ class IntegerTypeTest extends PHPUnit\Framework\TestCase
 
 		$this->assertInstanceOf('\SwaggerGen\Swagger\Type\IntegerType', $object);
 
-		$this->setExpectedException('\SwaggerGen\Exception', "Invalid integer default: ''");
+		$this->expectException('\SwaggerGen\Exception', "Invalid integer default: ''");
 		$object->handleCommand('default', '');
 	}
 
@@ -261,7 +261,7 @@ class IntegerTypeTest extends PHPUnit\Framework\TestCase
 
 		$this->assertInstanceOf('\SwaggerGen\Swagger\Type\IntegerType', $object);
 
-		$this->setExpectedException('\SwaggerGen\Exception', "Invalid integer default: 'foo'");
+		$this->expectException('\SwaggerGen\Exception', "Invalid integer default: 'foo'");
 		$object->handleCommand('default', 'foo');
 	}
 
@@ -310,7 +310,7 @@ class IntegerTypeTest extends PHPUnit\Framework\TestCase
 
 		$this->assertInstanceOf('\SwaggerGen\Swagger\Type\IntegerType', $object);
 
-		$this->setExpectedException('\SwaggerGen\Exception', "Default integer beyond minimum: '-123'");
+		$this->expectException('\SwaggerGen\Exception', "Default integer beyond minimum: '-123'");
 		$object->handleCommand('default', '-123');
 	}
 

@@ -20,7 +20,7 @@ class StringUuidTypeTest extends PHPUnit\Framework\TestCase
 	 */
 	public function testConstructNotAUuid()
 	{
-		$this->setExpectedException('\SwaggerGen\Exception', "Not a uuid: 'wrong'");
+		$this->expectException('\SwaggerGen\Exception', "Not a uuid: 'wrong'");
 
 		$object = new SwaggerGen\Swagger\Type\StringUuidType($this->parent, 'wrong');
 	}
@@ -46,7 +46,7 @@ class StringUuidTypeTest extends PHPUnit\Framework\TestCase
 	 */
 	public function testConstructUuidEmptyDefault()
 	{
-		$this->setExpectedException('\SwaggerGen\Exception', "Unparseable uuid definition: 'uuid='");
+		$this->expectException('\SwaggerGen\Exception', "Unparseable uuid definition: 'uuid='");
 
 		$object = new SwaggerGen\Swagger\Type\StringUuidType($this->parent, 'uuid= ');
 	}
@@ -56,7 +56,7 @@ class StringUuidTypeTest extends PHPUnit\Framework\TestCase
 	 */
 	public function testConstructUuidBadDefault()
 	{
-		$this->setExpectedException('\SwaggerGen\Exception', "Unparseable uuid definition: 'uuid=123'");
+		$this->expectException('\SwaggerGen\Exception', "Unparseable uuid definition: 'uuid=123'");
 
 		$object = new SwaggerGen\Swagger\Type\StringUuidType($this->parent, 'uuid=123');
 	}
@@ -87,7 +87,7 @@ class StringUuidTypeTest extends PHPUnit\Framework\TestCase
 
 		$this->assertInstanceOf('\SwaggerGen\Swagger\Type\StringUuidType', $object);
 
-		$this->setExpectedException('\SwaggerGen\Exception', "Empty uuid default");
+		$this->expectException('\SwaggerGen\Exception', "Empty uuid default");
 		$object->handleCommand('default', '');
 	}
 	
@@ -100,7 +100,7 @@ class StringUuidTypeTest extends PHPUnit\Framework\TestCase
 
 		$this->assertInstanceOf('\SwaggerGen\Swagger\Type\StringUuidType', $object);
 
-		$this->setExpectedException('\SwaggerGen\Exception', "Invalid uuid default");
+		$this->expectException('\SwaggerGen\Exception', "Invalid uuid default");
 		$object->handleCommand('default', 'foobar');
 	}
 

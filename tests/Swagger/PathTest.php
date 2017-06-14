@@ -45,7 +45,7 @@ class PathTest extends PHPUnit\Framework\TestCase
 		$object = new \SwaggerGen\Swagger\Path($this->parent, new SwaggerGen\Swagger\Tag($this->parent, 'Tag'));
 		$this->assertInstanceOf('\SwaggerGen\Swagger\Path', $object);
 
-		$this->setExpectedException('\SwaggerGen\Exception', "Unrecognized operation method ''");
+		$this->expectException('\SwaggerGen\Exception', "Unrecognized operation method ''");
 		$return = $object->handleCommand('method');
 	}
 
@@ -57,7 +57,7 @@ class PathTest extends PHPUnit\Framework\TestCase
 		$object = new \SwaggerGen\Swagger\Path($this->parent, new SwaggerGen\Swagger\Tag($this->parent, 'Tag'));
 		$this->assertInstanceOf('\SwaggerGen\Swagger\Path', $object);
 
-		$this->setExpectedException('\SwaggerGen\Exception', "Unrecognized operation method 'foo'");
+		$this->expectException('\SwaggerGen\Exception', "Unrecognized operation method 'foo'");
 		$return = $object->handleCommand('method', 'foo');
 	}
 

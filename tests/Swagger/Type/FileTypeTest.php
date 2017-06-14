@@ -20,7 +20,7 @@ class FileTypeTest extends PHPUnit\Framework\TestCase
 	 */
 	public function testConstructNotAFile()
 	{
-		$this->setExpectedException('\SwaggerGen\Exception', "Not a file: 'wrong'");
+		$this->expectException('\SwaggerGen\Exception', "Not a file: 'wrong'");
 
 		$object = new SwaggerGen\Swagger\Type\FileType($this->parent, 'wrong');
 	}
@@ -30,7 +30,7 @@ class FileTypeTest extends PHPUnit\Framework\TestCase
 	 */
 	public function testConstructNotParameter()
 	{
-		$this->setExpectedException('\SwaggerGen\Exception', "File type 'file' only allowed on form parameter");
+		$this->expectException('\SwaggerGen\Exception', "File type 'file' only allowed on form parameter");
 
 		$object = new SwaggerGen\Swagger\Type\FileType($this->parent, 'file');
 	}
@@ -40,7 +40,7 @@ class FileTypeTest extends PHPUnit\Framework\TestCase
 	 */
 	public function testConstructNotFormParameter()
 	{
-		$this->setExpectedException('\SwaggerGen\Exception', "File type 'file' only allowed on form parameter");
+		$this->expectException('\SwaggerGen\Exception', "File type 'file' only allowed on form parameter");
 
 		$parameter = new SwaggerGen\Swagger\Parameter($this->parent, 'query', 'long whatever');
 		$object = new SwaggerGen\Swagger\Type\FileType($parameter, 'file');
@@ -51,7 +51,7 @@ class FileTypeTest extends PHPUnit\Framework\TestCase
 	 */
 	public function testConstructNoFormConsumes()
 	{
-		$this->setExpectedException('\SwaggerGen\Exception', "File type 'file' without valid consume");
+		$this->expectException('\SwaggerGen\Exception', "File type 'file' without valid consume");
 
 		$operation = new SwaggerGen\Swagger\Operation($this->parent);
 		$operation->handleCommand('consumes', 'text');
@@ -64,7 +64,7 @@ class FileTypeTest extends PHPUnit\Framework\TestCase
 	 */
 	public function testConstructNotExclusiveFormConsumes()
 	{
-		$this->setExpectedException('\SwaggerGen\Exception', "File type 'file' without valid consume");
+		$this->expectException('\SwaggerGen\Exception', "File type 'file' without valid consume");
 		
 		$operation = new SwaggerGen\Swagger\Operation($this->parent);
 		$operation->handleCommand('consumes', 'text file');
