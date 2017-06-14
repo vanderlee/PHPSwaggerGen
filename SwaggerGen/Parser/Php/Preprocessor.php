@@ -10,7 +10,7 @@ namespace SwaggerGen\Parser\Php;
  *
  * @package    SwaggerGen
  * @author     Martijn van der Lee <martijn@vanderlee.com>
- * @copyright  2014-2015 Martijn van der Lee
+ * @copyright  2014-2017 Martijn van der Lee
  * @license    https://opensource.org/licenses/MIT MIT
  */
 class Preprocessor extends \SwaggerGen\Parser\AbstractPreprocessor
