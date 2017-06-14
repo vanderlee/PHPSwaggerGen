@@ -800,7 +800,7 @@ Object with properties. Typically used as key-value map
 	Empty `max` value means infinite properties (no maximum).
 *	definition: a comma-separated list of property definitions in the form of
 	`key:definition`, where `key` can be any sequence of characters except `:` or
-	`?` or `*`. The `?` means that key is optional. The `*` means the key is read only. 
+	`?` or `!`. The `?` means that key is optional. The `!` means the key is read only. 
 	Read only implies optional as well.
 
 ### Commands
@@ -808,7 +808,7 @@ Object with properties. Typically used as key-value map
 *	**`max` *value*** Set the maximum number of items allowed.
 *	**`property` *definition name*** Add a required property.
 *	**`property?` *definition name*** Add an optional property.
-*   **`property*` *definition name*** Add a read only property.
+*   **`property!` *definition name*** Add a read only property.
 
 ### Examples
 *	**`object(age:int[18,25>)`** An object containing a single key `age` with

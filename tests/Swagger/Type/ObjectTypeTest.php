@@ -344,7 +344,7 @@ class ObjectTypeTest extends PHPUnit_Framework_TestCase
 			api Test
 			endpoint /test
 			method GET something
-			response 200 object(a*:array(A),b:array(B))
+			response 200 object(a!:array(A),b:array(B))
 		'));
 
         $this->assertSame('{"swagger":2,"info":{"title":"undefined","version":0}'

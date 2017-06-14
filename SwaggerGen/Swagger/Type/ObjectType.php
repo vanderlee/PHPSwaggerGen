@@ -13,8 +13,8 @@ namespace SwaggerGen\Swagger\Type;
 class ObjectType extends AbstractType
 {
 	const REGEX_PROP_START = '/^';
-	const REGEX_PROP_NAME = '([^?*:]+)';
-	const REGEX_PROP_REQUIRED = '([\?\*])?';
+	const REGEX_PROP_NAME = '([^?!:]+)';
+	const REGEX_PROP_REQUIRED = '([\?!])?';
 	const REGEX_PROP_ASSIGN = ':';
 	const REGEX_PROP_DEFINITION = '(.+)';
 	const REGEX_PROP_END = '$/';
@@ -59,7 +59,7 @@ class ObjectType extends AbstractType
 						throw new \SwaggerGen\Exception("Unparseable property definition: '{$property}'");
 					}
                     $this->properties[$prop_match[1]] = new Property($this, $prop_match[3]);
-                    if ($prop_match[2] !== '*' && $prop_match[2] !== '?') {
+                    if ($prop_match[2] !== '!' && $prop_match[2] !== '?') {
 						$this->required[$prop_match[1]] = true;
 					}
 				}
@@ -98,7 +98,7 @@ class ObjectType extends AbstractType
 			// type name description...
 			case 'property':
 			case 'property?':
-            case 'property*':
+            case 'property!':
 				$definition = self::wordShift($data);
 				if (empty($definition)) {
 					throw new \SwaggerGen\Exception("Missing property definition");
@@ -114,7 +114,7 @@ class ObjectType extends AbstractType
                 unset($this->required[$name]);
 				$readOnly = null;
                 $propertySuffix = substr($command, -1);
-                if ($propertySuffix === '*') {
+                if ($propertySuffix === '!') {
                     $readOnly = true;
                 }
 				else if ($propertySuffix !== '?') {
