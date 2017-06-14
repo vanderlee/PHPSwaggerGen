@@ -48,9 +48,9 @@ class Parser_Php_PreprocessorTest extends PHPUnit_Framework_TestCase
 
 		$this->assertEquals('<?php
 			/**
-			 * !rest\ifdef test
-			 * !rest\whatever
-			 * !rest\endif
+			 * @!rest\ifdef test
+			 * @!rest\whatever
+			 * @!rest\endif
 			 */
 		', $out);
 	}
@@ -74,9 +74,9 @@ class Parser_Php_PreprocessorTest extends PHPUnit_Framework_TestCase
 
 		$this->assertEquals('<?php
 			/**
-			 * !rest\ifdef test
+			 * @!rest\ifdef test
 			 * @rest\whatever
-			 * !rest\endif
+			 * @!rest\endif
 			 */
 		', $out);
 	}
@@ -98,9 +98,9 @@ class Parser_Php_PreprocessorTest extends PHPUnit_Framework_TestCase
 
 		$this->assertEquals('<?php
 			/**
-			 * !rest\ifndef test
+			 * @!rest\ifndef test
 			 * @rest\whatever
-			 * !rest\endif
+			 * @!rest\endif
 			 */
 		', $out);
 	}
@@ -124,9 +124,9 @@ class Parser_Php_PreprocessorTest extends PHPUnit_Framework_TestCase
 
 		$this->assertEquals('<?php
 			/**
-			 * !rest\ifndef test
-			 * !rest\whatever
-			 * !rest\endif
+			 * @!rest\ifndef test
+			 * @!rest\whatever
+			 * @!rest\endif
 			 */
 		', $out);
 	}
@@ -149,10 +149,10 @@ class Parser_Php_PreprocessorTest extends PHPUnit_Framework_TestCase
 
 		$this->assertEquals('<?php
 			/**
-			 * !rest\define test
-			 * !rest\ifndef test
-			 * !rest\whatever
-			 * !rest\endif
+			 * @!rest\define test
+			 * @!rest\ifndef test
+			 * @!rest\whatever
+			 * @!rest\endif
 			 */
 		', $out);
 	}
@@ -176,11 +176,11 @@ class Parser_Php_PreprocessorTest extends PHPUnit_Framework_TestCase
 
 		$this->assertEquals('<?php
 			/**
-			 * !rest\define test
-			 * !rest\undef test
-			 * !rest\ifdef test
-			 * !rest\whatever
-			 * !rest\endif
+			 * @!rest\define test
+			 * @!rest\undef test
+			 * @!rest\ifdef test
+			 * @!rest\whatever
+			 * @!rest\endif
 			 */
 		', $out);
 	}
@@ -202,9 +202,9 @@ class Parser_Php_PreprocessorTest extends PHPUnit_Framework_TestCase
 
 		$this->assertEquals('<?php
 			/**
-			 * !rest\if test red
-			 * !rest\whatever
-			 * !rest\endif
+			 * @!rest\if test red
+			 * @!rest\whatever
+			 * @!rest\endif
 			 */
 		', $out);
 	}
@@ -228,9 +228,9 @@ class Parser_Php_PreprocessorTest extends PHPUnit_Framework_TestCase
 
 		$this->assertEquals('<?php
 			/**
-			 * !rest\if test
+			 * @!rest\if test
 			 * @rest\whatever
-			 * !rest\endif
+			 * @!rest\endif
 			 */
 		', $out);
 	}
@@ -254,9 +254,9 @@ class Parser_Php_PreprocessorTest extends PHPUnit_Framework_TestCase
 
 		$this->assertEquals('<?php
 			/**
-			 * !rest\if test red
-			 * !rest\whatever
-			 * !rest\endif
+			 * @!rest\if test red
+			 * @!rest\whatever
+			 * @!rest\endif
 			 */
 		', $out);
 	}
@@ -280,9 +280,9 @@ class Parser_Php_PreprocessorTest extends PHPUnit_Framework_TestCase
 
 		$this->assertEquals('<?php
 			/**
-			 * !rest\if test red
-			 * !rest\whatever
-			 * !rest\endif
+			 * @!rest\if test red
+			 * @!rest\whatever
+			 * @!rest\endif
 			 */
 		', $out);
 	}
@@ -306,9 +306,9 @@ class Parser_Php_PreprocessorTest extends PHPUnit_Framework_TestCase
 
 		$this->assertEquals('<?php
 			/**
-			 * !rest\if test red
+			 * @!rest\if test red
 			 * @rest\whatever
-			 * !rest\endif
+			 * @!rest\endif
 			 */
 		', $out);
 	}
@@ -334,11 +334,11 @@ class Parser_Php_PreprocessorTest extends PHPUnit_Framework_TestCase
 
 		$this->assertEquals('<?php
 			/**
-			 * !rest\if test red
-			 * !rest\whatever
-			 * !rest\else
+			 * @!rest\if test red
+			 * @!rest\whatever
+			 * @!rest\else
 			 * @rest\otherwise
-			 * !rest\endif
+			 * @!rest\endif
 			 */
 		', $out);
 	}
@@ -366,13 +366,13 @@ class Parser_Php_PreprocessorTest extends PHPUnit_Framework_TestCase
 
 		$this->assertEquals('<?php
 			/**
-			 * !rest\if test red
-			 * !rest\whatever
-			 * !rest\elif test green
-			 * !rest\second
-			 * !rest\elif test blue
+			 * @!rest\if test red
+			 * @!rest\whatever
+			 * @!rest\elif test green
+			 * @!rest\second
+			 * @!rest\elif test blue
 			 * @rest\otherwise
-			 * !rest\endif
+			 * @!rest\endif
 			 */
 		', $out);
 	}
@@ -400,13 +400,13 @@ class Parser_Php_PreprocessorTest extends PHPUnit_Framework_TestCase
 
 		$this->assertEquals('<?php
 			/**
-			 * !rest\if test red
-			 * !rest\whatever
-			 * !rest\elif test green
-			 * !rest\second
-			 * !rest\elif test
+			 * @!rest\if test red
+			 * @!rest\whatever
+			 * @!rest\elif test green
+			 * @!rest\second
+			 * @!rest\elif test
 			 * @rest\otherwise
-			 * !rest\endif
+			 * @!rest\endif
 			 */
 		', $out);
 	}
@@ -431,12 +431,12 @@ class Parser_Php_PreprocessorTest extends PHPUnit_Framework_TestCase
 
 		$this->assertEquals('<?php
 			/**
-			 * !rest\ifdef test
-			 * !rest\whatever
+			 * @!rest\ifdef test
+			 * @!rest\whatever
 			 * @other\whatever
 			 * @whatever
 			 * whatever
-			 * !rest\endif
+			 * @!rest\endif
 			 */
 		', $out);
 	}
@@ -462,9 +462,9 @@ class Parser_Php_PreprocessorTest extends PHPUnit_Framework_TestCase
 
 		$this->assertEquals('<?php
 			/**
-			 * !rest\ifdef test
-			 * !rest\whatever
-			 * !rest\endif
+			 * @!rest\ifdef test
+			 * @!rest\whatever
+			 * @!rest\endif
 			 */
 		', $out);
 	}
@@ -490,9 +490,9 @@ class Parser_Php_PreprocessorTest extends PHPUnit_Framework_TestCase
 
 		$this->assertEquals('<?php
 			/**
-			 * !rest\ifdef test
-			 * !rest\whatever
-			 * !rest\endif
+			 * @!rest\ifdef test
+			 * @!rest\whatever
+			 * @!rest\endif
 			 */
 		', $out);
 	}
@@ -516,9 +516,9 @@ class Parser_Php_PreprocessorTest extends PHPUnit_Framework_TestCase
 
 		$this->assertEquals('<?php
 			/**
-			 * !rest\ifdef test
+			 * @!rest\ifdef test
 			 * @rest\whatever
-			 * !rest\endif
+			 * @!rest\endif
 			 */
 		', $out);
 	}
@@ -541,10 +541,10 @@ class Parser_Php_PreprocessorTest extends PHPUnit_Framework_TestCase
 
 		$this->assertEquals('<?php
 			/**
-			 * !foo\ifdef test
-			 * !foo\whatever
+			 * @!foo\ifdef test
+			 * @!foo\whatever
 			 * @rest\whatever
-			 * !foo\endif
+			 * @!foo\endif
 			 */
 		', $out);
 	}
@@ -564,9 +564,9 @@ class Parser_Php_PreprocessorTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals('<?php
 
 /**
- * !rest\ifdef test
+ * @!rest\ifdef test
  * @rest\whatever
- * !rest\endif
+ * @!rest\endif
  */', $out);
 	}
 
