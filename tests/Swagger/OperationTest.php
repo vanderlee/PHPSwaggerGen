@@ -1,6 +1,6 @@
 <?php
 
-class OperationTest extends PHPUnit_Framework_TestCase
+class OperationTest extends PHPUnit\Framework\TestCase
 {
 
 	protected $parent;

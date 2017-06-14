@@ -1,6 +1,6 @@
 <?php
 
-class DateTypeTest extends PHPUnit_Framework_TestCase
+class DateTypeTest extends PHPUnit\Framework\TestCase
 {
 
 	protected $parent;

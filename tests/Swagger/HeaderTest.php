@@ -1,6 +1,6 @@
 <?php
 
-class HeaderTest extends PHPUnit_Framework_TestCase
+class HeaderTest extends PHPUnit\Framework\TestCase
 {
 
 	protected $parent;

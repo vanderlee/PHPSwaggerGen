@@ -1,6 +1,6 @@
 <?php
 
-class Issue0005Test extends PHPUnit_Framework_TestCase {
+class Issue0005Test extends PHPUnit\Framework\TestCase {
 
 	/**
 	 * @covers \SwaggerGen\Swagger\Swagger::__construct

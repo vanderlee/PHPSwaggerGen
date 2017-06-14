@@ -1,6 +1,6 @@
 <?php
 
-class StringUuidTypeTest extends PHPUnit_Framework_TestCase
+class StringUuidTypeTest extends PHPUnit\Framework\TestCase
 {
 
 	protected $parent;

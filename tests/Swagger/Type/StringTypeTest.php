@@ -1,6 +1,6 @@
 <?php
 
-class StringTypeTest extends PHPUnit_Framework_TestCase
+class StringTypeTest extends PHPUnit\Framework\TestCase
 {
 
 	protected $parent;

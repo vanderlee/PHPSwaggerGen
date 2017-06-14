@@ -1,6 +1,6 @@
 <?php
 
-class SecuritySchemeTest extends PHPUnit_Framework_TestCase
+class SecuritySchemeTest extends PHPUnit\Framework\TestCase
 {
 
 	protected $parent;

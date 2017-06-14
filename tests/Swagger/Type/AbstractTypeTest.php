@@ -1,6 +1,6 @@
 <?php
 
-class AbstractTypeTest extends PHPUnit_Framework_TestCase
+class AbstractTypeTest extends PHPUnit\Framework\TestCase
 {
 
 	protected $parent;

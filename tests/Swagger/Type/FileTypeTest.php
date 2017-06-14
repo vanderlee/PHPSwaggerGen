@@ -1,6 +1,6 @@
 <?php
 
-class FileTypeTest extends PHPUnit_Framework_TestCase
+class FileTypeTest extends PHPUnit\Framework\TestCase
 {
 
 	protected $parent;

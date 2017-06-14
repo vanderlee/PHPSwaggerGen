@@ -1,6 +1,6 @@
 <?php
 
-class SchemaTest extends PHPUnit_Framework_TestCase
+class SchemaTest extends PHPUnit\Framework\TestCase
 {
 
 	protected $parent;

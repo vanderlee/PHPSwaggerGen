@@ -1,6 +1,6 @@
 <?php
 
-class Issue0002Test extends PHPUnit_Framework_TestCase
+class Issue0002Test extends PHPUnit\Framework\TestCase
 {
 
 	/**

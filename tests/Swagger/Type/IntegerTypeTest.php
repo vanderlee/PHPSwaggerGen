@@ -1,6 +1,6 @@
 <?php
 
-class IntegerTypeTest extends PHPUnit_Framework_TestCase
+class IntegerTypeTest extends PHPUnit\Framework\TestCase
 {
 
 	protected $parent;

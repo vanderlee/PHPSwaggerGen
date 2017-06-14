@@ -1,6 +1,6 @@
 <?php
 
-class AbstractObjectTest extends PHPUnit_Framework_TestCase
+class AbstractObjectTest extends PHPUnit\Framework\TestCase
 {
 
 	/**

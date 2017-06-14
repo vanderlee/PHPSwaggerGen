@@ -1,6 +1,6 @@
 <?php
 
-class BodyParameterTest extends PHPUnit_Framework_TestCase
+class BodyParameterTest extends PHPUnit\Framework\TestCase
 {
 
 	protected $parent;

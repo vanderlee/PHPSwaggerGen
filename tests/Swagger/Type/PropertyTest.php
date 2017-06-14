@@ -1,6 +1,6 @@
 <?php
 
-class PropertyTypeTest extends PHPUnit_Framework_TestCase
+class PropertyTypeTest extends PHPUnit\Framework\TestCase
 {
 
 	protected $parent;

@@ -1,6 +1,6 @@
 <?php
 
-class ArrayTypeTest extends PHPUnit_Framework_TestCase
+class ArrayTypeTest extends PHPUnit\Framework\TestCase
 {
 
 	protected $parent;

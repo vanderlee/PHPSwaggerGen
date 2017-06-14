@@ -1,6 +1,6 @@
 <?php
 
-class ObjectTypeTest extends PHPUnit_Framework_TestCase
+class ObjectTypeTest extends PHPUnit\Framework\TestCase
 {
 
 	protected $parent;
