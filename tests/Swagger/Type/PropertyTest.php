@@ -81,6 +81,21 @@ class PropertyTypeTest extends PHPUnit_Framework_TestCase
 				), $object->toArray());
 	}
 
+    /**
+     * @covers \SwaggerGen\Swagger\Type\PropertyType::__construct
+     */
+    public function testConstructReadOnly()
+    {
+        $object = new SwaggerGen\Swagger\Type\Property($this->parent, 'string', 'Some words here', true);
+        $this->assertInstanceOf('\SwaggerGen\Swagger\Type\Property', $object);
+
+        $this->assertSame(array(
+            'type' => 'string',
+            'description' => 'Some words here',
+            'readOnly' => true
+        ), $object->toArray());
+    }
+
 	/**
 	 * @covers \SwaggerGen\Swagger\Type\PropertyType::__construct
 	 */

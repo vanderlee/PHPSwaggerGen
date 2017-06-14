@@ -337,6 +337,24 @@ class ObjectTypeTest extends PHPUnit_Framework_TestCase
 				. ',"tags":[{"name":"Test"}]}', json_encode($array, JSON_NUMERIC_CHECK));
 	}
 
+    public function testObjectPropertiesReadOnly()
+    {
+        $object = new \SwaggerGen\SwaggerGen();
+        $array = $object->getSwagger(array('
+			api Test
+			endpoint /test
+			method GET something
+			response 200 object(a!:array(A),b:array(B))
+		'));
+
+        $this->assertSame('{"swagger":2,"info":{"title":"undefined","version":0}'
+            . ',"paths":{"\/test":{"get":{"tags":["Test"],"summary":"something"'
+            . ',"responses":{"200":{"description":"OK","schema":{"type":"object","required":["b"]'
+            . ',"properties":{"a":{"type":"array","items":{"$ref":"#\/definitions\/A"}}'
+            . ',"b":{"type":"array","items":{"$ref":"#\/definitions\/B"}}}}}}}}}'
+            . ',"tags":[{"name":"Test"}]}', json_encode($array, JSON_NUMERIC_CHECK));
+    }
+
 	public function testDeepObjectProperties()
 	{
 		$object = new \SwaggerGen\SwaggerGen();

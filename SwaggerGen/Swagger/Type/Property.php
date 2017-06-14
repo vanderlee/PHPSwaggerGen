@@ -48,6 +48,12 @@ class Property extends \SwaggerGen\Swagger\AbstractObject
 	 */
 	private $description;
 
+    /**
+     * Whether property is read only
+     * @var bool
+     */
+	private $readOnly;
+
 	/**
 	 * Type definition of this property
 	 * @var \SwaggerGen\Swagger\Type\AbstractType
@@ -59,9 +65,10 @@ class Property extends \SwaggerGen\Swagger\AbstractObject
 	 * @param \SwaggerGen\Swagger\AbstractObject $parent
 	 * @param string $definition Either a built-in type or a definition name
 	 * @param string $description description of the property
+     * @param bool $readOnly Whether the property is read only
 	 * @throws \SwaggerGen\Exception
 	 */
-	public function __construct(\SwaggerGen\Swagger\AbstractObject $parent, $definition, $description = null)
+	public function __construct(\SwaggerGen\Swagger\AbstractObject $parent, $definition, $description = null, $readOnly = null)
 	{
 		parent::__construct($parent);
 
@@ -80,6 +87,7 @@ class Property extends \SwaggerGen\Swagger\AbstractObject
 		}
 
 		$this->description = $description;
+		$this->readOnly = $readOnly;
 	}
 
 	/**
@@ -101,6 +109,7 @@ class Property extends \SwaggerGen\Swagger\AbstractObject
 	{
 		return self::arrayFilterNull(array_merge($this->Type->toArray(), array(
 					'description' => empty($this->description) ? null : $this->description,
+                    'readOnly' => $this->readOnly
 								), parent::toArray()));
 	}
 
