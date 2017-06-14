@@ -1,6 +1,6 @@
 <?php
 
-class StringUuidTypeTest extends PHPUnit\Framework\TestCase
+class StringUuidTypeTest extends SwaggerGen_TestCase
 {
 
 	protected $parent;

@@ -1,6 +1,6 @@
 <?php
 
-class BooleanTypeTest extends PHPUnit\Framework\TestCase
+class BooleanTypeTest extends SwaggerGen_TestCase
 {
 
 	protected $parent;

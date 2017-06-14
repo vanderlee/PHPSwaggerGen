@@ -1,6 +1,6 @@
 <?php
 
-class AbstractTypeTest extends PHPUnit\Framework\TestCase
+class AbstractTypeTest extends SwaggerGen_TestCase
 {
 
 	protected $parent;

@@ -1,6 +1,6 @@
 <?php
 
-class OperationTest extends PHPUnit\Framework\TestCase
+class OperationTest extends SwaggerGen_TestCase
 {
 
 	protected $parent;

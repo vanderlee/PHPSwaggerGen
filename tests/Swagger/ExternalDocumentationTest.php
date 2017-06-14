@@ -1,6 +1,6 @@
 <?php
 
-class ExternalDocumentationTest extends PHPUnit\Framework\TestCase
+class ExternalDocumentationTest extends SwaggerGen_TestCase
 {
 
 	protected $parent;

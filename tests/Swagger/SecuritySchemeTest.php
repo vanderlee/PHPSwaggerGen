@@ -1,6 +1,6 @@
 <?php
 
-class SecuritySchemeTest extends PHPUnit\Framework\TestCase
+class SecuritySchemeTest extends SwaggerGen_TestCase
 {
 
 	protected $parent;

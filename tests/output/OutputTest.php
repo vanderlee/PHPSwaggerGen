@@ -1,6 +1,6 @@
 <?php
 
-class OutputTest extends PHPUnit\Framework\TestCase
+class OutputTest extends SwaggerGen_TestCase
 {
 
 	/**

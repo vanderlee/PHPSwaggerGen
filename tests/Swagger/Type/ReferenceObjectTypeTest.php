@@ -1,6 +1,6 @@
 <?php
 
-class ReferenceObjectTypeTest extends PHPUnit\Framework\TestCase
+class ReferenceObjectTypeTest extends SwaggerGen_TestCase
 {
 
 	protected $parent;

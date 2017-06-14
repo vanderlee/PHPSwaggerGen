@@ -1,6 +1,6 @@
 <?php
 
-class FileTypeTest extends PHPUnit\Framework\TestCase
+class FileTypeTest extends SwaggerGen_TestCase
 {
 
 	protected $parent;

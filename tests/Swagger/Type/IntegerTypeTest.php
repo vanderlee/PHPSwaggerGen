@@ -1,6 +1,6 @@
 <?php
 
-class IntegerTypeTest extends PHPUnit\Framework\TestCase
+class IntegerTypeTest extends SwaggerGen_TestCase
 {
 
 	protected $parent;

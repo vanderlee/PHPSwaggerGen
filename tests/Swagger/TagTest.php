@@ -1,6 +1,6 @@
 <?php
 
-class TagTest extends PHPUnit\Framework\TestCase
+class TagTest extends SwaggerGen_TestCase
 {
 
 	protected $parent;

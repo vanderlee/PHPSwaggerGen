@@ -1,6 +1,6 @@
 <?php
 
-class HeaderTest extends PHPUnit\Framework\TestCase
+class HeaderTest extends SwaggerGen_TestCase
 {
 
 	protected $parent;

@@ -1,6 +1,6 @@
 <?php
 
-class LicenseTest extends PHPUnit\Framework\TestCase
+class LicenseTest extends SwaggerGen_TestCase
 {
 
 	protected $parent;

@@ -1,6 +1,6 @@
 <?php
 
-class BodyParameterTest extends PHPUnit\Framework\TestCase
+class BodyParameterTest extends SwaggerGen_TestCase
 {
 
 	protected $parent;

@@ -4,7 +4,7 @@
  * Tests issue 12; @rest\response 200 object(modifications:array(ModificationHistory),users:array(User))
  * https://github.com/vanderlee/PHPSwaggerGen/issues/12
  */
-class Issue0012Test extends PHPUnit\Framework\TestCase
+class Issue0012Test extends SwaggerGen_TestCase
 {
 
 	public function testIssue()

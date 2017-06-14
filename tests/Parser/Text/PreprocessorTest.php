@@ -1,6 +1,6 @@
 <?php
 
-class Parser_Text_PreprocessorTest extends PHPUnit\Framework\TestCase
+class Parser_Text_PreprocessorTest extends SwaggerGen_TestCase
 {
 
 	/**

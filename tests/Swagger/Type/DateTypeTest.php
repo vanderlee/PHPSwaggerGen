@@ -1,6 +1,6 @@
 <?php
 
-class DateTypeTest extends PHPUnit\Framework\TestCase
+class DateTypeTest extends SwaggerGen_TestCase
 {
 
 	protected $parent;

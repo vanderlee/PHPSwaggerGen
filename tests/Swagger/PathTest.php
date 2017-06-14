@@ -1,6 +1,6 @@
 <?php
 
-class PathTest extends PHPUnit\Framework\TestCase
+class PathTest extends SwaggerGen_TestCase
 {
 
 	protected $parent;
