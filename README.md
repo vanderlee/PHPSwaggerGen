@@ -543,7 +543,11 @@ The URL and email address will be automatically detected, the name will consist
 of all text remaining (properly separated with whitespace).
 
 ### `definintion` *`name`* &rArr; Schema
-Start definition of a Schema using the reference name specified.
+Start definition of a Schema using the reference name specified. 
+
+Definitions can be specified as read only using exclamation point at the end of
+the definition command. E.g. `definition! user` will create a user model that
+will appear in GET responses and be omitted from POST, PUT, and PATCH requests.
 
 alias: `model` (for historical reasons)
 
