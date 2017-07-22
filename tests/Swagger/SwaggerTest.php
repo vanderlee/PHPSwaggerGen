@@ -933,7 +933,7 @@ class SwaggerTest extends SwaggerGen_TestCase
 		$object = new \SwaggerGen\Swagger\Swagger();
 		$this->assertInstanceOf('\SwaggerGen\Swagger\Swagger', $object);
 
-		$schema = $object->handleCommand('model', 'foo');
+		$schema = $object->handleCommand('model!', 'foo');
 		$this->assertInstanceOf('\SwaggerGen\Swagger\Schema', $schema);
 
 		$path = $object->handleCommand('endpoint');
