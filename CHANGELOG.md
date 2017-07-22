@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/) 
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## 2.3.12 - 2016-07-22
+### Fixed
+- Read-only definitions fix (#14) by petejohnson84.
+- Removed hhvm Travis.ci tests due to bug on Travis.ci.
+
 ## 2.3.11 - 2017-06-14
 ### Fixed
 - Read-only properties fix (#13) by petejohnson84.

@@ -864,6 +864,39 @@ class SwaggerTest extends SwaggerGen_TestCase
 	/**
 	 * @covers \SwaggerGen\Swagger\Swagger::__construct
 	 */
+	public function testHandleCommand_Definition_ReadOnly()
+	{
+		$object = new \SwaggerGen\Swagger\Swagger();
+		$this->assertInstanceOf('\SwaggerGen\Swagger\Swagger', $object);
+
+		$schema = $object->handleCommand('definition!', 'foo');
+		$this->assertInstanceOf('\SwaggerGen\Swagger\Schema', $schema);
+
+
+		$path = $object->handleCommand('endpoint');
+		$this->assertInstanceOf('\SwaggerGen\Swagger\Path', $path);
+
+		$this->assertSame(array(
+			'swagger' => '2.0',
+			'info' => array(
+				'title' => 'undefined',
+				'version' => '0',
+			),
+			'paths' => array(
+				'/' => array(),
+			),
+			'definitions' => array(
+				'foo' => array(
+					'type' => 'object',
+					'readOnly' => true,
+				),
+			),
+				), $object->toArray());
+	}
+
+	/**
+	 * @covers \SwaggerGen\Swagger\Swagger::__construct
+	 */
 	public function testHandleCommand_Model()
 	{
 		$object = new \SwaggerGen\Swagger\Swagger();
@@ -887,6 +920,38 @@ class SwaggerTest extends SwaggerGen_TestCase
 			'definitions' => array(
 				'foo' => array(
 					'type' => 'object',
+				),
+			),
+				), $object->toArray());
+	}
+
+	/**
+	 * @covers \SwaggerGen\Swagger\Swagger::__construct
+	 */
+	public function testHandleCommand_Model_ReadOnly()
+	{
+		$object = new \SwaggerGen\Swagger\Swagger();
+		$this->assertInstanceOf('\SwaggerGen\Swagger\Swagger', $object);
+
+		$schema = $object->handleCommand('model', 'foo');
+		$this->assertInstanceOf('\SwaggerGen\Swagger\Schema', $schema);
+
+		$path = $object->handleCommand('endpoint');
+		$this->assertInstanceOf('\SwaggerGen\Swagger\Path', $path);
+
+		$this->assertSame(array(
+			'swagger' => '2.0',
+			'info' => array(
+				'title' => 'undefined',
+				'version' => '0',
+			),
+			'paths' => array(
+				'/' => array(),
+			),
+			'definitions' => array(
+				'foo' => array(
+					'type' => 'object',
+					'readOnly' => true,					
 				),
 			),
 				), $object->toArray());
