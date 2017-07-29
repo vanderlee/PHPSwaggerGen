@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/) 
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## 2.3.13 - 2016-07-29
+### Fixed
+- Passthrough of commands to most recent property of object (#15) submitted by
+weirdan.
+- Allow `HEAD` and `OPTIONS` methods (#16) submitted by weirdan.
+
 ## 2.3.12 - 2016-07-22
 ### Fixed
 - Read-only definitions fix (#14) by petejohnson84.

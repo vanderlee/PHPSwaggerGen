@@ -16,10 +16,12 @@ class Path extends AbstractObject
 
 	private static $methods = array(
 		'get',
-		'post',
 		'put',
-		'patch',
+		'post',
 		'delete',
+		'options',
+		'head',
+		'patch',
 	);
 
 	/**

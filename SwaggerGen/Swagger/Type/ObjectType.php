@@ -28,6 +28,11 @@ class ObjectType extends AbstractType
 	 */
 	private $properties = array();
 
+	/**
+	 * @var Property
+	 */
+	private $mostRecentProperty = null;
+	
 	protected function parseDefinition($definition)
 	{
 		$definition = self::trim($definition);
@@ -93,7 +98,7 @@ class ObjectType extends AbstractType
 	 * @return \SwaggerGen\Swagger\Type\AbstractType|boolean
 	 */
 	public function handleCommand($command, $data = null)
-	{
+	{		
 		switch (strtolower($command)) {
 			// type name description...
 			case 'property':
@@ -109,8 +114,6 @@ class ObjectType extends AbstractType
 					throw new \SwaggerGen\Exception("Missing property name: '{$definition}'");
 				}
 
-
-
                 unset($this->required[$name]);
 				$readOnly = null;
                 $propertySuffix = substr($command, -1);
@@ -121,8 +124,8 @@ class ObjectType extends AbstractType
 					$this->required[$name] = true;
 				}
 
-                $this->properties[$name] = new Property($this, $definition, $data, $readOnly);
-
+				$this->mostRecentProperty = new Property($this, $definition, $data, $readOnly);
+                $this->properties[$name] = $this->mostRecentProperty;
 				return $this;
 
 			case 'min':
@@ -146,6 +149,11 @@ class ObjectType extends AbstractType
 				}
 				return $this;
 		}
+		
+		// Pass through to most recent Property
+		if ($this->mostRecentProperty && $this->mostRecentProperty->handleCommand($command, $data)) {
+			return $this;
+		}		
 
 		return parent::handleCommand($command, $data);
 	}

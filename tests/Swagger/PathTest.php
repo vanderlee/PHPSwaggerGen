@@ -129,7 +129,23 @@ class PathTest extends SwaggerGen_TestCase
 		$object = new \SwaggerGen\Swagger\Path($this->parent, new SwaggerGen\Swagger\Tag($this->parent, 'Tag'));
 		$this->assertInstanceOf('\SwaggerGen\Swagger\Path', $object);
 
+		$operation = $object->handleCommand('method', 'post');
+		$this->assertInstanceOf('\SwaggerGen\Swagger\Operation', $operation);
+		$operation->handleCommand('response', 200);
+
+		$operation = $object->handleCommand('method', 'delete');
+		$this->assertInstanceOf('\SwaggerGen\Swagger\Operation', $operation);
+		$operation->handleCommand('response', 200);
+
 		$operation = $object->handleCommand('method', 'patch');
+		$this->assertInstanceOf('\SwaggerGen\Swagger\Operation', $operation);
+		$operation->handleCommand('response', 200);
+
+		$operation = $object->handleCommand('method', 'put');
+		$this->assertInstanceOf('\SwaggerGen\Swagger\Operation', $operation);
+		$operation->handleCommand('response', 200);
+
+		$operation = $object->handleCommand('method', 'head');
 		$this->assertInstanceOf('\SwaggerGen\Swagger\Operation', $operation);
 		$operation->handleCommand('response', 200);
 
@@ -137,8 +153,62 @@ class PathTest extends SwaggerGen_TestCase
 		$this->assertInstanceOf('\SwaggerGen\Swagger\Operation', $operation);
 		$operation->handleCommand('response', 200);
 
+		$operation = $object->handleCommand('method', 'options');
+		$this->assertInstanceOf('\SwaggerGen\Swagger\Operation', $operation);
+		$operation->handleCommand('response', 200);
+
 		$this->assertSame(array(
 			'get' => array(
+				'tags' => array(
+					'Tag',
+				),
+				'responses' => array(
+					200 => array(
+						'description' => 'OK',
+					),
+				),
+			),
+			'put' => array(
+				'tags' => array(
+					'Tag',
+				),
+				'responses' => array(
+					200 => array(
+						'description' => 'OK',
+					),
+				),
+			),
+			'post' => array(
+				'tags' => array(
+					'Tag',
+				),
+				'responses' => array(
+					200 => array(
+						'description' => 'OK',
+					),
+				),
+			),
+			'delete' => array(
+				'tags' => array(
+					'Tag',
+				),
+				'responses' => array(
+					200 => array(
+						'description' => 'OK',
+					),
+				),
+			),
+			'options' => array(
+				'tags' => array(
+					'Tag',
+				),
+				'responses' => array(
+					200 => array(
+						'description' => 'OK',
+					),
+				),
+			),
+			'head' => array(
 				'tags' => array(
 					'Tag',
 				),
