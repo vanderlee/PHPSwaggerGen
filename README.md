@@ -423,7 +423,7 @@ Add a new parameter by referencing the name of a globally defined parameter.
 
 alias: `param`
 
-### `path`` *`definition name [description ...]`* &rArr; Parameter
+### `path` *`definition name [description ...]`* &rArr; Parameter
 Add a new path Parameter to this operation.
 
 `path` parameters are always required; they cannot be optional.
