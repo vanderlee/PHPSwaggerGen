@@ -170,7 +170,7 @@ statements and normal comment statements and statements from other tools such
 as PHP-Documentor.
 
 All commands are multi-line by default; any line(s) after the command that do
-not start with an at-sign (`@`) is automatically appended to the command on the
+not start with an at-sign (`@`) are automatically appended to the command on the
 previous line.
 
 You can reference SwaggerGen documentation for other functions, methods or
