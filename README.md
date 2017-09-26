@@ -112,8 +112,8 @@ names `SwaggerGen` namespace.
 Create a new SwaggerGen object with the given `host` and `basePath` and provide
 a set of `dirs` to use for scanning for classes that may be referenced
 from the sourcecode files you're about to scan.
-*	`$host` should be the domain name, i.e. `"www.example.com"`.
-*	`$basePath` should be the URL path to the root of the API, i.e. `"\api\v1"`.
+*	`$host` should be the domain name, i.e. `www.example.com`.
+*	`$basePath` should be the URL path to the root of the API, i.e. `\api\v1`.
 
 ## `mixed getSwagger($files, $dirs = array(), $format = self::FORMAT_ARRAY)`
 Generate Swagger/OpenAPI documentation by scanning the provided list of `files`.
