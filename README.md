@@ -125,7 +125,7 @@ YAML or for manual post-processing. The following formats are available as
 constants of the `SwaggerGen` class.
 *	`FORMAT_ARRAY` output the raw array.
 *	`FORMAT_JSON` JSON-encoded output (mimetype `application/json`).
-*	`FORMAT_JSON_PRETTY` JSON-encouded output with a human-friendly layout
+*	`FORMAT_JSON_PRETTY` JSON-encoded output with a human-friendly layout
 	(mimetype `application/json`).
 *	`FORMAT_YAML` YAML (UTF-8 character encoding) output
 	(mimetype `application/x-yaml` (most common) or `text/yaml`).
