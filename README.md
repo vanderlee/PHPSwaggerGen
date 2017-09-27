@@ -82,25 +82,27 @@ step 2 to define preprocessor variable names.
 
 The following is a typical example:
 
-	// Assuming you don't already have an autoloader
-	spl_autoload_register(function ($classname) {
-		include_once __DIR__ . $classname . '.php';
-	});
+```php
+// Assuming you don't already have an autoloader
+spl_autoload_register(function ($classname) {
+	include_once __DIR__ . $classname . '.php';
+});
 
-	$SwaggerGen = new \SwaggerGen\SwaggerGen(
-		$_SERVER['HTTP_HOST'],
-		dirname($_SERVER['REQUEST_URI']),
-		[__DIR__ . '/api']
-	);
-	$SwaggerGen->define('admin');				// admin = 1
-	$SwaggerGen->define('date', date('Y-m-d'));	// date = "2015-12-31"
-	if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-		$SwaggerGen->define('windows');	// windows = 1 (only if on Windows OS)
-	}
-	$swagger = $SwaggerGen->getSwagger(['Example.php']);
+$SwaggerGen = new \SwaggerGen\SwaggerGen(
+	$_SERVER['HTTP_HOST'],
+	dirname($_SERVER['REQUEST_URI']),
+	[__DIR__ . '/api']
+);
+$SwaggerGen->define('admin');				// admin = 1
+$SwaggerGen->define('date', date('Y-m-d'));	// date = "2015-12-31"
+if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+	$SwaggerGen->define('windows');	// windows = 1 (only if on Windows OS)
+}
+$swagger = $SwaggerGen->getSwagger(['Example.php']);
 
-	header('Content-type: application/json');
-	echo json_encode($swagger);
+header('Content-type: application/json');
+echo json_encode($swagger);
+```
 
 # SwaggerGen class
 The only class you need to know about is the `SwaggerGen` class in the similarly
@@ -110,8 +112,8 @@ names `SwaggerGen` namespace.
 Create a new SwaggerGen object with the given `host` and `basePath` and provide
 a set of `dirs` to use for scanning for classes that may be referenced
 from the sourcecode files you're about to scan.
-*	`$host` should be the domain name, i.e. `"www.example.com"`.
-*	`$basePath` should be the URL path to the root of the API, i.e. `"\api\v1"`.
+*	`$host` should be the domain name, i.e. `www.example.com`.
+*	`$basePath` should be the URL path to the root of the API, i.e. `/api/v1`.
 
 ## `mixed getSwagger($files, $dirs = array(), $format = self::FORMAT_ARRAY)`
 Generate Swagger/OpenAPI documentation by scanning the provided list of `files`.
@@ -123,7 +125,7 @@ YAML or for manual post-processing. The following formats are available as
 constants of the `SwaggerGen` class.
 *	`FORMAT_ARRAY` output the raw array.
 *	`FORMAT_JSON` JSON-encoded output (mimetype `application/json`).
-*	`FORMAT_JSON_PRETTY` JSON-encouded output with a human-friendly layout
+*	`FORMAT_JSON_PRETTY` JSON-encoded output with a human-friendly layout
 	(mimetype `application/json`).
 *	`FORMAT_YAML` YAML (UTF-8 character encoding) output
 	(mimetype `application/x-yaml` (most common) or `text/yaml`).
@@ -140,14 +142,16 @@ SwaggerGen takes a number of of source files and scans the comments for
 commands it understands. The following is a short example of the type of
 comments SwaggerGen understands:
 
-	/*
-	 * @rest\description SwaggerGen 2 Example API
-	 * @rest\title Example API
-	 * @rest\contact http://example.com Arthur D. Author
-	 * @rest\license MIT
-	 * @rest\security api_key apikey X-Api-Authentication header Authenticate using this fancy header
-	 * @rest\require api_key
-	 */
+```php
+/*
+ * @rest\description SwaggerGen 2 Example API
+ * @rest\title Example API
+ * @rest\contact http://example.com Arthur D. Author
+ * @rest\license MIT
+ * @rest\security api_key apikey X-Api-Authentication header Authenticate using this fancy header
+ * @rest\require api_key
+ */
+```
 
 ## Comments
 All comments are parsed, this includes both doc-comments (`/** ... */`) and
@@ -166,7 +170,7 @@ statements and normal comment statements and statements from other tools such
 as PHP-Documentor.
 
 All commands are multi-line by default; any line(s) after the command that do
-not start with an at-sign (`@`) is automatically appended to the command on the
+not start with an at-sign (`@`) are automatically appended to the command on the
 previous line.
 
 You can reference SwaggerGen documentation for other functions, methods or
@@ -419,7 +423,7 @@ Add a new parameter by referencing the name of a globally defined parameter.
 
 alias: `param`
 
-### `path`` *`definition name [description ...]`* &rArr; Parameter
+### `path` *`definition name [description ...]`* &rArr; Parameter
 Add a new path Parameter to this operation.
 
 `path` parameters are always required; they cannot be optional.
@@ -670,7 +674,7 @@ Represents a text.
 ### Examples
 *	**`string`** A simple text field.
 *	**`string(^[a-z]{2}-[A-Z]{2}$)`** String matching ISO "ll-CC" locale.
-*	**`string[,256>`=red ** A text of at most 255 characters, default to "red".
+*	**`string[,256>=red`** A text of at most 255 characters, default to "red".
 *	**`binary[1,8]`** Upto 8 binary digits, requiring atleast one.
 
 
@@ -946,18 +950,20 @@ the [Example API documentation](./example/docs/).
 
 The following is a fragment of code from this example:
 
-	/**
-	 * @rest\endpoint /user/{username}
-	 * @rest\method GET Get a list of all users
-	 * @rest\path String username Name of the user
-	 * @rest\see self::request
+```php
+/**
+ * @rest\endpoint /user/{username}
+ * @rest\method GET Get a list of all users
+ * @rest\path String username Name of the user
+ * @rest\see self::request
+ */
+private function getUser($name)
+{
+	/*
+	 * @rest\model User
+	 * @rest\property int age Age of the user in years
+	 * @rest\property int height Height of the user in centimeters
 	 */
-	private function getUser($name)
-	{
-		/*
-		 * @rest\model User
-		 * @rest\property int age Age of the user in years
-		 * @rest\property int height Height of the user in centimeters
-		 */
-		return $this->data['users'][$name]; // @rest\response OK object(age:int[0,100>,height:float) User
-	}
+	return $this->data['users'][$name]; // @rest\response OK object(age:int[0,100>,height:float) User
+}
+```
