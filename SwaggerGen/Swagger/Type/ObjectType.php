@@ -63,8 +63,8 @@ class ObjectType extends AbstractType
 					if (preg_match(self::REGEX_PROP_START . self::REGEX_PROP_NAME . self::REGEX_PROP_REQUIRED . self::REGEX_PROP_ASSIGN . self::REGEX_PROP_DEFINITION . self::REGEX_PROP_END, $property, $prop_match) !== 1) {
 						throw new \SwaggerGen\Exception("Unparseable property definition: '{$property}'");
 					}
-                    $this->properties[$prop_match[1]] = new Property($this, $prop_match[3]);
-                    if ($prop_match[2] !== '!' && $prop_match[2] !== '?') {
+					$this->properties[$prop_match[1]] = new Property($this, $prop_match[3]);
+					if ($prop_match[2] !== '!' && $prop_match[2] !== '?') {
 						$this->required[$prop_match[1]] = true;
 					}
 				}
@@ -98,12 +98,12 @@ class ObjectType extends AbstractType
 	 * @return \SwaggerGen\Swagger\Type\AbstractType|boolean
 	 */
 	public function handleCommand($command, $data = null)
-	{		
+	{
 		switch (strtolower($command)) {
 			// type name description...
 			case 'property':
 			case 'property?':
-            case 'property!':
+			case 'property!':
 				$definition = self::wordShift($data);
 				if (empty($definition)) {
 					throw new \SwaggerGen\Exception("Missing property definition");
@@ -114,18 +114,18 @@ class ObjectType extends AbstractType
 					throw new \SwaggerGen\Exception("Missing property name: '{$definition}'");
 				}
 
-                unset($this->required[$name]);
+				unset($this->required[$name]);
 				$readOnly = null;
-                $propertySuffix = substr($command, -1);
-                if ($propertySuffix === '!') {
-                    $readOnly = true;
-                }
+				$propertySuffix = substr($command, -1);
+				if ($propertySuffix === '!') {
+					$readOnly = true;
+				}
 				else if ($propertySuffix !== '?') {
 					$this->required[$name] = true;
 				}
 
 				$this->mostRecentProperty = new Property($this, $definition, $data, $readOnly);
-                $this->properties[$name] = $this->mostRecentProperty;
+				$this->properties[$name] = $this->mostRecentProperty;
 				return $this;
 
 			case 'min':
