@@ -95,7 +95,16 @@ class Parameter extends AbstractObject implements IParameter
 
 		// Parse regex
 		$match = array();
-		preg_match('/^([a-z]+)/i', $definition, $match);
+		if (preg_match('/^([a-z]+)/i', $definition, $match) === 1) {
+			// recognized format
+		} elseif (preg_match('/^(\[)(?:.*?)\]$/i', $definition, $match) === 1) {
+			$match[1] = 'array';
+		} elseif (preg_match('/^(\{)(?:.*?)\}$/i', $definition, $match) === 1) {
+			$match[1] = 'object';
+		} else {
+			throw new \SwaggerGen\Exception("Unparseable parameter format definition: '{$items}'");
+		}					
+		
 		$format = strtolower($match[1]);
 		if (isset(self::$classTypes[$format])) {
 			$type = self::$classTypes[$format];

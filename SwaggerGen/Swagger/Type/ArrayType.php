@@ -13,6 +13,8 @@ namespace SwaggerGen\Swagger\Type;
 class ArrayType extends AbstractType
 {
 
+	const REGEX_ARRAY_CONTENT = '(?:(\[)(.*)\])?';
+
 	private static $classTypes = array(
 		'integer' => 'Integer',
 		'int' => 'Integer',
@@ -59,12 +61,15 @@ class ArrayType extends AbstractType
 	protected function parseDefinition($definition)
 	{
 		$definition = self::trim($definition);
-
 		$match = array();
-		if (preg_match(self::REGEX_START . self::REGEX_FORMAT . self::REGEX_CONTENT . self::REGEX_RANGE . self::REGEX_END, $definition, $match) !== 1) {
+		if (preg_match(self::REGEX_START . self::REGEX_FORMAT . self::REGEX_CONTENT . self::REGEX_RANGE . self::REGEX_END, $definition, $match) === 1) {
+			// recognized format
+		} elseif (preg_match(self::REGEX_START . self::REGEX_ARRAY_CONTENT . self::REGEX_RANGE . self::REGEX_END, $definition, $match) === 1) {
+			$match[1] = 'array';
+		} else {
 			throw new \SwaggerGen\Exception("Unparseable array definition: '{$definition}'");
 		}
-		
+
 		$this->parseFormat($definition, $match);
 		$this->parseItems($definition, $match);
 		$this->parseRange($definition, $match);
@@ -175,7 +180,13 @@ class ArrayType extends AbstractType
 		}
 
 		$match = array();
-		if (preg_match('/^([a-z]+)/i', $items, $match) !== 1) {
+		if (preg_match('/^([a-z]+)/i', $items, $match) === 1) {
+			// recognized format
+		} elseif (preg_match('/^(\[)(?:.*?)\]$/i', $items, $match) === 1) {
+			$match[1] = 'array';
+		} elseif (preg_match('/^(\{)(?:.*?)\}$/i', $items, $match) === 1) {
+			$match[1] = 'object';
+		} else {
 			throw new \SwaggerGen\Exception("Unparseable items definition: '{$items}'");
 		}
 		$format = strtolower($match[1]);

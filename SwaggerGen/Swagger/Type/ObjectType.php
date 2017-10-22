@@ -12,6 +12,8 @@ namespace SwaggerGen\Swagger\Type;
  */
 class ObjectType extends AbstractType
 {
+
+	const REGEX_OBJECT_CONTENT = '(?:(\{)(.*)\})?';
 	const REGEX_PROP_START = '/^';
 	const REGEX_PROP_NAME = '([^?!:]+)';
 	const REGEX_PROP_REQUIRED = '([\?!])?';
@@ -32,15 +34,20 @@ class ObjectType extends AbstractType
 	 * @var Property
 	 */
 	private $mostRecentProperty = null;
-	
+
 	protected function parseDefinition($definition)
 	{
 		$definition = self::trim($definition);
 
 		$match = array();
-		if (preg_match(self::REGEX_START . self::REGEX_FORMAT . self::REGEX_CONTENT . self::REGEX_RANGE . self::REGEX_END, $definition, $match) !== 1) {
+		if (preg_match(self::REGEX_START . self::REGEX_FORMAT . self::REGEX_CONTENT . self::REGEX_RANGE . self::REGEX_END, $definition, $match) === 1) {
+			// recognized format
+		} elseif (preg_match(self::REGEX_START . self::REGEX_OBJECT_CONTENT . self::REGEX_RANGE . self::REGEX_END, $definition, $match) === 1) {
+			$match[1] = 'object';
+		} else {
 			throw new \SwaggerGen\Exception("Unparseable object definition: '{$definition}'");
 		}
+
 
 		$this->parseFormat($definition, $match);
 		$this->parseProperties($definition, $match);
@@ -59,12 +66,12 @@ class ObjectType extends AbstractType
 		if (!empty($match[2])) {
 			do {
 				if (($property = self::extract_property($match[2])) !== '') {
-					$prop_match = array();	 
+					$prop_match = array();
 					if (preg_match(self::REGEX_PROP_START . self::REGEX_PROP_NAME . self::REGEX_PROP_REQUIRED . self::REGEX_PROP_ASSIGN . self::REGEX_PROP_DEFINITION . self::REGEX_PROP_END, $property, $prop_match) !== 1) {
 						throw new \SwaggerGen\Exception("Unparseable property definition: '{$property}'");
 					}
-                    $this->properties[$prop_match[1]] = new Property($this, $prop_match[3]);
-                    if ($prop_match[2] !== '!' && $prop_match[2] !== '?') {
+					$this->properties[$prop_match[1]] = new Property($this, $prop_match[3]);
+					if ($prop_match[2] !== '!' && $prop_match[2] !== '?') {
 						$this->required[$prop_match[1]] = true;
 					}
 				}
@@ -98,12 +105,12 @@ class ObjectType extends AbstractType
 	 * @return \SwaggerGen\Swagger\Type\AbstractType|boolean
 	 */
 	public function handleCommand($command, $data = null)
-	{		
+	{
 		switch (strtolower($command)) {
 			// type name description...
 			case 'property':
 			case 'property?':
-            case 'property!':
+			case 'property!':
 				$definition = self::wordShift($data);
 				if (empty($definition)) {
 					throw new \SwaggerGen\Exception("Missing property definition");
@@ -114,18 +121,17 @@ class ObjectType extends AbstractType
 					throw new \SwaggerGen\Exception("Missing property name: '{$definition}'");
 				}
 
-                unset($this->required[$name]);
+				unset($this->required[$name]);
 				$readOnly = null;
-                $propertySuffix = substr($command, -1);
-                if ($propertySuffix === '!') {
-                    $readOnly = true;
-                }
-				else if ($propertySuffix !== '?') {
+				$propertySuffix = substr($command, -1);
+				if ($propertySuffix === '!') {
+					$readOnly = true;
+				} else if ($propertySuffix !== '?') {
 					$this->required[$name] = true;
 				}
 
 				$this->mostRecentProperty = new Property($this, $definition, $data, $readOnly);
-                $this->properties[$name] = $this->mostRecentProperty;
+				$this->properties[$name] = $this->mostRecentProperty;
 				return $this;
 
 			case 'min':
@@ -149,11 +155,11 @@ class ObjectType extends AbstractType
 				}
 				return $this;
 		}
-		
+
 		// Pass through to most recent Property
 		if ($this->mostRecentProperty && $this->mostRecentProperty->handleCommand($command, $data)) {
 			return $this;
-		}		
+		}
 
 		return parent::handleCommand($command, $data);
 	}
@@ -177,7 +183,7 @@ class ObjectType extends AbstractType
 	/**
 	 * Extract a property from a comma-separated list of properties.
 	 * 
-	 * i.e. `a(x(x,x)),b(x)` returns `a(x(x,x))` and changes `$subject` into `b(x)`.
+	 * i.e. `a(x(x,x)),b(x)` returns `a(x(x,x))` and changes `$properties` into `b(x)`.
 	 * 
 	 * @param string $properties string variable
 	 * @return string the extracted string
@@ -185,15 +191,15 @@ class ObjectType extends AbstractType
 	private static function extract_property(&$properties)
 	{
 		$property = '';
-		
+
 		$depth = 0;
 		$index = 0;
 		while ($index < strlen($properties)) {
-			$character = $properties{$index++};			
+			$character = $properties{$index++};
 
-			if (strpos('([<', $character) !== false) {
+			if (strpos('{([<', $character) !== false) {
 				++$depth;
-			} elseif (strpos(')]>', $character) !== false) {
+			} elseif (strpos('})]>', $character) !== false) {
 				--$depth;
 			} elseif ($character === ',' && $depth === 0) {
 				break;

@@ -74,7 +74,13 @@ class Property extends \SwaggerGen\Swagger\AbstractObject
 
 		// Parse regex
 		$match = array();
-		if (preg_match('/^([a-z]+)/i', $definition, $match) !== 1) {
+		if (preg_match('/^([a-z]+)/i', $definition, $match) === 1) {
+			// recognized format
+		} elseif (preg_match('/^(\[)(?:.*?)\]$/i', $definition, $match) === 1) {
+			$match[1] = 'array';
+		} elseif (preg_match('/^(\{)(?:.*?)\}$/i', $definition, $match) === 1) {
+			$match[1] = 'object';
+		} else {
 			throw new \SwaggerGen\Exception("Not a property: '{$definition}'");
 		}
 		$format = strtolower($match[1]);

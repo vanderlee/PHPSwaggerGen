@@ -140,6 +140,23 @@ class ArrayTypeTest extends SwaggerGen_TestCase
 	/**
 	 * @covers \SwaggerGen\Swagger\Type\ArrayType::__construct
 	 */
+	public function testConstructBracketsTypeItems()
+	{
+		$object = new SwaggerGen\Swagger\Type\ArrayType($this->parent, '[string]');
+
+		$this->assertInstanceOf('\SwaggerGen\Swagger\Type\ArrayType', $object);
+
+		$this->assertSame(array(
+			'type' => 'array',
+			'items' => array(
+				'type' => 'string',
+			),
+				), $object->toArray());
+	}
+
+	/**
+	 * @covers \SwaggerGen\Swagger\Type\ArrayType::__construct
+	 */
 	public function testConstructTypeItemsPipes()
 	{
 		$object = new SwaggerGen\Swagger\Type\ArrayType($this->parent, 'pipes(string)');

@@ -1,5 +1,5 @@
 # SwaggerGen
-Version 2.3.13
+Version 2.3.14
 
 [![License](https://img.shields.io/github/license/vanderlee/PHPSwaggerGen.svg)]()
 [![Build Status](https://travis-ci.org/vanderlee/PHPSwaggerGen.svg?branch=master)](https://travis-ci.org/vanderlee/PHPSwaggerGen)
@@ -761,6 +761,10 @@ List of items
 
 	type(definition)[0,>
 
+Alternative short-hand notation for `array` lists:
+
+	[definition][0,>
+
 *	type: `csv`, `array`, `ssv`, `tsv`, `pipes`, or `multi`.
 *	range: [min,max].
 	Use `[` or `]` for inclusive and `<` or `>` for	exclusive.
@@ -800,6 +804,10 @@ No further definition is possible. There are no command.
 Object with properties. Typically used as key-value map
 
 	object(definition)[0,>
+
+Alternative short-hand notation:
+
+	{definition}[0,>
 
 *	type: `object`.
 *	range: [min,max].
