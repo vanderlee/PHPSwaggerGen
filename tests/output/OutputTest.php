@@ -24,7 +24,10 @@ class OutputTest extends SwaggerGen_TestCase
 	 */
 	private function normalizeJson($json)
 	{
-		return json_encode(json_decode($json), JSON_PRETTY_PRINT);
+		return json_encode(
+			json_decode($json), 
+			PHP_VERSION_ID >= 50400 ? constant('JSON_PRETTY_PRINT') : 0
+		);
 	}
 	
 	public function provideAllCases() {
