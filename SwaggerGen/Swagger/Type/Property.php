@@ -113,7 +113,22 @@ class Property extends \SwaggerGen\Swagger\AbstractObject
 
 	public function toArray()
 	{
-		return self::arrayFilterNull(array_merge($this->Type->toArray(), array(
+		// Reference + readonly/description result in allOf construct
+		// as it's semantically the same and that's what swagger tools
+		// like swagger-ui can understand
+		$requiresWrap =
+			$this->Type instanceof \SwaggerGen\Swagger\Type\ReferenceObjectType
+			&& (!empty($this->description) || !is_null($this->readOnly));
+
+		$valueType = $this->Type->toArray();
+
+		if ($requiresWrap) {
+			$valueType = array(
+				"allOf" => array($valueType),
+			);
+		}
+
+		return self::arrayFilterNull(array_merge($valueType, array(
 					'description' => empty($this->description) ? null : $this->description,
                     'readOnly' => $this->readOnly
 								), parent::toArray()));
