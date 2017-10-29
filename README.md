@@ -82,27 +82,25 @@ step 2 to define preprocessor variable names.
 
 The following is a typical example:
 
-```php
-// Assuming you don't already have an autoloader
-spl_autoload_register(function ($classname) {
-	include_once __DIR__ . $classname . '.php';
-});
+	// Assuming you don't already have an autoloader
+	spl_autoload_register(function ($classname) {
+		include_once __DIR__ . $classname . '.php';
+	});
 
-$SwaggerGen = new \SwaggerGen\SwaggerGen(
-	$_SERVER['HTTP_HOST'],
-	dirname($_SERVER['REQUEST_URI']),
-	[__DIR__ . '/api']
-);
-$SwaggerGen->define('admin');				// admin = 1
-$SwaggerGen->define('date', date('Y-m-d'));	// date = "2015-12-31"
-if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-	$SwaggerGen->define('windows');	// windows = 1 (only if on Windows OS)
-}
-$swagger = $SwaggerGen->getSwagger(['Example.php']);
+	$SwaggerGen = new \SwaggerGen\SwaggerGen(
+		$_SERVER['HTTP_HOST'],
+		dirname($_SERVER['REQUEST_URI']),
+		[__DIR__ . '/api']
+	);
+	$SwaggerGen->define('admin');				// admin = 1
+	$SwaggerGen->define('date', date('Y-m-d'));	// date = "2015-12-31"
+	if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+		$SwaggerGen->define('windows');	// windows = 1 (only if on Windows OS)
+	}
+	$swagger = $SwaggerGen->getSwagger(['Example.php']);
 
-header('Content-type: application/json');
-echo json_encode($swagger);
-```
+	header('Content-type: application/json');
+	echo json_encode($swagger);
 
 # SwaggerGen class
 The only class you need to know about is the `SwaggerGen` class in the similarly
@@ -142,16 +140,14 @@ SwaggerGen takes a number of of source files and scans the comments for
 commands it understands. The following is a short example of the type of
 comments SwaggerGen understands:
 
-```php
-/*
- * @rest\description SwaggerGen 2 Example API
- * @rest\title Example API
- * @rest\contact http://example.com Arthur D. Author
- * @rest\license MIT
- * @rest\security api_key apikey X-Api-Authentication header Authenticate using this fancy header
- * @rest\require api_key
- */
-```
+	/*
+	 * @rest\description SwaggerGen 2 Example API
+	 * @rest\title Example API
+	 * @rest\contact http://example.com Arthur D. Author
+	 * @rest\license MIT
+	 * @rest\security api_key apikey X-Api-Authentication header Authenticate using this fancy header
+	 * @rest\require api_key
+	 */
 
 ## Comments
 All comments are parsed, this includes both doc-comments (`/** ... */`) and
@@ -958,20 +954,18 @@ the [Example API documentation](./example/docs/).
 
 The following is a fragment of code from this example:
 
-```php
-/**
- * @rest\endpoint /user/{username}
- * @rest\method GET Get a list of all users
- * @rest\path String username Name of the user
- * @rest\see self::request
- */
-private function getUser($name)
-{
-	/*
-	 * @rest\model User
-	 * @rest\property int age Age of the user in years
-	 * @rest\property int height Height of the user in centimeters
+	/**
+	 * @rest\endpoint /user/{username}
+	 * @rest\method GET Get a list of all users
+	 * @rest\path String username Name of the user
+	 * @rest\see self::request
 	 */
-	return $this->data['users'][$name]; // @rest\response OK object(age:int[0,100>,height:float) User
-}
-```
+	private function getUser($name)
+	{
+		/*
+		 * @rest\model User
+		 * @rest\property int age Age of the user in years
+		 * @rest\property int height Height of the user in centimeters
+		 */
+		return $this->data['users'][$name]; // @rest\response OK object(age:int[0,100>,height:float) User
+	}
