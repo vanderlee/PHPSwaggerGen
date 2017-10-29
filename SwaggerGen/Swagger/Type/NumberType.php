@@ -35,7 +35,7 @@ class NumberType extends AbstractType
 		if (preg_match(self::REGEX_START . self::REGEX_FORMAT . self::REGEX_RANGE . self::REGEX_DEFAULT . self::REGEX_END, $definition, $match) !== 1) {
 			throw new \SwaggerGen\Exception("Unparseable number definition: '{$definition}'");
 		}
-		
+
 		$this->parseFormat($definition, $match);
 		$this->parseRange($definition, $match);
 		$this->parseDefault($definition, $match);
@@ -104,7 +104,7 @@ class NumberType extends AbstractType
 
 	public function toArray()
 	{
-		return self::arrayFilterNull(array(
+		return self::arrayFilterNull(array_merge(array(
 					'type' => 'number',
 					'format' => $this->format,
 					'default' => $this->default,
@@ -114,7 +114,7 @@ class NumberType extends AbstractType
 					'exclusiveMaximum' => $this->exclusiveMaximum ? true : null,
 					'enum' => $this->enum,
 					'multipleOf' => $this->multipleOf,
-		));
+								), parent::toArray()));
 	}
 
 	public function __toString()

@@ -108,6 +108,7 @@ class Example {
 		/**
 		 * @rest\model User
 		 * @rest\property int age Age of the user in years
+		 * @rest\example 123
 		 * @rest\property int height Height of the user in centimeters
 		 */
 		//return $this->data['users'][$name]; // @rest\response OK User

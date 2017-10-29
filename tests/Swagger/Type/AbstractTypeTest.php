@@ -28,4 +28,40 @@ class AbstractTypeTest extends SwaggerGen_TestCase
 		$this->assertFalse($stub->handleCommand('x-extra', 'whatever'));
 	}
 
+	/**
+	 * @covers \SwaggerGen\Swagger\Type\AbstractType->handleCommand
+	 */
+	public function testCommand_Example()
+	{
+		$object = new SwaggerGen\Swagger\Type\StringType($this->parent, 'string');
+
+		$this->assertInstanceOf('\SwaggerGen\Swagger\Type\StringType', $object);
+
+		$object->handleCommand('example', 'foo');
+
+		$this->assertSame(array(
+			'type' => 'string',
+			'example' => 'foo',
+				), $object->toArray());
+	}
+
+	/**
+	 * @covers \SwaggerGen\Swagger\Type\AbstractType->handleCommand
+	 */
+	public function testCommand_Example_Json()
+	{
+		$object = new SwaggerGen\Swagger\Type\StringType($this->parent, 'string');
+
+		$this->assertInstanceOf('\SwaggerGen\Swagger\Type\StringType', $object);
+
+		$object->handleCommand('example', '{foo:bar}');
+
+		$this->assertSame(array(
+			'type' => 'string',
+			'example' => array(
+				'foo' => 'bar',
+			),
+				), $object->toArray());
+	}
+
 }

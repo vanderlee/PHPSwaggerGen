@@ -269,6 +269,12 @@ class.
 
 alias: `see`
 
+### `x-[...]` *`data`*
+Add a custom extension (starting with `x-`) to the current context.
+
+Extensions have no additional functionality and are treated as raw blobs of 
+text data.
+
 ## BodyParameter
 Represents a body parameter.
 
@@ -658,6 +664,13 @@ Set an URL pointing to more documentation.
 alias: `docs`
 
 # Parameter definitions
+
+All parameters can handle the `example` command:
+
+### Commands
+*	**`example` *content*** Set the example content of any type.
+Either a string, JSON object (quotes optional), `false`, `true`, `null` or a
+number (with or without floating point).
 
 ## string, byte, binary, password
 Represents a text.

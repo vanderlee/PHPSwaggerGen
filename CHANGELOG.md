@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## 2.3.15 - 2017-10-29
 ### Added
-- Added `example` to Response.
+- Added `example` to Response and parameters to fix #22 submitted by oozolii.
 
 ## 2.3.14 - 2017-10-22
 ### Added

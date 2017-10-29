@@ -85,8 +85,7 @@ class Path extends AbstractObject
 
 		return self::arrayFilterNull(array_merge(
 								self::objectsToArray($this->operations)
-								, parent::toArray())
-		);
+								, parent::toArray()));
 	}
 
 	public function __toString()

@@ -40,7 +40,6 @@
 *	Support object `additionalProperties` and `allOf`
 *	Shortcut "get", "put", etc. operation methods as proper commands.
 *	Force correct defaults on models. [See issue](https://github.com/swagger-api/swagger-ui/issues/2436)
-*	Implement `examples` in `Response`.
 *	Implement `required` in `Schema` for object properties. (JSON Schema, p.12)
 *	Add command aliasses `tag`, `scheme`, `consumes` and `produces` in `Operations`.
 

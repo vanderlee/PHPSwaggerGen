@@ -164,13 +164,13 @@ class ArrayType extends AbstractType
 
 	public function toArray()
 	{
-		return self::arrayFilterNull(array(
+		return self::arrayFilterNull(array_merge(array(
 					'type' => 'array',
 					'items' => empty($this->Items) ? null : $this->Items->toArray(),
 					'collectionFormat' => $this->collectionFormat == 'csv' ? null : $this->collectionFormat,
 					'minItems' => $this->minItems,
 					'maxItems' => $this->maxItems,
-		));
+								), parent::toArray()));
 	}
 
 	private function validateItems($items)

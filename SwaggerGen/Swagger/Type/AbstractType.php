@@ -20,6 +20,8 @@ abstract class AbstractType extends \SwaggerGen\Swagger\AbstractObject
 	const REGEX_DEFAULT = '(?:=(.+))?';
 	const REGEX_END = '$/i';
 
+	private $example = null;
+
 	protected static function swap(&$a, &$b)
 	{
 		$tmp = $a;
@@ -49,7 +51,27 @@ abstract class AbstractType extends \SwaggerGen\Swagger\AbstractObject
 	 */
 	public function handleCommand($command, $data = null)
 	{
+		switch (strtolower($command)) {
+			case 'example':
+				if ($data === '') {
+					throw new \SwaggerGen\Exception("Missing content for type example");
+				}
+				$json = preg_replace_callback('/([^{}:]+)/', function($match) {
+					json_decode($match[1]);
+					return json_last_error() === JSON_ERROR_NONE ? $match[1] : json_encode($match[1]);
+				}, trim($data));
+				$this->example = json_decode($json, true);
+				return $this;
+		}
+
 		return false;
+	}
+
+	public function toArray()
+	{
+		return self::arrayFilterNull(array_merge(array(
+					'example' => $this->example,
+								), parent::toArray()));
 	}
 
 }

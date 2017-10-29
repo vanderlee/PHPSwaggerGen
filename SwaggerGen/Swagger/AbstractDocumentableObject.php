@@ -45,8 +45,7 @@ abstract class AbstractDocumentableObject extends AbstractObject
 	{
 		return self::arrayFilterNull(array_merge(array(
 					'externalDocs' => $this->externalDocs ? $this->externalDocs->toArray() : null,
-								), parent::toArray()
-		));
+								), parent::toArray()));
 	}
 
 }

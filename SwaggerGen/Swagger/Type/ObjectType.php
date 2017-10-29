@@ -166,13 +166,13 @@ class ObjectType extends AbstractType
 
 	public function toArray()
 	{
-		return self::arrayFilterNull(array(
+		return self::arrayFilterNull(array_merge(array(
 					'type' => 'object',
 					'required' => array_keys($this->required),
 					'properties' => self::objectsToArray($this->properties),
 					'minProperties' => $this->minProperties,
 					'maxProperties' => $this->maxProperties,
-		));
+								), parent::toArray()));
 	}
 
 	public function __toString()

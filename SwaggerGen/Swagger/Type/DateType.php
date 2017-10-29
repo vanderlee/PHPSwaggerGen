@@ -74,11 +74,11 @@ class DateType extends AbstractType
 
 	public function toArray()
 	{
-		return self::arrayFilterNull(array(
+		return self::arrayFilterNull(array_merge(array(
 					'type' => 'string',
 					'format' => $this->format,
 					'default' => $this->default ? $this->default->format(self::$datetime_formats[$this->format]) : null,
-		));
+								), parent::toArray()));
 	}
 
 	private function validateDefault($value)

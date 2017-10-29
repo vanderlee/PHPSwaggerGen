@@ -39,9 +39,9 @@ class FileType extends AbstractType
 
 	public function toArray()
 	{
-		return self::arrayFilterNull(array(
+		return self::arrayFilterNull(array_merge(array(
 					'type' => 'file',
-		));
+								), parent::toArray()));
 	}
 
 	public function __toString()
