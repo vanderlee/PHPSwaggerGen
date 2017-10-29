@@ -1,0 +1,9 @@
+model Address
+property string city
+model Person
+property string name
+property! Address home
+api Test
+endpoint /customers
+method GET
+response 200 Person
