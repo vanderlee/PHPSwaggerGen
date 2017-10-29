@@ -82,8 +82,12 @@ class Response extends AbstractObject
 	 * @var Header[]
 	 */
 	private $Headers = array();
-
-//	private $examples;
+	
+	/**
+	 * JSON examples
+	 * @var array
+	 */
+	private $examples = array();
 
 	public static function getCode($search)
 	{
@@ -140,6 +144,21 @@ class Response extends AbstractObject
 				$Header = new Header($this, $type, $data);
 				$this->Headers[$name] = $Header;
 				return $Header;
+				
+			case 'example':
+				$name = self::wordShift($data);
+				if (empty($name)) {
+					throw new \SwaggerGen\Exception("Missing name for example");
+				}				
+				if ($data === '') {
+					throw new \SwaggerGen\Exception("Missing content for example `{$name}`");
+				}
+				$json = preg_replace_callback('/([^{}:]+)/', function($match) {
+					json_decode($match[1]);
+					return json_last_error() === JSON_ERROR_NONE ? $match[1] : json_encode($match[1]);
+				}, trim($data));
+				$this->examples[$name] = json_decode($json, true);
+				return $this;
 		}
 
 		return parent::handleCommand($command, $data);
@@ -151,6 +170,7 @@ class Response extends AbstractObject
 					'description' => $this->description,
 					'schema' => $this->schema ? $this->schema->toArray() : null,
 					'headers' => self::objectsToArray($this->Headers),
+					'examples' => $this->examples,
 								), parent::toArray()));
 	}
 

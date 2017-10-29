@@ -490,6 +490,14 @@ If a tag exists, sets the description for the tag, otherwise to nothing.
 ## Response
 Represents a response.
 
+### `example` *`name content`*
+Add an example to the response.
+
+`name` single-word (without spaces) name of the example. Unique per Response.
+
+`content` content of any type. Either a string, JSON object (quotes optional),
+`false`, `true`, `null` or a number (with or without floating point).
+
 ### `header` *`type name [description]`* &rArr; Header
 Add a header to the response.
 

@@ -205,6 +205,156 @@ class ResponseTest extends SwaggerGen_TestCase
 	}
 
 	/**
+	 * @covers \SwaggerGen\Swagger\Type\Response->handleCommand
+	 */
+	public function testCommand_Example_NoName()
+	{
+		$object = new \SwaggerGen\Swagger\Response($this->parent, 200);
+
+		$this->assertInstanceOf('\SwaggerGen\Swagger\Response', $object);
+
+		$this->expectException('\SwaggerGen\Exception', "Missing name for example");
+
+		$object->handleCommand('example', '');
+	}
+
+	/**
+	 * @covers \SwaggerGen\Swagger\Type\Response->handleCommand
+	 */
+	public function testCommand_Example_NoData()
+	{
+		$object = new \SwaggerGen\Swagger\Response($this->parent, 200);
+
+		$this->assertInstanceOf('\SwaggerGen\Swagger\Response', $object);
+
+		$this->expectException('\SwaggerGen\Exception', "Missing content example `Foo`");
+
+		$object->handleCommand('example', 'Foo');
+	}
+
+	/**
+	 * @covers \SwaggerGen\Swagger\Type\Response->handleCommand
+	 */
+	public function testCommand_Example_Text()
+	{
+		$object = new \SwaggerGen\Swagger\Response($this->parent, 200);
+
+		$this->assertInstanceOf('\SwaggerGen\Swagger\Response', $object);
+
+		$object->handleCommand('example', 'Foo bar');
+
+		$this->assertSame(array(
+			'description' => 'OK',
+			'examples' => array(
+				'Foo' => 'bar',
+			),
+				), $object->toArray());
+	}
+
+	/**
+	 * @covers \SwaggerGen\Swagger\Type\Response->handleCommand
+	 */
+	public function testCommand_Example_Number()
+	{
+		$object = new \SwaggerGen\Swagger\Response($this->parent, 200);
+
+		$this->assertInstanceOf('\SwaggerGen\Swagger\Response', $object);
+
+		$object->handleCommand('example', 'Foo 123.45');
+
+		$this->assertSame(array(
+			'description' => 'OK',
+			'examples' => array(
+				'Foo' => 123.45,
+			),
+				), $object->toArray());
+	}
+
+	/**
+	 * @covers \SwaggerGen\Swagger\Type\Response->handleCommand
+	 */
+	public function testCommand_Example_Json()
+	{
+		$object = new \SwaggerGen\Swagger\Response($this->parent, 200);
+
+		$this->assertInstanceOf('\SwaggerGen\Swagger\Response', $object);
+
+		$object->handleCommand('example', 'Foo {"bar":"baz"}');
+
+		$this->assertSame(array(
+			'description' => 'OK',
+			'examples' => array(
+				'Foo' => array(
+					'bar' => 'baz',
+				),
+			),
+				), $object->toArray());
+	}
+
+	/**
+	 * @covers \SwaggerGen\Swagger\Type\Response->handleCommand
+	 */
+	public function testCommand_Example_Json_Unquoted()
+	{
+		$object = new \SwaggerGen\Swagger\Response($this->parent, 200);
+
+		$this->assertInstanceOf('\SwaggerGen\Swagger\Response', $object);
+
+		$object->handleCommand('example', 'Foo {bar:baz}');
+
+		$this->assertSame(array(
+			'description' => 'OK',
+			'examples' => array(
+				'Foo' => array(
+					'bar' => 'baz',
+				),
+			),
+				), $object->toArray());
+	}
+
+	/**
+	 * @covers \SwaggerGen\Swagger\Type\Response->handleCommand
+	 */
+	public function testCommand_Example_Json_Whitespace()
+	{
+		$object = new \SwaggerGen\Swagger\Response($this->parent, 200);
+
+		$this->assertInstanceOf('\SwaggerGen\Swagger\Response', $object);
+
+		$object->handleCommand('example', 'Foo   { "bar" : "baz" } ');
+
+		$this->assertSame(array(
+			'description' => 'OK',
+			'examples' => array(
+				'Foo' => array(
+					'bar' => 'baz',
+				),
+			),
+				), $object->toArray());
+	}
+
+	/**
+	 * @covers \SwaggerGen\Swagger\Type\Response->handleCommand
+	 */
+	public function testCommand_Example_Json_Multiple()
+	{
+		$object = new \SwaggerGen\Swagger\Response($this->parent, 200);
+
+		$this->assertInstanceOf('\SwaggerGen\Swagger\Response', $object);
+
+		$object->handleCommand('example', 'Foo   "Bar"  ');
+		$object->handleCommand('example', 'Baz  false');
+
+		$this->assertSame(array(
+			'description' => 'OK',
+			'examples' => array(
+				'Foo' => 'Bar',
+				'Baz' => false,
+			),
+				), $object->toArray());
+	}
+	
+	/**
 	 * @covers \SwaggerGen\Swagger\Type\Response->getCode
 	 */
 	public function testGetCode_Numeric()

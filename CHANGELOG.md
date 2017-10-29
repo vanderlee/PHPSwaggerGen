@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/) 
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## 2.3.15 - 2017-10-29
+### Added
+- Added `example` to Response.
+
 ## 2.3.14 - 2017-10-22
 ### Added
 - Short-hand JSON like notation for objects (`{...}`) and arrays (`[...]`). 
