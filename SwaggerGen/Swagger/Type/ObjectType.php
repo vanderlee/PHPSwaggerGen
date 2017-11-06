@@ -23,6 +23,7 @@ class ObjectType extends AbstractType
 
 	private $minProperties = null;
 	private $maxProperties = null;
+	private $discriminator = null;
 	private $required = array();
 
 	/**
@@ -108,6 +109,9 @@ class ObjectType extends AbstractType
 	{
 		switch (strtolower($command)) {
 			// type name description...
+			case 'discriminator':
+				$this->discriminator = $data;
+				return $this;
 			case 'property':
 			case 'property?':
 			case 'property!':
@@ -172,6 +176,7 @@ class ObjectType extends AbstractType
 					'properties' => self::objectsToArray($this->properties),
 					'minProperties' => $this->minProperties,
 					'maxProperties' => $this->maxProperties,
+					'discriminator' => $this->discriminator,
 								), parent::toArray()));
 	}
 
