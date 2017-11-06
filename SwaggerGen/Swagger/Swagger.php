@@ -149,7 +149,7 @@ class Swagger extends AbstractDocumentableObject
 				if (empty($name)) {
 					throw new \SwaggerGen\Exception('Missing definition name');
 				}
-				$typeDef = $data;
+				$typeDef = self::wordShift($data);
 				if (empty($typeDef)) {
 					$typeDef = 'object';
 				}
