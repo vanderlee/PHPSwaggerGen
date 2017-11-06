@@ -397,4 +397,44 @@ class ObjectTypeTest extends SwaggerGen_TestCase
 				. ',"tags":[{"name":"Test"}]}', json_encode($array, JSON_NUMERIC_CHECK));
 	}
 
+	public function testAddingOptionalPropertyFailsWhenItIsDiscriminator()
+	{
+		$object = new SwaggerGen\Swagger\Type\ObjectType($this->parent, 'object');
+		$object->handleCommand('discriminator', 'type');
+		$this->expectException('\SwaggerGen\Exception', "Discriminator must be a required property, property 'type' is not required");
+		$object->handleCommand('property?', 'string type');
+	}
+
+	public function testAddingReadonlyPropertyFailsWhenItIsDiscriminator()
+	{
+		$object = new SwaggerGen\Swagger\Type\ObjectType($this->parent, 'object');
+		$object->handleCommand('discriminator', 'type');
+		$this->expectException('\SwaggerGen\Exception', "Discriminator must be a required property, property 'type' is not required");
+		$object->handleCommand('property!', 'string type');
+	}
+
+	public function testDiscriminatingOnOptionalPropertyFails()
+	{
+		$object = new SwaggerGen\Swagger\Type\ObjectType($this->parent, 'object');
+		$object->handleCommand('property?', 'string type');
+		$this->expectException('\SwaggerGen\Exception', "Discriminator must be a required property, property 'type' is not required");
+		$object->handleCommand('discriminator', 'type');
+	}
+
+	public function testDiscriminatingOnReadonlyPropertyFails()
+	{
+		$object = new SwaggerGen\Swagger\Type\ObjectType($this->parent, 'object');
+		$object->handleCommand('property!', 'string type');
+		$this->expectException('\SwaggerGen\Exception', "Discriminator must be a required property, property 'type' is not required");
+		$object->handleCommand('discriminator', 'type');
+	}
+
+	public function testSettingAnotherDiscriminatorFails()
+	{
+		$object = new SwaggerGen\Swagger\Type\ObjectType($this->parent, 'object');
+		$object->handleCommand('discriminator', 'type');
+		$this->expectException('\SwaggerGen\Exception', "Discriminator may only be set once, trying to change it from 'type' to 'petType'");
+		$object->handleCommand('discriminator', 'petType');
+	}
+
 }

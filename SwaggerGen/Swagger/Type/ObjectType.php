@@ -100,6 +100,21 @@ class ObjectType extends AbstractType
 		}
 	}
 
+	private function setDiscriminator($discriminator)
+	{
+		if (!empty($this->discriminator)) {
+			throw new \SwaggerGen\Exception("Discriminator may only be set once, "
+			                                . "trying to change it "
+			                                . "from '{$this->discriminator}' "
+			                                . "to '{$discriminator}'");
+		}
+		if (isset($this->properties[$discriminator]) && empty($this->required[$discriminator])) {
+			throw new \SwaggerGen\Exception("Discriminator must be a required property, "
+			                                . "property '{$discriminator}' is not required");
+		}
+		$this->discriminator = $discriminator;
+	}
+
 	/**
 	 * @param string $command The comment command
 	 * @param string $data Any data added after the command
@@ -110,7 +125,8 @@ class ObjectType extends AbstractType
 		switch (strtolower($command)) {
 			// type name description...
 			case 'discriminator':
-				$this->discriminator = $data;
+				$discriminator = self::wordShift($data);
+				$this->setDiscriminator($discriminator);
 				return $this;
 			case 'property':
 			case 'property?':
@@ -125,12 +141,22 @@ class ObjectType extends AbstractType
 					throw new \SwaggerGen\Exception("Missing property name: '{$definition}'");
 				}
 
-				unset($this->required[$name]);
 				$readOnly = null;
+				$required = false;
 				$propertySuffix = substr($command, -1);
 				if ($propertySuffix === '!') {
 					$readOnly = true;
 				} else if ($propertySuffix !== '?') {
+					$required = true;
+				}
+
+				if (($name === $this->discriminator) && !$required) {
+					throw new \SwaggerGen\Exception("Discriminator must be a required property, "
+					                                . "property '{$name}' is not required");
+				}
+
+				unset($this->required[$name]);
+				if ($required) {
 					$this->required[$name] = true;
 				}
 
@@ -187,9 +213,9 @@ class ObjectType extends AbstractType
 
 	/**
 	 * Extract a property from a comma-separated list of properties.
-	 * 
+	 *
 	 * i.e. `a(x(x,x)),b(x)` returns `a(x(x,x))` and changes `$properties` into `b(x)`.
-	 * 
+	 *
 	 * @param string $properties string variable
 	 * @return string the extracted string
 	 */
