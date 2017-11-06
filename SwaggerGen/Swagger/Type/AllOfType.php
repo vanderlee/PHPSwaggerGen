@@ -33,8 +33,6 @@ class AllOfType extends AbstractType
 	public function handleCommand($command, $data = null)
 	{
 		switch ($command) {
-			case 'ref':
-			case 'inline':
 			case 'item':
 				$this->mostRecentItem = self::typeFactory($this, $data);
 				$this->allOfItems[] = $this->mostRecentItem;
