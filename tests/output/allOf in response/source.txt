@@ -1,0 +1,11 @@
+model Id object
+property uuid id
+
+model Person object
+property string firstName 
+property string lastName 
+
+api Test
+endpoint /me
+method GET
+response 200 allOf(Person,Id)
