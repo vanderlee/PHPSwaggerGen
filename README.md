@@ -556,12 +556,22 @@ You can specify the URL, email address and name in any order you want.
 The URL and email address will be automatically detected, the name will consist
 of all text remaining (properly separated with whitespace).
 
-### `definintion` *`name`* &rArr; Schema
+### `definintion` *`name` [type]* &rArr; Schema
 Start definition of a Schema using the reference name specified. 
 
 Definitions can be specified as read only using exclamation point at the end of
 the definition command. E.g. `definition! user` will create a user model that
 will appear in GET responses and be omitted from POST, PUT, and PATCH requests.
+
+When no type is specified, `definition` creates an `object` definition. You can
+specify `type` to create definitions for other types:
+
+    definition PositiveInteger integer[1,>
+    
+    definition ArrayOfString array(string)
+
+See the chapter on  **Parameter definitions** for a detailed description of all
+the possible definition types.
 
 alias: `model` (for historical reasons)
 
@@ -842,6 +852,9 @@ Alternative short-hand notation:
 *	**`property` *definition name*** Add a required property.
 *	**`property?` *definition name*** Add an optional property.
 *   **`property!` *definition name*** Add a read only property.
+*   **`discriminator` *propertyName*** Sets the property as a discriminator.
+	The property must be required (could not be read only nor optional), but
+	you can define it later.
 
 ### Examples
 *	**`object(age:int[18,25>)`** An object containing a single key `age` with
@@ -850,6 +863,25 @@ Alternative short-hand notation:
 	optional `name` string, where the value must be atleast two characters
 	long.
 *	**`object()[4,8]`** An object containing four to eight unknown properties.
+
+## allof
+Intersection type (data must satisfy all base types). May be used for type
+composition or to implement inheritance (in conjunction with `discriminator`).
+Could also be used to refine the constraints imposed by the base type.
+
+    allof(definition)
+
+*	definition: a comma-separated list of base types, either as inline
+	definitions or references to another definition
+
+### Commands
+*   **`item` *type*** Add the type to the list of allOf types
+
+### Examples
+*   **`allOf(DataModel,IdModel)`** type composition: effectively creates
+	DataWithId type.
+*   **`allOf(ModelWithOptionalName,object(name:string))`** type refinement:
+	effectively makes `name` property required.
 
 ## enum
 Special type of string which is limited to one of a number of predefined values.
