@@ -15,32 +15,6 @@ class ArrayType extends AbstractType
 
 	const REGEX_ARRAY_CONTENT = '(?:(\[)(.*)\])?';
 
-	private static $classTypes = array(
-		'integer' => 'Integer',
-		'int' => 'Integer',
-		'int32' => 'Integer',
-		'int64' => 'Integer',
-		'long' => 'Integer',
-		'float' => 'Number',
-		'double' => 'Number',
-		'string' => 'String',
-		'uuid' => 'StringUuid',
-		'byte' => 'String',
-		'binary' => 'String',
-		'password' => 'String',
-		'enum' => 'String',
-		'boolean' => 'Boolean',
-		'bool' => 'Boolean',
-		'array' => 'Array',
-		'csv' => 'Array',
-		'ssv' => 'Array',
-		'tsv' => 'Array',
-		'pipes' => 'Array',
-		'date' => 'Date',
-		'datetime' => 'Date',
-		'date-time' => 'Date',
-		'object' => 'Object',
-	);
 	private static $collectionFormats = array(
 		'array' => 'csv',
 		'csv' => 'csv',
@@ -179,24 +153,7 @@ class ArrayType extends AbstractType
 			throw new \SwaggerGen\Exception("Empty items definition: '{$items}'");
 		}
 
-		$match = array();
-		if (preg_match('/^([a-z]+)/i', $items, $match) === 1) {
-			// recognized format
-		} elseif (preg_match('/^(\[)(?:.*?)\]$/i', $items, $match) === 1) {
-			$match[1] = 'array';
-		} elseif (preg_match('/^(\{)(?:.*?)\}$/i', $items, $match) === 1) {
-			$match[1] = 'object';
-		} else {
-			throw new \SwaggerGen\Exception("Unparseable items definition: '{$items}'");
-		}
-		$format = strtolower($match[1]);
-		if (isset(self::$classTypes[$format])) {
-			$type = self::$classTypes[$format];
-			$typeClass = "SwaggerGen\\Swagger\\Type\\{$type}Type";
-			return new $typeClass($this, $items);
-		}
-
-		return new ReferenceObjectType($this, $items);
+		return self::typeFactory($this, $items, "Unparseable items definition: '%s'");
 	}
 
 	public function __toString()

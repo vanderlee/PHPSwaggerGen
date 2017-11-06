@@ -1,0 +1,14 @@
+model IntegerNumber integer
+
+model someObject
+property array(allOf(IntegerNumber,integer[1,>)) positiveArray
+
+model objectWithArrayWithItems
+property array positiveArray
+items allOf(IntegerNumber)
+inline integer[1,>
+
+api Test
+endpoint /object
+method GET
+response 200 someObject
