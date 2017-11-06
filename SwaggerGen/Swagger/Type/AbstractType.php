@@ -60,6 +60,52 @@ abstract class AbstractType extends \SwaggerGen\Swagger\AbstractObject
 	}
 
 	/**
+	 * @param string $list
+	 * @return array
+	 */
+	protected static function parseList($list)
+	{
+		$ret = array();
+		while ($item = self::parseListItem($list)) {
+			$ret[] = $item;
+		}
+		return $ret;
+	}
+
+	/**
+	 * Extract an item from a comma-separated list of items.
+	 *
+	 * i.e. `a(x(x,x)),b(x)` returns `a(x(x,x))` and changes `$list` into `b(x)`.
+	 * Note: brace nesting is not checked, e.g. `a{b(})` is a valid list item.
+	 *
+	 * @param string $list the list to parse
+	 * @return string the extracted item
+	 */
+	protected static function parseListItem(&$list)
+	{
+		$item = '';
+
+		$depth = 0;
+		$index = 0;
+		while ($index < strlen($list)) {
+			$c = $list{$index++};
+
+			if (strpos('{([<', $c) !== false) {
+				++$depth;
+			} elseif (strpos('})]>', $c) !== false) {
+				--$depth;
+			} elseif ($c === ',' && $depth === 0) {
+				break;
+			}
+
+			$item .= $c;
+		}
+		$list = substr($list, $index);
+
+		return $item;
+	}
+
+	/**
 	 * @var string $definition
 	 */
 	public function __construct(\SwaggerGen\Swagger\AbstractObject $parent, $definition)

@@ -66,7 +66,7 @@ class ObjectType extends AbstractType
 	{
 		if (!empty($match[2])) {
 			do {
-				if (($property = self::extract_property($match[2])) !== '') {
+				if (($property = self::parseListItem($match[2])) !== '') {
 					$prop_match = array();
 					if (preg_match(self::REGEX_PROP_START . self::REGEX_PROP_NAME . self::REGEX_PROP_REQUIRED . self::REGEX_PROP_ASSIGN . self::REGEX_PROP_DEFINITION . self::REGEX_PROP_END, $property, $prop_match) !== 1) {
 						throw new \SwaggerGen\Exception("Unparseable property definition: '{$property}'");
@@ -209,39 +209,6 @@ class ObjectType extends AbstractType
 	public function __toString()
 	{
 		return __CLASS__;
-	}
-
-	/**
-	 * Extract a property from a comma-separated list of properties.
-	 *
-	 * i.e. `a(x(x,x)),b(x)` returns `a(x(x,x))` and changes `$properties` into `b(x)`.
-	 *
-	 * @param string $properties string variable
-	 * @return string the extracted string
-	 */
-	private static function extract_property(&$properties)
-	{
-		$property = '';
-
-		$depth = 0;
-		$index = 0;
-		while ($index < strlen($properties)) {
-			$character = $properties{$index++};
-
-			if (strpos('{([<', $character) !== false) {
-				++$depth;
-			} elseif (strpos('})]>', $character) !== false) {
-				--$depth;
-			} elseif ($character === ',' && $depth === 0) {
-				break;
-			}
-
-			$property .= $character;
-		}
-
-		$properties = substr($properties, $index);
-
-		return $property;
 	}
 
 }

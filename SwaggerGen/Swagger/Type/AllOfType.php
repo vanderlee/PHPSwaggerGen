@@ -30,49 +30,6 @@ class AllOfType extends AbstractType
 		}
 	}
 
-	/**
-	 * @param string $list
-	 * @return string
-	 * @todo remove duplication between this method and ObjectType::extract_property()
-	 */
-	private function getItem(&$list)
-	{
-		static $openingBraces = array('(', '[', '{', '<',);
-		static $closingBraces = array(')', ']', '}', '>');
-
-		$depth = 0;
-		$index = 0;
-		$item = '';
-
-		while ($index < strlen($list)) {
-			$c = $list{$index};
-			$index++;
-			if (in_array($c, $openingBraces)) {
-				$depth++;
-			} elseif (in_array($c, $closingBraces)) {
-				$depth--;
-			} elseif ($c === ',' && !$depth) {
-				break;
-			}
-			$item .= $c;
-		}
-		$list = substr($list, $index);
-		return $item;
-	}
-
-	/**
-	 * @param string $list
-	 * @return array
-	 */
-	private function parseList($list)
-	{
-		$ret = array();
-		while ($item = $this->getItem($list)) {
-			$ret[] = $item;
-		}
-		return $ret;
-	}
-
 	public function handleCommand($command, $data = null)
 	{
 		switch ($command) {
