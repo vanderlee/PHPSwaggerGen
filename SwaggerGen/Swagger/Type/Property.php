@@ -13,35 +13,6 @@ namespace SwaggerGen\Swagger\Type;
 class Property extends \SwaggerGen\Swagger\AbstractObject
 {
 
-	private static $classTypes = array(
-		'integer' => 'Integer',
-		'int' => 'Integer',
-		'int32' => 'Integer',
-		'int64' => 'Integer',
-		'long' => 'Integer',
-		'float' => 'Number',
-		'double' => 'Number',
-		'string' => 'String',
-		'uuid' => 'StringUuid',
-		'byte' => 'String',
-		'binary' => 'String',
-		'password' => 'String',
-		'enum' => 'String',
-		'boolean' => 'Boolean',
-		'bool' => 'Boolean',
-		'array' => 'Array',
-		'csv' => 'Array',
-		'ssv' => 'Array',
-		'tsv' => 'Array',
-		'pipes' => 'Array',
-		'multi' => 'Array',
-		'date' => 'Date',
-		'datetime' => 'Date',
-		'date-time' => 'Date',
-		'object' => 'Object',
-		'refobject' => 'ReferenceObject',
-	);
-
 	/**
 	 * Description of this property
 	 * @var string
