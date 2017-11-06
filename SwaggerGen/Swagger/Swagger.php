@@ -145,14 +145,19 @@ class Swagger extends AbstractDocumentableObject
             case 'model!':
 			case 'definition':
             case 'definition!':
-				$definition = new Schema($this);
-				if(substr($command, -1) === '!') {
-				    $definition->setReadOnly();
-                }
 				$name = self::wordShift($data);
 				if (empty($name)) {
 					throw new \SwaggerGen\Exception('Missing definition name');
 				}
+				$typeDef = $data;
+				if (empty($typeDef)) {
+					$typeDef = 'object';
+				}
+
+				$definition = new Schema($this, $typeDef);
+				if(substr($command, -1) === '!') {
+				    $definition->setReadOnly();
+                }
 				$this->definitions[$name] = $definition;
 				return $definition;
 
