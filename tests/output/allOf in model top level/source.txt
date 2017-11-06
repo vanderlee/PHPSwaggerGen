@@ -1,0 +1,63 @@
+model Id object(id:uuid)
+
+model CustomerRef allOf
+ref Id
+inline object
+discriminator type
+property string type
+enum Customer CustomerRef Person PersonRef Company CompanyRef
+
+model CustomerData object
+discriminator type
+property string address
+property string type
+enum Customer CustomerData Person PersonData Company CompanyData
+
+model Customer allOf
+ref CustomerRef
+ref CustomerData
+inline object
+property string type
+enum Customer Person Company
+
+model PersonRef allOf
+ref CustomerRef
+inline object
+property string type
+enum Person PersonRef 
+
+model PersonData allOf
+ref CustomerData
+inline object
+property string firstName
+property string lastName
+property string type
+enum Person PersonData
+
+model Person allOf
+ref PersonRef
+ref PersonData
+inline object
+property string type
+enum Person
+
+model CompanyRef allOf(CustomerRef)
+inline object
+property string type
+enum Company CompanyRef
+
+model CompanyData allOf
+ref CustomerData
+inline object(companyName:string)
+property string type
+enum Company CompanyData
+
+model Company allOf(CompanyRef,CompanyData)
+inline object
+property string type
+enum Company
+
+api Test
+endpoint /customers
+method GET
+response 200 Customer
