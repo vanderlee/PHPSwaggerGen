@@ -20,6 +20,35 @@ abstract class AbstractType extends \SwaggerGen\Swagger\AbstractObject
 	const REGEX_DEFAULT = '(?:=(.+))?';
 	const REGEX_END = '$/i';
 
+	private static $classTypes = array(
+		'integer' => 'Integer',
+		'int' => 'Integer',
+		'int32' => 'Integer',
+		'int64' => 'Integer',
+		'long' => 'Integer',
+		'float' => 'Number',
+		'double' => 'Number',
+		'string' => 'String',
+		'uuid' => 'StringUuid',
+		'byte' => 'String',
+		'binary' => 'String',
+		'password' => 'String',
+		'enum' => 'String',
+		'boolean' => 'Boolean',
+		'bool' => 'Boolean',
+		'array' => 'Array',
+		'csv' => 'Array',
+		'ssv' => 'Array',
+		'tsv' => 'Array',
+		'pipes' => 'Array',
+		'date' => 'Date',
+		'datetime' => 'Date',
+		'date-time' => 'Date',
+		'object' => 'Object',
+		'allof' => 'AllOf',
+	);
+
+
 	private $example = null;
 
 	protected static function swap(&$a, &$b)
@@ -44,7 +73,7 @@ abstract class AbstractType extends \SwaggerGen\Swagger\AbstractObject
 	/**
 	 * Overwrites default AbstractObject parser, since Types should not handle
 	 * extensions themselves.
-	 * 
+	 *
 	 * @param string $command
 	 * @param string $data
 	 * @return \SwaggerGen\Swagger\Type\AbstractType|boolean
@@ -72,6 +101,30 @@ abstract class AbstractType extends \SwaggerGen\Swagger\AbstractObject
 		return self::arrayFilterNull(array_merge(array(
 					'example' => $this->example,
 								), parent::toArray()));
+	}
+
+	public static function typeFactory($parent, $definition)
+	{
+		// Parse regex
+		$match = array();
+		if (preg_match('/^([a-z]+)/i', $definition, $match) === 1) {
+			// recognized format
+		} elseif (preg_match('/^(\[)(?:.*?)\]$/i', $definition, $match) === 1) {
+			$match[1] = 'array';
+		} elseif (preg_match('/^(\{)(?:.*?)\}$/i', $definition, $match) === 1) {
+			$match[1] = 'object';
+		} else {
+			throw new \SwaggerGen\Exception("Unparseable schema type definition: '{$items}'");
+		}
+		$format = strtolower($match[1]);
+		// Internal type if type known and not overwritten by definition
+		if (isset(self::$classTypes[$format])) {
+			$type = self::$classTypes[$format];
+			$class = "SwaggerGen\\Swagger\\Type\\{$type}Type";
+			return new $class($parent, $definition);
+		} else {
+			return new ReferenceObjectType($parent, $definition);
+		}
 	}
 
 }
