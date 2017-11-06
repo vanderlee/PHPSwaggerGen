@@ -16,7 +16,7 @@ class AllOfType extends AbstractType
 	private $mostRecentItem;
 	protected function parseDefinition($definition)
 	{
-		$pattern = self::REGEX_START . 'allOf' . self::REGEX_CONTENT . self::REGEX_END;
+		$pattern = self::REGEX_START . 'allof' . self::REGEX_CONTENT . self::REGEX_END;
 		$inlineDef = '';
 		if (preg_match($pattern, $definition, $matches)) {
 			if (isset($matches[1])) {

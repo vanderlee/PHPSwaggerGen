@@ -1,7 +1,7 @@
 model WideEnum enum(1,2,3)
 
 model UsingEnum
-property allOf(WideEnum) enumProperty
+property allof(WideEnum) enumProperty
 inline string
 enum 2
 
