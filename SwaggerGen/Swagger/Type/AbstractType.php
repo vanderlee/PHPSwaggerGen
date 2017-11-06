@@ -114,7 +114,7 @@ abstract class AbstractType extends \SwaggerGen\Swagger\AbstractObject
 		} elseif (preg_match('/^(\{)(?:.*?)\}$/i', $definition, $match) === 1) {
 			$match[1] = 'object';
 		} else {
-			throw new \SwaggerGen\Exception("Unparseable schema type definition: '{$items}'");
+			throw new \SwaggerGen\Exception("Unparseable schema type definition: '{$definition}'");
 		}
 		$format = strtolower($match[1]);
 		// Internal type if type known and not overwritten by definition
