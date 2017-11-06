@@ -103,7 +103,7 @@ abstract class AbstractType extends \SwaggerGen\Swagger\AbstractObject
 								), parent::toArray()));
 	}
 
-	public static function typeFactory($parent, $definition)
+	public static function typeFactory($parent, $definition, $error = "Unparseable schema type definition: '%s'")
 	{
 		// Parse regex
 		$match = array();
@@ -114,7 +114,7 @@ abstract class AbstractType extends \SwaggerGen\Swagger\AbstractObject
 		} elseif (preg_match('/^(\{)(?:.*?)\}$/i', $definition, $match) === 1) {
 			$match[1] = 'object';
 		} else {
-			throw new \SwaggerGen\Exception("Unparseable schema type definition: '{$definition}'");
+			throw new \SwaggerGen\Exception(sprintf($error, $definition));
 		}
 		$format = strtolower($match[1]);
 		// Internal type if type known and not overwritten by definition

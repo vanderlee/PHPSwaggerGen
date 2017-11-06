@@ -1,0 +1,53 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "undefined",
+    "version": "0"
+  },
+  "host": "example.com",
+  "basePath": "/base",
+  "paths": {
+    "/enum": {
+      "get": {
+        "tags": [
+          "Test"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/UsingEnum"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+      "WideEnum": {
+          "type": "string",
+          "enum": ["1", "2", "3"]
+      },
+      "UsingEnum": {
+          "type" : "object",
+          "required": ["enumProperty"],
+          "properties": {
+              "enumProperty" : {
+                  "allOf": [
+                    {"$ref" : "#/definitions/WideEnum"},
+                    {
+                        "type": "string",
+                        "enum": ["2"]
+                    }
+                  ]
+              }
+          }
+      }
+
+  },
+  "tags": [
+    {
+      "name": "Test"
+    }
+  ]
+}

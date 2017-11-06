@@ -71,27 +71,7 @@ class Property extends \SwaggerGen\Swagger\AbstractObject
 	public function __construct(\SwaggerGen\Swagger\AbstractObject $parent, $definition, $description = null, $readOnly = null)
 	{
 		parent::__construct($parent);
-
-		// Parse regex
-		$match = array();
-		if (preg_match('/^([a-z]+)/i', $definition, $match) === 1) {
-			// recognized format
-		} elseif (preg_match('/^(\[)(?:.*?)\]$/i', $definition, $match) === 1) {
-			$match[1] = 'array';
-		} elseif (preg_match('/^(\{)(?:.*?)\}$/i', $definition, $match) === 1) {
-			$match[1] = 'object';
-		} else {
-			throw new \SwaggerGen\Exception("Not a property: '{$definition}'");
-		}
-		$format = strtolower($match[1]);
-		if (isset(self::$classTypes[$format])) {
-			$type = self::$classTypes[$format];
-			$class = "SwaggerGen\\Swagger\\Type\\{$type}Type";
-			$this->Type = new $class($this, $definition);
-		} else {
-			$this->Type = new \SwaggerGen\Swagger\Type\ReferenceObjectType($this, $definition);
-		}
-
+		$this->Type = AbstractType::typeFactory($this, $definition, "Not a property: '%s'");
 		$this->description = $description;
 		$this->readOnly = $readOnly;
 	}
