@@ -45,6 +45,7 @@ abstract class AbstractType extends \SwaggerGen\Swagger\AbstractObject
 		'datetime' => 'Date',
 		'date-time' => 'Date',
 		'object' => 'Object',
+		'refobject' => 'ReferenceObject',
 		'allof' => 'AllOf',
 	);
 
