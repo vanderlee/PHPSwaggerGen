@@ -123,9 +123,9 @@ class IntegerType extends AbstractType
 					'format' => $this->format,
 					'default' => $this->default,
 					'minimum' => $this->minimum,
-					'exclusiveMinimum' => $this->exclusiveMinimum ? true : null,
+					'exclusiveMinimum' => ($this->exclusiveMinimum && !is_null($this->minimum)) ? true : null,
 					'maximum' => $this->maximum,
-					'exclusiveMaximum' => $this->exclusiveMaximum ? true : null,
+					'exclusiveMaximum' => ($this->exclusiveMaximum && !is_null($this->maximum)) ? true : null,
 					'enum' => $this->enum,
 					'multipleOf' => $this->multipleOf,
 								), parent::toArray()));

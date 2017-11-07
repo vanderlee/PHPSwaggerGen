@@ -1,0 +1,9 @@
+api Test
+
+endpoint /positive-integer
+method GET
+response 200 int[1,>
+
+endpoint /positive-number
+method GET
+response 200 float[1.1,>
