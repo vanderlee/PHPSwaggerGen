@@ -23,6 +23,7 @@ class ObjectType extends AbstractType
 
 	private $minProperties = null;
 	private $maxProperties = null;
+	private $discriminator = null;
 	private $required = array();
 
 	/**
@@ -65,7 +66,7 @@ class ObjectType extends AbstractType
 	{
 		if (!empty($match[2])) {
 			do {
-				if (($property = self::extract_property($match[2])) !== '') {
+				if (($property = self::parseListItem($match[2])) !== '') {
 					$prop_match = array();
 					if (preg_match(self::REGEX_PROP_START . self::REGEX_PROP_NAME . self::REGEX_PROP_REQUIRED . self::REGEX_PROP_ASSIGN . self::REGEX_PROP_DEFINITION . self::REGEX_PROP_END, $property, $prop_match) !== 1) {
 						throw new \SwaggerGen\Exception("Unparseable property definition: '{$property}'");
@@ -99,6 +100,21 @@ class ObjectType extends AbstractType
 		}
 	}
 
+	private function setDiscriminator($discriminator)
+	{
+		if (!empty($this->discriminator)) {
+			throw new \SwaggerGen\Exception("Discriminator may only be set once, "
+			                                . "trying to change it "
+			                                . "from '{$this->discriminator}' "
+			                                . "to '{$discriminator}'");
+		}
+		if (isset($this->properties[$discriminator]) && empty($this->required[$discriminator])) {
+			throw new \SwaggerGen\Exception("Discriminator must be a required property, "
+			                                . "property '{$discriminator}' is not required");
+		}
+		$this->discriminator = $discriminator;
+	}
+
 	/**
 	 * @param string $command The comment command
 	 * @param string $data Any data added after the command
@@ -108,6 +124,10 @@ class ObjectType extends AbstractType
 	{
 		switch (strtolower($command)) {
 			// type name description...
+			case 'discriminator':
+				$discriminator = self::wordShift($data);
+				$this->setDiscriminator($discriminator);
+				return $this;
 			case 'property':
 			case 'property?':
 			case 'property!':
@@ -121,12 +141,22 @@ class ObjectType extends AbstractType
 					throw new \SwaggerGen\Exception("Missing property name: '{$definition}'");
 				}
 
-				unset($this->required[$name]);
 				$readOnly = null;
+				$required = false;
 				$propertySuffix = substr($command, -1);
 				if ($propertySuffix === '!') {
 					$readOnly = true;
 				} else if ($propertySuffix !== '?') {
+					$required = true;
+				}
+
+				if (($name === $this->discriminator) && !$required) {
+					throw new \SwaggerGen\Exception("Discriminator must be a required property, "
+					                                . "property '{$name}' is not required");
+				}
+
+				unset($this->required[$name]);
+				if ($required) {
 					$this->required[$name] = true;
 				}
 
@@ -172,45 +202,13 @@ class ObjectType extends AbstractType
 					'properties' => self::objectsToArray($this->properties),
 					'minProperties' => $this->minProperties,
 					'maxProperties' => $this->maxProperties,
+					'discriminator' => $this->discriminator,
 								), parent::toArray()));
 	}
 
 	public function __toString()
 	{
 		return __CLASS__;
-	}
-
-	/**
-	 * Extract a property from a comma-separated list of properties.
-	 * 
-	 * i.e. `a(x(x,x)),b(x)` returns `a(x(x,x))` and changes `$properties` into `b(x)`.
-	 * 
-	 * @param string $properties string variable
-	 * @return string the extracted string
-	 */
-	private static function extract_property(&$properties)
-	{
-		$property = '';
-
-		$depth = 0;
-		$index = 0;
-		while ($index < strlen($properties)) {
-			$character = $properties{$index++};
-
-			if (strpos('{([<', $character) !== false) {
-				++$depth;
-			} elseif (strpos('})]>', $character) !== false) {
-				--$depth;
-			} elseif ($character === ',' && $depth === 0) {
-				break;
-			}
-
-			$property .= $character;
-		}
-
-		$properties = substr($properties, $index);
-
-		return $property;
 	}
 
 }

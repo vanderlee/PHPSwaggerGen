@@ -1,0 +1,271 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "undefined",
+    "version": "0"
+  },
+  "host": "example.com",
+  "basePath": "/base",
+  "paths": {
+    "/customers": {
+      "get": {
+        "tags": [
+          "Test"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Customer"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Id": {
+      "type": "object",
+      "required": [
+        "id"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^[a-f0-9]{8}-[a-f0-9]{4}-[1-5][a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$"
+        }
+      }
+    },
+    "CustomerRef": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/Id"
+        },
+        {
+          "discriminator": "type",
+          "type": "object",
+          "required": [
+            "type"
+          ],
+          "properties": {
+            "type": {
+              "type": "string",
+              "enum": [
+                "Customer",
+                "CustomerRef",
+                "Person",
+                "PersonRef",
+                "Company",
+                "CompanyRef"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "CustomerData": {
+      "type": "object",
+      "discriminator": "type",
+      "required": [
+        "address",
+        "type"
+      ],
+      "properties": {
+        "address": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "Customer",
+            "CustomerData",
+            "Person",
+            "PersonData",
+            "Company",
+            "CompanyData"
+          ]
+        }
+      }
+    },
+    "Customer": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/CustomerRef"
+        },
+        {
+          "$ref": "#/definitions/CustomerData"
+        },
+        {
+          "type": "object",
+          "required": [
+            "type"
+          ],
+          "properties": {
+            "type": {
+              "type": "string",
+              "enum": [
+                "Customer",
+                "Person",
+                "Company"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "PersonRef": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/CustomerRef"
+        },
+        {
+          "type": "object",
+          "required": [
+            "type"
+          ],
+          "properties": {
+            "type": {
+              "type": "string",
+              "enum": [
+                "Person",
+                "PersonRef"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "PersonData": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/CustomerData"
+        },
+        {
+          "type": "object",
+          "required": [
+            "firstName",
+            "lastName",
+            "type"
+          ],
+          "properties": {
+            "firstName": {
+              "type": "string"
+            },
+            "lastName": {
+              "type": "string"
+            },
+            "type": {
+              "type": "string",
+              "enum": [
+                "Person",
+                "PersonData"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "Person": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/PersonRef"
+        },
+        {
+          "$ref": "#/definitions/PersonData"
+        },
+        {
+          "type": "object",
+          "required": [
+            "type"
+          ],
+          "properties": {
+            "type": {
+              "type": "string",
+              "enum": [
+                "Person"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "CompanyRef": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/CustomerRef"
+        },
+        {
+          "type": "object",
+          "required": [
+            "type"
+          ],
+          "properties": {
+            "type": {
+              "type": "string",
+              "enum": [
+                "Company",
+                "CompanyRef"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "CompanyData": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/CustomerData"
+        },
+        {
+          "type": "object",
+          "required": [
+            "companyName",
+            "type"
+          ],
+          "properties": {
+            "companyName": {
+              "type": "string"
+            },
+            "type": {
+              "type": "string",
+              "enum": [
+                "Company",
+                "CompanyData"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "Company": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/CompanyRef"
+        },
+        {
+          "$ref": "#/definitions/CompanyData"
+        },
+        {
+          "type": "object",
+          "required": [
+            "type"
+          ],
+          "properties": {
+            "type": {
+              "type": "string",
+              "enum": [
+                "Company"
+              ]
+            }
+          }
+        }
+      ]
+    }
+  },
+  "tags": [
+    {
+      "name": "Test"
+    }
+  ]
+}

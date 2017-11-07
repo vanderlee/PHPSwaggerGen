@@ -1,0 +1,11 @@
+model WideEnum enum(1,2,3)
+
+model UsingEnum
+property allof(WideEnum) enumProperty
+item string
+enum 2
+
+api Test
+endpoint /enum
+method GET
+response 200 UsingEnum

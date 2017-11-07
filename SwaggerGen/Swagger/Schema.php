@@ -14,33 +14,6 @@ namespace SwaggerGen\Swagger;
 class Schema extends AbstractDocumentableObject implements IDefinition
 {
 
-	private static $classTypes = array(
-		'integer' => 'Integer',
-		'int' => 'Integer',
-		'int32' => 'Integer',
-		'int64' => 'Integer',
-		'long' => 'Integer',
-		'float' => 'Number',
-		'double' => 'Number',
-		'string' => 'String',
-		'uuid' => 'StringUuid',
-		'byte' => 'String',
-		'binary' => 'String',
-		'password' => 'String',
-		'enum' => 'String',
-		'boolean' => 'Boolean',
-		'bool' => 'Boolean',
-		'array' => 'Array',
-		'csv' => 'Array',
-		'ssv' => 'Array',
-		'tsv' => 'Array',
-		'pipes' => 'Array',
-		'date' => 'Date',
-		'datetime' => 'Date',
-		'date-time' => 'Date',
-		'object' => 'Object',
-	);
-
 	/**
 	 * @var string
 	 */
@@ -69,26 +42,7 @@ class Schema extends AbstractDocumentableObject implements IDefinition
 		if ($this->getSwagger()->hasDefinition($definition)) {
 			$this->type = new Type\ReferenceObjectType($this, $definition);
 		} else {
-			// Parse regex		
-			$match = array();
-			if (preg_match('/^([a-z]+)/i', $definition, $match) === 1) {
-				// recognized format
-			} elseif (preg_match('/^(\[)(?:.*?)\]$/i', $definition, $match) === 1) {
-				$match[1] = 'array';
-			} elseif (preg_match('/^(\{)(?:.*?)\}$/i', $definition, $match) === 1) {
-				$match[1] = 'object';
-			} else {
-				throw new \SwaggerGen\Exception("Unparseable schema type definition: '{$items}'");
-			}			
-			$format = strtolower($match[1]);
-			// Internal type if type known and not overwritten by definition
-			if (isset(self::$classTypes[$format])) {
-				$type = self::$classTypes[$format];
-				$class = "SwaggerGen\\Swagger\\Type\\{$type}Type";
-				$this->type = new $class($this, $definition);
-			} else {
-				$this->type = new Type\ReferenceObjectType($this, $definition);
-			}		
+			$this->type = Type\AbstractType::typeFactory($this, $definition);
 		}
 
 		$this->description = $description;

@@ -1,0 +1,77 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "undefined",
+    "version": "0"
+  },
+  "host": "example.com",
+  "basePath": "/base",
+  "paths": {
+    "/object": {
+      "get": {
+        "tags": [
+          "Test"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/someObject"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+      "objectWithArrayWithItems": {
+          "type": "object",
+          "required": ["positiveArray"],
+          "properties": {
+              "positiveArray" : {
+                  "type": "array",
+                  "items": {
+                      "allOf": [
+                          {"$ref": "#/definitions/IntegerNumber"},
+                          {
+                              "type": "integer",
+                              "format": "int32",
+                              "exclusiveMaximum": true,
+                              "minimum": 1
+                          }
+                      ]
+                  }
+              }
+          }
+      },
+      "someObject": {
+          "type": "object",
+          "required": ["positiveArray"],
+          "properties": {
+              "positiveArray" : {
+                  "type": "array",
+                  "items": {
+                      "allOf": [
+                          {"$ref": "#/definitions/IntegerNumber"},
+                          {
+                              "type": "integer",
+                              "format": "int32",
+                              "exclusiveMaximum": true,
+                              "minimum": 1
+                          }
+                      ]
+                  }
+              }
+          }
+      },
+      "IntegerNumber": {
+          "type": "integer",
+          "format": "int32"
+      }
+  },
+  "tags": [
+    {
+      "name": "Test"
+    }
+  ]
+}

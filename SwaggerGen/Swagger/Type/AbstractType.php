@@ -20,6 +20,36 @@ abstract class AbstractType extends \SwaggerGen\Swagger\AbstractObject
 	const REGEX_DEFAULT = '(?:=(.+))?';
 	const REGEX_END = '$/i';
 
+	private static $classTypes = array(
+		'integer' => 'Integer',
+		'int' => 'Integer',
+		'int32' => 'Integer',
+		'int64' => 'Integer',
+		'long' => 'Integer',
+		'float' => 'Number',
+		'double' => 'Number',
+		'string' => 'String',
+		'uuid' => 'StringUuid',
+		'byte' => 'String',
+		'binary' => 'String',
+		'password' => 'String',
+		'enum' => 'String',
+		'boolean' => 'Boolean',
+		'bool' => 'Boolean',
+		'array' => 'Array',
+		'csv' => 'Array',
+		'ssv' => 'Array',
+		'tsv' => 'Array',
+		'pipes' => 'Array',
+		'date' => 'Date',
+		'datetime' => 'Date',
+		'date-time' => 'Date',
+		'object' => 'Object',
+		'refobject' => 'ReferenceObject',
+		'allof' => 'AllOf',
+	);
+
+
 	private $example = null;
 
 	protected static function swap(&$a, &$b)
@@ -27,6 +57,52 @@ abstract class AbstractType extends \SwaggerGen\Swagger\AbstractObject
 		$tmp = $a;
 		$a = $b;
 		$b = $tmp;
+	}
+
+	/**
+	 * @param string $list
+	 * @return array
+	 */
+	protected static function parseList($list)
+	{
+		$ret = array();
+		while ($item = self::parseListItem($list)) {
+			$ret[] = $item;
+		}
+		return $ret;
+	}
+
+	/**
+	 * Extract an item from a comma-separated list of items.
+	 *
+	 * i.e. `a(x(x,x)),b(x)` returns `a(x(x,x))` and changes `$list` into `b(x)`.
+	 * Note: brace nesting is not checked, e.g. `a{b(})` is a valid list item.
+	 *
+	 * @param string $list the list to parse
+	 * @return string the extracted item
+	 */
+	protected static function parseListItem(&$list)
+	{
+		$item = '';
+
+		$depth = 0;
+		$index = 0;
+		while ($index < strlen($list)) {
+			$c = $list{$index++};
+
+			if (strpos('{([<', $c) !== false) {
+				++$depth;
+			} elseif (strpos('})]>', $c) !== false) {
+				--$depth;
+			} elseif ($c === ',' && $depth === 0) {
+				break;
+			}
+
+			$item .= $c;
+		}
+		$list = substr($list, $index);
+
+		return $item;
 	}
 
 	/**
@@ -44,7 +120,7 @@ abstract class AbstractType extends \SwaggerGen\Swagger\AbstractObject
 	/**
 	 * Overwrites default AbstractObject parser, since Types should not handle
 	 * extensions themselves.
-	 * 
+	 *
 	 * @param string $command
 	 * @param string $data
 	 * @return \SwaggerGen\Swagger\Type\AbstractType|boolean
@@ -72,6 +148,30 @@ abstract class AbstractType extends \SwaggerGen\Swagger\AbstractObject
 		return self::arrayFilterNull(array_merge(array(
 					'example' => $this->example,
 								), parent::toArray()));
+	}
+
+	public static function typeFactory($parent, $definition, $error = "Unparseable schema type definition: '%s'")
+	{
+		// Parse regex
+		$match = array();
+		if (preg_match('/^([a-z]+)/i', $definition, $match) === 1) {
+			// recognized format
+		} elseif (preg_match('/^(\[)(?:.*?)\]$/i', $definition, $match) === 1) {
+			$match[1] = 'array';
+		} elseif (preg_match('/^(\{)(?:.*?)\}$/i', $definition, $match) === 1) {
+			$match[1] = 'object';
+		} else {
+			throw new \SwaggerGen\Exception(sprintf($error, $definition));
+		}
+		$format = strtolower($match[1]);
+		// Internal type if type known and not overwritten by definition
+		if (isset(self::$classTypes[$format])) {
+			$type = self::$classTypes[$format];
+			$class = "SwaggerGen\\Swagger\\Type\\{$type}Type";
+			return new $class($parent, $definition);
+		} else {
+			return new ReferenceObjectType($parent, $definition);
+		}
 	}
 
 }
