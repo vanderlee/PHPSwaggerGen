@@ -104,13 +104,13 @@ class ObjectType extends AbstractType
 	{
 		if (!empty($this->discriminator)) {
 			throw new \SwaggerGen\Exception("Discriminator may only be set once, "
-			                                . "trying to change it "
-			                                . "from '{$this->discriminator}' "
-			                                . "to '{$discriminator}'");
+											. "trying to change it "
+											. "from '{$this->discriminator}' "
+											. "to '{$discriminator}'");
 		}
 		if (isset($this->properties[$discriminator]) && empty($this->required[$discriminator])) {
 			throw new \SwaggerGen\Exception("Discriminator must be a required property, "
-			                                . "property '{$discriminator}' is not required");
+											. "property '{$discriminator}' is not required");
 		}
 		$this->discriminator = $discriminator;
 	}
@@ -152,7 +152,7 @@ class ObjectType extends AbstractType
 
 				if (($name === $this->discriminator) && !$required) {
 					throw new \SwaggerGen\Exception("Discriminator must be a required property, "
-					                                . "property '{$name}' is not required");
+													. "property '{$name}' is not required");
 				}
 
 				unset($this->required[$name]);

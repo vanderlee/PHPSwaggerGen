@@ -17,7 +17,8 @@ class testParse_WithMethod
 	 * Description of method
 	 * @rest\description some description
 	 */
-	public function Method1() {
+	public function Method1()
+	{
 		// @rest\method get something
 	}
 }

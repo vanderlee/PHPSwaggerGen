@@ -7,7 +7,8 @@ namespace Test\Parser\Php\ParserTest;
  * @rest\title CurlyBraceFunction
  * @rest\api MyApi Example
  */
-class testParse_CurlyBraces {
+class testParse_CurlyBraces
+{
 
 	/**
 	 * @rest\endpoint /endpoint

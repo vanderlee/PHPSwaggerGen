@@ -240,7 +240,7 @@ class OperationTest extends SwaggerGen_TestCase
 	 * @covers \SwaggerGen\Swagger\Operation::handleCommand
 	 */
 	public function testHandleCommand_OperationId_UniqueInSwagger()
-	{	
+	{
 		// First occurance
 		$path = $this->parent->handleCommand('endpoint', 'foo');
 		$this->assertInstanceOf('\SwaggerGen\Swagger\Path', $path);
@@ -723,7 +723,7 @@ class OperationTest extends SwaggerGen_TestCase
 			'responses' => array(
 				200 => array(
 					'description' => 'OK',
-					'schema' => Array(
+					'schema' => array(
 						'type' => 'integer',
 						'format' => 'int32',
 					),
@@ -747,7 +747,7 @@ class OperationTest extends SwaggerGen_TestCase
 			'responses' => array(
 				200 => array(
 					'description' => 'Stuff is returned',
-					'schema' => Array(
+					'schema' => array(
 						'type' => 'integer',
 						'format' => 'int32',
 					),

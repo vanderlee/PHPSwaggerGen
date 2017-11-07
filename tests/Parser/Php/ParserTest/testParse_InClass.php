@@ -15,7 +15,8 @@ class testParse_InClass
 	/**
 	 * @rest\version 2
 	 */
-	public function Method1() {
+	public function Method1()
+	{
 
 	}
 

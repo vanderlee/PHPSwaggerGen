@@ -18,7 +18,8 @@ class testParse_WithMethod
 	 * @rest\description some description
 	 * @rest\method get something
 	 */
-	public function Method1() {
+	public function Method1()
+	{
 
 	}
 }
