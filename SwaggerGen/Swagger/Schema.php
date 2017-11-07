@@ -24,10 +24,10 @@ class Schema extends AbstractDocumentableObject implements IDefinition
 	 */
 	private $title = null;
 
-    /**
-     * @var bool
-     */
-    private $readOnly = null;
+	/**
+	 * @var bool
+	 */
+	private $readOnly = null;
 
 	/**
 	 * @var \SwaggerGen\Swagger\Type\AbstractType
@@ -79,7 +79,7 @@ class Schema extends AbstractDocumentableObject implements IDefinition
 		return self::arrayFilterNull(array_merge($this->type->toArray(), array(
 					'title' => empty($this->title) ? null : $this->title,
 					'description' => empty($this->description) ? null : $this->description,
-                    'readOnly' => $this->readOnly
+					'readOnly' => $this->readOnly
 								), parent::toArray()));
 	}
 
@@ -88,9 +88,9 @@ class Schema extends AbstractDocumentableObject implements IDefinition
 		return __CLASS__;
 	}
 
-    public function setReadOnly()
-    {
-        $this->readOnly = true;
-    }
+	public function setReadOnly()
+	{
+		$this->readOnly = true;
+	}
 
 }

@@ -14,7 +14,8 @@ namespace Test\Parser\Php\ParserTest;
 class testParse_MethodNonDoc
 {
 	// @rest\method get something
-	public function Method1() {
+	public function Method1()
+	{
 
 	}
 }

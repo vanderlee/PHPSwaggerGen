@@ -29,7 +29,8 @@ function NotFound()
  *
  * @rest\api Users Get some useful information on users
  */
-class Example {
+class Example
+{
 
 	private $data = array();
 
