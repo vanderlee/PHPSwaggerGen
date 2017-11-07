@@ -15,9 +15,18 @@ if (!class_exists('PHPUnit\Framework\TestCase') && class_exists('PHPUnit_Framewo
 class SwaggerGen_TestCase extends PHPUnit\Framework\TestCase
 {
 
-	public function expectException($exception)
+	public function expectException($exception, $message = '')
 	{
-		return method_exists($this, 'setExpectedException') ? self::setExpectedException($exception) : parent::expectException($exception);
+		// while setExpectedException accepts message to assert on, expectException does not
+		if (method_exists($this, 'setExpectedException')) {
+			$ret = $this->setExpectedException($exception, $message);
+		} else {
+			$ret = parent::expectException($exception);
+			if ($message !== '') {
+				parent::expectExceptionMessage($message);
+			}
+		}
+		return $ret;
 	}
 
 }
