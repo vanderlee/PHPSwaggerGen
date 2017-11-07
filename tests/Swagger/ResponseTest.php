@@ -227,7 +227,7 @@ class ResponseTest extends SwaggerGen_TestCase
 
 		$this->assertInstanceOf('\SwaggerGen\Swagger\Response', $object);
 
-		$this->expectException('\SwaggerGen\Exception', "Missing content example `Foo`");
+		$this->expectException('\SwaggerGen\Exception', "Missing content for example `Foo`");
 
 		$object->handleCommand('example', 'Foo');
 	}
