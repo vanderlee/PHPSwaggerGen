@@ -30,10 +30,11 @@ class OutputTest extends SwaggerGen_TestCase
 		);
 	}
 	
-	public function provideAllCases() {
+	public function provideAllCases()
+	{
 		$cases = array();
 		
-		foreach (glob(__DIR__ . '/*', GLOB_ONLYDIR) as $dir) {					
+		foreach (glob(__DIR__ . '/*', GLOB_ONLYDIR) as $dir) {
 			$path = realpath($dir);					
 			$json = $this->normalizeJson(file_get_contents($path . '/expected.json'));
 			

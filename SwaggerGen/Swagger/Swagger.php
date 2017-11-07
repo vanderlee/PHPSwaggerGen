@@ -155,7 +155,7 @@ class Swagger extends AbstractDocumentableObject
 				}
 
 				$definition = new Schema($this, $typeDef);
-				if(substr($command, -1) === '!') {
+				if (substr($command, -1) === '!') {
 					$definition->setReadOnly();
 				}
 				$this->definitions[$name] = $definition;
