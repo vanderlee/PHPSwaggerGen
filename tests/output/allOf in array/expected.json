@@ -36,7 +36,6 @@
                           {
                               "type": "integer",
                               "format": "int32",
-                              "exclusiveMaximum": true,
                               "minimum": 1
                           }
                       ]
@@ -56,7 +55,6 @@
                           {
                               "type": "integer",
                               "format": "int32",
-                              "exclusiveMaximum": true,
                               "minimum": 1
                           }
                       ]
