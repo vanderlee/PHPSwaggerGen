@@ -24,7 +24,7 @@ Using just a few simple commands like `@rest\endpoint /users` and
 By adding a `@rest\response 200 array(object(name:string, age:int[0,>, gender:enum(male,female)))`
 statement, you've just defined exactly what it'll return.
 You could have also just defined a `User` and do the same with a
-`@rest\response 200 array(User)` statement.
+`@rest\response 200 array(User)` statement or even just `@rest\response ok [User]`.
 
 SwaggerGen makes it quick and intuitive to write high quality documentation.
 
