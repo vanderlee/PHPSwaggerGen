@@ -440,7 +440,7 @@ class ObjectTypeTest extends SwaggerGen_TestCase
 	public function testSettingAdditionalPropertiesTwiceInlineFails()
 	{
 		$this->expectException('\SwaggerGen\Exception', "Additional properties may only be set once");
-		$object = new SwaggerGen\Swagger\Type\ObjectType($this->parent, 'object(...,...)');
+		new SwaggerGen\Swagger\Type\ObjectType($this->parent, 'object(...,...)');
 	}
 
 	public function testSettingAdditionalPropertiesTwiceWithCommandFails()
@@ -461,13 +461,13 @@ class ObjectTypeTest extends SwaggerGen_TestCase
 	public function testSettingAdditionalPropertiesWithInvalidSyntaxFails()
 	{
 		$this->expectException('\SwaggerGen\Exception', "Unparseable property definition: '!...!'");
-		$object = new SwaggerGen\Swagger\Type\ObjectType($this->parent, 'object(!...!)');
+		new SwaggerGen\Swagger\Type\ObjectType($this->parent, 'object(!...!)');
 	}
 
 	public function testSettingAdditionalPropertiesWithInvalidTypeInlineFails()
 	{
 		$this->expectException('\SwaggerGen\Exception', "Unparseable additional properties definition: '...?&#'");
-		$object = new SwaggerGen\Swagger\Type\ObjectType($this->parent, 'object(...?&#)');
+		new SwaggerGen\Swagger\Type\ObjectType($this->parent, 'object(...?&#)');
 	}
 
 	public function testSettingAdditionalPropertiesWithInvalidTypeCommandFails()
