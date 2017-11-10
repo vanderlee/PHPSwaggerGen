@@ -150,6 +150,12 @@ abstract class AbstractType extends \SwaggerGen\Swagger\AbstractObject
 								), parent::toArray()));
 	}
 
+	/**
+	 * @param SwaggerGen\Swagger\AbstractObject $parent
+	 * @param string $definition
+	 * @param string $error
+	 * @return self
+	 */
 	public static function typeFactory($parent, $definition, $error = "Unparseable schema type definition: '%s'")
 	{
 		// Parse regex
