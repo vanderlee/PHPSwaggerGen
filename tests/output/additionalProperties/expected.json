@@ -1,0 +1,193 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "undefined",
+    "version": "0"
+  },
+  "host": "example.com",
+  "basePath": "/base",
+  "paths": {
+    "/stub-see-definitions": {
+      "get": {
+        "tags": [
+          "Test"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "IdModel": {
+      "type": "object",
+      "required": [
+        "id"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^[a-f0-9]{8}-[a-f0-9]{4}-[1-5][a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$"
+        }
+      }
+    },
+    "AnyPropertiesAllowedInline": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "AnyPropertiesAllowedCommand": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "TypedPropertiesAllowedInline": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "integer",
+        "format": "int32"
+      }
+    },
+    "TypedPropertiesAllowedCommand": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "integer",
+        "format": "int32"
+      }
+    },
+    "RefPropertiesAllowedInline": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/definitions/IdModel"
+      }
+    },
+    "RefPropertiesAllowedCommand": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/definitions/IdModel"
+      }
+    },
+    "NoAdditionalPropertiesAllowedInline": {
+      "type": "object",
+      "required": [
+        "propName"
+      ],
+      "properties": {
+        "propName": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "additionalProperties": false
+    },
+    "NoAdditionalPropertiesAllowedCommand": {
+      "type": "object",
+      "required": [
+        "propName"
+      ],
+      "properties": {
+        "propName": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "additionalProperties": false
+    },
+    "MixedPropertiesAndAdditionalPropertiesInline": {
+      "type": "object",
+      "required": [
+        "propName"
+      ],
+      "properties": {
+        "propName": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "additionalProperties": true
+    },
+    "MixedPropertiesAndAdditionalPropertiesCommand": {
+      "type": "object",
+      "required": [
+        "propName"
+      ],
+      "properties": {
+        "propName": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "additionalProperties": true
+    },
+    "MixedPropertiesAndTypedAdditionalPropertiesInline": {
+      "type": "object",
+      "required": [
+        "propName"
+      ],
+      "properties": {
+        "propName": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "MixedPropertiesAndTypedAdditionalPropertiesCommand": {
+      "type": "object",
+      "required": [
+        "propName"
+      ],
+      "properties": {
+        "propName": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "MixedPropertiesAndRefAdditionalPropertiesInline": {
+      "type": "object",
+      "required": [
+        "propName"
+      ],
+      "properties": {
+        "propName": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "additionalProperties": {
+        "$ref": "#/definitions/IdModel"
+      }
+    },
+    "MixedPropertiesAndRefAdditionalPropertiesCommand": {
+      "type": "object",
+      "required": [
+        "propName"
+      ],
+      "properties": {
+        "propName": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "additionalProperties": {
+        "$ref": "#/definitions/IdModel"
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "Test"
+    }
+  ]
+}
