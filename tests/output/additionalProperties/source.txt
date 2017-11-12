@@ -1,0 +1,48 @@
+model IdModel object(id:uuid)
+
+model AnyPropertiesAllowedInline object(...)
+
+model AnyPropertiesAllowedCommand object
+additionalproperties true
+
+model TypedPropertiesAllowedInline object(...integer)
+
+model TypedPropertiesAllowedCommand object
+additionalproperties integer
+
+model RefPropertiesAllowedInline object(...IdModel)
+
+model RefPropertiesAllowedCommand object
+additionalproperties IdModel
+
+model NoAdditionalPropertiesAllowedInline object(propName:integer,...!)
+
+model NoAdditionalPropertiesAllowedCommand object
+property integer propName
+additionalproperties false
+
+model MixedPropertiesAndAdditionalPropertiesInline object(propName:integer,...)
+
+model MixedPropertiesAndAdditionalPropertiesCommand object
+property integer propName
+additionalproperties true
+
+model MixedPropertiesAndTypedAdditionalPropertiesInline object(propName:integer,...string)
+
+model MixedPropertiesAndTypedAdditionalPropertiesCommand object
+property integer propName
+additionalproperties string
+
+model MixedPropertiesAndRefAdditionalPropertiesInline object(propName:integer,...IdModel)
+
+model MixedPropertiesAndRefAdditionalPropertiesCommand object
+property integer propName
+additionalproperties IdModel
+
+
+
+api Test
+
+endpoint /stub-see-definitions
+method GET
+response 200 integer

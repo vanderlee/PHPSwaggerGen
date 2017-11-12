@@ -19,11 +19,13 @@ class ObjectType extends AbstractType
 	const REGEX_PROP_REQUIRED = '([\?!])?';
 	const REGEX_PROP_ASSIGN = ':';
 	const REGEX_PROP_DEFINITION = '(.+)';
+	const REGEX_PROP_ADDITIONAL = '\.\.\.(!|.+)?';
 	const REGEX_PROP_END = '$/';
 
 	private $minProperties = null;
 	private $maxProperties = null;
 	private $discriminator = null;
+	private $additionalProperties = null;
 	private $required = array();
 
 	/**
@@ -62,22 +64,45 @@ class ObjectType extends AbstractType
 		}
 	}
 
+	/**
+	 * @param AbstractType|bool $type
+	 * @return void
+	 */
+	private function setAdditionalProperties($type)
+	{
+		if ($this->additionalProperties !== null) {
+			throw new \SwaggerGen\Exception('Additional properties may only be set once');
+		}
+		$this->additionalProperties = $type;
+	}
+
 	private function parseProperties($definition, $match)
 	{
-		if (!empty($match[2])) {
-			do {
-				if (($property = self::parseListItem($match[2])) !== '') {
-					$prop_match = array();
-					if (preg_match(self::REGEX_PROP_START . self::REGEX_PROP_NAME . self::REGEX_PROP_REQUIRED . self::REGEX_PROP_ASSIGN . self::REGEX_PROP_DEFINITION . self::REGEX_PROP_END, $property, $prop_match) !== 1) {
-						throw new \SwaggerGen\Exception("Unparseable property definition: '{$property}'");
-					}
-					$this->properties[$prop_match[1]] = new Property($this, $prop_match[3]);
-					if ($prop_match[2] !== '!' && $prop_match[2] !== '?') {
-						$this->required[$prop_match[1]] = true;
-					}
-				}
-			} while ($property !== '');
+		if (empty($match[2])) {
+			return;
 		}
+
+		while (($property = self::parseListItem($match[2])) !== '') {
+			$prop_match = array();
+			if (preg_match(self::REGEX_PROP_START . self::REGEX_PROP_ADDITIONAL . self::REGEX_PROP_END, $property, $prop_match) === 1) {
+				if (empty($prop_match[1])) {
+					$this->setAdditionalProperties(true);
+				} else if ($prop_match[1] === '!') {
+					$this->setAdditionalProperties(false);
+				} else {
+					$this->setAdditionalProperties(self::typeFactory($this, $prop_match[1], "Unparseable additional properties definition: '...%s'"));
+				}
+				continue;
+			}
+			if (preg_match(self::REGEX_PROP_START . self::REGEX_PROP_NAME . self::REGEX_PROP_REQUIRED . self::REGEX_PROP_ASSIGN . self::REGEX_PROP_DEFINITION . self::REGEX_PROP_END, $property, $prop_match) !== 1) {
+				throw new \SwaggerGen\Exception("Unparseable property definition: '{$property}'");
+			}
+			$this->properties[$prop_match[1]] = new Property($this, $prop_match[3]);
+			if ($prop_match[2] !== '!' && $prop_match[2] !== '?') {
+				$this->required[$prop_match[1]] = true;
+			}
+		}
+
 	}
 
 	private function parseRange($definition, $match)
@@ -124,6 +149,17 @@ class ObjectType extends AbstractType
 	{
 		switch (strtolower($command)) {
 			// type name description...
+			case 'additionalproperties':
+				$value = self::wordShift($data);
+				if ($value === 'false') {
+					$type = false;
+				} else if ($value === 'true') {
+					$type = true;
+				} else {
+					$type = self::typeFactory($this, $value, "Unparseable additional properties definition: '%s'");
+				}
+				$this->setAdditionalProperties($type);
+				return $this;
 			case 'discriminator':
 				$discriminator = self::wordShift($data);
 				$this->setDiscriminator($discriminator);
@@ -203,6 +239,7 @@ class ObjectType extends AbstractType
 					'minProperties' => $this->minProperties,
 					'maxProperties' => $this->maxProperties,
 					'discriminator' => $this->discriminator,
+					'additionalProperties' => $this->additionalProperties instanceof AbstractType ? $this->additionalProperties->toArray() : $this->additionalProperties,
 								), parent::toArray()));
 	}
 

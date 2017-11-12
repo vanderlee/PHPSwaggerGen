@@ -437,4 +437,45 @@ class ObjectTypeTest extends SwaggerGen_TestCase
 		$object->handleCommand('discriminator', 'petType');
 	}
 
+	public function testSettingAdditionalPropertiesTwiceInlineFails()
+	{
+		$this->expectException('\SwaggerGen\Exception', "Additional properties may only be set once");
+		new SwaggerGen\Swagger\Type\ObjectType($this->parent, 'object(...,...)');
+	}
+
+	public function testSettingAdditionalPropertiesTwiceWithCommandFails()
+	{
+		$object = new SwaggerGen\Swagger\Type\ObjectType($this->parent, 'object');
+		$object->handleCommand('additionalproperties', 'false');
+		$this->expectException('\SwaggerGen\Exception', "Additional properties may only be set once");
+		$object->handleCommand('additionalproperties', 'false');
+	}
+
+	public function testSettingAdditionalPropertiesTwiceMixedFails()
+	{
+		$object = new SwaggerGen\Swagger\Type\ObjectType($this->parent, 'object(...)');
+		$this->expectException('\SwaggerGen\Exception', "Additional properties may only be set once");
+		$object->handleCommand('additionalproperties', 'string');
+	}
+
+	public function testSettingAdditionalPropertiesWithInvalidSyntaxFails()
+	{
+		$this->expectException('\SwaggerGen\Exception', "Unparseable property definition: '!...!'");
+		new SwaggerGen\Swagger\Type\ObjectType($this->parent, 'object(!...!)');
+	}
+
+	public function testSettingAdditionalPropertiesWithInvalidTypeInlineFails()
+	{
+		$this->expectException('\SwaggerGen\Exception', "Unparseable additional properties definition: '...?&#'");
+		new SwaggerGen\Swagger\Type\ObjectType($this->parent, 'object(...?&#)');
+	}
+
+	public function testSettingAdditionalPropertiesWithInvalidTypeCommandFails()
+	{
+		$object = new SwaggerGen\Swagger\Type\ObjectType($this->parent, 'object');
+		$this->expectException('\SwaggerGen\Exception', "Unparseable additional properties definition: '?&#'");
+		$object->handleCommand('additionalproperties', '?&#');
+	}
+
+
 }
