@@ -49,7 +49,6 @@ abstract class AbstractType extends \SwaggerGen\Swagger\AbstractObject
 		'allof' => 'AllOf',
 	);
 
-
 	private $example = null;
 
 	protected static function swap(&$a, &$b)
