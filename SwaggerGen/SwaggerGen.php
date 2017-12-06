@@ -32,6 +32,7 @@ namespace SwaggerGen;
  */
 class SwaggerGen
 {
+
 	const FORMAT_ARRAY = '';
 	const FORMAT_JSON = 'json';
 	const FORMAT_JSON_PRETTY = 'json+';
@@ -191,6 +192,16 @@ class SwaggerGen
 		}
 
 		return $output;
+	}
+
+	/**
+	 * Register a Type class
+	 * 
+	 * @param Swagger\Type\AbstractType $classname
+	 */
+	public static function registerType($classname)
+	{
+		Swagger\Type\AbstractType::registerType($classname);
 	}
 
 }

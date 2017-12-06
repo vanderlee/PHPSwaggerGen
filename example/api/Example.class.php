@@ -164,4 +164,16 @@ class Example
 		// @rest\see NotFound
 	}
 
+	/**
+	 * @rest\endpoint /user/{username}/ip
+	 * @rest\method put
+	 * @rest\path String username Name of the user
+	 * @rest\form ipv4 IpAddress IP address of the user
+	 * @rest\response 204
+	 */
+	private function putUserIp($name, $data)
+	{
+		// not implemented
+	}
+
 }
