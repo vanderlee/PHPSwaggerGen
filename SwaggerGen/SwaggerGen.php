@@ -93,38 +93,22 @@ class SwaggerGen
 	}
 
 	/**
-	 * Get Swagger 2.x output
+	 * Creates Swagger\Swagger object and populates it with statements
 	 *
-	 * @param string[] $files
-	 * @param string[] $dirs
-	 * @param string $format
-	 * @return type
-	 * @throws \SwaggerGen\Exception
+	 * This effectively converts the linear list of statements into parse-tree
+	 * like structure, performing some checks (like rejecting unknown
+	 * subcommands) during the process. Returned Swagger\Swagger object is
+	 * ready for serialization with {@see Swagger\Swagger::toArray}
+	 *
+	 * @param string $host
+	 * @param string $basePath
+	 * @param Statement[] $statements
+	 * @return Swagger\Swagger
+	 * @throws StatementException
 	 */
-	public function getSwagger($files, $dirs = array(), $format = self::FORMAT_ARRAY)
+	public static function parseStatements($host, $basePath, $statements)
 	{
-		$dirs = array_merge($this->dirs, $dirs);
-
-		$statements = array();
-		foreach ($files as $file) {
-			switch (pathinfo($file, PATHINFO_EXTENSION)) {
-				case 'php':
-					$fileStatements = $this->parsePhpFile($file, $dirs);
-					break;
-
-				case 'txt':
-					$fileStatements = $this->parseTextFile($file, $dirs);
-					break;
-
-				default:
-					$fileStatements = $this->parseText($file, $dirs);
-					break;
-			}
-
-			$statements = array_merge($statements, $fileStatements);
-		}
-
-		$swagger = new Swagger\Swagger($this->host, $this->basePath);
+		$swagger = new Swagger\Swagger($host, $basePath);
 
 		$stack = array($swagger); /* @var Swagger\AbstractObject[] $stack */
 		foreach ($statements as $statement) {
@@ -165,7 +149,42 @@ class SwaggerGen
 			}
 		}
 
-		$output = $swagger->toArray();
+		return $swagger;
+	}
+
+	/**
+	 * Get Swagger 2.x output
+	 *
+	 * @param string[] $files
+	 * @param string[] $dirs
+	 * @param string $format
+	 * @return type
+	 * @throws \SwaggerGen\Exception
+	 */
+	public function getSwagger($files, $dirs = array(), $format = self::FORMAT_ARRAY)
+	{
+		$dirs = array_merge($this->dirs, $dirs);
+
+		$statements = array();
+		foreach ($files as $file) {
+			switch (pathinfo($file, PATHINFO_EXTENSION)) {
+				case 'php':
+					$fileStatements = $this->parsePhpFile($file, $dirs);
+					break;
+
+				case 'txt':
+					$fileStatements = $this->parseTextFile($file, $dirs);
+					break;
+
+				default:
+					$fileStatements = $this->parseText($file, $dirs);
+					break;
+			}
+
+			$statements = array_merge($statements, $fileStatements);
+		}
+
+		$output = self::parseStatements($this->host, $this->basePath, $statements)->toArray();
 
 		switch ($format) {
 			case self::FORMAT_JSON:
