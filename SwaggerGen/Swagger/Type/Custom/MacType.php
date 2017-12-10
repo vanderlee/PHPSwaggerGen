@@ -74,7 +74,7 @@ class MacType extends \SwaggerGen\Swagger\Type\StringType implements ICustomType
 			throw new \SwaggerGen\Exception("Empty MAC default");
 		}
 
-		if (filter_var($value, FILTER_VALIDATE_MAC) === false) {
+		if (preg_match('/^([0-9A-F]){2}(:[0-9A-F]{2}){5}$/', $value) !== 1) {
 			throw new \SwaggerGen\Exception("Invalid MAC default value: '{$value}'");
 		}
 
