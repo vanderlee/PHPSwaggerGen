@@ -1,6 +1,6 @@
 <?php
 
-namespace CustomType;
+namespace SwaggerGen\Swagger\Type\Custom;
 
 /**
  * IPv4 type definition
@@ -10,17 +10,22 @@ namespace CustomType;
  * @copyright  2014-2017 Martijn van der Lee
  * @license    https://opensource.org/licenses/MIT MIT
  */
-class Ipv4Type extends \SwaggerGen\Swagger\Type\StringType
+class Ipv4Type extends \SwaggerGen\Swagger\Type\StringType implements ICustomType
 {
-	
+
 	const PATTERN = '^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)(\\.|$)){4}$';
 	const TYPE = 'ipv4';
 
-	public static function register()
+	public static function register($type = null)
 	{
-		self::registerType(self::TYPE, __CLASS__);
+		self::registerType($type === null ? self::TYPE : $type, __CLASS__);
 	}
-	
+
+	public static function unregister($type = null)
+	{
+		self::unregisterType($type === null ? self::TYPE : $type);
+	}
+
 	/**
 	 * Construct and setup the regular expression for this type
 	 * 
@@ -29,12 +34,17 @@ class Ipv4Type extends \SwaggerGen\Swagger\Type\StringType
 	 */
 	public function __construct(\SwaggerGen\Swagger\AbstractObject $parent, $definition)
 	{
-		$this->format = 'string';
 		$this->pattern = self::PATTERN;
-		
+
 		parent::__construct($parent, $definition);
 	}
-	
+
+	/**
+	 * Parse a type definition string, assuming it belongs to this type
+	 * 
+	 * @param string $definition
+	 * @throws \SwaggerGen\Exception
+	 */
 	protected function parseDefinition($definition)
 	{
 		$definition = self::trim($definition);
@@ -50,18 +60,25 @@ class Ipv4Type extends \SwaggerGen\Swagger\Type\StringType
 
 		$this->default = isset($match[2]) && $match[2] !== '' ? $this->validateDefault($match[2]) : null;
 	}
-	
+
+	/**
+	 * Check (and optionally reformat) a default value
+	 * 
+	 * @param string $value
+	 * @return string
+	 * @throws \SwaggerGen\Exception
+	 */
 	protected function validateDefault($value)
 	{
-		$value = parent::validateDefault($value);
-		
-		if (preg_match('/' . $this->pattern . '/', $value) !== 1) {
-			throw new \SwaggerGen\Exception("Invalid {$this->format} default value");
+		if (empty($value)) {
+			throw new \SwaggerGen\Exception("Empty IPv4 default");
 		}
-		
+
+		if (filter_var($value, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4) === false) {
+			throw new \SwaggerGen\Exception("Invalid IPv4 default value: '{$value}'");
+		}
+
 		return $value;
 	}
 
 }
-
-\CustomType\Ipv4Type::register();

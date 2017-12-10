@@ -6,7 +6,7 @@
 
 	$SwaggerGen = new \SwaggerGen\SwaggerGen($_SERVER['HTTP_HOST'], dirname($_SERVER['REQUEST_URI']));	
 	
-	require_once 'CustomType/Ipv4Type.php';
+	SwaggerGen\Swagger\Type\Custom\Ipv4Type::register();
 	
 	//$SwaggerGen->define('admin');
 	//$SwaggerGen->define('root');
