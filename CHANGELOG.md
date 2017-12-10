@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## 2.3.18 - 2017-12-06
+### Changed
+- PR #32 Separated parsing from compiling parts, by weirdan.
+
 ## 2.3.17 - 2017-11-28
 ### Added
 - Support for `additionalProperties` (#31) added by weirdan.
