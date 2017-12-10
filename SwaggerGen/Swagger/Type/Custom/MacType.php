@@ -13,7 +13,7 @@ namespace SwaggerGen\Swagger\Type\Custom;
 class MacType extends \SwaggerGen\Swagger\Type\StringType implements ICustomType
 {
 
-	const PATTERN = '\A[a-z0-9!#$%&\'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&\'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\z';
+	const PATTERN = '^([0-9A-F]){2}(:[0-9A-F]{2}){5}$';
 	const TYPE = 'mac';
 
 	public static function register($type = null)
