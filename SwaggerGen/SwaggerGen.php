@@ -194,14 +194,4 @@ class SwaggerGen
 		return $output;
 	}
 
-	/**
-	 * Register a Type class
-	 * 
-	 * @param Swagger\Type\AbstractType $classname
-	 */
-	public static function registerType($classname)
-	{
-		Swagger\Type\AbstractType::registerType($classname);
-	}
-
 }
