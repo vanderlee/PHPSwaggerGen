@@ -10,21 +10,11 @@ namespace SwaggerGen\Swagger\Type\Custom;
  * @copyright  2014-2017 Martijn van der Lee
  * @license    https://opensource.org/licenses/MIT MIT
  */
-class Ipv6Type extends \SwaggerGen\Swagger\Type\StringType implements ICustomType
+class Ipv6Type extends \SwaggerGen\Swagger\Type\StringType
 {
 
 	const PATTERN = '(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))';
-	const TYPE = 'ipv6';
-
-	public static function register($type = null)
-	{
-		self::registerType($type === null ? self::TYPE : $type, __CLASS__);
-	}
-
-	public static function unregister($type = null)
-	{
-		self::unregisterType($type === null ? self::TYPE : $type);
-	}
+	const FORMAT = 'ipv6';
 
 	/**
 	 * Construct and setup the regular expression for this type
@@ -54,7 +44,7 @@ class Ipv6Type extends \SwaggerGen\Swagger\Type\StringType implements ICustomTyp
 			throw new \SwaggerGen\Exception("Unparseable IPv6 definition: '{$definition}'");
 		}
 
-		if (strtolower($match[1] !== self::TYPE)) {
+		if (strtolower($match[1]) !== self::FORMAT) {
 			throw new \SwaggerGen\Exception("Not an IPv6: '{$definition}'");
 		}
 

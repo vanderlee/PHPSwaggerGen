@@ -10,20 +10,19 @@ namespace SwaggerGen\Swagger\Type\Custom;
  * @copyright  2014-2017 Martijn van der Lee
  * @license    https://opensource.org/licenses/MIT MIT
  */
-class Ipv4Type extends \SwaggerGen\Swagger\Type\StringType implements ICustomType
+class Ipv4Type extends \SwaggerGen\Swagger\Type\StringType
 {
 
 	const PATTERN = '^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)(\\.|$)){4}$';
-	const TYPE = 'ipv4';
+	const FORMAT = 'ipv4';
 
-	public static function register($type = null)
+	/**
+	 * Return a list of formats recognized by this type
+	 * @return string[]
+	 */
+	public static function getFormats()
 	{
-		self::registerType($type === null ? self::TYPE : $type, __CLASS__);
-	}
-
-	public static function unregister($type = null)
-	{
-		self::unregisterType($type === null ? self::TYPE : $type);
+		return array(self::FORMAT);
 	}
 
 	/**
@@ -54,7 +53,7 @@ class Ipv4Type extends \SwaggerGen\Swagger\Type\StringType implements ICustomTyp
 			throw new \SwaggerGen\Exception("Unparseable IPv4 definition: '{$definition}'");
 		}
 
-		if (strtolower($match[1] !== self::TYPE)) {
+		if (strtolower($match[1]) !== self::FORMAT) {
 			throw new \SwaggerGen\Exception("Not an IPv4: '{$definition}'");
 		}
 

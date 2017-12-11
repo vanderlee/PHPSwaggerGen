@@ -10,21 +10,11 @@ namespace SwaggerGen\Swagger\Type\Custom;
  * @copyright  2014-2017 Martijn van der Lee
  * @license    https://opensource.org/licenses/MIT MIT
  */
-class EmailType extends \SwaggerGen\Swagger\Type\StringType implements ICustomType
+class EmailType extends \SwaggerGen\Swagger\Type\StringType
 {
 
 	const PATTERN = '\A[a-z0-9!#$%&\'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&\'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\z';
-	const TYPE = 'email';
-
-	public static function register($type = null)
-	{
-		self::registerType($type === null ? self::TYPE : $type, __CLASS__);
-	}
-
-	public static function unregister($type = null)
-	{
-		self::unregisterType($type === null ? self::TYPE : $type);
-	}
+	const FORMAT = 'email';
 
 	/**
 	 * Construct and setup the regular expression for this type
@@ -54,7 +44,7 @@ class EmailType extends \SwaggerGen\Swagger\Type\StringType implements ICustomTy
 			throw new \SwaggerGen\Exception("Unparseable email definition: '{$definition}'");
 		}
 
-		if (strtolower($match[1] !== self::TYPE)) {
+		if (strtolower($match[1]) !== self::FORMAT) {
 			throw new \SwaggerGen\Exception("Not an email: '{$definition}'");
 		}
 

@@ -25,7 +25,6 @@ abstract class AbstractObject
 		'php' => 'text/x-php',
 		'xml' => 'text/xml',
 	);
-	protected static $customClassTypes = array();
 
 	/**
 	 * @var AbstractObject
@@ -37,30 +36,6 @@ abstract class AbstractObject
 	 * @var string[]
 	 */
 	private $extensions = array();
-
-	/**
-	 * Register a class to one ore more type names
-	 * 
-	 * @param string|string[] $types List of type names
-	 */
-	protected static function registerType($types, $className)
-	{
-		foreach ((array) $types as $type) {
-			self::$customClassTypes[$type] = $className;
-		}
-	}
-
-	/**
-	 * Unregister one ore more type names
-	 * 
-	 * @param string|string[] $types List of type names
-	 */
-	protected static function unregisterType($types)
-	{
-		foreach ((array) $types as $type) {
-			unset(self::$customClassTypes[$type]);
-		}
-	}
 
 	public function __construct(AbstractObject $parent = null)
 	{

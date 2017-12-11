@@ -16,6 +16,12 @@ class Swagger extends AbstractDocumentableObject
 	private $swagger = '2.0';
 	private $host;
 	private $basePath;
+	
+	/**
+	 * Map of format => classnames for types
+	 * @var type 
+	 */
+	private $types = array();
 
 	/**
 	 * @var Info $Info
@@ -63,7 +69,7 @@ class Swagger extends AbstractDocumentableObject
 	 * @param string $host
 	 * @param string $basePath
 	 */
-	public function __construct($host = null, $basePath = null)
+	public function __construct($host = null, $basePath = null, $types = array())
 	{
 		parent::__construct(null);
 
@@ -71,6 +77,8 @@ class Swagger extends AbstractDocumentableObject
 		$this->basePath = $basePath;
 
 		$this->info = new Info($this);
+		
+		$this->types = $types;
 	}
 
 	/**
@@ -79,6 +87,24 @@ class Swagger extends AbstractDocumentableObject
 	protected function getSwagger()
 	{
 		return $this;
+	}
+
+	/**
+	 * Is a type format known?
+	 * @return bool
+	 */
+	public function hasType($name)
+	{
+		return isset($this->types[$name]);
+	}
+
+	/**
+	 * Get the type class name
+	 * @return null|string
+	 */
+	public function getType($name)
+	{
+		return isset($this->types[$name]) ? $this->types[$name] : null;
 	}
 
 	/**

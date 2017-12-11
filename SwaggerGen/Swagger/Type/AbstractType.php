@@ -174,8 +174,8 @@ abstract class AbstractType extends \SwaggerGen\Swagger\AbstractObject
 			$type = self::$classTypes[$format];
 			$class = "\\SwaggerGen\\Swagger\\Type\\{$type}Type";
 			return new $class($parent, $definition);
-		} elseif (isset(self::$customClassTypes[$format])) {
-			$class = self::$customClassTypes[$format];
+		} elseif ($parent->getSwagger()->hasType($format)) {
+			$class = $parent->getSwagger()->getType($format);
 			return new $class($parent, $definition);
 		} else {
 			return new ReferenceObjectType($parent, $definition);
