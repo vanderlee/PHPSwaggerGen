@@ -110,8 +110,8 @@ class Parameter extends AbstractObject implements IParameter
 			$type = self::$classTypes[$format];
 			$class = "\\SwaggerGen\\Swagger\\Type\\{$type}Type";
 			$this->Type = new $class($this, $definition);
-		} elseif ($this->getSwagger()->hasType($format)) {
-			$class = $this->getSwagger()->getType($format);
+		} elseif ($this->getSwagger()->hasFormat($format)) {
+			$class = $this->getSwagger()->getFormat($format);
 			$this->Type = new $class($this, $definition);
 		} else {
 			throw new \SwaggerGen\Exception("Type format not recognized: '{$format}'");

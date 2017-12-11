@@ -93,7 +93,7 @@ class Swagger extends AbstractDocumentableObject
 	 * Is a type format known?
 	 * @return bool
 	 */
-	public function hasType($name)
+	public function hasFormat($name)
 	{
 		return isset($this->types[$name]);
 	}
@@ -102,7 +102,7 @@ class Swagger extends AbstractDocumentableObject
 	 * Get the type class name
 	 * @return null|string
 	 */
-	public function getType($name)
+	public function getFormat($name)
 	{
 		return isset($this->types[$name]) ? $this->types[$name] : null;
 	}
