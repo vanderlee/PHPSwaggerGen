@@ -67,6 +67,14 @@ abstract class AbstractObject
 	}
 
 	/**
+	 * @return \SwaggerGen\TypeRegistry
+	 */
+	protected function getTypeRegistry()
+	{
+		return $this->parent->getTypeRegistry();
+	}
+
+	/**
 	 * @param string $command
 	 * @param string $data
 	 * @return \SwaggerGen\Swagger\AbstractObject|boolean

@@ -7,7 +7,7 @@ class FileTypeTest extends SwaggerGen_TestCase
 
 	protected function setUp()
 	{
-		$this->parent = $this->getMockForAbstractClass('\SwaggerGen\Swagger\AbstractObject');
+		$this->parent = new \SwaggerGen\Swagger\Swagger;
 	}
 
 	protected function assertPreConditions()
@@ -58,14 +58,14 @@ class FileTypeTest extends SwaggerGen_TestCase
 		$parameter = new SwaggerGen\Swagger\Parameter($operation, 'form', 'long whatever');
 		$object = new SwaggerGen\Swagger\Type\FileType($parameter, 'file');
 	}
-	
+
 	/**
 	 * @covers \SwaggerGen\Swagger\Type\FileType::__construct
 	 */
 	public function testConstructNotExclusiveFormConsumes()
 	{
 		$this->expectException('\SwaggerGen\Exception', "File type 'file' without valid consume");
-		
+
 		$operation = new SwaggerGen\Swagger\Operation($this->parent);
 		$operation->handleCommand('consumes', 'text file');
 		$parameter = new SwaggerGen\Swagger\Parameter($operation, 'form', 'long whatever');

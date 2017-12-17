@@ -42,13 +42,26 @@ class SwaggerGen
 	private $basePath;
 	private $dirs = array();
 	private $defines = array();
-	private $types = array();
 
-	public function __construct($host = '', $basePath = '', $dirs = array())
+	/**
+	 * @var TypeRegistry
+	 */
+	private $typeRegistry = null;
+
+	/**
+	 * Create a new SwaggerGen instance
+	 * 
+	 * @param string $host
+	 * @param string $basePath
+	 * @param string[] $dirs
+	 * @param TypeRegistry $typeRegistry
+	 */
+	public function __construct($host = '', $basePath = '', $dirs = array(), $typeRegistry = null)
 	{
 		$this->host = $host;
 		$this->basePath = $basePath;
 		$this->dirs = $dirs;
+		$this->typeRegistry = $typeRegistry;
 	}
 
 	public function define($name, $value = 1)
@@ -59,19 +72,6 @@ class SwaggerGen
 	public function undefine($name)
 	{
 		unset($this->defines[$name]);
-	}
-	
-	/**
-	 * Add a type name from classname
-	 * @param type $classname
-	 */
-	public function addType($classname)
-	{
-		if (is_subclass_of($classname, '\\SwaggerGen\\Swagger\\Type\\AbstractType', true)) {
-			foreach ($classname::getFormats() as $name) {
-				$this->types[$name] = $classname;
-			}
-		}
 	}
 
 	/**
@@ -121,9 +121,9 @@ class SwaggerGen
 	 * @return Swagger\Swagger
 	 * @throws StatementException
 	 */
-	public static function parseStatements($host, $basePath, $types, $statements)
+	public function parseStatements($host, $basePath, $statements)
 	{
-		$swagger = new Swagger\Swagger($host, $basePath, $types);
+		$swagger = new Swagger\Swagger($host, $basePath, $this->typeRegistry);
 
 		$stack = array($swagger); /* @var Swagger\AbstractObject[] $stack */
 		foreach ($statements as $statement) {
@@ -199,7 +199,7 @@ class SwaggerGen
 			$statements = array_merge($statements, $fileStatements);
 		}
 
-		$output = self::parseStatements($this->host, $this->basePath, $this->types, $statements)->toArray();
+		$output = $this->parseStatements($this->host, $this->basePath, $statements)->toArray();
 
 		switch ($format) {
 			case self::FORMAT_JSON:

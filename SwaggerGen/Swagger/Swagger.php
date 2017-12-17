@@ -18,10 +18,9 @@ class Swagger extends AbstractDocumentableObject
 	private $basePath;
 	
 	/**
-	 * Map of format => classnames for types
-	 * @var type 
+	 * @var \Swagger\TypeRegistry
 	 */
-	private $types = array();
+	private $typeRegistry = array();
 
 	/**
 	 * @var Info $Info
@@ -68,8 +67,9 @@ class Swagger extends AbstractDocumentableObject
 	 * @inheritDoc
 	 * @param string $host
 	 * @param string $basePath
+	 * @param TypeRegistry $typeRegistry
 	 */
-	public function __construct($host = null, $basePath = null, $types = array())
+	public function __construct($host = null, $basePath = null, $typeRegistry = null)
 	{
 		parent::__construct(null);
 
@@ -78,7 +78,7 @@ class Swagger extends AbstractDocumentableObject
 
 		$this->info = new Info($this);
 		
-		$this->types = $types;
+		$this->typeRegistry = $typeRegistry ? $typeRegistry : new \SwaggerGen\TypeRegistry;
 	}
 
 	/**
@@ -90,22 +90,12 @@ class Swagger extends AbstractDocumentableObject
 	}
 
 	/**
-	 * Is a type format known?
-	 * @return bool
+	 * @inheritDoc
 	 */
-	public function hasFormat($name)
+	protected function getTypeRegistry()
 	{
-		return isset($this->types[$name]);
-	}
-
-	/**
-	 * Get the type class name
-	 * @return null|string
-	 */
-	public function getFormat($name)
-	{
-		return isset($this->types[$name]) ? $this->types[$name] : null;
-	}
+		return $this->typeRegistry;
+	}	
 
 	/**
 	 * Return all consumes

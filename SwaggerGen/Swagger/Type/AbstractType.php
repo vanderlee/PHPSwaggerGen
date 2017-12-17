@@ -170,12 +170,12 @@ abstract class AbstractType extends \SwaggerGen\Swagger\AbstractObject
 		}
 		$format = strtolower($match[1]);
 		// Internal type if type known and not overwritten by definition
-		if (isset(self::$classTypes[$format])) {
+		if ($parent->getTypeRegistry()->has($format)) {
+			$class = $parent->getTypeRegistry()->get($format);
+			return new $class($parent, $definition);
+		} elseif (isset(self::$classTypes[$format])) {
 			$type = self::$classTypes[$format];
 			$class = "\\SwaggerGen\\Swagger\\Type\\{$type}Type";
-			return new $class($parent, $definition);
-		} elseif ($parent->getSwagger()->hasFormat($format)) {
-			$class = $parent->getSwagger()->getFormat($format);
 			return new $class($parent, $definition);
 		} else {
 			return new ReferenceObjectType($parent, $definition);

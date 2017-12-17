@@ -7,7 +7,7 @@ class ObjectTypeTest extends SwaggerGen_TestCase
 
 	protected function setUp()
 	{
-		$this->parent = $this->getMockForAbstractClass('\SwaggerGen\Swagger\AbstractObject');
+		$this->parent = new \SwaggerGen\Swagger\Swagger;
 	}
 
 	protected function assertPreConditions()

@@ -8,7 +8,7 @@ class Issue0005Test extends SwaggerGen_TestCase
 	 */
 	public function testHandleCommand_Model_Property()
 	{
-		$object = new \SwaggerGen\Swagger\Swagger();
+		$object = new \SwaggerGen\Swagger\Swagger;
 		$this->assertInstanceOf('\SwaggerGen\Swagger\Swagger', $object);
 
 		$schema = $object->handleCommand('model', 'foo');
@@ -94,7 +94,8 @@ class Issue0005Test extends SwaggerGen_TestCase
 	 */
 	public function testHandleCommand_Query_Duplicate()
 	{
-		$object = $this->getMockForAbstractClass('\SwaggerGen\Swagger\AbstractObject');
+		$object = new \SwaggerGen\Swagger\Swagger;
+		$this->assertInstanceOf('\SwaggerGen\Swagger\Swagger', $object);
 		
 		$operation = new \SwaggerGen\Swagger\Operation($object);
 		$this->assertInstanceOf('\SwaggerGen\Swagger\Operation', $operation);

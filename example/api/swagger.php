@@ -3,14 +3,16 @@
 	require_once __DIR__ . '/autoloader.php';
 
 	$files = array('Example.class.php');
+	
+	$TypeRegistry = new \SwaggerGen\TypeRegistry();
+	$TypeRegistry->add('\SwaggerGen\Swagger\Type\Custom\Ipv4Type');
 
-	$SwaggerGen = new \SwaggerGen\SwaggerGen($_SERVER['HTTP_HOST'], dirname($_SERVER['REQUEST_URI']));	
+	$SwaggerGen = new \SwaggerGen\SwaggerGen($_SERVER['HTTP_HOST'], dirname($_SERVER['REQUEST_URI']), array(), $TypeRegistry);	
 	
 	// @todo Allow explicitly format name specification for conflict resolution.
 	// @todo Automatically scan the default types (how to register multiple type names; e.g. StringType's names)
 	// @todo Put TypeFactory method and the registry into a single class for easy management (how about Parameter?)
 	// @todo Allow specification of Property-only or Property-and-parameter (only for certain types. Use static methods on type?)
-	$SwaggerGen->addType('\SwaggerGen\Swagger\Type\Custom\Ipv4Type');
 	
 	//$SwaggerGen->define('admin');
 	//$SwaggerGen->define('root');
