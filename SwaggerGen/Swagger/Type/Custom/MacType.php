@@ -10,11 +10,16 @@ namespace SwaggerGen\Swagger\Type\Custom;
  * @copyright  2014-2017 Martijn van der Lee
  * @license    https://opensource.org/licenses/MIT MIT
  */
-class MacType extends \SwaggerGen\Swagger\Type\StringType
+class MacType extends \SwaggerGen\Swagger\Type\StringType implements \SwaggerGen\Swagger\Type\Custom\ICustomType
 {
 
 	const PATTERN = '^([0-9A-F]){2}(:[0-9A-F]{2}){5}$';
-	const FORMAT = 'mac';
+
+	/**
+	 * List of formats recognized by this class
+	 * @var string[]
+	 */
+	private static $formats = array('mac');
 
 	/**
 	 * Construct and setup the regular expression for this type
@@ -44,7 +49,7 @@ class MacType extends \SwaggerGen\Swagger\Type\StringType
 			throw new \SwaggerGen\Exception("Unparseable MAC definition: '{$definition}'");
 		}
 
-		if (strtolower($match[1]) !== self::FORMAT) {
+		if (!in_array(strtolower($match[1]), self::$formats)) {
 			throw new \SwaggerGen\Exception("Not a MAC: '{$definition}'");
 		}
 
@@ -69,6 +74,16 @@ class MacType extends \SwaggerGen\Swagger\Type\StringType
 		}
 
 		return $value;
+	}
+
+	public static function getFormats()
+	{
+		return self::$formats;
+	}
+
+	public static function setFormats(array $formats)
+	{
+		self::$formats = $formats;
 	}
 
 }

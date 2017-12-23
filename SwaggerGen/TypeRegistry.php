@@ -2,18 +2,6 @@
 
 namespace SwaggerGen;
 
-/*
- * @todo add class instead of classname
- * @todo support non-default format names?
- * @todo get rid of static `getFormats()`.
- * @todo PSR-11 compatibility (ready, except for exceptions)
- * @todo Overwrite standard types (should work; needs testing)
- * @todo Ability to "disable" standard types
- *	- Should `remove()` remove only an overwrite or disable the format name completely?
- *	- Alternative methods?
- * @todo Support for composite (fallback) formats (ip for ipv4/ipv6)?
- */
-
 /**
  * Registry of custom types.
  *
@@ -39,7 +27,7 @@ class TypeRegistry
 	 */
 	public function add($classname)
 	{
-		if (is_subclass_of($classname, '\\SwaggerGen\\Swagger\\Type\\AbstractType', true)) {
+		if (is_subclass_of($classname, '\\SwaggerGen\\Swagger\\Type\\Custom\\ICustomType', true)) {
 			foreach ($classname::getFormats() as $format) {
 				$this->formats[$format] = $classname;
 			}

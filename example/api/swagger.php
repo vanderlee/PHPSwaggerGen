@@ -5,6 +5,7 @@
 	$files = array('Example.class.php');
 	
 	$TypeRegistry = new \SwaggerGen\TypeRegistry();
+//	\SwaggerGen\Swagger\Type\Custom\Ipv4Type::setFormats(array('ipv4'));
 	$TypeRegistry->add('\SwaggerGen\Swagger\Type\Custom\Ipv4Type');
 
 	$SwaggerGen = new \SwaggerGen\SwaggerGen($_SERVER['HTTP_HOST'], dirname($_SERVER['REQUEST_URI']), array(), $TypeRegistry);	

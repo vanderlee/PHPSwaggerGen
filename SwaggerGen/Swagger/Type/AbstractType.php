@@ -51,6 +51,12 @@ abstract class AbstractType extends \SwaggerGen\Swagger\AbstractObject
 
 	private $example = null;
 
+	/**
+	 * Swap values of two variables.
+	 * Used for sorting.
+	 * @param mixed $a
+	 * @param mixed $b
+	 */
 	protected static function swap(&$a, &$b)
 	{
 		$tmp = $a;
