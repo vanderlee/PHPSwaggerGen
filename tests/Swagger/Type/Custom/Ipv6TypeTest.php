@@ -22,7 +22,7 @@ class Ipv6TypeTest extends SwaggerGen_TestCase
 	{
 		$this->expectException('\SwaggerGen\Exception', "Not an IPv6: 'wrong'");
 
-		$object = new SwaggerGen\Swagger\Type\Custom\Ipv6Type($this->parent, 'wrong');
+		new SwaggerGen\Swagger\Type\Custom\Ipv6Type($this->parent, 'wrong');
 	}
 
 	/**
@@ -47,7 +47,7 @@ class Ipv6TypeTest extends SwaggerGen_TestCase
 	{
 		$this->expectException('\SwaggerGen\Exception', "Unparseable IPv6 definition: 'ipv6='");
 
-		$object = new SwaggerGen\Swagger\Type\Custom\Ipv6Type($this->parent, 'ipv6= ');
+		new SwaggerGen\Swagger\Type\Custom\Ipv6Type($this->parent, 'ipv6= ');
 	}
 
 	/**
@@ -57,7 +57,7 @@ class Ipv6TypeTest extends SwaggerGen_TestCase
 	{
 		$this->expectException('\SwaggerGen\Exception', "Invalid IPv6 default value: '12001:0db8:85a3:0000:1319:8a2e:0370:7344'");
 
-		$object = new SwaggerGen\Swagger\Type\Custom\Ipv6Type($this->parent, 'ipv6=12001:0db8:85a3:0000:1319:8a2e:0370:7344');
+		new SwaggerGen\Swagger\Type\Custom\Ipv6Type($this->parent, 'ipv6=12001:0db8:85a3:0000:1319:8a2e:0370:7344');
 	}
 
 	/**
@@ -67,7 +67,7 @@ class Ipv6TypeTest extends SwaggerGen_TestCase
 	{
 		$this->expectException('\SwaggerGen\Exception', "Invalid IPv6 default value: '0db8:85a3:0000:1319:8a2e:0370:7344'");
 
-		$object = new SwaggerGen\Swagger\Type\Custom\Ipv6Type($this->parent, 'ipv6=0db8:85a3:0000:1319:8a2e:0370:7344');
+		new SwaggerGen\Swagger\Type\Custom\Ipv6Type($this->parent, 'ipv6=0db8:85a3:0000:1319:8a2e:0370:7344');
 	}
 
 	/**
@@ -77,7 +77,7 @@ class Ipv6TypeTest extends SwaggerGen_TestCase
 	{
 		$this->expectException('\SwaggerGen\Exception', "Invalid IPv6 default value: '2001:2001:0db8:85a3:0000:1319:8a2e:0370:7344'");
 
-		$object = new SwaggerGen\Swagger\Type\Custom\Ipv6Type($this->parent, 'ipv6=2001:2001:0db8:85a3:0000:1319:8a2e:0370:7344');
+		new SwaggerGen\Swagger\Type\Custom\Ipv6Type($this->parent, 'ipv6=2001:2001:0db8:85a3:0000:1319:8a2e:0370:7344');
 	}
 
 	/**
@@ -87,7 +87,7 @@ class Ipv6TypeTest extends SwaggerGen_TestCase
 	{
 		$this->expectException('\SwaggerGen\Exception', "Invalid IPv6 default value: ' 2001:0db8:85a3:0000:1319:8a2e:0370:7344'");
 
-		$object = new SwaggerGen\Swagger\Type\Custom\Ipv6Type($this->parent, 'ipv6= 2001:0db8:85a3:0000:1319:8a2e:0370:7344');
+		new SwaggerGen\Swagger\Type\Custom\Ipv6Type($this->parent, 'ipv6= 2001:0db8:85a3:0000:1319:8a2e:0370:7344');
 	}
 
 	/**

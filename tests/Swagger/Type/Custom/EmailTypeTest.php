@@ -22,7 +22,7 @@ class EmailTypeTest extends SwaggerGen_TestCase
 	{
 		$this->expectException('\SwaggerGen\Exception', "Not an email: 'wrong'");
 
-		$object = new SwaggerGen\Swagger\Type\Custom\EmailType($this->parent, 'wrong');
+		new SwaggerGen\Swagger\Type\Custom\EmailType($this->parent, 'wrong');
 	}
 
 	/**
@@ -47,7 +47,7 @@ class EmailTypeTest extends SwaggerGen_TestCase
 	{
 		$this->expectException('\SwaggerGen\Exception', "Unparseable email definition: 'email='");
 
-		$object = new SwaggerGen\Swagger\Type\Custom\EmailType($this->parent, 'email= ');
+		new SwaggerGen\Swagger\Type\Custom\EmailType($this->parent, 'email= ');
 	}
 
 	/**
@@ -57,7 +57,7 @@ class EmailTypeTest extends SwaggerGen_TestCase
 	{
 		$this->expectException('\SwaggerGen\Exception', "Invalid email default value: 'test@test@test.test'");
 
-		$object = new SwaggerGen\Swagger\Type\Custom\EmailType($this->parent, 'email=test@test@test.test');
+		new SwaggerGen\Swagger\Type\Custom\EmailType($this->parent, 'email=test@test@test.test');
 	}
 
 	/**
@@ -67,7 +67,7 @@ class EmailTypeTest extends SwaggerGen_TestCase
 	{
 		$this->expectException('\SwaggerGen\Exception', "Invalid email default value: ' test@test.test'");
 
-		$object = new SwaggerGen\Swagger\Type\Custom\EmailType($this->parent, 'email= test@test.test');
+		new SwaggerGen\Swagger\Type\Custom\EmailType($this->parent, 'email= test@test.test');
 	}
 
 	/**

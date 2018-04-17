@@ -22,7 +22,7 @@ class MacTypeTest extends SwaggerGen_TestCase
 	{
 		$this->expectException('\SwaggerGen\Exception', "Not a MAC: 'wrong'");
 
-		$object = new SwaggerGen\Swagger\Type\Custom\MacType($this->parent, 'wrong');
+		new SwaggerGen\Swagger\Type\Custom\MacType($this->parent, 'wrong');
 	}
 
 	/**
@@ -47,7 +47,7 @@ class MacTypeTest extends SwaggerGen_TestCase
 	{
 		$this->expectException('\SwaggerGen\Exception', "Unparseable MAC definition: 'mac='");
 
-		$object = new SwaggerGen\Swagger\Type\Custom\MacType($this->parent, 'mac= ');
+		new SwaggerGen\Swagger\Type\Custom\MacType($this->parent, 'mac= ');
 	}
 
 	/**
@@ -57,7 +57,7 @@ class MacTypeTest extends SwaggerGen_TestCase
 	{
 		$this->expectException('\SwaggerGen\Exception', "Invalid MAC default value: 'FF:FF:FF:FF:FF'");
 
-		$object = new SwaggerGen\Swagger\Type\Custom\MacType($this->parent, 'mac=FF:FF:FF:FF:FF');
+		new SwaggerGen\Swagger\Type\Custom\MacType($this->parent, 'mac=FF:FF:FF:FF:FF');
 	}
 
 	/**
@@ -67,7 +67,7 @@ class MacTypeTest extends SwaggerGen_TestCase
 	{
 		$this->expectException('\SwaggerGen\Exception', "Invalid MAC default value: 'FF:FF:FF:FF:FF:FF:FF'");
 
-		$object = new SwaggerGen\Swagger\Type\Custom\MacType($this->parent, 'mac=FF:FF:FF:FF:FF:FF:FF');
+		new SwaggerGen\Swagger\Type\Custom\MacType($this->parent, 'mac=FF:FF:FF:FF:FF:FF:FF');
 	}
 
 	/**
@@ -77,7 +77,7 @@ class MacTypeTest extends SwaggerGen_TestCase
 	{
 		$this->expectException('\SwaggerGen\Exception', "Invalid MAC default value: 'F:FF:FF:FF:FF:FF'");
 
-		$object = new SwaggerGen\Swagger\Type\Custom\MacType($this->parent, 'mac=F:FF:FF:FF:FF:FF');
+		new SwaggerGen\Swagger\Type\Custom\MacType($this->parent, 'mac=F:FF:FF:FF:FF:FF');
 	}
 
 	/**
@@ -87,7 +87,7 @@ class MacTypeTest extends SwaggerGen_TestCase
 	{
 		$this->expectException('\SwaggerGen\Exception', "Invalid MAC default value: 'FFF:FF:FF:FF:FF:FF'");
 
-		$object = new SwaggerGen\Swagger\Type\Custom\MacType($this->parent, 'mac=FFF:FF:FF:FF:FF:FF');
+		new SwaggerGen\Swagger\Type\Custom\MacType($this->parent, 'mac=FFF:FF:FF:FF:FF:FF');
 	}
 
 	/**
@@ -97,7 +97,7 @@ class MacTypeTest extends SwaggerGen_TestCase
 	{
 		$this->expectException('\SwaggerGen\Exception', "Invalid MAC default value: ' FF:FF:FF:FF:FF:FF'");
 
-		$object = new SwaggerGen\Swagger\Type\Custom\MacType($this->parent, 'mac= FF:FF:FF:FF:FF:FF');
+		new SwaggerGen\Swagger\Type\Custom\MacType($this->parent, 'mac= FF:FF:FF:FF:FF:FF');
 	}
 
 	/**

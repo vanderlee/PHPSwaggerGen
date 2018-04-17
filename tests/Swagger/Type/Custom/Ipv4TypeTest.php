@@ -22,7 +22,7 @@ class Ipv4TypeTest extends SwaggerGen_TestCase
 	{
 		$this->expectException('\SwaggerGen\Exception', "Not an IPv4: 'wrong'");
 
-		$object = new SwaggerGen\Swagger\Type\Custom\Ipv4Type($this->parent, 'wrong');
+		new SwaggerGen\Swagger\Type\Custom\Ipv4Type($this->parent, 'wrong');
 	}
 
 	/**
@@ -47,7 +47,7 @@ class Ipv4TypeTest extends SwaggerGen_TestCase
 	{
 		$this->expectException('\SwaggerGen\Exception', "Unparseable IPv4 definition: 'ipv4='");
 
-		$object = new SwaggerGen\Swagger\Type\Custom\Ipv4Type($this->parent, 'ipv4= ');
+		new SwaggerGen\Swagger\Type\Custom\Ipv4Type($this->parent, 'ipv4= ');
 	}
 
 	/**
@@ -57,7 +57,7 @@ class Ipv4TypeTest extends SwaggerGen_TestCase
 	{
 		$this->expectException('\SwaggerGen\Exception', "Invalid IPv4 default value: '127.0.256.0'");
 
-		$object = new SwaggerGen\Swagger\Type\Custom\Ipv4Type($this->parent, 'ipv4=127.0.256.0');
+		new SwaggerGen\Swagger\Type\Custom\Ipv4Type($this->parent, 'ipv4=127.0.256.0');
 	}
 
 	/**
@@ -67,7 +67,7 @@ class Ipv4TypeTest extends SwaggerGen_TestCase
 	{
 		$this->expectException('\SwaggerGen\Exception', "Invalid IPv4 default value: '0.0.0'");
 
-		$object = new SwaggerGen\Swagger\Type\Custom\Ipv4Type($this->parent, 'ipv4=0.0.0');
+		new SwaggerGen\Swagger\Type\Custom\Ipv4Type($this->parent, 'ipv4=0.0.0');
 	}
 
 	/**
@@ -77,7 +77,7 @@ class Ipv4TypeTest extends SwaggerGen_TestCase
 	{
 		$this->expectException('\SwaggerGen\Exception', "Invalid IPv4 default value: '0.0.0.0.0'");
 
-		$object = new SwaggerGen\Swagger\Type\Custom\Ipv4Type($this->parent, 'ipv4=0.0.0.0.0');
+		new SwaggerGen\Swagger\Type\Custom\Ipv4Type($this->parent, 'ipv4=0.0.0.0.0');
 	}
 
 	/**
@@ -87,7 +87,7 @@ class Ipv4TypeTest extends SwaggerGen_TestCase
 	{
 		$this->expectException('\SwaggerGen\Exception', "Invalid IPv4 default value: ' 0.0.0.0.0'");
 
-		$object = new SwaggerGen\Swagger\Type\Custom\Ipv4Type($this->parent, 'ipv4= 0.0.0.0.0');
+		new SwaggerGen\Swagger\Type\Custom\Ipv4Type($this->parent, 'ipv4= 0.0.0.0.0');
 	}
 
 	/**

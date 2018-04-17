@@ -18,7 +18,7 @@ class Swagger extends AbstractDocumentableObject
 	private $basePath;
 	
 	/**
-	 * @var \Swagger\TypeRegistry
+	 * @var \SwaggerGen\TypeRegistry
 	 */
 	private $typeRegistry = array();
 
@@ -67,7 +67,7 @@ class Swagger extends AbstractDocumentableObject
 	 * @inheritDoc
 	 * @param string $host
 	 * @param string $basePath
-	 * @param TypeRegistry $typeRegistry
+	 * @param \SwaggerGen\TypeRegistry $typeRegistry
 	 */
 	public function __construct($host = null, $basePath = null, $typeRegistry = null)
 	{
