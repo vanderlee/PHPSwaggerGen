@@ -22,7 +22,7 @@ class AbstractRegexType extends StringType
 	 * @var string
 	 */
 	private $regex = null;
-
+	
 	/**
 	 * Construct and setup the regular expression for this type
 	 * 

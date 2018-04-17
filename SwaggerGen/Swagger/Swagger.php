@@ -16,6 +16,11 @@ class Swagger extends AbstractDocumentableObject
 	private $swagger = '2.0';
 	private $host;
 	private $basePath;
+	
+	/**
+	 * @var \Swagger\TypeRegistry
+	 */
+	private $typeRegistry = array();
 
 	/**
 	 * @var Info $Info
@@ -62,8 +67,9 @@ class Swagger extends AbstractDocumentableObject
 	 * @inheritDoc
 	 * @param string $host
 	 * @param string $basePath
+	 * @param TypeRegistry $typeRegistry
 	 */
-	public function __construct($host = null, $basePath = null)
+	public function __construct($host = null, $basePath = null, $typeRegistry = null)
 	{
 		parent::__construct(null);
 
@@ -71,6 +77,8 @@ class Swagger extends AbstractDocumentableObject
 		$this->basePath = $basePath;
 
 		$this->info = new Info($this);
+		
+		$this->typeRegistry = $typeRegistry ? $typeRegistry : new \SwaggerGen\TypeRegistry;
 	}
 
 	/**
@@ -80,6 +88,14 @@ class Swagger extends AbstractDocumentableObject
 	{
 		return $this;
 	}
+
+	/**
+	 * @inheritDoc
+	 */
+	protected function getTypeRegistry()
+	{
+		return $this->typeRegistry;
+	}	
 
 	/**
 	 * Return all consumes

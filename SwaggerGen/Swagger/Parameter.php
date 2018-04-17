@@ -95,7 +95,7 @@ class Parameter extends AbstractObject implements IParameter
 
 		// Parse regex
 		$match = array();
-		if (preg_match('/^([a-z]+)/i', $definition, $match) === 1) {
+		if (preg_match('/^([a-z][a-z0-9]*)/i', $definition, $match) === 1) {
 			// recognized format
 		} elseif (preg_match('/^(\[)(?:.*?)\]$/i', $definition, $match) === 1) {
 			$match[1] = 'array';
@@ -106,9 +106,12 @@ class Parameter extends AbstractObject implements IParameter
 		}					
 		
 		$format = strtolower($match[1]);
-		if (isset(self::$classTypes[$format])) {
+		if ($this->getTypeRegistry()->has($format)) {
+			$class = $this->getTypeRegistry()->get($format);
+			$this->Type = new $class($this, $definition);
+		} elseif (isset(self::$classTypes[$format])) {
 			$type = self::$classTypes[$format];
-			$class = "SwaggerGen\\Swagger\\Type\\{$type}Type";
+			$class = "\\SwaggerGen\\Swagger\\Type\\{$type}Type";
 			$this->Type = new $class($this, $definition);
 		} else {
 			throw new \SwaggerGen\Exception("Type format not recognized: '{$format}'");

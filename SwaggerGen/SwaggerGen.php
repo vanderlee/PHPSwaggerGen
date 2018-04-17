@@ -32,6 +32,7 @@ namespace SwaggerGen;
  */
 class SwaggerGen
 {
+
 	const FORMAT_ARRAY = '';
 	const FORMAT_JSON = 'json';
 	const FORMAT_JSON_PRETTY = 'json+';
@@ -42,11 +43,25 @@ class SwaggerGen
 	private $dirs = array();
 	private $defines = array();
 
-	public function __construct($host = '', $basePath = '', $dirs = array())
+	/**
+	 * @var TypeRegistry
+	 */
+	private $typeRegistry = null;
+
+	/**
+	 * Create a new SwaggerGen instance
+	 * 
+	 * @param string $host
+	 * @param string $basePath
+	 * @param string[] $dirs
+	 * @param TypeRegistry $typeRegistry
+	 */
+	public function __construct($host = '', $basePath = '', $dirs = array(), $typeRegistry = null)
 	{
 		$this->host = $host;
 		$this->basePath = $basePath;
 		$this->dirs = $dirs;
+		$this->typeRegistry = $typeRegistry;
 	}
 
 	public function define($name, $value = 1)
@@ -106,9 +121,9 @@ class SwaggerGen
 	 * @return Swagger\Swagger
 	 * @throws StatementException
 	 */
-	public static function parseStatements($host, $basePath, $statements)
+	public function parseStatements($host, $basePath, $statements)
 	{
-		$swagger = new Swagger\Swagger($host, $basePath);
+		$swagger = new Swagger\Swagger($host, $basePath, $this->typeRegistry);
 
 		$stack = array($swagger); /* @var Swagger\AbstractObject[] $stack */
 		foreach ($statements as $statement) {
@@ -184,7 +199,7 @@ class SwaggerGen
 			$statements = array_merge($statements, $fileStatements);
 		}
 
-		$output = self::parseStatements($this->host, $this->basePath, $statements)->toArray();
+		$output = $this->parseStatements($this->host, $this->basePath, $statements)->toArray();
 
 		switch ($format) {
 			case self::FORMAT_JSON:

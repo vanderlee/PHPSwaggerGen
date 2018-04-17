@@ -51,6 +51,12 @@ abstract class AbstractType extends \SwaggerGen\Swagger\AbstractObject
 
 	private $example = null;
 
+	/**
+	 * Swap values of two variables.
+	 * Used for sorting.
+	 * @param mixed $a
+	 * @param mixed $b
+	 */
 	protected static function swap(&$a, &$b)
 	{
 		$tmp = $a;
@@ -70,7 +76,7 @@ abstract class AbstractType extends \SwaggerGen\Swagger\AbstractObject
 		}
 		return $ret;
 	}
-
+	
 	/**
 	 * Extract an item from a comma-separated list of items.
 	 *
@@ -170,9 +176,12 @@ abstract class AbstractType extends \SwaggerGen\Swagger\AbstractObject
 		}
 		$format = strtolower($match[1]);
 		// Internal type if type known and not overwritten by definition
-		if (isset(self::$classTypes[$format])) {
+		if ($parent->getTypeRegistry()->has($format)) {
+			$class = $parent->getTypeRegistry()->get($format);
+			return new $class($parent, $definition);
+		} elseif (isset(self::$classTypes[$format])) {
 			$type = self::$classTypes[$format];
-			$class = "SwaggerGen\\Swagger\\Type\\{$type}Type";
+			$class = "\\SwaggerGen\\Swagger\\Type\\{$type}Type";
 			return new $class($parent, $definition);
 		} else {
 			return new ReferenceObjectType($parent, $definition);
