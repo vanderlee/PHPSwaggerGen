@@ -63,6 +63,16 @@ class SwaggerGen
 		$this->dirs = $dirs;
 		$this->typeRegistry = $typeRegistry;
 	}
+	
+	/**
+	 * Set a new type registry
+	 * 
+	 * @param TypeRegistry $typeRegistry
+	 */
+	public function setTypeRegistry($typeRegistry = null)
+	{
+		$this->typeRegistry = $typeRegistry;
+	}
 
 	public function define($name, $value = 1)
 	{

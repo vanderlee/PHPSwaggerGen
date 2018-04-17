@@ -8,7 +8,8 @@
 //	\SwaggerGen\Swagger\Type\Custom\Ipv4Type::setFormats(array('ipv4'));
 	$TypeRegistry->add('\SwaggerGen\Swagger\Type\Custom\Ipv4Type');
 
-	$SwaggerGen = new \SwaggerGen\SwaggerGen($_SERVER['HTTP_HOST'], dirname($_SERVER['REQUEST_URI']), array(), $TypeRegistry);	
+	$SwaggerGen = new \SwaggerGen\SwaggerGen($_SERVER['HTTP_HOST'], dirname($_SERVER['REQUEST_URI']), array());	
+	$SwaggerGen->setTypeRegistry($TypeRegistry);
 	
 	// @todo Allow explicitly format name specification for conflict resolution.
 	// @todo Automatically scan the default types (how to register multiple type names; e.g. StringType's names)
