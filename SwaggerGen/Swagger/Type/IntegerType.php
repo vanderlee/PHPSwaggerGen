@@ -81,6 +81,10 @@ class IntegerType extends AbstractType
 		}
 	}
 
+	/**
+	 * @param string $definition
+	 * @param string[] $match
+	 */
 	private function parseDefault($definition, $match)
 	{
 		$this->default = isset($match[6]) && $match[6] !== '' ? $this->validateDefault($match[6]) : null;

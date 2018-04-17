@@ -34,6 +34,9 @@ class Schema extends AbstractDocumentableObject implements IDefinition
 	 */
 	private $type;
 
+	/**
+	 * @param string $description
+	 */
 	public function __construct(AbstractObject $parent, $definition = 'object', $description = null)
 	{
 		parent::__construct($parent);

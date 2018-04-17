@@ -49,6 +49,10 @@ class ArrayType extends AbstractType
 		$this->parseRange($definition, $match);
 	}
 
+	/**
+	 * @param string $definition
+	 * @param string[] $match
+	 */
 	private function parseFormat($definition, $match)
 	{
 		$type = strtolower($match[1]);
@@ -66,6 +70,10 @@ class ArrayType extends AbstractType
 		$this->collectionFormat = self::$collectionFormats[$type];
 	}
 
+	/**
+	 * @param string $definition
+	 * @param string[] $match
+	 */
 	private function parseItems($definition, $match)
 	{
 		if (!empty($match[2])) {
@@ -73,6 +81,10 @@ class ArrayType extends AbstractType
 		}
 	}
 
+	/**
+	 * @param string $definition
+	 * @param string[] $match
+	 */
 	private function parseRange($definition, $match)
 	{
 		if (!empty($match[3])) {

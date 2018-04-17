@@ -41,6 +41,9 @@ class NumberType extends AbstractType
 		$this->parseDefault($definition, $match);
 	}
 
+	/**
+	 * @param string[] $match
+	 */
 	private function parseFormat($definition, $match)
 	{
 		if (!isset(self::$formats[strtolower($match[1])])) {
@@ -49,6 +52,9 @@ class NumberType extends AbstractType
 		$this->format = self::$formats[strtolower($match[1])];
 	}
 
+	/**
+	 * @param string[] $match
+	 */
 	private function parseRange($definition, $match)
 	{
 		if (!empty($match[2])) {
@@ -67,6 +73,9 @@ class NumberType extends AbstractType
 		}
 	}
 
+	/**
+	 * @param string[] $match
+	 */
 	private function parseDefault($definition, $match)
 	{
 		$this->default = isset($match[6]) && $match[6] !== '' ? $this->validateDefault($match[6]) : null;

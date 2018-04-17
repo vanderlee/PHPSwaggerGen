@@ -74,11 +74,17 @@ class SwaggerGen
 		$this->typeRegistry = $typeRegistry;
 	}
 
+	/**
+	 * @param string $name
+	 */
 	public function define($name, $value = 1)
 	{
 		$this->defines[$name] = $value;
 	}
 
+	/**
+	 * @param string $name
+	 */
 	public function undefine($name)
 	{
 		unset($this->defines[$name]);
@@ -98,7 +104,7 @@ class SwaggerGen
 	/**
 	 * @param string $file
 	 * @param string[] $dirs
-	 * @return Php\Entity\Statement[]
+	 * @return Statement[]
 	 */
 	private function parseTextFile($file, $dirs)
 	{
