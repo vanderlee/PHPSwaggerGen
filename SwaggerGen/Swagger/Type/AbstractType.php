@@ -156,7 +156,7 @@ abstract class AbstractType extends \SwaggerGen\Swagger\AbstractObject
 	}
 
 	/**
-	 * @param SwaggerGen\Swagger\AbstractObject $parent
+	 * @param \SwaggerGen\Swagger\AbstractObject $parent
 	 * @param string $definition
 	 * @param string $error
 	 * @return self

@@ -166,7 +166,9 @@ class ObjectType extends AbstractType
 			// type name description...
 			case 'additionalproperties':
 				$value = self::wordShift($data);
-				if ($value === 'false') {
+				if (is_bool($value)) {
+					$type = $value;
+				} else if ($value === 'false') {
 					$type = false;
 				} else if ($value === 'true') {
 					$type = true;
