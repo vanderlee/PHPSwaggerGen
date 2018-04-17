@@ -39,6 +39,9 @@ class Operation extends AbstractDocumentableObject
 		return $this->consumes;
 	}
 
+	/**
+	 * @param string $summary
+	 */
 	public function __construct(AbstractObject $parent, $summary = null, Tag $tag = null)
 	{
 		parent::__construct($parent);

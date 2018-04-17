@@ -57,6 +57,10 @@ class ObjectType extends AbstractType
 		$this->parseRange($definition, $match);
 	}
 
+	/**
+	 * @param string $definition
+	 * @param string[] $match
+	 */
 	private function parseFormat($definition, $match)
 	{
 		if (strtolower($match[1]) !== 'object') {
@@ -76,6 +80,10 @@ class ObjectType extends AbstractType
 		$this->additionalProperties = $type;
 	}
 
+	/**
+	 * @param string $definition
+	 * @param string[] $match
+	 */
 	private function parseProperties($definition, $match)
 	{
 		if (empty($match[2])) {
@@ -105,6 +113,10 @@ class ObjectType extends AbstractType
 
 	}
 
+	/**
+	 * @param string $definition
+	 * @param string[] $match
+	 */
 	private function parseRange($definition, $match)
 	{
 		if (!empty($match[3])) {
@@ -125,6 +137,9 @@ class ObjectType extends AbstractType
 		}
 	}
 
+	/**
+	 * @param string|false $discriminator
+	 */
 	private function setDiscriminator($discriminator)
 	{
 		if (!empty($this->discriminator)) {

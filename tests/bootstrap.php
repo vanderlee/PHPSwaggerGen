@@ -15,6 +15,9 @@ if (!class_exists('PHPUnit\Framework\TestCase') && class_exists('PHPUnit_Framewo
 class SwaggerGen_TestCase extends PHPUnit\Framework\TestCase
 {
 
+	/**
+	 * @param string $exception
+	 */
 	public function expectException($exception, $message = '')
 	{
 		// while setExpectedException accepts message to assert on, expectException does not
