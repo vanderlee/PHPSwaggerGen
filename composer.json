@@ -10,7 +10,14 @@
 		"source": "https://github.com/vanderlee/PHPSwaggerGen/"
 	},
 	"require": {
-		"php": ">=5.3.0"
+		"php": ">=5.3.0",
+		"ext-json": "*",
+		"ext-tokenizer": "*",
+		"ext-filter": "*",
+		"ext-mbstring": "*"
+	},
+	"suggest": {
+		"ext-yaml": "Allows producing Swagger docs in Yaml format"
 	},
 	"autoload": {
 		"psr-4": {
