@@ -1,6 +1,6 @@
 <?php
 
-class Base_PHPUnit5 extends PHPUnit\Framework\TestCase
+class Base_PHPUnit5 extends PHPUnit_Framework_TestCase
 {
 	/**
 	 * @param string $exception

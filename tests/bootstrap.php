@@ -7,15 +7,11 @@ spl_autoload_register(function($classname) {
 	}
 });
 
-// backward compatibility
-if (!class_exists('PHPUnit\Framework\TestCase') && class_exists('PHPUnit_Framework_TestCase')) {
-	class_alias('PHPUnit_Framework_TestCase', 'PHPUnit\Framework\TestCase');
-}
 
 // Unify setting expected exception for different phpunit versions
 
 // starting with PHPUnit 7.0 `expectException()` needs parameter type-hint
-// it has to be in a separate file to prevent older php version from choking on static parameter type hints
+// it has to be in a separate file to prevent older php version from choking on scalar parameter type hints
 // before PHPUnit 6.0 there was `setExpectedException()`
 // inbetween there was `expectException()` without type hint
 
