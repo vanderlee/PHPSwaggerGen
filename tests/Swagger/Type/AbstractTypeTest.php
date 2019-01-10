@@ -64,4 +64,23 @@ class AbstractTypeTest extends SwaggerGen_TestCase
 				), $object->toArray());
 	}
 
+	/**
+	 * @covers \SwaggerGen\Swagger\Type\AbstractType->handleCommand
+	 */
+	public function testCommand_Example_Json_Multiple_Properties()
+	{
+		$object = new SwaggerGen\Swagger\Type\StringType($this->parent, 'string');
+
+		$this->assertInstanceOf('\SwaggerGen\Swagger\Type\StringType', $object);
+
+		$object->handleCommand('example', '{foo:bar,baz:bat}');
+
+		$this->assertSame(array(
+			'type' => 'string',
+			'example' => array(
+				'foo' => 'bar',
+				'baz' => 'bat',
+			),
+				), $object->toArray());
+	}
 }
