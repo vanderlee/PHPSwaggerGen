@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## 2.3.19 - 2019-01-12
+### Changed
+- PR #41 Fix for JSON example command with multiple properties by sserbin.
+
 ## 2.3.18 - 2017-12-06
 ### Changed
 - PR #32 Separated parsing from compiling parts, by weirdan.

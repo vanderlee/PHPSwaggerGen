@@ -1,11 +1,11 @@
 # SwaggerGen
-Version 2.3.18
+Version 2.3.19
 
 [![License](https://img.shields.io/github/license/vanderlee/PHPSwaggerGen.svg)]()
 [![Build Status](https://travis-ci.org/vanderlee/PHPSwaggerGen.svg?branch=master)](https://travis-ci.org/vanderlee/PHPSwaggerGen)
 [![Quality](https://scrutinizer-ci.com/g/vanderlee/PHPSwaggerGen/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/vanderlee/PHPSwaggerGen)
 
-Copyright &copy; 2014-2017 Martijn van der Lee [Toyls.com](http://toyls.com).
+Copyright &copy; 2014-2018 Martijn van der Lee [Toyls.com](http://toyls.com).
 
 MIT Open Source license applies.
 
