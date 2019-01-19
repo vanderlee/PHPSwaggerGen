@@ -556,7 +556,7 @@ You can specify the URL, email address and name in any order you want.
 The URL and email address will be automatically detected, the name will consist
 of all text remaining (properly separated with whitespace).
 
-### `definintion` *`name` [type]* &rArr; Schema
+### `definition` *`name` [type]* &rArr; Schema
 Start definition of a Schema using the reference name specified. 
 
 Definitions can be specified as read only using exclamation point at the end of
