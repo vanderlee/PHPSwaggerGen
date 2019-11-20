@@ -156,7 +156,7 @@ class Parser extends Entity\AbstractEntity implements \SwaggerGen\Parser\IParser
 				$data = '';
 			}
 
-			if (preg_match('~^@' . preg_quote(self::COMMENT_TAG) . '\\\\([a-z][-a-z]*\\??)\\s*(.*)$~', $line, $match) === 1) {
+			if (preg_match('~^@' . preg_quote(self::COMMENT_TAG) . '\\\\([a-z][-a-z]*[?!]?)\\s*(.*)$~', $line, $match) === 1) {
 				$command = $match[1];
 				$data = $match[2];
 				$commandLineNumber = $lineNumber;

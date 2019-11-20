@@ -221,6 +221,42 @@ class Parser_Php_ParserTest extends SwaggerGen_TestCase
 		$this->assertStatement($statements[0], 'title', 'Some words');
 	}
 
+    /**
+     * @covers \SwaggerGen\Parser\Php\Parser::parse
+     */
+    public function testParse_PropertyReadOnly()
+    {
+        $object = new \SwaggerGen\Parser\Php\Parser();
+        $this->assertInstanceOf('\SwaggerGen\Parser\Php\Parser', $object);
+
+        $statements = $object->parse(__DIR__ . '/ParserTest/testParse_PropertyReadOnly.php');
+
+        $this->assertCount(4, $statements);
+
+        $this->assertStatement($statements[0], 'title', 'Some words');
+        $this->assertStatement($statements[1], 'version', '2');
+        $this->assertStatement($statements[2], 'definition', 'Foo');
+        $this->assertStatement($statements[3], 'property!', 'string bar');
+    }
+
+    /**
+     * @covers \SwaggerGen\Parser\Php\Parser::parse
+     */
+    public function testParse_PropertyOptional()
+    {
+        $object = new \SwaggerGen\Parser\Php\Parser();
+        $this->assertInstanceOf('\SwaggerGen\Parser\Php\Parser', $object);
+
+        $statements = $object->parse(__DIR__ . '/ParserTest/testParse_PropertyOptional.php');
+
+        $this->assertCount(4, $statements);
+
+        $this->assertStatement($statements[0], 'title', 'Some words');
+        $this->assertStatement($statements[1], 'version', '2');
+        $this->assertStatement($statements[2], 'definition', 'Foo');
+        $this->assertStatement($statements[3], 'property?', 'string bar');
+    }
+
 	/**
 	 * @covers \SwaggerGen\Parser\Php\Parser::parse
 	 */
