@@ -142,6 +142,17 @@ abstract class AbstractType extends \SwaggerGen\Swagger\AbstractObject
 					return json_last_error() === JSON_ERROR_NONE ? $match[1] : json_encode($match[1]);
 				}, trim($data));
 				$this->example = json_decode($json, true);
+
+				// In case input contains special chars, the above preg_replace would fail
+				//   Input could be a well-formed json already though
+				if ($this->example === null) {
+					$this->example = json_decode($data, true);
+				}
+				// If all fails, use input as-is
+				if ($this->example === null) {
+					$this->example = $data;
+				}
+
 				return $this;
 		}
 
