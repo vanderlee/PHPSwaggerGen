@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## 2.3.20 - 2019-12-02
+### Fixed
+- PR #45 fixes #44; PHP Parser fails when parsing @rest\property! by SteenSchutt
+- PR #42; `example` command: support for input containing special chars by sserbin.
+
 ## 2.3.19 - 2019-01-12
 ### Changed
 - PR #41 Fix for JSON example command with multiple properties by sserbin.
