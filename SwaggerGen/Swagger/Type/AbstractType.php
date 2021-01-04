@@ -93,7 +93,7 @@ abstract class AbstractType extends \SwaggerGen\Swagger\AbstractObject
 		$depth = 0;
 		$index = 0;
 		while ($index < strlen($list)) {
-			$c = $list{$index++};
+			$c = $list[$index++];
 
 			if (strpos('{([<', $c) !== false) {
 				++$depth;
