@@ -233,7 +233,7 @@ class Swagger extends AbstractDocumentableObject
 
 			case 'endpoint':
 				$path = self::wordShift($data);
-				if ($path{0} !== '/') {
+				if ($path[0] !== '/') {
 					$path = '/' . $path;
 				}
 
