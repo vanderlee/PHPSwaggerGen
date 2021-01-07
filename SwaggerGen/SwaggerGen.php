@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace SwaggerGen;
 
@@ -33,10 +34,10 @@ namespace SwaggerGen;
 class SwaggerGen
 {
 
-	const FORMAT_ARRAY = '';
-	const FORMAT_JSON = 'json';
-	const FORMAT_JSON_PRETTY = 'json+';
-	const FORMAT_YAML = 'yaml';
+	public const FORMAT_ARRAY = '';
+    public const FORMAT_JSON = 'json';
+    public const FORMAT_JSON_PRETTY = 'json+';
+    public const FORMAT_YAML = 'yaml';
 
 	private $host;
 	private $basePath;
@@ -69,34 +70,34 @@ class SwaggerGen
 	 * 
 	 * @param TypeRegistry $typeRegistry
 	 */
-	public function setTypeRegistry($typeRegistry = null)
-	{
+	public function setTypeRegistry($typeRegistry = null): void
+    {
 		$this->typeRegistry = $typeRegistry;
 	}
 
 	/**
 	 * @param string $name
 	 */
-	public function define($name, $value = 1)
-	{
+	public function define($name, $value = 1): void
+    {
 		$this->defines[$name] = $value;
 	}
 
 	/**
 	 * @param string $name
 	 */
-	public function undefine($name)
-	{
+	public function undefine($name): void
+    {
 		unset($this->defines[$name]);
 	}
 
 	/**
 	 * @param string $file
 	 * @param string[] $dirs
-	 * @return Php\Entity\Statement[]
+	 * @return Statement[]
 	 */
-	private function parsePhpFile($file, $dirs)
-	{
+	private function parsePhpFile($file, $dirs): array
+    {
 		$Parser = new Parser\Php\Parser();
 		return $Parser->parse($file, $dirs, $this->defines);
 	}
@@ -106,8 +107,8 @@ class SwaggerGen
 	 * @param string[] $dirs
 	 * @return Statement[]
 	 */
-	private function parseTextFile($file, $dirs)
-	{
+	private function parseTextFile($file, $dirs): array
+    {
 		$Parser = new Parser\Text\Parser();
 		return $Parser->parse($file, $dirs, $this->defines);
 	}
@@ -115,10 +116,10 @@ class SwaggerGen
 	/**
 	 * @param string $text
 	 * @param string[] $dirs
-	 * @return Php\Entity\Statement[]
+	 * @return Statement[]
 	 */
-	private function parseText($text, $dirs)
-	{
+	private function parseText($text, $dirs): array
+    {
 		$Parser = new Parser\Text\Parser();
 		return $Parser->parseText($text, $dirs, $this->defines);
 	}
@@ -137,8 +138,8 @@ class SwaggerGen
 	 * @return Swagger\Swagger
 	 * @throws StatementException
 	 */
-	public function parseStatements($host, $basePath, $statements)
-	{
+	public function parseStatements($host, $basePath, $statements): Swagger\Swagger
+    {
 		$swagger = new Swagger\Swagger($host, $basePath, $this->typeRegistry);
 
 		$stack = array($swagger); /* @var Swagger\AbstractObject[] $stack */
@@ -153,7 +154,7 @@ class SwaggerGen
 						if ($result !== $top) {
 							// Remove all similar classes from array first!
 							$classname = get_class($result);
-							$stack = array_filter($stack, function($class) use($classname) {
+							$stack = array_filter($stack, static function($class) use($classname) {
 								return !(is_a($class, $classname));
 							});
 
@@ -163,8 +164,8 @@ class SwaggerGen
 						$top = prev($stack);
 					}
 				} while (!$result && $top);
-			} catch (\SwaggerGen\Exception $e) {
-				throw new \SwaggerGen\StatementException($e->getMessage(), $e->getCode(), $e, $statement);
+			} catch (Exception $e) {
+				throw new StatementException($e->getMessage(), $e->getCode(), $e, $statement);
 			}
 
 			if (!$result && !$top) {
@@ -174,9 +175,9 @@ class SwaggerGen
 				foreach ($stack as $object) {
 					$stacktrace[] = (string) $object;
 				}
-				$messages[] = join(", \n", $stacktrace);
+				$messages[] = implode(", \n", $stacktrace);
 
-				throw new \SwaggerGen\StatementException(join('. ', $messages), 0, null, $statement);
+				throw new StatementException(implode('. ', $messages), 0, null, $statement);
 			}
 		}
 
@@ -189,8 +190,9 @@ class SwaggerGen
 	 * @param string[] $files
 	 * @param string[] $dirs
 	 * @param string $format
-	 * @return type
-	 * @throws \SwaggerGen\Exception
+	 *
+	 * @return string
+	 * @throws Exception
 	 */
 	public function getSwagger($files, $dirs = array(), $format = self::FORMAT_ARRAY)
 	{
@@ -231,7 +233,7 @@ class SwaggerGen
 				if (!function_exists('yaml_emit')) {
 					throw new Exception('YAML extension not installed.');
 				}
-				array_walk_recursive($output, function(&$value) {
+				array_walk_recursive($output, static function(&$value) {
 					if (is_object($value)) {
 						$value = (array) $value;
 					}
