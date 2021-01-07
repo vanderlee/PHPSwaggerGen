@@ -5,12 +5,12 @@ class OperationTest extends SwaggerGen_TestCase
 
 	protected $parent;
 
-	protected function setUp()
+	protected function setUp(): void
 	{
 		$this->parent = $this->getMockForAbstractClass('\SwaggerGen\Swagger\Swagger');
 	}
 
-	protected function assertPreConditions()
+	protected function assertPreConditions(): void
 	{
 		$this->assertInstanceOf('\SwaggerGen\Swagger\AbstractObject', $this->parent);
 	}
@@ -18,7 +18,7 @@ class OperationTest extends SwaggerGen_TestCase
 	/**
 	 * @covers \SwaggerGen\Swagger\Operation::__construct
 	 */
-	public function testConstructor_NoResponse()
+	public function testConstructor_NoResponse(): void
 	{
 		$object = new \SwaggerGen\Swagger\Operation($this->parent);
 		$this->assertInstanceOf('\SwaggerGen\Swagger\Operation', $object);

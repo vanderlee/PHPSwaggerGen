@@ -5,12 +5,12 @@ class ErrorTest extends SwaggerGen_TestCase
 
 	protected $parent;
 
-	protected function setUp()
+	protected function setUp(): void
 	{
 		$this->parent = $this->getMockForAbstractClass('\SwaggerGen\Swagger\AbstractObject');
 	}
 
-	protected function assertPreConditions()
+	protected function assertPreConditions(): void
 	{
 		$this->assertInstanceOf('\SwaggerGen\Swagger\AbstractObject', $this->parent);
 	}
@@ -18,7 +18,7 @@ class ErrorTest extends SwaggerGen_TestCase
 	/**
 	 * @covers \SwaggerGen\Swagger\Error::__construct
 	 */
-	public function testConstructor_200()
+	public function testConstructor_200(): void
 	{
 		$object = new \SwaggerGen\Swagger\Error($this->parent, 200);
 
@@ -32,7 +32,7 @@ class ErrorTest extends SwaggerGen_TestCase
 	/**
 	 * @covers \SwaggerGen\Swagger\Error::__construct
 	 */
-	public function testConstructor_404()
+	public function testConstructor_404(): void
 	{
 		$object = new \SwaggerGen\Swagger\Error($this->parent, 404);
 
@@ -46,7 +46,7 @@ class ErrorTest extends SwaggerGen_TestCase
 	/**
 	 * @covers \SwaggerGen\Swagger\Error::__construct
 	 */
-	public function testConstructor_Description()
+	public function testConstructor_Description(): void
 	{
 		$object = new \SwaggerGen\Swagger\Error($this->parent, '200', 'Fine And Dandy');
 
@@ -62,7 +62,7 @@ class ErrorTest extends SwaggerGen_TestCase
 	 * this command are in `ResponseTest`
 	 * @covers \SwaggerGen\Swagger\Type\Error->handleCommand
 	 */
-	public function testHandleCommand_Header()
+	public function testHandleCommand_Header(): void
 	{
 		$object = new \SwaggerGen\Swagger\Error($this->parent, 200);
 

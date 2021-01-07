@@ -5,12 +5,12 @@ class ParameterTest extends SwaggerGen_TestCase
 
 	protected $parent;
 
-	protected function setUp()
+	protected function setUp(): void
 	{
 		$this->parent = $this->getMockForAbstractClass('\SwaggerGen\Swagger\Swagger');
 	}
 
-	protected function assertPreConditions()
+	protected function assertPreConditions(): void
 	{
 		$this->assertInstanceOf('\SwaggerGen\Swagger\AbstractObject', $this->parent);
 	}
@@ -18,7 +18,7 @@ class ParameterTest extends SwaggerGen_TestCase
 	/**
 	 * @covers \SwaggerGen\Swagger\Parameter::__construct
 	 */
-	public function testConstructor_InEmpty()
+	public function testConstructor_InEmpty(): void
 	{
 		$this->expectException('\SwaggerGen\Exception', "Invalid in for parameter: ''");
 
@@ -28,7 +28,7 @@ class ParameterTest extends SwaggerGen_TestCase
 	/**
 	 * @covers \SwaggerGen\Swagger\Parameter::__construct
 	 */
-	public function testConstructor_InNotValid()
+	public function testConstructor_InNotValid(): void
 	{
 		$this->expectException('\SwaggerGen\Exception', "Invalid in for parameter: 'foo'");
 
@@ -38,7 +38,7 @@ class ParameterTest extends SwaggerGen_TestCase
 	/**
 	 * @covers \SwaggerGen\Swagger\Parameter::__construct
 	 */
-	public function testConstructor_DefinitionEmpty()
+	public function testConstructor_DefinitionEmpty(): void
 	{
 		$this->expectException('\SwaggerGen\Exception', "No type definition for parameter");
 
@@ -48,7 +48,7 @@ class ParameterTest extends SwaggerGen_TestCase
 	/**
 	 * @covers \SwaggerGen\Swagger\Parameter::__construct
 	 */
-	public function testConstructor_NameEmpty()
+	public function testConstructor_NameEmpty(): void
 	{
 		$this->expectException('\SwaggerGen\Exception', "No name for parameter");
 

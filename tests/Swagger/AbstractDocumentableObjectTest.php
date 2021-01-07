@@ -5,12 +5,12 @@ class AbstractDocumentableObjectTest extends SwaggerGen_TestCase
 
 	protected $parent;
 
-	protected function setUp()
+	protected function setUp(): void
 	{
 		$this->parent = $this->getMockForAbstractClass('\SwaggerGen\Swagger\AbstractObject');
 	}
 
-	protected function assertPreConditions()
+	protected function assertPreConditions(): void
 	{
 		$this->assertInstanceOf('\SwaggerGen\Swagger\AbstractObject', $this->parent);
 	}

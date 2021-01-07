@@ -5,12 +5,12 @@ class FileTypeTest extends SwaggerGen_TestCase
 
 	protected $parent;
 
-	protected function setUp()
+	protected function setUp(): void
 	{
 		$this->parent = new \SwaggerGen\Swagger\Swagger;
 	}
 
-	protected function assertPreConditions()
+	protected function assertPreConditions(): void
 	{
 		$this->assertInstanceOf('\SwaggerGen\Swagger\AbstractObject', $this->parent);
 	}

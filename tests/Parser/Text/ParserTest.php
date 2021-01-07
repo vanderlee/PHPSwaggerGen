@@ -1,6 +1,8 @@
 <?php
 
-class Parser_Text_ParserTest extends SwaggerGen_TestCase
+namespace Tests\Parser\Text;
+
+class ParserTest extends \SwaggerGen_TestCase
 {
 
 	/**

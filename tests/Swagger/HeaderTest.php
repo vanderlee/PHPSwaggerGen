@@ -5,12 +5,12 @@ class HeaderTest extends SwaggerGen_TestCase
 
 	protected $parent;
 
-	protected function setUp()
+	protected function setUp(): void
 	{
 		$this->parent = $this->getMockForAbstractClass('\SwaggerGen\Swagger\AbstractObject');
 	}
 
-	protected function assertPreConditions()
+	protected function assertPreConditions(): void
 	{
 		$this->assertInstanceOf('\SwaggerGen\Swagger\AbstractObject', $this->parent);
 	}
@@ -18,7 +18,7 @@ class HeaderTest extends SwaggerGen_TestCase
 	/**
 	 * @covers \SwaggerGen\Swagger\Header::__construct
 	 */
-	public function testConstructorType()
+	public function testConstructorType(): void
 	{
 		$object = new \SwaggerGen\Swagger\Header($this->parent, 'integer');
 

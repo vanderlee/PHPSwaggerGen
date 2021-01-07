@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## 2.3.21 - 2021-01-07
+### Fixed
+- PR #47; Fix array access PHP8 by daniol.
+- Minor fixes for php-unit.
+
 ## 2.3.20 - 2019-12-02
 ### Fixed
 - PR #45 fixes #44; PHP Parser fails when parsing @rest\property! by SteenSchutt

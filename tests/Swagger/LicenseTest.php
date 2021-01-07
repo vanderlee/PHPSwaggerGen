@@ -5,12 +5,12 @@ class LicenseTest extends SwaggerGen_TestCase
 
 	protected $parent;
 
-	protected function setUp()
+	protected function setUp(): void
 	{
 		$this->parent = $this->getMockForAbstractClass('\SwaggerGen\Swagger\AbstractObject');
 	}
 
-	protected function assertPreConditions()
+	protected function assertPreConditions(): void
 	{
 		$this->assertInstanceOf('\SwaggerGen\Swagger\AbstractObject', $this->parent);
 	}
@@ -19,7 +19,7 @@ class LicenseTest extends SwaggerGen_TestCase
 	 * @covers \SwaggerGen\Swagger\License::__construct
 	 * @covers \SwaggerGen\Swagger\License::toArray
 	 */
-	public function testConstructor2Unknown()
+	public function testConstructor2Unknown(): void
 	{
 		$object = new \SwaggerGen\Swagger\License($this->parent, 'Name');
 
