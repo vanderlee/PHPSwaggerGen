@@ -14,123 +14,135 @@ namespace SwaggerGen\Parser;
 abstract class AbstractPreprocessor
 {
 
-	private $defines = array();
-	private $stack = array();
+    private $defines = [];
+    private $stack = [];
 
-	public function __construct()
-	{
-		$this->resetDefines();
-	}
+    public function __construct()
+    {
+        $this->resetDefines();
+    }
 
-	public function resetDefines()
-	{
-		$this->defines = array();
-	}
+    public function resetDefines(): void
+    {
+        $this->defines = [];
+    }
 
-	public function addDefines(array $defines)
-	{
-		$this->defines = array_merge($this->defines, $defines);
-	}
+    public function addDefines(array $defines): void
+    {
+        $this->defines = array_merge($this->defines, $defines);
+    }
 
-	public function define($name, $value = 1)
-	{
-		$this->defines[$name] = $value;
-	}
+    public function define($name, $value = 1): void
+    {
+        $this->defines[$name] = $value;
+    }
 
-	public function undefine($name)
-	{
-		unset($this->defines[$name]);
-	}
+    public function undefine($name): void
+    {
+        unset($this->defines[$name]);
+    }
 
-	protected function getState()
-	{
-		return empty($this->stack) || (bool) end($this->stack);
-	}
+    protected function getState(): bool
+    {
+        return empty($this->stack)
+            || (bool)end($this->stack);
+    }
 
-	/**
-	 * Get the first word from a string and remove it from the string.
-	 *
-	 * @param string $data
-	 * @return boolean|string
-	 */
-	private static function wordShift(&$data)
-	{
-		if (preg_match('~^(\S+)\s*(.*)$~', $data, $matches) === 1) {
-			$data = $matches[2];
-			return $matches[1];
-		}
-		return false;
-	}
+    /**
+     * Get the first word from a string and remove it from the string.
+     *
+     * @param string $data
+     *
+     * @return string|null
+     */
+    private static function wordShift(string &$data): ?string
+    {
+        if (preg_match('~^(\S+)\s*(.*)$~', $data, $matches) === 1) {
+            $data = $matches[2];
 
-	protected function handle($command, $expression)
-	{
-		switch (strtolower($command)) {
-			case 'if':
-				$name = self::wordShift($expression);
-				$state = $this->getState();
-				if (empty($expression)) {
-					$this->stack[] = $state && !empty($this->defines[$name]);
-				} else {
-					$this->stack[] = $state && isset($this->defines[$name]) && $this->defines[$name] == $expression;
-				}
-				break;
+            return $matches[1];
+        }
 
-			case 'ifdef':
-				$this->stack[] = $this->getState() && isset($this->defines[$expression]);
-				break;
+        return null;
+    }
 
-			case 'ifndef':
-				$this->stack[] = $this->getState() && !isset($this->defines[$expression]);
-				break;
+    protected function handle($command, $expression): bool
+    {
+        switch (strtolower($command)) {
+            case 'if':
+                $name = self::wordShift($expression);
+                $state = $this->getState();
+                if (empty($expression)) {
+                    $this->stack[] = $state
+                        && !empty($this->defines[$name]);
+                } else {
+                    $this->stack[] = $state
+                        && isset($this->defines[$name])
+                        && $this->defines[$name] === $expression;
+                }
+                break;
 
-			case 'else':
-				$state = $this->getState();
-				array_pop($this->stack);
-				$this->stack[] = !$state;
-				break;
+            case 'ifdef':
+                $this->stack[] = $this->getState()
+                    && isset($this->defines[$expression]);
+                break;
 
-			case 'elif':
-				$name = self::wordShift($expression);
-				$state = $this->getState();
-				array_pop($this->stack);
-				if (empty($expression)) {
-					$this->stack[] = !$state && !empty($this->defines[$name]);
-				} else {
-					$this->stack[] = !$state && isset($this->defines[$name]) && $this->defines[$name] == $expression;
-				}
-				break;
+            case 'ifndef':
+                $this->stack[] = $this->getState()
+                    && !isset($this->defines[$expression]);
+                break;
 
-			case 'define':
-				$name = self::wordShift($expression);
-				$this->defines[$name] = $expression;
-				break;
+            case 'else':
+                $state = $this->getState();
+                array_pop($this->stack);
+                $this->stack[] = !$state;
+                break;
 
-			case 'undef':
-				unset($this->defines[$expression]);
-				break;
+            case 'elif':
+                $name = self::wordShift($expression);
+                $state = $this->getState();
+                array_pop($this->stack);
+                if (empty($expression)) {
+                    $this->stack[] = !$state
+                        && !empty($this->defines[$name]);
+                } else {
+                    $this->stack[] = !$state
+                        && isset($this->defines[$name])
+                        && $this->defines[$name] === $expression;
+                }
+                break;
 
-			case 'endif':
-				array_pop($this->stack);
-				break;
+            case 'define':
+                $name = self::wordShift($expression);
+                $this->defines[$name] = $expression;
+                break;
 
-			default:
-				return false;
-		}
+            case 'undef':
+                unset($this->defines[$expression]);
+                break;
 
-		return true;
-	}
+            case 'endif':
+                array_pop($this->stack);
+                break;
 
-	public function preprocess($content)
-	{
-		$this->stack = array();
+            default:
+                return false;
+        }
 
-		return $this->parseContent($content);
-	}
+        return true;
+    }
 
-	public function preprocessFile($filename)
-	{
-		return $this->preprocess(file_get_contents($filename));
-	}
+    public function preprocess(string $content): string
+    {
+        $this->stack = [];
 
-	abstract protected function parseContent($content);
+        return $this->parseContent($content);
+    }
+
+    public function preprocessFile(string $filename): string
+    {
+        return $this->preprocess(file_get_contents($filename));
+    }
+
+    abstract protected function parseContent(string $content): string;
 }

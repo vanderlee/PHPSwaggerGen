@@ -26,12 +26,12 @@ class NumberType extends AbstractType
 	private $exclusiveMaximum = null;
 	private $minimum = null;
 	private $exclusiveMinimum = null;
-	private $enum = array();
+	private $enum = [];
 	private $multipleOf = null;
 
 	protected function parseDefinition($definition)
 	{
-		$match = array();
+		$match = [];
 		if (preg_match(self::REGEX_START . self::REGEX_FORMAT . self::REGEX_RANGE . self::REGEX_DEFAULT . self::REGEX_END, $definition, $match) !== 1) {
 			throw new \SwaggerGen\Exception("Unparseable number definition: '{$definition}'");
 		}

@@ -65,7 +65,7 @@ class Info extends AbstractObject
 				return $this;
 
 			case 'contact':
-				$name = array();
+				$name = [];
 				$url = null;
 				$email = null;
 				foreach (self::wordSplit($data) as $word) {
@@ -82,7 +82,7 @@ class Info extends AbstractObject
 				return $this->contact;
 
 			case 'license':
-				$name = array();
+				$name = [];
 				$url = null;
 				foreach (self::wordSplit($data) as $word) {
 					if (filter_var($word, FILTER_VALIDATE_URL)) {

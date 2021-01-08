@@ -44,7 +44,7 @@ class Ipv4Type extends \SwaggerGen\Swagger\Type\StringType implements \SwaggerGe
 	{
 		$definition = self::trim($definition);
 
-		$match = array();
+		$match = [];
 		if (preg_match(self::REGEX_START . self::REGEX_FORMAT . self::REGEX_DEFAULT . self::REGEX_END, $definition, $match) !== 1) {
 			throw new \SwaggerGen\Exception("Unparseable IPv4 definition: '{$definition}'");
 		}

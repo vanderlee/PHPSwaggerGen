@@ -94,7 +94,7 @@ class Parameter extends AbstractObject implements IParameter
 		$this->required = (bool) $required;
 
 		// Parse regex
-		$match = array();
+		$match = [];
 		if (preg_match('/^([a-z][a-z0-9]*)/i', $definition, $match) === 1) {
 			// recognized format
 		} elseif (preg_match('/^(\[)(?:.*?)\]$/i', $definition, $match) === 1) {

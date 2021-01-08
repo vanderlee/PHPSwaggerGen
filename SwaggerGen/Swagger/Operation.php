@@ -14,20 +14,20 @@ namespace SwaggerGen\Swagger;
 class Operation extends AbstractDocumentableObject
 {
 
-	private $tags = array();
+	private $tags = [];
 	private $summary;
 	private $description;
-	private $consumes = array();
-	private $produces = array();
+	private $consumes = [];
+	private $produces = [];
 
 	/**
 	 * @var IParameter[]
 	 */
-	private $parameters = array();
-	private $responses = array();
-	private $schemes = array();
+	private $parameters = [];
+	private $responses = [];
+	private $schemes = [];
 	private $deprecated = false;
-	private $security = array();
+	private $security = [];
 
 	/**
 	 * @var string
@@ -155,7 +155,7 @@ class Operation extends AbstractDocumentableObject
 				$scopes = self::wordSplit($data);
 				sort($scopes);
 				$this->security[] = array(
-					$name => empty($scopes) ? array() : $scopes,
+					$name => empty($scopes) ? [] : $scopes,
 				);
 				return $this;
 

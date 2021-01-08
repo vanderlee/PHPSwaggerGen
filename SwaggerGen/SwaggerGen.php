@@ -41,8 +41,8 @@ class SwaggerGen
 
 	private $host;
 	private $basePath;
-	private $dirs = array();
-	private $defines = array();
+	private $dirs = [];
+	private $defines = [];
 
 	/**
 	 * @var TypeRegistry
@@ -57,7 +57,7 @@ class SwaggerGen
 	 * @param string[] $dirs
 	 * @param TypeRegistry $typeRegistry
 	 */
-	public function __construct($host = '', $basePath = '', $dirs = array(), $typeRegistry = null)
+	public function __construct($host = '', $basePath = '', $dirs = [], $typeRegistry = null)
 	{
 		$this->host = $host;
 		$this->basePath = $basePath;
@@ -115,13 +115,12 @@ class SwaggerGen
 
 	/**
 	 * @param string $text
-	 * @param string[] $dirs
 	 * @return Statement[]
 	 */
-	private function parseText($text, $dirs): array
+	private function parseText($text): array
     {
 		$Parser = new Parser\Text\Parser();
-		return $Parser->parseText($text, $dirs, $this->defines);
+		return $Parser->parseText($text, $this->defines);
 	}
 
 	/**
@@ -171,7 +170,7 @@ class SwaggerGen
 			if (!$result && !$top) {
 				$messages = array("Unsupported or unknown command: {$statement->getCommand()} {$statement->getData()}");
 
-				$stacktrace = array();
+				$stacktrace = [];
 				foreach ($stack as $object) {
 					$stacktrace[] = (string) $object;
 				}
@@ -194,11 +193,11 @@ class SwaggerGen
 	 * @return string
 	 * @throws Exception
 	 */
-	public function getSwagger($files, $dirs = array(), $format = self::FORMAT_ARRAY)
+	public function getSwagger($files, $dirs = [], $format = self::FORMAT_ARRAY)
 	{
 		$dirs = array_merge($this->dirs, $dirs);
 
-		$statements = array();
+		$statements = [];
 		foreach ($files as $file) {
 			switch (pathinfo($file, PATHINFO_EXTENSION)) {
 				case 'php':

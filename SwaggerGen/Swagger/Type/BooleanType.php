@@ -19,7 +19,7 @@ class BooleanType extends AbstractType
 
 	protected function parseDefinition($definition)
 	{
-		$match = array();
+		$match = [];
 		if (preg_match(self::REGEX_START . self::REGEX_FORMAT . self::REGEX_DEFAULT . self::REGEX_END, $definition, $match) !== 1) {
 			throw new \SwaggerGen\Exception("Unparseable boolean definition: '{$definition}'");
 		}

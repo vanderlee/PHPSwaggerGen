@@ -17,72 +17,91 @@ namespace SwaggerGen\Parser\Php;
 class Preprocessor extends \SwaggerGen\Parser\AbstractPreprocessor
 {
 
-	private $prefix = 'rest';
+    /**
+     * @var string
+     */
+    private $prefix = 'rest';
 
-	public function __construct($prefix = null)
-	{
-		parent::__construct();
-		if (!empty($prefix)) {
-			$this->prefix = $prefix;
-		}
-	}
+    /**
+     * Preprocessor constructor.
+     *
+     * @param string|null $prefix
+     */
+    public function __construct(string $prefix = null)
+    {
+        parent::__construct();
+        if (!empty($prefix)) {
+            $this->prefix = $prefix;
+        }
+    }
 
-	public function getPrefix()
-	{
-		return $this->prefix;
-	}
+    /**
+     * @return string
+     */
+    public function getPrefix(): string
+    {
+        return $this->prefix;
+    }
 
-	public function setPrefix($prefix)
-	{
-		$this->prefix = $prefix;
-	}
+    /**
+     * @param string $prefix
+     */
+    public function setPrefix(string $prefix): void
+    {
+        $this->prefix = $prefix;
+    }
 
-	protected function parseContent($content)
-	{
-		$pattern = '/@' . preg_quote($this->getPrefix()) . '\\\\([a-z]+)\\s*(.*)$/';
+    /**
+     * @param string $content
+     *
+     * @return string
+     */
+    protected function parseContent(string $content): string
+    {
+        $pattern = '/@' . preg_quote($this->getPrefix()) . '\\\\([a-z]+)\\s*(.*)$/';
 
-		$output_file = '';
+        $output_file = '';
 
-		foreach (token_get_all($content) as $token) {
-			$output = '';
+        foreach (token_get_all($content) as $token) {
+            $output = '';
 
-			if (is_array($token)) {
-				switch ($token[0]) {
-					case T_DOC_COMMENT:
-					case T_COMMENT:
-						foreach (preg_split('/(\\R)/m', $token[1], -1, PREG_SPLIT_DELIM_CAPTURE) as $index => $line) {
-							if ($index % 2) {
-								$output .= $line;
-							} else {
-								$match = array();
-								if (preg_match($pattern, $line, $match) === 1) {
-									if (!$this->handle($match[1], $match[2]) && $this->getState()) {
-										$output .= $line;
-									} else {
-										$output .= str_replace('@' . $this->getPrefix() . '\\', '@!' . $this->getPrefix() . '\\', $line);
-									}
-								} else {
-									$output .= $line;
-								}
-							}
-						}
-						break;
+            if (is_array($token)) {
+                switch ($token[0]) {
+                    case T_DOC_COMMENT:
+                    case T_COMMENT:
+                        foreach (preg_split('/(\\R)/m', $token[1], -1, PREG_SPLIT_DELIM_CAPTURE) as $index => $line) {
+                            if ($index % 2) {
+                                $output .= $line;
+                            } else {
+                                $match = [];
+                                if (preg_match($pattern, $line, $match) === 1) {
+                                    if (!$this->handle($match[1], $match[2]) && $this->getState()) {
+                                        $output .= $line;
+                                    } else {
+                                        $output .= str_replace('@' . $this->getPrefix() . '\\', '@!' . $this->getPrefix() . '\\', $line);
+                                    }
+                                } else {
+                                    $output .= $line;
+                                }
+                            }
+                        }
+                        break;
 
-					default:
-						$output .= $token[1];
-				}
-			} else {
-				$output .= $token;
-			}
+                    default:
+                        $output .= $token[1];
+                }
+            } else {
+                $output .= $token;
+            }
 
-			if ($this->getState()) {
-				$output_file .= $output;
-			} else {
-				$output_file .= '/* ' . $output . ' */';
-			}
-		}
+            if ($this->getState()) {
+                $output_file .= $output;
+            } else {
+                $output_file .= '/* ' . $output . ' */';
+            }
+        }
 
-		return $output_file;
-	}
+        return $output_file;
+    }
 
 }

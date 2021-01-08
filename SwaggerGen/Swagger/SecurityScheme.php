@@ -34,7 +34,7 @@ class SecurityScheme extends AbstractObject
 	 * Map of scope-name => description
 	 * @var []
 	 */
-	private $scopes = array();
+	private $scopes = [];
 
 	/**
 	 * Create a new SecurityScheme object

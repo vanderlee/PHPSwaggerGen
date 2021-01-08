@@ -70,7 +70,7 @@ abstract class AbstractType extends \SwaggerGen\Swagger\AbstractObject
 	 */
 	protected static function parseList($list)
 	{
-		$ret = array();
+		$ret = [];
 		while ($item = self::parseListItem($list)) {
 			$ret[] = $item;
 		}
@@ -175,7 +175,7 @@ abstract class AbstractType extends \SwaggerGen\Swagger\AbstractObject
 	public static function typeFactory($parent, $definition, $error = "Unparseable schema type definition: '%s'")
 	{
 		// Parse regex
-		$match = array();
+		$match = [];
 		if (preg_match('/^([a-z]+)/i', $definition, $match) === 1) {
 			// recognized format
 		} elseif (preg_match('/^(\[)(?:.*?)\]$/i', $definition, $match) === 1) {

@@ -35,7 +35,7 @@ class ArrayType extends AbstractType
 	protected function parseDefinition($definition)
 	{
 		$definition = self::trim($definition);
-		$match = array();
+		$match = [];
 		if (preg_match(self::REGEX_START . self::REGEX_FORMAT . self::REGEX_CONTENT . self::REGEX_RANGE . self::REGEX_END, $definition, $match) === 1) {
 			// recognized format
 		} elseif (preg_match(self::REGEX_START . self::REGEX_ARRAY_CONTENT . self::REGEX_RANGE . self::REGEX_END, $definition, $match) === 1) {

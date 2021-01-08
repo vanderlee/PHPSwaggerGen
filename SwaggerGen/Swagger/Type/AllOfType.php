@@ -12,7 +12,7 @@ namespace SwaggerGen\Swagger\Type;
  */
 class AllOfType extends AbstractType
 {
-	private $allOfItems = array();
+	private $allOfItems = [];
 	private $mostRecentItem;
 	protected function parseDefinition($definition)
 	{
@@ -48,7 +48,7 @@ class AllOfType extends AbstractType
 
 	public function toArray()
 	{
-		$allOf = array();
+		$allOf = [];
 		foreach ($this->allOfItems as $item) {
 			$allOf[] = $item->toArray();
 		}

@@ -35,7 +35,7 @@ abstract class AbstractObject
 	 * Map of extensions and their (trimmed) values
 	 * @var string[]
 	 */
-	private $extensions = array();
+	private $extensions = [];
 
 	public function __construct(AbstractObject $parent = null)
 	{
@@ -132,7 +132,7 @@ abstract class AbstractObject
 	public static function arrayFilterNull($array)
 	{
 		return array_filter($array, function($value) {
-			return $value !== null && $value !== array();
+			return $value !== null && $value !== [];
 		});
 	}
 

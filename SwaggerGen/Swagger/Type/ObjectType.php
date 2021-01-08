@@ -26,12 +26,12 @@ class ObjectType extends AbstractType
 	private $maxProperties = null;
 	private $discriminator = null;
 	private $additionalProperties = null;
-	private $required = array();
+	private $required = [];
 
 	/**
 	 * @var Property[]
 	 */
-	private $properties = array();
+	private $properties = [];
 
 	/**
 	 * @var Property
@@ -42,7 +42,7 @@ class ObjectType extends AbstractType
 	{
 		$definition = self::trim($definition);
 
-		$match = array();
+		$match = [];
 		if (preg_match(self::REGEX_START . self::REGEX_FORMAT . self::REGEX_CONTENT . self::REGEX_RANGE . self::REGEX_END, $definition, $match) === 1) {
 			// recognized format
 		} elseif (preg_match(self::REGEX_START . self::REGEX_OBJECT_CONTENT . self::REGEX_RANGE . self::REGEX_END, $definition, $match) === 1) {
@@ -91,7 +91,7 @@ class ObjectType extends AbstractType
 		}
 
 		while (($property = self::parseListItem($match[2])) !== '') {
-			$prop_match = array();
+			$prop_match = [];
 			if (preg_match(self::REGEX_PROP_START . self::REGEX_PROP_ADDITIONAL . self::REGEX_PROP_END, $property, $prop_match) === 1) {
 				if (empty($prop_match[1])) {
 					$this->setAdditionalProperties(true);
