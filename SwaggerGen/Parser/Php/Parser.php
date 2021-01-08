@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace SwaggerGen\Parser\Php;
 
@@ -35,22 +36,17 @@ class Parser extends AbstractEntity implements IParser
     /**
      * @var Statement[]
      */
-    public $statements = [];
-
-    /**
-     * @var Statement[]
-     */
     private $lastStatements = [];
 
     /**
      * @var ParserClass[]
      */
-    public $Classes = [];
+    public $classes = [];
 
     /**
      * @var ParserFunction[]
      */
-    public $Functions = [];
+    public $functions = [];
 
     /**
      * @var AbstractPreprocessor
@@ -92,26 +88,26 @@ class Parser extends AbstractEntity implements IParser
     private function extractStatements(): array
     {
         // Core comments
-        $Statements = $this->statements;
+        $statements = $this->statements;
 
         // Functions
-        foreach ($this->Functions as $Function) {
-            if ($Function->hasCommand('method')) {
-                $Statements = array_merge($Statements, $Function->Statements);
+        foreach ($this->functions as $function) {
+            if ($function->hasCommand('method')) {
+                array_push($statements, ...$function->statements);
             }
         }
 
         // Classes
-        foreach ($this->Classes as $Class) {
-            $Statements = array_merge($Statements, $Class->Statements);
-            foreach ($Class->Methods as $Method) {
-                if ($Method->hasCommand('method')) {
-                    $Statements = array_merge($Statements, $Method->Statements);
+        foreach ($this->classes as $class) {
+            array_push($statements, ...$class->statements);
+            foreach ($class->methods as $method) {
+                if ($method->hasCommand('method')) {
+                    array_push($statements, ...$method->statements);
                 }
             }
         }
 
-        return $Statements;
+        return $statements;
     }
 
     /**
@@ -132,14 +128,14 @@ class Parser extends AbstractEntity implements IParser
         $this->parseFiles([$file], $defines);
 
         // Inherit classes
-        foreach ($this->Classes as $Class) {
-            $this->inherit($Class);
+        foreach ($this->classes as $class) {
+            $this->inherit($class);
         }
 
         // Expand functions with used and seen functions/methods.
-        foreach ($this->Classes as $Class) {
-            foreach ($Class->Methods as $Method) {
-                $Method->Statements = $this->expand($Method->Statements, $Class);
+        foreach ($this->classes as $class) {
+            foreach ($class->methods as $method) {
+                $method->statements = $this->expand($method->statements, $class);
             }
         }
 
@@ -156,7 +152,7 @@ class Parser extends AbstractEntity implements IParser
     public function tokenToStatements(array $token): array
     {
         $comment = $token[1];
-        $commentLineNumber = (int) $token[2];
+        $commentLineNumber = (int)$token[2];
         $commentLines = [];
 
         $match = [];
@@ -172,6 +168,7 @@ class Parser extends AbstractEntity implements IParser
         } elseif (preg_match('~^//\s*(.*)$~', $comment, $match) === 1) {
             $commentLines[] = trim($match[1]);
         }
+
         // to commands
         $match = [];
         $command = null;
@@ -187,8 +184,7 @@ class Parser extends AbstractEntity implements IParser
             }
 
             if (preg_match('~^@' . preg_quote(self::COMMENT_TAG, '~') . '\\\\([a-z][-a-z]*[?!]?)\\s*(.*)$~', $line, $match) === 1) {
-                $command = $match[1];
-                $data = $match[2];
+                [, $command, $data] = $match;
                 $commandLineNumber = $lineNumber;
             } elseif ($command !== null) {
                 if ($lineNumber < count($commentLines) - 1) {
@@ -216,7 +212,7 @@ class Parser extends AbstractEntity implements IParser
 
             foreach ($paths as $path) {
                 $realpath = realpath($path);
-                if (in_array($realpath, $this->files_done)) {
+                if (in_array($realpath, $this->files_done, false)) {
                     return;
                 }
                 if (is_file($realpath)) {
@@ -258,19 +254,19 @@ class Parser extends AbstractEntity implements IParser
                 case T_CLASS:
                 case T_INTERFACE:
                     $Class = new Entity\ParserClass($this, $tokens, $this->lastStatements);
-                    $this->Classes[strtolower($Class->name)] = $Class;
+                    $this->classes[strtolower($Class->name)] = $Class;
                     $this->lastStatements = null;
                     break;
 
                 case T_FUNCTION:
                     $Function = new Entity\ParserFunction($this, $tokens, $this->lastStatements);
-                    $this->Functions[strtolower($Function->name)] = $Function;
+                    $this->functions[strtolower($Function->name)] = $Function;
                     $this->lastStatements = null;
                     break;
 
                 case T_COMMENT:
-                    if ($this->lastStatements !== null) {
-                        $this->statements = array_merge($this->statements, $this->lastStatements);
+                    $this->addStatements($this->lastStatements);
+                    if (!empty($this->lastStatements)) {
                         $this->lastStatements = null;
                     }
                     $Statements = $this->tokenToStatements($token);
@@ -279,9 +275,7 @@ class Parser extends AbstractEntity implements IParser
                     break;
 
                 case T_DOC_COMMENT:
-                    if ($this->lastStatements !== null) {
-                        $this->statements = array_merge($this->statements, $this->lastStatements);
-                    }
+                    $this->addStatements($this->lastStatements);
                     $Statements = $this->tokenToStatements($token);
                     $this->queueClassesFromComments($Statements);
                     $this->lastStatements = $Statements;
@@ -316,9 +310,9 @@ class Parser extends AbstractEntity implements IParser
 
             $this->parseTokens($source);
 
-            if ($this->lastStatements !== null) {
-                $this->statements = array_merge($this->statements, $this->lastStatements);
-                $this->lastStatements = null;
+            $this->addStatements($this->lastStatements);
+            if (!empty($this->lastStatements)) {
+                $this->lastStatements = [];
             }
         }
 
@@ -334,13 +328,13 @@ class Parser extends AbstractEntity implements IParser
     {
         $inherits = array_merge([$Class->extends], $Class->implements);
         while (($inherit = array_shift($inherits)) !== null) {
-            if (isset($this->Classes[strtolower($inherit)])) {
-                $inheritedClass = $this->Classes[strtolower($inherit)];
+            if (isset($this->classes[strtolower($inherit)])) {
+                $inheritedClass = $this->classes[strtolower($inherit)];
                 $this->inherit($inheritedClass);
 
-                foreach ($inheritedClass->Methods as $name => $Method) {
-                    if (!isset($Class->Methods[$name])) {
-                        $Class->Methods[$name] = $Method;
+                foreach ($inheritedClass->methods as $name => $Method) {
+                    if (!isset($Class->methods[$name])) {
+                        $Class->methods[$name] = $Method;
                     }
                 }
             }
@@ -351,43 +345,43 @@ class Parser extends AbstractEntity implements IParser
      * Expands a set of comments with comments of methods referred to by
      * rest\uses statements.
      *
-     * @param Statement[]      $Statements
-     * @param ParserClass|null $Self
+     * @param Statement[]      $statements
+     * @param ParserClass|null $self
      *
      * @return array
      * @throws Exception
      */
-    private function expand(array $Statements, Entity\ParserClass $Self = null): array
+    private function expand(array $statements, ParserClass $self = null): array
     {
         $output = [];
 
         $match = null;
-        foreach ($Statements as $Statement) {
+        foreach ($statements as $Statement) {
             if (in_array($Statement->getCommand(), ['uses', 'see'])) {
                 if (preg_match('/^((?:\\w+)|\$this)(?:(::|->)(\\w+))?(?:\\(\\))?$/', strtolower($Statement->getData()), $match) === 1) {
                     if (count($match) >= 3) {
-                        $Class = null;
+                        $class = null;
                         if (in_array($match[1], ['$this', 'self', 'static'])) {
-                            $Class = $Self;
-                        } elseif (isset($this->Classes[$match[1]])) {
-                            $Class = $this->Classes[$match[1]];
+                            $class = $self;
+                        } elseif (isset($this->classes[$match[1]])) {
+                            $class = $this->classes[$match[1]];
                         }
 
-                        if ($Class) {
-                            if (isset($Class->Methods[$match[3]])) {
-                                $Method = $Class->Methods[$match[3]];
-                                $Method->Statements = $this->expand($Method->Statements, $Class);
-                                $output = array_merge($output, $Method->Statements);
+                        if ($class) {
+                            if (isset($class->methods[$match[3]])) {
+                                $method = $class->methods[$match[3]];
+                                $method->statements = $this->expand($method->statements, $class);
+                                array_push($output, ...$method->statements);
                             } else {
                                 throw new Exception("Method '{$match[3]}' for class '{$match[1]}' not found");
                             }
                         } else {
                             throw new Exception("Class '{$match[1]}' not found");
                         }
-                    } elseif (isset($this->Functions[$match[1]])) {
-                        $Function = $this->Functions[$match[1]];
-                        $Function->Statements = $this->expand($Function->Statements);
-                        $output = array_merge($output, $Function->Statements);
+                    } elseif (isset($this->functions[$match[1]])) {
+                        $function = $this->functions[$match[1]];
+                        $function->statements = $this->expand($function->statements);
+                        array_push($output, ...$function->statements);
                     } else {
                         throw new Exception("Function '{$match[1]}' not found");
                     }

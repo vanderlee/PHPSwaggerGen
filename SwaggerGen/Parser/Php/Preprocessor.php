@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace SwaggerGen\Parser\Php;
 
@@ -49,7 +50,7 @@ class Preprocessor extends \SwaggerGen\Parser\AbstractPreprocessor
 				switch ($token[0]) {
 					case T_DOC_COMMENT:
 					case T_COMMENT:
-						foreach (preg_split('/(\\R)/m', $token[1], null, PREG_SPLIT_DELIM_CAPTURE) as $index => $line) {
+						foreach (preg_split('/(\\R)/m', $token[1], -1, PREG_SPLIT_DELIM_CAPTURE) as $index => $line) {
 							if ($index % 2) {
 								$output .= $line;
 							} else {

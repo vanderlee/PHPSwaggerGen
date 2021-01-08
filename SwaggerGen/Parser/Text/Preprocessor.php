@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace SwaggerGen\Parser\Text;
 
@@ -22,7 +23,7 @@ class Preprocessor extends \SwaggerGen\Parser\AbstractPreprocessor
 
 		$output = '';
 
-		foreach (preg_split('/(\\R)/m', $content, null, PREG_SPLIT_DELIM_CAPTURE) as $index => $line) {
+		foreach (preg_split('/(\\R)/m', $content, -1, PREG_SPLIT_DELIM_CAPTURE) as $index => $line) {
 			if ($index % 2) {
 				$output .= $line;
 			} else {
