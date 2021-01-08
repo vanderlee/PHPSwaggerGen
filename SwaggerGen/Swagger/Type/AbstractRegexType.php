@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace SwaggerGen\Swagger\Type;
 
@@ -48,7 +49,7 @@ class AbstractRegexType extends StringType
 			throw new \SwaggerGen\Exception("Unparseable {$this->format} definition: '{$definition}'");
 		}
 
-		if (strtolower($match[1] !== $this->format)) {
+		if (strtolower($match[1]) !== $this->format) {
 			throw new \SwaggerGen\Exception("Not a {$this->format}: '{$definition}'");
 		}
 
