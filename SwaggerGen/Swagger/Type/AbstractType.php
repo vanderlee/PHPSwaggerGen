@@ -1,6 +1,10 @@
 <?php
+declare(strict_types=1);
 
 namespace SwaggerGen\Swagger\Type;
+
+use SwaggerGen\Exception;
+use SwaggerGen\Swagger\AbstractObject;
 
 /**
  * Abstract foundation of all type definitions.
@@ -10,7 +14,7 @@ namespace SwaggerGen\Swagger\Type;
  * @copyright  2014-2015 Martijn van der Lee
  * @license    https://opensource.org/licenses/MIT MIT
  */
-abstract class AbstractType extends \SwaggerGen\Swagger\AbstractObject
+abstract class AbstractType extends AbstractObject
 {
 
 	const REGEX_START = '/^';
@@ -76,7 +80,7 @@ abstract class AbstractType extends \SwaggerGen\Swagger\AbstractObject
 		}
 		return $ret;
 	}
-	
+
 	/**
 	 * Extract an item from a comma-separated list of items.
 	 *
@@ -113,13 +117,18 @@ abstract class AbstractType extends \SwaggerGen\Swagger\AbstractObject
 	/**
 	 * @var string $definition
 	 */
-	public function __construct(\SwaggerGen\Swagger\AbstractObject $parent, $definition)
+	public function __construct(AbstractObject $parent, $definition)
 	{
 		parent::__construct($parent);
 
 		$this->parseDefinition($definition);
 	}
 
+    /**
+     * @param string $definition
+     *
+     * @throws Exception
+     */
 	abstract protected function parseDefinition(string $definition): void;
 
 	/**
@@ -135,7 +144,7 @@ abstract class AbstractType extends \SwaggerGen\Swagger\AbstractObject
 		switch (strtolower($command)) {
 			case 'example':
 				if ($data === '') {
-					throw new \SwaggerGen\Exception("Missing content for type example");
+					throw new Exception("Missing content for type example");
 				}
 				$json = preg_replace_callback('/([^{}:,]+)/', function($match) {
 					json_decode($match[1]);
@@ -166,12 +175,14 @@ abstract class AbstractType extends \SwaggerGen\Swagger\AbstractObject
 								), parent::toArray()));
 	}
 
-	/**
-	 * @param \SwaggerGen\Swagger\AbstractObject $parent
-	 * @param string $definition
-	 * @param string $error
-	 * @return self
-	 */
+    /**
+     * @param AbstractObject $parent
+     * @param string         $definition
+     * @param string         $error
+     *
+     * @return self
+     * @throws Exception
+     */
 	public static function typeFactory($parent, $definition, $error = "Unparseable schema type definition: '%s'")
 	{
 		// Parse regex
@@ -183,7 +194,7 @@ abstract class AbstractType extends \SwaggerGen\Swagger\AbstractObject
 		} elseif (preg_match('/^(\{)(?:.*?)\}$/i', $definition, $match) === 1) {
 			$match[1] = 'object';
 		} else {
-			throw new \SwaggerGen\Exception(sprintf($error, $definition));
+			throw new Exception(sprintf($error, $definition));
 		}
 		$format = strtolower($match[1]);
 		// Internal type if type known and not overwritten by definition

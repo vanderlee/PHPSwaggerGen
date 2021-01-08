@@ -24,7 +24,9 @@ class Ipv4Type extends StringType implements ICustomType
      *
      * @var string[]
      */
-    private static $formats = ['ipv4'];
+    private static $formats = [
+        'ipv4',
+    ];
 
     /**
      * Construct and setup the regular expression for this type
@@ -32,7 +34,7 @@ class Ipv4Type extends StringType implements ICustomType
      * @param AbstractObject $parent
      * @param string         $definition
      */
-    public function __construct(AbstractObject $parent, $definition)
+    public function __construct(AbstractObject $parent, string $definition)
     {
         $this->pattern = self::PATTERN;
 
