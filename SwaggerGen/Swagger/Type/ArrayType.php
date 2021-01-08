@@ -32,7 +32,7 @@ class ArrayType extends AbstractType
 	private $maxItems = null;
 	private $collectionFormat = null;
 
-	protected function parseDefinition($definition)
+	protected function parseDefinition(string $definition): void
 	{
 		$definition = self::trim($definition);
 		$match = [];

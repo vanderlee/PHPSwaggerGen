@@ -32,7 +32,7 @@ class StringType extends AbstractType
 	protected $minLength = null;
 	protected $enum = [];
 
-	protected function parseDefinition($definition)
+	protected function parseDefinition(string $definition): void
 	{
 		$definition = self::trim($definition);
 
@@ -157,7 +157,7 @@ class StringType extends AbstractType
 	 * @return string the value after validation (may be trimmed and such)
 	 * @throws \SwaggerGen\Exception
 	 */
-	protected function validateDefault($value)
+	protected function validateDefault(string $value): string
 	{
 		if (empty($value)) {
 			$type = $this->format ?: ($this->enum ? 'enum' : 'string');

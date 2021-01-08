@@ -120,7 +120,7 @@ abstract class AbstractType extends \SwaggerGen\Swagger\AbstractObject
 		$this->parseDefinition($definition);
 	}
 
-	abstract protected function parseDefinition($definition);
+	abstract protected function parseDefinition(string $definition): void;
 
 	/**
 	 * Overwrites default AbstractObject parser, since Types should not handle

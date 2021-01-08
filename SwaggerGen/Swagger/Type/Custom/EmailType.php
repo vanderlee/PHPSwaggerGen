@@ -40,7 +40,7 @@ class EmailType extends \SwaggerGen\Swagger\Type\StringType implements \SwaggerG
 	 * @param string $definition
 	 * @throws \SwaggerGen\Exception
 	 */
-	protected function parseDefinition($definition)
+	protected function parseDefinition(string $definition): void
 	{
 		$definition = self::trim($definition);
 
@@ -63,10 +63,10 @@ class EmailType extends \SwaggerGen\Swagger\Type\StringType implements \SwaggerG
 	 * @return string
 	 * @throws \SwaggerGen\Exception
 	 */
-	protected function validateDefault($value)
+	protected function validateDefault(string $value): string
 	{
 		if (empty($value)) {
-			throw new \SwaggerGen\Exception("Empty email default");
+			throw new \SwaggerGen\Exception('Empty email default');
 		}
 
 		if (filter_var($value, FILTER_VALIDATE_EMAIL) === false) {
@@ -76,12 +76,12 @@ class EmailType extends \SwaggerGen\Swagger\Type\StringType implements \SwaggerG
 		return $value;
 	}
 
-	public static function getFormats()
+	public static function getFormats(): array
 	{
 		return self::$formats;
 	}
 
-	public static function setFormats(array $formats)
+	public static function setFormats(array $formats): void
 	{
 		self::$formats = $formats;
 	}

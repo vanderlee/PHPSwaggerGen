@@ -17,12 +17,12 @@ interface ICustomType
 	 * Return a list of formats recognized by this type
 	 * @return string[]
 	 */
-	public static function getFormats();
+	public static function getFormats(): array;
 	
 	/**
 	 * Overwrite format names recognized by this type
 	 * @param string[] $formats
 	 */
-	public static function setFormats(array $formats);
+	public static function setFormats(array $formats): void;
 	
 }

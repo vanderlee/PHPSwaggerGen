@@ -15,7 +15,7 @@ class ReferenceObjectType extends AbstractType
 
 	private $reference = null;
 
-	protected function parseDefinition($definition)
+	protected function parseDefinition(string $definition): void
 	{
 		$definition = self::trim($definition);
 

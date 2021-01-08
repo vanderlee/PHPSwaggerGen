@@ -14,7 +14,7 @@ class AllOfType extends AbstractType
 {
 	private $allOfItems = [];
 	private $mostRecentItem;
-	protected function parseDefinition($definition)
+	protected function parseDefinition(string $definition): void
 	{
 		$pattern = self::REGEX_START . 'allof' . self::REGEX_CONTENT . self::REGEX_END;
 		$inlineDef = '';

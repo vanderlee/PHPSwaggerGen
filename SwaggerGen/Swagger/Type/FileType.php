@@ -13,7 +13,7 @@ namespace SwaggerGen\Swagger\Type;
 class FileType extends AbstractType
 {
 
-	protected function parseDefinition($definition)
+	protected function parseDefinition(string $definition): void
 	{
 		$type = strtolower($definition);
 

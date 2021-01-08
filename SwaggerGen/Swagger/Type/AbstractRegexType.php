@@ -39,7 +39,7 @@ class AbstractRegexType extends StringType
 		parent::__construct($parent, $definition);
 	}
 
-	protected function parseDefinition($definition)
+	protected function parseDefinition(string $definition): void
 	{
 		$definition = self::trim($definition);
 
@@ -56,7 +56,7 @@ class AbstractRegexType extends StringType
 		$this->default = isset($match[2]) && $match[2] !== '' ? $this->validateDefault($match[2]) : null;
 	}
 
-	protected function validateDefault($value)
+	protected function validateDefault(string $value): string
 	{
 		$value = parent::validateDefault($value);
 		

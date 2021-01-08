@@ -29,7 +29,7 @@ class NumberType extends AbstractType
 	private $enum = [];
 	private $multipleOf = null;
 
-	protected function parseDefinition($definition)
+	protected function parseDefinition(string $definition): void
 	{
 		$match = [];
 		if (preg_match(self::REGEX_START . self::REGEX_FORMAT . self::REGEX_RANGE . self::REGEX_DEFAULT . self::REGEX_END, $definition, $match) !== 1) {

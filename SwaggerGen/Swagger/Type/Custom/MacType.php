@@ -40,7 +40,7 @@ class MacType extends \SwaggerGen\Swagger\Type\StringType implements \SwaggerGen
 	 * @param string $definition
 	 * @throws \SwaggerGen\Exception
 	 */
-	protected function parseDefinition($definition)
+	protected function parseDefinition(string $definition): void
 	{
 		$definition = self::trim($definition);
 
@@ -63,7 +63,7 @@ class MacType extends \SwaggerGen\Swagger\Type\StringType implements \SwaggerGen
 	 * @return string
 	 * @throws \SwaggerGen\Exception
 	 */
-	protected function validateDefault($value)
+	protected function validateDefault(string $value): string
 	{
 		if (empty($value)) {
 			throw new \SwaggerGen\Exception("Empty MAC default");
@@ -76,12 +76,12 @@ class MacType extends \SwaggerGen\Swagger\Type\StringType implements \SwaggerGen
 		return $value;
 	}
 
-	public static function getFormats()
+	public static function getFormats(): array
 	{
 		return self::$formats;
 	}
 
-	public static function setFormats(array $formats)
+	public static function setFormats(array $formats): void
 	{
 		self::$formats = $formats;
 	}
