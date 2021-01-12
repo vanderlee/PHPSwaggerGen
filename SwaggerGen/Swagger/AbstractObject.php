@@ -129,7 +129,7 @@ abstract class AbstractObject
 	 * @param Array $array
 	 * @return Array
 	 */
-	public static function arrayFilterNull($array)
+	public static function arrayFilterNull($array): array
 	{
 		return array_filter($array, function($value) {
 			return $value !== null && $value !== [];
@@ -141,7 +141,7 @@ abstract class AbstractObject
 	 * @param Array $array
 	 * @return Array
 	 */
-	public static function objectsToArray(&$array)
+	public static function objectsToArray(&$array): array
 	{
 		return array_map(function(AbstractObject $item) {
 			return $item->toArray();
