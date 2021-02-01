@@ -172,7 +172,7 @@ class Operation extends AbstractDocumentableObject
 		return parent::handleCommand($command, $data);
 	}
 
-	public function toArray()
+	public function toArray(): array
 	{
 		if (empty($this->responses)) {
 			throw new \SwaggerGen\Exception('No response defined for operation');

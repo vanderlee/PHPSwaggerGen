@@ -81,7 +81,7 @@ class Response extends AbstractObject
     private $schema;
 
     /**
-     * @var Header[]
+     * @var Header[]|array
      */
     private $Headers = [];
 
@@ -167,6 +167,8 @@ class Response extends AbstractObject
                 $this->examples[$name] = json_decode($json, true);
 
                 return $this;
+
+            default:
         }
 
         return parent::handleCommand($command, $data);

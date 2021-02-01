@@ -168,7 +168,7 @@ abstract class AbstractType extends AbstractObject
 		return false;
 	}
 
-	public function toArray()
+	public function toArray(): array
 	{
 		return self::arrayFilterNull(array_merge(array(
 					'example' => $this->example,

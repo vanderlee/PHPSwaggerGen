@@ -47,7 +47,7 @@ class AllOfType extends AbstractType
 		return parent::handleCommand($command, $data);
 	}
 
-	public function toArray()
+	public function toArray(): array
 	{
 		$allOf = [];
 		foreach ($this->allOfItems as $item) {

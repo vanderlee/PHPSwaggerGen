@@ -104,13 +104,12 @@ class SwaggerGen
 
 	/**
 	 * @param string $file
-	 * @param string[] $dirs
 	 * @return Statement[]
 	 */
-	private function parseTextFile($file, $dirs): array
+	private function parseTextFile($file): array
     {
 		$Parser = new Parser\Text\Parser();
-		return $Parser->parse($file, $dirs, $this->defines);
+		return $Parser->parse($file, $this->defines);
 	}
 
 	/**
@@ -141,7 +140,8 @@ class SwaggerGen
     {
 		$swagger = new Swagger\Swagger($host, $basePath, $this->typeRegistry);
 
-		$stack = array($swagger); /* @var Swagger\AbstractObject[] $stack */
+        /* @var Swagger\AbstractObject[] $stack */
+        $stack = [$swagger];
 		foreach ($statements as $statement) {
 			try {
 				$top = end($stack);
@@ -205,11 +205,11 @@ class SwaggerGen
 					break;
 
 				case 'txt':
-					$fileStatements = $this->parseTextFile($file, $dirs);
+					$fileStatements = $this->parseTextFile($file);
 					break;
 
 				default:
-					$fileStatements = $this->parseText($file, $dirs);
+					$fileStatements = $this->parseText($file);
 					break;
 			}
 
@@ -239,6 +239,8 @@ class SwaggerGen
 				});
 				$output = yaml_emit($output, YAML_UTF8_ENCODING, YAML_LN_BREAK);
 				break;
+
+            default:
 		}
 
 		return $output;

@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace SwaggerGen\Swagger;
 
+use SwaggerGen\TypeRegistry;
+
 /**
  * Object representing the root level of a Swagger 2.0 document.
  *
@@ -19,9 +21,9 @@ class Swagger extends AbstractDocumentableObject
     private $basePath;
 
     /**
-     * @var \SwaggerGen\TypeRegistry
+     * @var TypeRegistry
      */
-    private $typeRegistry = [];
+    private $typeRegistry;
 
     /**
      * @var Info $Info
@@ -70,7 +72,7 @@ class Swagger extends AbstractDocumentableObject
      *
      * @param string                   $host
      * @param string                   $basePath
-     * @param \SwaggerGen\TypeRegistry $typeRegistry
+     * @param TypeRegistry $typeRegistry
      */
     public function __construct($host = null, $basePath = null, $typeRegistry = null)
     {
@@ -81,13 +83,13 @@ class Swagger extends AbstractDocumentableObject
 
         $this->info = new Info($this);
 
-        $this->typeRegistry = $typeRegistry ? $typeRegistry : new \SwaggerGen\TypeRegistry;
+        $this->typeRegistry = $typeRegistry ? $typeRegistry : new TypeRegistry;
     }
 
     /**
      * @inheritDoc
      */
-    protected function getSwagger()
+    protected function getSwagger(): Swagger
     {
         return $this;
     }
@@ -95,7 +97,7 @@ class Swagger extends AbstractDocumentableObject
     /**
      * @inheritDoc
      */
-    protected function getTypeRegistry()
+    protected function getTypeRegistry(): TypeRegistry
     {
         return $this->typeRegistry;
     }
@@ -308,7 +310,7 @@ class Swagger extends AbstractDocumentableObject
     /**
      * @inheritDoc
      */
-    public function toArray()
+    public function toArray(): array
     {
         if (empty($this->paths)) {
             throw new \SwaggerGen\Exception('No path defined');

@@ -149,7 +149,7 @@ class ArrayType extends AbstractType
 		return parent::handleCommand($command, $data);
 	}
 
-	public function toArray()
+	public function toArray(): array
 	{
 		return self::arrayFilterNull(array_merge(array(
 					'type' => 'array',

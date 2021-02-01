@@ -2,6 +2,8 @@
 
 namespace SwaggerGen\Swagger;
 
+use SwaggerGen\TypeRegistry;
+
 /**
  * Common foundation for all Swagger objects, handling the overall generator
  * structure, extensions and a few generic services.
@@ -45,31 +47,37 @@ abstract class AbstractObject
 	/**
 	 * @return AbstractObject
 	 */
-	protected function getParent()
+	protected function getParent(): AbstractObject
 	{
 		return $this->parent;
 	}
 
-	protected function getParentClass($classname)
+    /**
+     * @param string $classname
+     *
+     * @return $this
+     */
+	protected function getParentClass(string $classname): AbstractObject
 	{
 		if (is_a($this, $classname)) {
 			return $this;
 		}
+
 		return $this->parent->getParentClass($classname);
 	}
 
-	/**
-	 * @return \SwaggerGen\Swagger\Swagger
-	 */
-	protected function getSwagger()
-	{
+    /**
+     * @return Swagger
+     */
+	protected function getSwagger(): Swagger
+    {
 		return $this->parent->getSwagger();
 	}
 
 	/**
-	 * @return \SwaggerGen\TypeRegistry
+	 * @return TypeRegistry
 	 */
-	protected function getTypeRegistry()
+	protected function getTypeRegistry(): TypeRegistry
 	{
 		return $this->parent->getTypeRegistry();
 	}
@@ -77,9 +85,9 @@ abstract class AbstractObject
 	/**
 	 * @param string $command
 	 * @param string $data
-	 * @return \SwaggerGen\Swagger\AbstractObject|boolean
+	 * @return AbstractObject|boolean
 	 */
-	public function handleCommand($command, $data = null)
+	public function handleCommand(string $command, string $data = null)
 	{
 		if (strtolower(substr($command, 0, 2)) === 'x-') {
 			$this->extensions[$command] = empty($data) ? $data : trim($data);
@@ -90,19 +98,19 @@ abstract class AbstractObject
 	}
 
 	/**
-	 * @return array
+	 * @return string[]
 	 */
-	public function toArray()
+	public function toArray(): array
 	{
 		return $this->extensions;
 	}
 
 	/**
 	 * Translate consumes from shortcuts
-	 * @param String[] $mimeTypes
-	 * @return String[]
+	 * @param string[] $mimeTypes
+	 * @return string[]
 	 */
-	protected static function translateMimeTypes($mimeTypes)
+	protected static function translateMimeTypes(array $mimeTypes): array
 	{
 		foreach ($mimeTypes as &$mimeType) {
 			if (isset(self::$mime_types[strtolower($mimeType)])) {
@@ -118,7 +126,7 @@ abstract class AbstractObject
 	 * @param string $string
 	 * @return string
 	 */
-	public static function trim($string)
+	public static function trim(string $string): string
 	{
 		return mb_ereg_replace('^\s*([\s\S]*?)\s*$', '\1', $string);
 	}
@@ -126,10 +134,10 @@ abstract class AbstractObject
 	/**
 	 * Filter all items from an array where the value is either null or an
 	 * empty array.
-	 * @param Array $array
-	 * @return Array
+	 * @param array $array
+	 * @return array
 	 */
-	public static function arrayFilterNull($array): array
+	public static function arrayFilterNull(array $array): array
 	{
 		return array_filter($array, function($value) {
 			return $value !== null && $value !== [];
@@ -138,10 +146,10 @@ abstract class AbstractObject
 
 	/**
 	 * Recursively call toArray() on all objects to return an array
-	 * @param Array $array
-	 * @return Array
+	 * @param array $array
+	 * @return array
 	 */
-	public static function objectsToArray(&$array): array
+	public static function objectsToArray(array $array): array
 	{
 		return array_map(function(AbstractObject $item) {
 			return $item->toArray();
@@ -150,7 +158,7 @@ abstract class AbstractObject
 
 	/**
 	 * Shifts the first word off a text line and returns it
-	 * @param string $data
+	 * @param mixed $data
 	 * @return string|bool Either the first word or false if no more words available
 	 */
 	public static function wordShift(&$data)
@@ -165,9 +173,9 @@ abstract class AbstractObject
 	/**
 	 * Splits a text line in all it's words
 	 * @param string $data
-	 * @return string
+	 * @return string[]
 	 */
-	public static function wordSplit($data)
+	public static function wordSplit($data): array
 	{
 		return array_values(preg_grep('~\S~', preg_split('~\s+~', $data)));
 	}
