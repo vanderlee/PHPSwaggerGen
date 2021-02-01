@@ -1,30 +1,39 @@
 {
-	"name": "vanderlee/swaggergen",
-	"description": "Generate Swagger/OpenAPI documentation from simple PHPdoc-like comments in PHP source code.",
-	"type": "library",
-	"keywords": ["swagger", "openapi", "doc", "documentation", "rest", "api", "documentor", "comments", "generate", "generator"],
-	"homepage": "https://github.com/vanderlee/PHPSwaggerGen",
-	"license": "MIT",
-	"support": {
-		"issues": "https://github.com/vanderlee/PHPSwaggerGen/issues",
-		"source": "https://github.com/vanderlee/PHPSwaggerGen/"
-	},
-	"require": {
-		"php": ">=7.1.0",
-		"ext-json": "*",
-		"ext-tokenizer": "*",
-		"ext-filter": "*",
-		"ext-mbstring": "*"
-	},
-	"suggest": {
-		"ext-yaml": "Allows producing Swagger docs in Yaml format"
-	},
-	"autoload": {
-		"psr-4": {
-			"SwaggerGen\\": "SwaggerGen/"
-		}
-	},
-	"require-dev": {
-		"phpunit/phpunit": "^9.5"
-	}
+    "name": "vanderlee/swaggergen",
+    "description": "Generate Swagger/OpenAPI documentation from simple PHPdoc-like comments in PHP source code.",
+    "type": "library",
+    "keywords": [
+        "swagger",
+        "openapi",
+        "doc",
+        "documentation",
+        "rest",
+        "api",
+        "documentor",
+        "comments",
+        "generate",
+        "generator"
+    ],
+    "homepage": "https://github.com/vanderlee/PHPSwaggerGen",
+    "license": "MIT",
+    "support": {
+        "issues": "https://github.com/vanderlee/PHPSwaggerGen/issues",
+        "source": "https://github.com/vanderlee/PHPSwaggerGen/"
+    },
+    "require": {
+        "php": ">=7.1.0",
+        "ext-json": "*",
+        "ext-tokenizer": "*",
+        "ext-filter": "*",
+        "ext-mbstring": "*",
+        "ext-yaml": "Allows producing Swagger docs in Yaml format"
+    },
+    "autoload": {
+        "psr-4": {
+            "SwaggerGen\\": "SwaggerGen/"
+        }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.5"
+    }
 }
