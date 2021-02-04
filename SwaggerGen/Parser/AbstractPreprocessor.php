@@ -51,7 +51,7 @@ abstract class AbstractPreprocessor
     /**
      * Get the first word from a string and remove it from the string.
      *
-     * @param string $data
+     * @param string|null $data
      *
      * @return string|null
      */

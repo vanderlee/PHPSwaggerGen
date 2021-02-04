@@ -115,11 +115,11 @@ class StringType extends AbstractType
 
     /**
      * @param string $command The comment command
-     * @param string $data    Any data added after the command
+     * @param string|null $data    Any data added after the command
      *
      * @return \SwaggerGen\Swagger\Type\AbstractType|boolean
      */
-    public function handleCommand($command, $data = null)
+    public function handleCommand(string $command, string $data = null)
     {
         switch (strtolower($command)) {
             case 'default':

@@ -130,12 +130,12 @@ class Swagger extends AbstractDocumentableObject
 
     /**
      * @param string $command
-     * @param string $data
+     * @param string|null $data
      *
      * @return AbstractObject|boolean
      * @throws Exception
      */
-    public function handleCommand($command, $data = null)
+    public function handleCommand(string $command, string $data = null)
     {
         switch (strtolower($command)) {
             // pass to Info
@@ -318,14 +318,14 @@ class Swagger extends AbstractDocumentableObject
             throw new Exception('No path defined');
         }
 
-        $schemes = array_unique($this->schemes);
-        sort($schemes);
+        $this->schemes = array_unique($this->schemes);
+        sort($this->schemes);
 
-        $consumes = array_unique($this->consumes);
-        sort($consumes);
+        $this->consumes = array_unique($this->consumes);
+        sort($this->consumes);
 
-        $produces = array_unique($this->produces);
-        sort($produces);
+        $this->produces = array_unique($this->produces);
+        sort($this->produces);
 
         foreach ($this->security as $security) {
             foreach ($security as $name => $scopes) {
@@ -340,9 +340,9 @@ class Swagger extends AbstractDocumentableObject
             'info'                => $this->info->toArray(),
             'host'                => empty($this->host) ? null : $this->host,
             'basePath'            => empty($this->basePath) ? null : $this->basePath,
-            'consumes'            => $consumes,
-            'produces'            => $produces,
-            'schemes'             => $schemes,
+            'consumes'            => $this->consumes,
+            'produces'            => $this->produces,
+            'schemes'             => $this->schemes,
             'paths'               => self::objectsToArray($this->paths),
             'definitions'         => self::objectsToArray($this->definitions),
             'parameters'          => self::objectsToArray($this->parameters),

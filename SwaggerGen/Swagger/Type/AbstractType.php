@@ -139,7 +139,7 @@ abstract class AbstractType extends AbstractObject
 	 * @param string $data
 	 * @return \SwaggerGen\Swagger\Type\AbstractType|boolean
 	 */
-	public function handleCommand($command, $data = null)
+	public function handleCommand(string $command, string $data = null)
 	{
 		switch (strtolower($command)) {
 			case 'example':

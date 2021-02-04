@@ -108,11 +108,11 @@ class SecurityScheme extends AbstractObject
 
     /**
      * @param string $command
-     * @param string $data
+     * @param string|null $data
      *
      * @return AbstractObject|boolean
      */
-    public function handleCommand($command, $data = null)
+    public function handleCommand(string $command, string $data = null)
     {
         switch (strtolower($command)) {
             case 'description':

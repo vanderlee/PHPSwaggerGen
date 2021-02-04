@@ -29,7 +29,7 @@ class Tag extends AbstractDocumentableObject
 	 * @param string $data
 	 * @return \SwaggerGen\Swagger\AbstractObject|boolean
 	 */
-	public function handleCommand($command, $data = null)
+	public function handleCommand(string $command, string $data = null)
 	{
 		switch (strtolower($command)) {
 			case 'description':

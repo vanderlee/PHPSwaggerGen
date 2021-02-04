@@ -44,12 +44,12 @@ class Path extends AbstractObject
 
     /**
      * @param string $command
-     * @param string $data
+     * @param string|null $data
      *
      * @return AbstractObject|boolean
      * @throws Exception
      */
-    public function handleCommand($command, $data = null)
+    public function handleCommand(string $command, string $data = null)
     {
         switch (strtolower($command)) {
             case 'method': // alias

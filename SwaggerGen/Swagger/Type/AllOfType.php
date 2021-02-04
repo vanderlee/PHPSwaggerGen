@@ -31,7 +31,7 @@ class AllOfType extends AbstractType
 		}
 	}
 
-	public function handleCommand($command, $data = null)
+	public function handleCommand(string $command, string $data = null)
 	{
 		switch ($command) {
 			case 'item':

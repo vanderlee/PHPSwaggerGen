@@ -161,7 +161,7 @@ class ObjectType extends AbstractType
 	 * @param string $data Any data added after the command
 	 * @return \SwaggerGen\Swagger\Type\AbstractType|boolean
 	 */
-	public function handleCommand($command, $data = null)
+	public function handleCommand(string $command, string $data = null)
 	{
 		switch (strtolower($command)) {
 			// type name description...

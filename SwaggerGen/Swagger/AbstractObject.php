@@ -2,6 +2,7 @@
 
 namespace SwaggerGen\Swagger;
 
+use SwaggerGen\Exception;
 use SwaggerGen\TypeRegistry;
 
 /**
@@ -82,30 +83,31 @@ abstract class AbstractObject
 		return $this->parent->getTypeRegistry();
 	}
 
-	/**
-	 * @param string $command
-	 * @param string $data
-	 * @return AbstractObject|boolean
-	 */
-	public function handleCommand(string $command, string $data = null)
-	{
-		if (strtolower(substr($command, 0, 2)) === 'x-') {
-			$this->extensions[$command] = empty($data) ? $data : trim($data);
-			return $this;
-		}
+    /**
+     * @param string $command
+     * @param string|null $data
+     * @return AbstractObject|boolean
+     */
+    public function handleCommand(string $command, string $data = null)
+    {
+        if (strtolower(substr($command, 0, 2)) === 'x-') {
+            $this->extensions[$command] = empty($data) ? $data : trim($data);
+            return $this;
+        }
 
-		return false;
-	}
+        return false;
+    }
 
-	/**
+    /**
 	 * @return string[]
+     * @throws Exception
 	 */
 	public function toArray(): array
 	{
 		return $this->extensions;
 	}
 
-	/**
+    /**
 	 * Translate consumes from shortcuts
 	 * @param string[] $mimeTypes
 	 * @return string[]

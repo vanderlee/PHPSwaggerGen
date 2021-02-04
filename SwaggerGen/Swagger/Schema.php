@@ -57,7 +57,7 @@ class Schema extends AbstractDocumentableObject implements IDefinition
 	 * @param string $data
 	 * @return \SwaggerGen\Swagger\AbstractObject|boolean
 	 */
-	public function handleCommand($command, $data = null)
+	public function handleCommand(string $command, string $data = null)
 	{
 		// Pass through to Type
 		if ($this->type && $this->type->handleCommand($command, $data)) {

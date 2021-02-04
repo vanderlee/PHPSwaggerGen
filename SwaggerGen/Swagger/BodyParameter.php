@@ -51,7 +51,7 @@ class BodyParameter extends AbstractObject implements IParameter
 	 * @param string $data
 	 * @return \SwaggerGen\Swagger\AbstractObject|boolean
 	 */
-	public function handleCommand($command, $data = null)
+	public function handleCommand(string $command, string $data = null)
 	{
 		// Pass through to Type
 		$return = $this->schema->handleCommand($command, $data);
