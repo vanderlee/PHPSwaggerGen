@@ -14,44 +14,44 @@ namespace SwaggerGen\Swagger;
 class ExternalDocumentation extends AbstractObject
 {
 
-	private $url;
-	private $description;
+    private $url;
+    private $description;
 
-	public function __construct(AbstractObject $parent, $url, $description = null)
-	{
-		parent::__construct($parent);
-		$this->url = $url;
-		$this->description = $description;
-	}
+    public function __construct(AbstractObject $parent, $url, $description = null)
+    {
+        parent::__construct($parent);
+        $this->url = $url;
+        $this->description = $description;
+    }
 
-	/**
-	 * @param string $command
-	 * @param string $data
-	 * @return \SwaggerGen\Swagger\AbstractObject|boolean
-	 */
-	public function handleCommand($command, $data = null)
-	{
-		switch (strtolower($command)) {
-			case 'url':
-			case 'description':
-				$this->$command = $data;
-				return $this;
-		}
+    /**
+     * @param string $command
+     * @param string $data
+     * @return AbstractObject|boolean
+     */
+    public function handleCommand($command, $data = null)
+    {
+        switch (strtolower($command)) {
+            case 'url':
+            case 'description':
+                $this->$command = $data;
+                return $this;
+        }
 
-		return parent::handleCommand($command, $data);
-	}
+        return parent::handleCommand($command, $data);
+    }
 
-	public function toArray()
-	{
-		return self::arrayFilterNull(array_merge(array(
-					'url' => $this->url,
-					'description' => empty($this->description) ? null : $this->description,
-								), parent::toArray()));
-	}
+    public function toArray()
+    {
+        return self::arrayFilterNull(array_merge(array(
+            'url' => $this->url,
+            'description' => empty($this->description) ? null : $this->description,
+        ), parent::toArray()));
+    }
 
-	public function __toString()
-	{
-		return __CLASS__ . ' ' . $this->url;
-	}
+    public function __toString()
+    {
+        return __CLASS__ . ' ' . $this->url;
+    }
 
 }

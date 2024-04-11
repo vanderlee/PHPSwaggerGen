@@ -13,30 +13,30 @@ namespace SwaggerGen\Swagger;
 class ParameterReference extends AbstractObject implements IParameter
 {
 
-	private $reference = '';
+    private $reference;
 
-	public function __construct(AbstractObject $parent, $reference)
-	{
-		parent::__construct($parent);
+    public function __construct(AbstractObject $parent, $reference)
+    {
+        parent::__construct($parent);
 
-		$this->reference = $reference;
-	}
+        $this->reference = $reference;
+    }
 
-	public function toArray()
-	{
-		return self::arrayFilterNull(array(
-					'$ref' => '#/parameters/' . $this->reference,
-		));
-	}
+    public function toArray()
+    {
+        return self::arrayFilterNull(array(
+            '$ref' => '#/parameters/' . $this->reference,
+        ));
+    }
 
-	public function __toString()
-	{
-		return __CLASS__ . " {$this->reference}";
-	}
+    public function __toString()
+    {
+        return __CLASS__ . ' `' . $this->reference . '`';
+    }
 
-	public function getName()
-	{
-		return $this->reference;
-	}
+    public function getName()
+    {
+        return $this->reference;
+    }
 
 }

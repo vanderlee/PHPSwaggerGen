@@ -2,6 +2,9 @@
 
 namespace SwaggerGen\Swagger;
 
+use SwaggerGen\Exception;
+use SwaggerGen\Swagger\Type\AbstractType;
+
 /**
  * Describes a Swagger Schema object, defining a primitive type, object, array
  * or reference to a defined schema.
@@ -14,86 +17,88 @@ namespace SwaggerGen\Swagger;
 class Schema extends AbstractDocumentableObject implements IDefinition
 {
 
-	/**
-	 * @var string
-	 */
-	private $description = null;
+    /**
+     * @var string
+     */
+    private $description;
 
-	/**
-	 * @var string
-	 */
-	private $title = null;
+    /**
+     * @var string
+     */
+    private $title = null;
 
-	/**
-	 * @var bool
-	 */
-	private $readOnly = null;
+    /**
+     * @var bool
+     */
+    private $readOnly = null;
 
-	/**
-	 * @var \SwaggerGen\Swagger\Type\AbstractType
-	 */
-	private $type;
+    /**
+     * @var AbstractType
+     */
+    private $type;
 
-	/**
-	 * @param string $description
-	 */
-	public function __construct(AbstractObject $parent, $definition = 'object', $description = null)
-	{
-		parent::__construct($parent);
+    /**
+     * @param string $description
+     * @throws Exception
+     */
+    public function __construct(AbstractObject $parent, $definition = 'object', $description = null)
+    {
+        parent::__construct($parent);
 
-		// Check if definition set
-		if ($this->getSwagger()->hasDefinition($definition)) {
-			$this->type = new Type\ReferenceObjectType($this, $definition);
-		} else {
-			$this->type = Type\AbstractType::typeFactory($this, $definition);
-		}
+        // Check if definition set
+        if ($this->getSwagger()->hasDefinition($definition)) {
+            $this->type = new Type\ReferenceObjectType($this, $definition);
+        } else {
+            $this->type = Type\AbstractType::typeFactory($this, $definition);
+        }
 
-		$this->description = $description;
-	}
+        $this->description = $description;
+    }
 
-	/**
-	 * @param string $command
-	 * @param string $data
-	 * @return \SwaggerGen\Swagger\AbstractObject|boolean
-	 */
-	public function handleCommand($command, $data = null)
-	{
-		// Pass through to Type
-		if ($this->type && $this->type->handleCommand($command, $data)) {
-			return $this;
-		}
+    /**
+     * @param string $command
+     * @param string $data
+     * @return AbstractObject|boolean
+     * @throws Exception
+     */
+    public function handleCommand($command, $data = null)
+    {
+        // Pass through to Type
+        if ($this->type && $this->type->handleCommand($command, $data)) {
+            return $this;
+        }
 
-		// handle all the rest manually
-		switch (strtolower($command)) {
-			case 'description':
-				$this->description = $data;
-				return $this;
-				
-			case 'title':
-				$this->title = $data;
-				return $this;
-		}
+        // handle all the rest manually
+        switch (strtolower($command)) {
+            case 'description':
+                $this->description = $data;
+                return $this;
 
-		return parent::handleCommand($command, $data);
-	}
+            case 'title':
+                $this->title = $data;
+                return $this;
+        }
 
-	public function toArray()
-	{
-		return self::arrayFilterNull(array_merge($this->type->toArray(), array(
-					'title' => empty($this->title) ? null : $this->title,
-					'description' => empty($this->description) ? null : $this->description,
-					'readOnly' => $this->readOnly
-								), parent::toArray()));
-	}
+        return parent::handleCommand($command, $data);
+    }
 
-	public function __toString()
-	{
-		return __CLASS__;
-	}
+    public function toArray()
+    {
+        return self::arrayFilterNull(array_merge($this->type->toArray(), array(
+            'title' => empty($this->title) ? null : $this->title,
+            'description' => empty($this->description) ? null : $this->description,
+            'readOnly' => $this->readOnly
+        ), parent::toArray()));
+    }
 
-	public function setReadOnly()
-	{
-		$this->readOnly = true;
-	}
+    public function __toString()
+    {
+        return __CLASS__;
+    }
+
+    public function setReadOnly()
+    {
+        $this->readOnly = true;
+    }
 
 }

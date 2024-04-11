@@ -1,63 +1,63 @@
 {
-    "swagger": "2.0",
-    "info": {
-        "title": "undefined",
-        "version": "0"
-    },
-	"host": "example.com",
-	"basePath": "\/base",
-    "paths": {
-        "\/customers": {
-            "get": {
-                "tags": [
-                    "Test"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#\/definitions\/Person"
-                        }
-                    }
-                }
+  "swagger": "2.0",
+  "info": {
+    "title": "undefined",
+    "version": "0"
+  },
+  "host": "example.com",
+  "basePath": "\/base",
+  "paths": {
+    "\/customers": {
+      "get": {
+        "tags": [
+          "Test"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#\/definitions\/Person"
             }
+          }
         }
-    },
-    "definitions": {
-        "Address": {
-            "type": "object",
-            "required": [
-                "city",				
-				"person"
-            ],
-            "properties": {
-                "city": {
-                    "type": "string"
-                },
-                "person": {
-                    "$ref": "#\/definitions\/Person"
-                }
-            }
+      }
+    }
+  },
+  "definitions": {
+    "Address": {
+      "type": "object",
+      "required": [
+        "city",
+        "person"
+      ],
+      "properties": {
+        "city": {
+          "type": "string"
         },
-        "Person": {
-            "type": "object",
-            "required": [
-                "name",
-                "home"
-            ],
-            "properties": {
-                "name": {
-                    "type": "string"
-                },
-                "home": {
-                    "$ref": "#\/definitions\/Address"
-                }
-            }
+        "person": {
+          "$ref": "#\/definitions\/Person"
         }
+      }
     },
-    "tags": [
-        {
-            "name": "Test"
+    "Person": {
+      "type": "object",
+      "required": [
+        "name",
+        "home"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "home": {
+          "$ref": "#\/definitions\/Address"
         }
-    ]
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "Test"
+    }
+  ]
 }

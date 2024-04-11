@@ -11,17 +11,17 @@ namespace Test\Parser\Php\ParserTest;
 class Example
 {
 
-	/**
-	 * @rest\endpoint /endpoint/{listid}
-	 * @rest\method GET Something
-	 * @rest\ifndef skip
-	 * @rest\param listid
-	 * @rest\endif
-	 * @rest\response 200
-	 */
-	public function Dummy()
-	{
-		
-	}
+    /**
+     * @rest\endpoint /endpoint/{listid}
+     * @rest\method GET Something
+     * @rest\ifndef skip
+     * @rest\param listid
+     * @rest\endif
+     * @rest\response 200
+     */
+    public function Dummy()
+    {
+
+    }
 
 }

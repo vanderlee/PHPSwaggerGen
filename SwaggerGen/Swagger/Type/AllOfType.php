@@ -2,6 +2,8 @@
 
 namespace SwaggerGen\Swagger\Type;
 
+use SwaggerGen\Exception;
+
 /**
  * allOf compound type
  *
@@ -12,48 +14,54 @@ namespace SwaggerGen\Swagger\Type;
  */
 class AllOfType extends AbstractType
 {
-	private $allOfItems = array();
-	private $mostRecentItem;
-	protected function parseDefinition($definition)
-	{
-		$pattern = self::REGEX_START . 'allof' . self::REGEX_CONTENT . self::REGEX_END;
-		$inlineDef = '';
-		if (preg_match($pattern, $definition, $matches)) {
-			if (isset($matches[1])) {
-				$inlineDef = $matches[1];
-			}
-		}
-		if ($inlineDef) {
-			foreach ($this->parseList($inlineDef) as $item) {
-				$this->handleCommand('item', $item);
-			}
-		}
-	}
+    private $allOfItems = array();
+    private $mostRecentItem;
 
-	public function handleCommand($command, $data = null)
-	{
-		switch ($command) {
-			case 'item':
-				$this->mostRecentItem = self::typeFactory($this, $data);
-				$this->allOfItems[] = $this->mostRecentItem;
-				return $this;
-		}
-		if (isset($this->mostRecentItem)) {
-			if ($this->mostRecentItem->handleCommand($command, $data)) {
-				return $this;
-			}
-		}
-		return parent::handleCommand($command, $data);
-	}
+    /**
+     * @throws Exception
+     */
+    protected function parseDefinition($definition)
+    {
+        $pattern = self::REGEX_START . 'allof' . self::REGEX_CONTENT . self::REGEX_END;
+        $inlineDef = '';
+        if (preg_match($pattern, $definition, $matches)) {
+            if (isset($matches[1])) {
+                $inlineDef = $matches[1];
+            }
+        }
+        if ($inlineDef) {
+            foreach ($this->parseList($inlineDef) as $item) {
+                $this->handleCommand('item', $item);
+            }
+        }
+    }
 
-	public function toArray()
-	{
-		$allOf = array();
-		foreach ($this->allOfItems as $item) {
-			$allOf[] = $item->toArray();
-		}
-		return self::arrayFilterNull(array_merge(array(
-			'allOf' => $allOf,
-		), parent::toArray()));
-	}
+    /**
+     * @throws Exception
+     */
+    public function handleCommand($command, $data = null)
+    {
+        if (strtolower($command) === 'item') {
+            $this->mostRecentItem = self::typeFactory($this, $data);
+            $this->allOfItems[] = $this->mostRecentItem;
+            return $this;
+        }
+        if (isset($this->mostRecentItem)) {
+            if ($this->mostRecentItem->handleCommand($command, $data)) {
+                return $this;
+            }
+        }
+        return parent::handleCommand($command, $data);
+    }
+
+    public function toArray()
+    {
+        $allOf = array();
+        foreach ($this->allOfItems as $item) {
+            $allOf[] = $item->toArray();
+        }
+        return self::arrayFilterNull(array_merge(array(
+            'allOf' => $allOf,
+        ), parent::toArray()));
+    }
 }

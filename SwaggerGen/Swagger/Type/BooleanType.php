@@ -2,6 +2,8 @@
 
 namespace SwaggerGen\Swagger\Type;
 
+use SwaggerGen\Exception;
+
 /**
  * Basic boolean type definition.
  *
@@ -13,56 +15,60 @@ namespace SwaggerGen\Swagger\Type;
 class BooleanType extends AbstractType
 {
 
-	const REGEX_DEFAULT = '(?:=(true|false|1|0))?';
+    const REGEX_DEFAULT = '(?:=(true|false|1|0))?';
 
-	private $default = null;
+    private $default = null;
 
-	protected function parseDefinition($definition)
-	{
-		$match = array();
-		if (preg_match(self::REGEX_START . self::REGEX_FORMAT . self::REGEX_DEFAULT . self::REGEX_END, $definition, $match) !== 1) {
-			throw new \SwaggerGen\Exception("Unparseable boolean definition: '{$definition}'");
-		}
+    /**
+     * @throws Exception
+     */
+    protected function parseDefinition($definition)
+    {
+        $match = array();
+        if (preg_match(self::REGEX_START . self::REGEX_FORMAT . self::REGEX_DEFAULT . self::REGEX_END, $definition, $match) !== 1) {
+            throw new Exception("Unparseable boolean definition: '{$definition}'");
+        }
 
-		if (strtolower($match[1]) !== 'boolean') {
-			throw new \SwaggerGen\Exception("Not a boolean: '{$definition}'");
-		}
+        if (strtolower($match[1]) !== 'boolean') {
+            throw new Exception("Not a boolean: '{$definition}'");
+        }
 
-		if (isset($match[2])) {
-			$this->default = ($match[2] === '1') || (strtolower($match[2]) === 'true');
-		}
-	}
+        if (isset($match[2])) {
+            $this->default = ($match[2] === '1') || (strtolower($match[2]) === 'true');
+        }
+    }
 
-	/**
-	 * @param string $command The comment command
-	 * @param string $data Any data added after the command
-	 * @return \SwaggerGen\Swagger\Type\AbstractType|boolean
-	 */
-	public function handleCommand($command, $data = null)
-	{
-		switch (strtolower($command)) {
-			case 'default':
-				if (!in_array($data, array('0', '1', 'true', 'false'))) {
-					throw new \SwaggerGen\Exception("Invalid boolean default: '{$data}'");
-				}
-				$this->default = ($data == '1') || (strtolower($data) === 'true');
-				return $this;
-		}
+    /**
+     * @param string $command The comment command
+     * @param string $data Any data added after the command
+     * @return AbstractType|boolean
+     * @throws Exception
+     * @throws Exception
+     */
+    public function handleCommand($command, $data = null)
+    {
+        if (strtolower($command) === 'default') {
+            if (!in_array($data, array('0', '1', 'true', 'false'))) {
+                throw new Exception("Invalid boolean default: '{$data}'");
+            }
+            $this->default = ($data == '1') || (strtolower($data) === 'true');
+            return $this;
+        }
 
-		return parent::handleCommand($command, $data);
-	}
+        return parent::handleCommand($command, $data);
+    }
 
-	public function toArray()
-	{
-		return self::arrayFilterNull(array_merge(array(
-					'type' => 'boolean',
-					'default' => $this->default,
-								), parent::toArray()));
-	}
+    public function toArray()
+    {
+        return self::arrayFilterNull(array_merge(array(
+            'type' => 'boolean',
+            'default' => $this->default,
+        ), parent::toArray()));
+    }
 
-	public function __toString()
-	{
-		return __CLASS__;
-	}
+    public function __toString()
+    {
+        return __CLASS__;
+    }
 
 }

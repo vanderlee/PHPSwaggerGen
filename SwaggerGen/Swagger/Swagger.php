@@ -2,6 +2,9 @@
 
 namespace SwaggerGen\Swagger;
 
+use SwaggerGen\Exception;
+use SwaggerGen\TypeRegistry;
+
 /**
  * Object representing the root level of a Swagger 2.0 document.
  *
@@ -18,9 +21,9 @@ class Swagger extends AbstractDocumentableObject
     private $basePath;
 
     /**
-     * @var \SwaggerGen\TypeRegistry
+     * @var TypeRegistry
      */
-    private $typeRegistry = [];
+    private $typeRegistry;
 
     /**
      * @var Info $Info
@@ -31,22 +34,22 @@ class Swagger extends AbstractDocumentableObject
     private $produces = [];
 
     /**
-     * @var \SwaggerGen\Swagger\Path[] $Paths
+     * @var Path[] $Paths
      */
     private $paths = [];
 
     /**
-     * @var \SwaggerGen\Swagger\Schema[] $definitions
+     * @var Schema[] $definitions
      */
     private $definitions = [];
 
     /**
-     * @var \SwaggerGen\Swagger\IParameter[] $parameters
+     * @var IParameter[] $parameters
      */
     private $parameters = [];
 
     /**
-     * @var \SwaggerGen\Swagger\Response[] $responses
+     * @var Response[] $responses
      */
     private $responses = [];
 
@@ -65,22 +68,20 @@ class Swagger extends AbstractDocumentableObject
     private $security = [];
 
     /**
-     * @inheritDoc
-     *
-     * @param string                   $host
-     * @param string                   $basePath
-     * @param \SwaggerGen\TypeRegistry $typeRegistry
+     * @param string $host
+     * @param string $basePath
+     * @param TypeRegistry $typeRegistry
      */
     public function __construct($host = null, $basePath = null, $typeRegistry = null)
     {
-        parent::__construct(null);
+        parent::__construct();
 
         $this->host = $host;
         $this->basePath = $basePath;
 
         $this->info = new Info($this);
 
-        $this->typeRegistry = $typeRegistry ? $typeRegistry : new \SwaggerGen\TypeRegistry;
+        $this->typeRegistry = $typeRegistry ?: new TypeRegistry;
     }
 
     /**
@@ -102,16 +103,16 @@ class Swagger extends AbstractDocumentableObject
     /**
      * Return all consumes
      *
-     * @return string
+     * @return array
      * @todo Deprecate in favour of a getConsume($name);
      */
-    public function getConsumes()
+    public function getConsumes(): array
     {
         return $this->consumes;
     }
 
     /**
-     * Return the named security if it exists. Otherwise return FALSE
+     * Return the named security if it exists, otherwise return FALSE
      *
      * @param string $name
      *
@@ -130,7 +131,16 @@ class Swagger extends AbstractDocumentableObject
      * @param string $command
      * @param string $data
      *
-     * @return \SwaggerGen\Swagger\AbstractObject|boolean
+     * @return AbstractObject|boolean
+     * @throws Exception
+     * @throws Exception
+     * @throws Exception
+     * @throws Exception
+     * @throws Exception
+     * @throws Exception
+     * @throws Exception
+     * @throws Exception
+     * @throws Exception
      */
     public function handleCommand($command, $data = null)
     {
@@ -172,7 +182,7 @@ class Swagger extends AbstractDocumentableObject
             case 'definition!':
                 $name = self::wordShift($data);
                 if (empty($name)) {
-                    throw new \SwaggerGen\Exception('Missing definition name');
+                    throw new Exception('Missing definition name');
                 }
                 $typeDef = self::wordShift($data);
                 if (empty($typeDef)) {
@@ -212,7 +222,7 @@ class Swagger extends AbstractDocumentableObject
                 $definition = self::wordShift($data);
                 $description = $data;
                 if (empty($description)) {
-                    throw new \SwaggerGen\Exception('Response definition missing description');
+                    throw new Exception('Response definition missing description');
                 }
                 $Response = new Response($this, $name, $definition === 'null' ? null : $definition, $description);
                 $this->responses[$name] = $Response;
@@ -223,7 +233,7 @@ class Swagger extends AbstractDocumentableObject
             case 'tag':
                 $tagname = self::wordShift($data);
                 if (empty($tagname)) {
-                    throw new \SwaggerGen\Exception('Missing tag name');
+                    throw new Exception('Missing tag name');
                 }
 
                 $Tag = null;
@@ -276,11 +286,11 @@ class Swagger extends AbstractDocumentableObject
             case 'security':
                 $name = self::wordShift($data);
                 if (empty($name)) {
-                    throw new \SwaggerGen\Exception('Missing security name');
+                    throw new Exception('Missing security name');
                 }
                 $type = self::wordShift($data);
                 if (empty($type)) {
-                    throw new \SwaggerGen\Exception('Missing security type');
+                    throw new Exception('Missing security type');
                 }
                 $SecurityScheme = new SecurityScheme($this, $type, $data);
                 $this->securityDefinitions[$name] = $SecurityScheme;
@@ -290,7 +300,7 @@ class Swagger extends AbstractDocumentableObject
             case 'require':
                 $name = self::wordShift($data);
                 if (empty($name)) {
-                    throw new \SwaggerGen\Exception('Missing require name');
+                    throw new Exception('Missing require name');
                 }
                 $scopes = self::wordSplit($data);
                 sort($scopes);
@@ -306,11 +316,13 @@ class Swagger extends AbstractDocumentableObject
 
     /**
      * @inheritDoc
+     * @throws Exception
+     * @throws Exception
      */
     public function toArray()
     {
         if (empty($this->paths)) {
-            throw new \SwaggerGen\Exception('No path defined');
+            throw new Exception('No path defined');
         }
 
         $schemes = array_unique($this->schemes);
@@ -325,26 +337,26 @@ class Swagger extends AbstractDocumentableObject
         foreach ($this->security as $security) {
             foreach ($security as $name => $scopes) {
                 if (!isset($this->securityDefinitions[$name])) {
-                    throw new \SwaggerGen\Exception("Required security scheme not defined: '{$name}'");
+                    throw new Exception('Required security scheme not defined: \'' . $name . '\'');
                 }
             }
         }
 
         return self::arrayFilterNull(array_merge([
-            'swagger'             => $this->swagger,
-            'info'                => $this->info->toArray(),
-            'host'                => empty($this->host) ? null : $this->host,
-            'basePath'            => empty($this->basePath) ? null : $this->basePath,
-            'consumes'            => $consumes,
-            'produces'            => $produces,
-            'schemes'             => $schemes,
-            'paths'               => self::objectsToArray($this->paths),
-            'definitions'         => self::objectsToArray($this->definitions),
-            'parameters'          => self::objectsToArray($this->parameters),
-            'responses'           => self::objectsToArray($this->responses),
+            'swagger' => $this->swagger,
+            'info' => $this->info->toArray(),
+            'host' => empty($this->host) ? null : $this->host,
+            'basePath' => empty($this->basePath) ? null : $this->basePath,
+            'consumes' => $consumes,
+            'produces' => $produces,
+            'schemes' => $schemes,
+            'paths' => self::objectsToArray($this->paths),
+            'definitions' => self::objectsToArray($this->definitions),
+            'parameters' => self::objectsToArray($this->parameters),
+            'responses' => self::objectsToArray($this->responses),
             'securityDefinitions' => self::objectsToArray($this->securityDefinitions),
-            'security'            => $this->security,
-            'tags'                => self::objectsToArray($this->tags),
+            'security' => $this->security,
+            'tags' => self::objectsToArray($this->tags),
         ], parent::toArray()));
     }
 

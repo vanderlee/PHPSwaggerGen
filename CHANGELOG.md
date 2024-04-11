@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## 2.3.22 - 2024-04-11
+### Fixed
+- Fixed example case.
+- PHP code quality improvements.
+
 ## 2.3.21 - 2021-01-07
 ### Fixed
 - PR #47; Fix array access PHP8 by daniol.

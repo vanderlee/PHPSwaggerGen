@@ -2,6 +2,8 @@
 
 namespace SwaggerGen\Swagger\Type;
 
+use SwaggerGen\Swagger\AbstractObject;
+
 /**
  * RFC 4122 UUID type definition
  *
@@ -13,15 +15,15 @@ namespace SwaggerGen\Swagger\Type;
 class StringUuidType extends AbstractRegexType
 {
 
-	/**
-	 * Construct and setup the regular expression for this type
-	 *
-	 * @param \SwaggerGen\Swagger\AbstractObject $parent
-	 * @param string $definition
-	 */
-	public function __construct(\SwaggerGen\Swagger\AbstractObject $parent, $definition)
-	{
-		parent::__construct($parent, $definition, 'uuid', '[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[1-5][a-fA-F0-9]{3}-[89abAB][a-fA-F0-9]{3}-[a-fA-F0-9]{12}');
-	}
+    /**
+     * Construct and set up the regular expression for this type
+     *
+     * @param AbstractObject $parent
+     * @param string $definition
+     */
+    public function __construct(AbstractObject $parent, $definition)
+    {
+        parent::__construct($parent, $definition, 'uuid', '[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[1-5][a-fA-F0-9]{3}-[89abAB][a-fA-F0-9]{3}-[a-fA-F0-9]{12}');
+    }
 
 }

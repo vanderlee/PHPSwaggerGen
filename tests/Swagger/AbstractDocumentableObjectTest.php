@@ -3,65 +3,65 @@
 class AbstractDocumentableObjectTest extends SwaggerGen_TestCase
 {
 
-	protected $parent;
+    protected $parent;
 
-	protected function setUp(): void
-	{
-		$this->parent = $this->getMockForAbstractClass('\SwaggerGen\Swagger\AbstractObject');
-	}
+    protected function setUp(): void
+    {
+        $this->parent = $this->getMockForAbstractClass('\SwaggerGen\Swagger\AbstractObject');
+    }
 
-	protected function assertPreConditions(): void
-	{
-		$this->assertInstanceOf('\SwaggerGen\Swagger\AbstractObject', $this->parent);
-	}
+    protected function assertPreConditions(): void
+    {
+        $this->assertInstanceOf('\SwaggerGen\Swagger\AbstractObject', $this->parent);
+    }
 
-	/**
-	 * @covers \SwaggerGen\Swagger\Tag::__construct
-	 * @covers \SwaggerGen\Swagger\AbstractDocumentableObject->handleCommand
-	 */
-	public function testCommandDocWithoutDescription()
-	{
-		$object = new \SwaggerGen\Swagger\Tag($this->parent, 'Name');
+    /**
+     * @covers \SwaggerGen\Swagger\Tag::__construct
+     * @covers \SwaggerGen\Swagger\AbstractDocumentableObject->handleCommand
+     */
+    public function testCommandDocWithoutDescription()
+    {
+        $object = new \SwaggerGen\Swagger\Tag($this->parent, 'Name');
 
-		$this->assertInstanceOf('\SwaggerGen\Swagger\Tag', $object);
+        $this->assertInstanceOf('\SwaggerGen\Swagger\Tag', $object);
 
-		$this->assertSame(array(
-			'name' => 'Name',
-				), $object->toArray());
+        $this->assertSame(array(
+            'name' => 'Name',
+        ), $object->toArray());
 
-		$object->handleCommand('doc', 'http://example.test');
+        $object->handleCommand('doc', 'http://example.test');
 
-		$this->assertSame(array(
-			'name' => 'Name',
-			'externalDocs' => array(
-				'url' => 'http://example.test',
-			),
-				), $object->toArray());
-	}
+        $this->assertSame(array(
+            'name' => 'Name',
+            'externalDocs' => array(
+                'url' => 'http://example.test',
+            ),
+        ), $object->toArray());
+    }
 
-	/**
-	 * @covers \SwaggerGen\Swagger\Tag::__construct
-	 * @covers \SwaggerGen\Swagger\AbstractDocumentableObject->handleCommand
-	 */
-	public function testCommandDocWithDescription()
-	{
-		$object = new \SwaggerGen\Swagger\Tag($this->parent, 'Name');
+    /**
+     * @covers \SwaggerGen\Swagger\Tag::__construct
+     * @covers \SwaggerGen\Swagger\AbstractDocumentableObject->handleCommand
+     */
+    public function testCommandDocWithDescription()
+    {
+        $object = new \SwaggerGen\Swagger\Tag($this->parent, 'Name');
 
-		$this->assertInstanceOf('\SwaggerGen\Swagger\Tag', $object);
+        $this->assertInstanceOf('\SwaggerGen\Swagger\Tag', $object);
 
-		$this->assertSame(array(
-			'name' => 'Name',
-				), $object->toArray());
+        $this->assertSame(array(
+            'name' => 'Name',
+        ), $object->toArray());
 
-		$object->handleCommand('doc', 'http://example.test Some words here');
+        $object->handleCommand('doc', 'http://example.test Some words here');
 
-		$this->assertSame(array(
-			'name' => 'Name',
-			'externalDocs' => array(
-				'url' => 'http://example.test',
-				'description' => 'Some words here',
-			),
-				), $object->toArray());
-	}
+        $this->assertSame(array(
+            'name' => 'Name',
+            'externalDocs' => array(
+                'url' => 'http://example.test',
+                'description' => 'Some words here',
+            ),
+        ), $object->toArray());
+    }
 
 }

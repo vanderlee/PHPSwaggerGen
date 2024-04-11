@@ -13,12 +13,12 @@ namespace Test\Parser\Php\ParserTest;
  */
 class testParse_NoMethods
 {
-	/**
-	 * Description of method
-	 * @rest\description some description
-	 */
-	public function Method1()
-	{
+    /**
+     * Description of method
+     * @rest\description some description
+     */
+    public function Method1()
+    {
 
-	}
+    }
 }

@@ -11,14 +11,14 @@ namespace Test\Parser\Php\ParserTest;
 /**
  * Description of class
  * @rest\description About this
- * 			strange
- * 		little
- * 
- * 	class
- * 
+ *            strange
+ *        little
+ *
+ *    class
+ *
  * @todo but not me!
  */
 class testParse_LineContinuation
 {
-	
+
 }

@@ -2,6 +2,8 @@
 
 namespace SwaggerGen\Swagger\Type;
 
+use SwaggerGen\Exception;
+
 /**
  * A special type representing a reference to an object definition.
  *
@@ -13,45 +15,48 @@ namespace SwaggerGen\Swagger\Type;
 class ReferenceObjectType extends AbstractType
 {
 
-	private $reference = null;
+    private $reference = null;
 
-	protected function parseDefinition($definition)
-	{
-		$definition = self::trim($definition);
+    /**
+     * @throws Exception
+     */
+    protected function parseDefinition($definition)
+    {
+        $definition = self::trim($definition);
 
-		$match = array();
-		if (preg_match(self::REGEX_START . self::REGEX_FORMAT . self::REGEX_CONTENT . self::REGEX_RANGE . self::REGEX_DEFAULT . self::REGEX_END, $definition, $match) !== 1) {
-			throw new \SwaggerGen\Exception("Unparseable string definition: '{$definition}'");
-		}
+        $match = array();
+        if (preg_match(self::REGEX_START . self::REGEX_FORMAT . self::REGEX_CONTENT . self::REGEX_RANGE . self::REGEX_DEFAULT . self::REGEX_END, $definition, $match) !== 1) {
+            throw new Exception('Unparseable string definition: \'' . $definition . '\'');
+        }
 
-		$type = strtolower($match[1]);
+        $type = strtolower($match[1]);
 
-		$reference = null;
-		if ($type === 'refobject') {
-			if (isset($match[2])) {
-				$reference = $match[2];
-			}
-		} else {
-			$reference = $match[1];
-		}
+        $reference = null;
+        if ($type === 'refobject') {
+            if (isset($match[2])) {
+                $reference = $match[2];
+            }
+        } else {
+            $reference = $match[1];
+        }
 
-		if (empty($reference)) {
-			throw new \SwaggerGen\Exception("Referenced object name missing: '{$definition}'");
-		}
+        if (empty($reference)) {
+            throw new Exception('Referenced object name missing: \'' . $definition . '\'');
+        }
 
-		$this->reference = $reference;
-	}
+        $this->reference = $reference;
+    }
 
-	public function toArray()
-	{
-		return self::arrayFilterNull(array_merge(array(
-					'$ref' => '#/definitions/' . $this->reference,
-								), parent::toArray()));
-	}
+    public function toArray()
+    {
+        return self::arrayFilterNull(array_merge(array(
+            '$ref' => '#/definitions/' . $this->reference,
+        ), parent::toArray()));
+    }
 
-	public function __toString()
-	{
-		return __CLASS__ . ' ' . $this->reference;
-	}
+    public function __toString()
+    {
+        return __CLASS__ . ' ' . $this->reference;
+    }
 
 }

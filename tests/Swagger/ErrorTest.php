@@ -3,81 +3,81 @@
 class ErrorTest extends SwaggerGen_TestCase
 {
 
-	protected $parent;
+    protected $parent;
 
-	protected function setUp(): void
-	{
-		$this->parent = $this->getMockForAbstractClass('\SwaggerGen\Swagger\AbstractObject');
-	}
+    protected function setUp(): void
+    {
+        $this->parent = $this->getMockForAbstractClass('\SwaggerGen\Swagger\AbstractObject');
+    }
 
-	protected function assertPreConditions(): void
-	{
-		$this->assertInstanceOf('\SwaggerGen\Swagger\AbstractObject', $this->parent);
-	}
+    protected function assertPreConditions(): void
+    {
+        $this->assertInstanceOf('\SwaggerGen\Swagger\AbstractObject', $this->parent);
+    }
 
-	/**
-	 * @covers \SwaggerGen\Swagger\Error::__construct
-	 */
-	public function testConstructor_200(): void
-	{
-		$object = new \SwaggerGen\Swagger\Error($this->parent, 200);
+    /**
+     * @covers \SwaggerGen\Swagger\Error::__construct
+     */
+    public function testConstructor_200(): void
+    {
+        $object = new \SwaggerGen\Swagger\Error($this->parent, 200);
 
-		$this->assertInstanceOf('\SwaggerGen\Swagger\Error', $object);
+        $this->assertInstanceOf('\SwaggerGen\Swagger\Error', $object);
 
-		$this->assertSame(array(
-			'description' => 'OK',
-				), $object->toArray());
-	}
+        $this->assertSame(array(
+            'description' => 'OK',
+        ), $object->toArray());
+    }
 
-	/**
-	 * @covers \SwaggerGen\Swagger\Error::__construct
-	 */
-	public function testConstructor_404(): void
-	{
-		$object = new \SwaggerGen\Swagger\Error($this->parent, 404);
+    /**
+     * @covers \SwaggerGen\Swagger\Error::__construct
+     */
+    public function testConstructor_404(): void
+    {
+        $object = new \SwaggerGen\Swagger\Error($this->parent, 404);
 
-		$this->assertInstanceOf('\SwaggerGen\Swagger\Error', $object);
+        $this->assertInstanceOf('\SwaggerGen\Swagger\Error', $object);
 
-		$this->assertSame(array(
-			'description' => 'Not Found',
-				), $object->toArray());
-	}
+        $this->assertSame(array(
+            'description' => 'Not Found',
+        ), $object->toArray());
+    }
 
-	/**
-	 * @covers \SwaggerGen\Swagger\Error::__construct
-	 */
-	public function testConstructor_Description(): void
-	{
-		$object = new \SwaggerGen\Swagger\Error($this->parent, '200', 'Fine And Dandy');
+    /**
+     * @covers \SwaggerGen\Swagger\Error::__construct
+     */
+    public function testConstructor_Description(): void
+    {
+        $object = new \SwaggerGen\Swagger\Error($this->parent, '200', 'Fine And Dandy');
 
-		$this->assertInstanceOf('\SwaggerGen\Swagger\Error', $object);
+        $this->assertInstanceOf('\SwaggerGen\Swagger\Error', $object);
 
-		$this->assertSame(array(
-			'description' => 'Fine And Dandy',
-				), $object->toArray());
-	}
+        $this->assertSame(array(
+            'description' => 'Fine And Dandy',
+        ), $object->toArray());
+    }
 
-	/**
-	 * Just checks that the `header` command is inherited. Actual tests for
-	 * this command are in `ResponseTest`
-	 * @covers \SwaggerGen\Swagger\Type\Error->handleCommand
-	 */
-	public function testHandleCommand_Header(): void
-	{
-		$object = new \SwaggerGen\Swagger\Error($this->parent, 200);
+    /**
+     * Just checks that the `header` command is inherited. Actual tests for
+     * this command are in `ResponseTest`
+     * @covers \SwaggerGen\Swagger\Type\Error->handleCommand
+     */
+    public function testHandleCommand_Header(): void
+    {
+        $object = new \SwaggerGen\Swagger\Error($this->parent, 200);
 
-		$this->assertInstanceOf('\SwaggerGen\Swagger\Error', $object);
+        $this->assertInstanceOf('\SwaggerGen\Swagger\Error', $object);
 
-		$object->handleCommand('header', 'integer bar');
+        $object->handleCommand('header', 'integer bar');
 
-		$this->assertSame(array(
-			'description' => 'OK',
-			'headers' => array(
-				'bar' => array(
-					'type' => 'integer',
-				),
-			),
-				), $object->toArray());
-	}
+        $this->assertSame(array(
+            'description' => 'OK',
+            'headers' => array(
+                'bar' => array(
+                    'type' => 'integer',
+                ),
+            ),
+        ), $object->toArray());
+    }
 
 }

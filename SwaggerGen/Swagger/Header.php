@@ -2,6 +2,8 @@
 
 namespace SwaggerGen\Swagger;
 
+use SwaggerGen\Exception;
+
 /**
  * Describes a Swagger Header object, which may be part of a Response.
  *
@@ -13,48 +15,50 @@ namespace SwaggerGen\Swagger;
 class Header extends AbstractObject
 {
 
-	private $type;
-	private $description;
+    private $type;
+    private $description;
 
-	public function __construct(AbstractObject $parent, $type, $description = null)
-	{
-		parent::__construct($parent);
+    /**
+     * @throws Exception
+     */
+    public function __construct(AbstractObject $parent, $type, $description = null)
+    {
+        parent::__construct($parent);
 
-		$this->type = strtolower($type);
-		if (!in_array($this->type, array('string', 'number', 'integer', 'boolean', 'array'))) {
-			throw new \SwaggerGen\Exception("Header type not valid: '{$type}'");
-		}
+        $this->type = strtolower($type);
+        if (!in_array($this->type, array('string', 'number', 'integer', 'boolean', 'array'))) {
+            throw new Exception('Header type not valid: \'' . $type . '\'');
+        }
 
-		$this->description = $description;
-	}
+        $this->description = $description;
+    }
 
-	/**
-	 * @param string $command
-	 * @param string $data
-	 * @return \SwaggerGen\Swagger\AbstractObject|boolean
-	 */
-	public function handleCommand($command, $data = null)
-	{
-		switch (strtolower($command)) {
-			case 'description':
-				$this->description = $data;
-				return $this;
-		}
+    /**
+     * @param string $command
+     * @param string $data
+     * @return AbstractObject|boolean
+     */
+    public function handleCommand($command, $data = null)
+    {
+        if (strtolower($command) === 'description') {
+            $this->description = $data;
+            return $this;
+        }
 
-		return parent::handleCommand($command, $data);
-	}
+        return parent::handleCommand($command, $data);
+    }
 
-	public function toArray()
-	{
-		return self::arrayFilterNull(array_merge(array(
-					'type' => $this->type,
-					'description' => empty($this->description) ? null : $this->description,
-								), parent::toArray()));
-	}
+    public function toArray()
+    {
+        return self::arrayFilterNull(array_merge(array(
+            'type' => $this->type,
+            'description' => empty($this->description) ? null : $this->description,
+        ), parent::toArray()));
+    }
 
-	public function __toString()
-	{
-		return __CLASS__ . ' ' . $this->type;
-	}
+    public function __toString()
+    {
+        return __CLASS__ . ' ' . $this->type;
+    }
 
 }

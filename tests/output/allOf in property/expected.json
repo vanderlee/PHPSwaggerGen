@@ -24,26 +24,35 @@
     }
   },
   "definitions": {
-      "WideEnum": {
-          "type": "string",
-          "enum": ["1", "2", "3"]
-      },
-      "UsingEnum": {
-          "type" : "object",
-          "required": ["enumProperty"],
-          "properties": {
-              "enumProperty" : {
-                  "allOf": [
-                    {"$ref" : "#/definitions/WideEnum"},
-                    {
-                        "type": "string",
-                        "enum": ["2"]
-                    }
-                  ]
-              }
-          }
+    "WideEnum": {
+      "type": "string",
+      "enum": [
+        "1",
+        "2",
+        "3"
+      ]
+    },
+    "UsingEnum": {
+      "type": "object",
+      "required": [
+        "enumProperty"
+      ],
+      "properties": {
+        "enumProperty": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/WideEnum"
+            },
+            {
+              "type": "string",
+              "enum": [
+                "2"
+              ]
+            }
+          ]
+        }
       }
-
+    }
   },
   "tags": [
     {

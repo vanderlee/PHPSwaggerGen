@@ -1,28 +1,24 @@
 <?php
 
-	require_once __DIR__ . '/autoloader.php';
+use SwaggerGen\Exception as SwaggerException;
+use SwaggerGen\Swagger\Type\Custom\Ipv4Type;
+use SwaggerGen\SwaggerGen;
+use SwaggerGen\TypeRegistry;
 
-	$files = array('Example.class.php');
-	
-	$TypeRegistry = new \SwaggerGen\TypeRegistry();
-//	\SwaggerGen\Swagger\Type\Custom\Ipv4Type::setFormats(array('ipv4'));
-	$TypeRegistry->add('\SwaggerGen\Swagger\Type\Custom\Ipv4Type');
+require_once __DIR__ . '/autoloader.php';
 
-	$SwaggerGen = new \SwaggerGen\SwaggerGen($_SERVER['HTTP_HOST'], dirname($_SERVER['REQUEST_URI']), array());	
-	$SwaggerGen->setTypeRegistry($TypeRegistry);
-	
-	// @todo Allow explicitly format name specification for conflict resolution.
-	// @todo Automatically scan the default types (how to register multiple type names; e.g. StringType's names)
-	// @todo Put TypeFactory method and the registry into a single class for easy management (how about Parameter?)
-	// @todo Allow specification of Property-only or Property-and-parameter (only for certain types. Use static methods on type?)
-	
-	//$SwaggerGen->define('admin');
-	//$SwaggerGen->define('root');
-	
-	header('Content-type: application/json');
-	echo $SwaggerGen->getSwagger($files, array(), \SwaggerGen\SwaggerGen::FORMAT_JSON_PRETTY);
-	
-	// IpType registers itself!
+$files = ['Example.class.php'];
 
-	//header('Content-type: application/x-yaml');
-	//echo $SwaggerGen->getSwagger($files, array(), \SwaggerGen\SwaggerGen::FORMAT_YAML);
+$TypeRegistry = new TypeRegistry();
+$TypeRegistry->add(Ipv4Type::class);
+
+$SwaggerGen = new SwaggerGen($_SERVER['HTTP_HOST'], dirname($_SERVER['REQUEST_URI']));
+$SwaggerGen->setTypeRegistry($TypeRegistry);
+try {
+    $json = $SwaggerGen->getSwagger($files, [], SwaggerGen::FORMAT_JSON_PRETTY);
+} catch (SwaggerException $e) {
+    var_dump($e);
+}
+
+header('Content-type: application/json');
+echo $json;

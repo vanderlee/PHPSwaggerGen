@@ -13,14 +13,14 @@ namespace Test\Parser\Php\ParserTest;
 class Example
 {
 
-	/**
-	 * @rest\endpoint /endpoint
-	 * @rest\method GET Something
-	 * @rest\response 200 uuid
-	 */
-	public function Dummy()
-	{
-		
-	}
+    /**
+     * @rest\endpoint /endpoint
+     * @rest\method GET Something
+     * @rest\response 200 uuid
+     */
+    public function Dummy()
+    {
+
+    }
 
 }

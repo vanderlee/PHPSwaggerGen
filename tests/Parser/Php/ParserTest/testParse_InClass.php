@@ -8,19 +8,19 @@ namespace Test\Parser\Php\ParserTest;
  */
 class testParse_InClass
 {
-	/**
-	 * @rest\description Some description
-	 */
+    /**
+     * @rest\description Some description
+     */
 
-	/**
-	 * @rest\version 2
-	 */
-	public function Method1()
-	{
+    /**
+     * @rest\version 2
+     */
+    public function Method1()
+    {
 
-	}
+    }
 
-	/**
-	 * @rest\license mit
-	 */
+    /**
+     * @rest\license mit
+     */
 }

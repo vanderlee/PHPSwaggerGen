@@ -17,14 +17,14 @@ function testParse_SeeFunction_Error()
 class testParse_SeeFunction
 {
 
-	/**
-	 * @rest\endpoint /endpoint
-	 * @rest\method GET Something
-	 * @rest\see testParse_SeeFunction_Error
-	 */
-	public function Dummy()
-	{
-		
-	}
+    /**
+     * @rest\endpoint /endpoint
+     * @rest\method GET Something
+     * @rest\see testParse_SeeFunction_Error
+     */
+    public function Dummy()
+    {
+
+    }
 
 }

@@ -9,7 +9,6 @@ namespace Test\Parser\Php\ParserTest;
 /**
  * @rest\version 2
  */
-
 // @rest\license mit
 class testParse_CommentsTypes
 {

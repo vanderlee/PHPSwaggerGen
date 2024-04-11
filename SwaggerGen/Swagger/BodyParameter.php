@@ -2,6 +2,8 @@
 
 namespace SwaggerGen\Swagger;
 
+use SwaggerGen\Exception;
+
 /**
  * Describes a Swagger Parameter object of the "body" variety.
  *
@@ -13,73 +15,77 @@ namespace SwaggerGen\Swagger;
 class BodyParameter extends AbstractObject implements IParameter
 {
 
-	/**
-	 * @var string|boolean
-	 */
-	private $name = '';
-	private $description;
-	private $required = false;
+    /**
+     * @var string|boolean
+     */
+    private $name = '';
+    private $description;
+    private $required = false;
 
-	/**
-	 * @var Schema
-	 */
-	private $schema;
+    /**
+     * @var Schema
+     */
+    private $schema;
 
-	public function __construct(AbstractObject $parent, $data, $required = false)
-	{
-		parent::__construct($parent);
+    /**
+     * @throws Exception
+     */
+    public function __construct(AbstractObject $parent, $data, $required = false)
+    {
+        parent::__construct($parent);
 
-		$type = self::wordShift($data);
-		if (empty($type)) {
-			throw new \SwaggerGen\Exception('No type definition for body parameter');
-		}
+        $type = self::wordShift($data);
+        if (empty($type)) {
+            throw new Exception('No type definition for body parameter');
+        }
 
-		$this->name = self::wordShift($data);
-		if (empty($this->name)) {
-			throw new \SwaggerGen\Exception('No name for body parameter');
-		}
+        $this->name = self::wordShift($data);
+        if (empty($this->name)) {
+            throw new Exception('No name for body parameter');
+        }
 
-		$this->description = $data;
-		$this->required = (bool) $required;
+        $this->description = $data;
+        $this->required = (bool)$required;
 
-		$this->schema = new Schema($this, $type);
-	}
+        $this->schema = new Schema($this, $type);
+    }
 
-	/**
-	 * @param string $command
-	 * @param string $data
-	 * @return \SwaggerGen\Swagger\AbstractObject|boolean
-	 */
-	public function handleCommand($command, $data = null)
-	{
-		// Pass through to Type
-		$return = $this->schema->handleCommand($command, $data);
-		if ($return) {
-			return $return;
-		}
+    /**
+     * @param string $command
+     * @param string $data
+     * @return AbstractObject|boolean
+     * @throws Exception
+     */
+    public function handleCommand($command, $data = null)
+    {
+        // Pass through to Type
+        $return = $this->schema->handleCommand($command, $data);
+        if ($return) {
+            return $return;
+        }
 
-		return parent::handleCommand($command, $data);
-	}
+        return parent::handleCommand($command, $data);
+    }
 
-	public function toArray()
-	{
-		return self::arrayFilterNull(array_merge(array(
-					'name' => $this->name,
-					'in' => 'body',
-					'description' => empty($this->description) ? null : $this->description,
-					'required' => $this->required ? true : null,
-					'schema' => $this->schema->toArray(),
-								), parent::toArray()));
-	}
+    public function toArray()
+    {
+        return self::arrayFilterNull(array_merge(array(
+            'name' => $this->name,
+            'in' => 'body',
+            'description' => empty($this->description) ? null : $this->description,
+            'required' => $this->required ? true : null,
+            'schema' => $this->schema->toArray(),
+        ), parent::toArray()));
+    }
 
-	public function __toString()
-	{
-		return __CLASS__ . ' ' . $this->name;
-	}
+    public function __toString()
+    {
+        return __CLASS__ . ' ' . $this->name;
+    }
 
-	public function getName()
-	{
-		return $this->name;
-	}
+    public function getName()
+    {
+        return $this->name;
+    }
 
 }

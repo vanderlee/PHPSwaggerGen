@@ -3,99 +3,99 @@
 class HeaderTest extends SwaggerGen_TestCase
 {
 
-	protected $parent;
+    protected $parent;
 
-	protected function setUp(): void
-	{
-		$this->parent = $this->getMockForAbstractClass('\SwaggerGen\Swagger\AbstractObject');
-	}
+    protected function setUp(): void
+    {
+        $this->parent = $this->getMockForAbstractClass('\SwaggerGen\Swagger\AbstractObject');
+    }
 
-	protected function assertPreConditions(): void
-	{
-		$this->assertInstanceOf('\SwaggerGen\Swagger\AbstractObject', $this->parent);
-	}
+    protected function assertPreConditions(): void
+    {
+        $this->assertInstanceOf('\SwaggerGen\Swagger\AbstractObject', $this->parent);
+    }
 
-	/**
-	 * @covers \SwaggerGen\Swagger\Header::__construct
-	 */
-	public function testConstructorType(): void
-	{
-		$object = new \SwaggerGen\Swagger\Header($this->parent, 'integer');
+    /**
+     * @covers \SwaggerGen\Swagger\Header::__construct
+     */
+    public function testConstructorType(): void
+    {
+        $object = new \SwaggerGen\Swagger\Header($this->parent, 'integer');
 
-		$this->assertInstanceOf('\SwaggerGen\Swagger\Header', $object);
+        $this->assertInstanceOf('\SwaggerGen\Swagger\Header', $object);
 
-		$this->assertSame(array(
-			'type' => 'integer',
-				), $object->toArray());
-	}
+        $this->assertSame(array(
+            'type' => 'integer',
+        ), $object->toArray());
+    }
 
-	/**
-	 * @covers \SwaggerGen\Swagger\Header::__construct
-	 */
-	public function testConstructorInvalidType()
-	{
-		$this->expectException('\SwaggerGen\Exception', "Header type not valid: 'BadType'");
-		
-		new \SwaggerGen\Swagger\Header($this->parent, 'BadType');
-	}
+    /**
+     * @covers \SwaggerGen\Swagger\Header::__construct
+     */
+    public function testConstructorInvalidType()
+    {
+        $this->expectException('\SwaggerGen\Exception', "Header type not valid: 'BadType'");
 
-	/**
-	 * @covers \SwaggerGen\Swagger\Header::__construct
-	 */
-	public function testConstructorNoDescription()
-	{
-		$object = new \SwaggerGen\Swagger\Header($this->parent, 'integer');
+        new \SwaggerGen\Swagger\Header($this->parent, 'BadType');
+    }
 
-		$this->assertInstanceOf('\SwaggerGen\Swagger\Header', $object);
+    /**
+     * @covers \SwaggerGen\Swagger\Header::__construct
+     */
+    public function testConstructorNoDescription()
+    {
+        $object = new \SwaggerGen\Swagger\Header($this->parent, 'integer');
 
-		$this->assertSame(array(
-			'type' => 'integer',
-				), $object->toArray());
-	}
+        $this->assertInstanceOf('\SwaggerGen\Swagger\Header', $object);
 
-	/**
-	 * @covers \SwaggerGen\Swagger\Header::__construct
-	 */
-	public function testConstructorBlankDescription()
-	{
-		$object = new \SwaggerGen\Swagger\Header($this->parent, 'integer', '');
+        $this->assertSame(array(
+            'type' => 'integer',
+        ), $object->toArray());
+    }
 
-		$this->assertInstanceOf('\SwaggerGen\Swagger\Header', $object);
+    /**
+     * @covers \SwaggerGen\Swagger\Header::__construct
+     */
+    public function testConstructorBlankDescription()
+    {
+        $object = new \SwaggerGen\Swagger\Header($this->parent, 'integer', '');
 
-		$this->assertSame(array(
-			'type' => 'integer',
-				), $object->toArray());
-	}
+        $this->assertInstanceOf('\SwaggerGen\Swagger\Header', $object);
 
-	/**
-	 * @covers \SwaggerGen\Swagger\Header::__construct
-	 */
-	public function testConstructorFull()
-	{
-		$object = new \SwaggerGen\Swagger\Header($this->parent, 'integer', 'descriptive text');
+        $this->assertSame(array(
+            'type' => 'integer',
+        ), $object->toArray());
+    }
 
-		$this->assertInstanceOf('\SwaggerGen\Swagger\Header', $object);
+    /**
+     * @covers \SwaggerGen\Swagger\Header::__construct
+     */
+    public function testConstructorFull()
+    {
+        $object = new \SwaggerGen\Swagger\Header($this->parent, 'integer', 'descriptive text');
 
-		$this->assertSame(array(
-			'type' => 'integer',
-			'description' => 'descriptive text',
-				), $object->toArray());
-	}
+        $this->assertInstanceOf('\SwaggerGen\Swagger\Header', $object);
 
-	/**
-	 * @covers \SwaggerGen\Swagger\Header->handleCommand
-	 */
-	public function testCommandDescription()
-	{
-		$object = new \SwaggerGen\Swagger\Header($this->parent, 'integer', 'descriptive text');
+        $this->assertSame(array(
+            'type' => 'integer',
+            'description' => 'descriptive text',
+        ), $object->toArray());
+    }
 
-		$this->assertInstanceOf('\SwaggerGen\Swagger\Header', $object);
+    /**
+     * @covers \SwaggerGen\Swagger\Header->handleCommand
+     */
+    public function testCommandDescription()
+    {
+        $object = new \SwaggerGen\Swagger\Header($this->parent, 'integer', 'descriptive text');
 
-		$object->handleCommand('description', 'Some other lines');
+        $this->assertInstanceOf('\SwaggerGen\Swagger\Header', $object);
 
-		$this->assertSame(array(
-			'type' => 'integer',
-			'description' => 'Some other lines',
-				), $object->toArray());
-	}
+        $object->handleCommand('description', 'Some other lines');
+
+        $this->assertSame(array(
+            'type' => 'integer',
+            'description' => 'Some other lines',
+        ), $object->toArray());
+    }
 }

@@ -3,32 +3,32 @@
 class ReferenceObjectTypeTest extends SwaggerGen_TestCase
 {
 
-	protected $parent;
+    protected $parent;
 
-	protected function setUp(): void
-	{
-		$this->parent = $this->getMockForAbstractClass('\SwaggerGen\Swagger\Swagger');
-	}
+    protected function setUp(): void
+    {
+        $this->parent = $this->getMockForAbstractClass('\SwaggerGen\Swagger\Swagger');
+    }
 
-	protected function assertPreConditions(): void
-	{
-		$this->assertInstanceOf('\SwaggerGen\Swagger\AbstractObject', $this->parent);
-	}
+    protected function assertPreConditions(): void
+    {
+        $this->assertInstanceOf('\SwaggerGen\Swagger\AbstractObject', $this->parent);
+    }
 
-	/**
-	 * @covers \SwaggerGen\Swagger\Type\ReferenceObjectType::__construct
-	 */
-	public function testConstructBothConsumes()
-	{
-		$this->parent->handleCommand('model', 'blah');
-		
-		$object = new SwaggerGen\Swagger\Type\ReferenceObjectType($this->parent, 'blah');
+    /**
+     * @covers \SwaggerGen\Swagger\Type\ReferenceObjectType::__construct
+     */
+    public function testConstructBothConsumes()
+    {
+        $this->parent->handleCommand('model', 'blah');
 
-		$this->assertInstanceOf('\SwaggerGen\Swagger\Type\ReferenceObjectType', $object);
+        $object = new SwaggerGen\Swagger\Type\ReferenceObjectType($this->parent, 'blah');
 
-		$this->assertSame(array(
-			'$ref' => '#/definitions/blah',
-				), $object->toArray());
-	}
+        $this->assertInstanceOf('\SwaggerGen\Swagger\Type\ReferenceObjectType', $object);
+
+        $this->assertSame(array(
+            '$ref' => '#/definitions/blah',
+        ), $object->toArray());
+    }
 
 }

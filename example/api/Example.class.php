@@ -11,6 +11,8 @@ namespace Api\Rest;
  * @rest\require api_key
  */
 
+use Exception;
+
 /**
  * @rest\error 404 This is not the resource you are looking for
  * @rest\x-http-message 404
@@ -55,7 +57,7 @@ class Example
 		}
 
 		if (!method_exists($this, $methodname)) {
-			throw new \Exception('Method Not Allowed', 405); // @rest\errors 405
+			throw new Exception('Method Not Allowed', 405); // @rest\errors 405
 		}
 
 		$arguments[] = $data;

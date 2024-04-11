@@ -3,79 +3,79 @@
 class ExternalDocumentationTest extends SwaggerGen_TestCase
 {
 
-	protected $parent;
+    protected $parent;
 
-	protected function setUp(): void
-	{
-		$this->parent = $this->getMockForAbstractClass('\SwaggerGen\Swagger\AbstractObject');
-	}
+    protected function setUp(): void
+    {
+        $this->parent = $this->getMockForAbstractClass('\SwaggerGen\Swagger\AbstractObject');
+    }
 
-	protected function assertPreConditions(): void
-	{
-		$this->assertInstanceOf('\SwaggerGen\Swagger\AbstractObject', $this->parent);
-	}
+    protected function assertPreConditions(): void
+    {
+        $this->assertInstanceOf('\SwaggerGen\Swagger\AbstractObject', $this->parent);
+    }
 
-	/**
-	 * @covers \SwaggerGen\Swagger\ExternalDocumentation::__construct
-	 */
-	public function testConstructorUrl(): void
-	{
-		$object = new \SwaggerGen\Swagger\ExternalDocumentation($this->parent, 'http://example.test');
+    /**
+     * @covers \SwaggerGen\Swagger\ExternalDocumentation::__construct
+     */
+    public function testConstructorUrl(): void
+    {
+        $object = new \SwaggerGen\Swagger\ExternalDocumentation($this->parent, 'http://example.test');
 
-		$this->assertInstanceOf('\SwaggerGen\Swagger\ExternalDocumentation', $object);
+        $this->assertInstanceOf('\SwaggerGen\Swagger\ExternalDocumentation', $object);
 
-		$this->assertSame(array(
-			'url' => 'http://example.test',
-				), $object->toArray());
-	}
+        $this->assertSame(array(
+            'url' => 'http://example.test',
+        ), $object->toArray());
+    }
 
-	/**
-	 * @covers \SwaggerGen\Swagger\ExternalDocumentation::__construct
-	 */
-	public function testConstructorFull()
-	{
-		$object = new \SwaggerGen\Swagger\ExternalDocumentation($this->parent, 'http://example.test', 'Descriptive text');
+    /**
+     * @covers \SwaggerGen\Swagger\ExternalDocumentation::__construct
+     */
+    public function testConstructorFull()
+    {
+        $object = new \SwaggerGen\Swagger\ExternalDocumentation($this->parent, 'http://example.test', 'Descriptive text');
 
-		$this->assertInstanceOf('\SwaggerGen\Swagger\ExternalDocumentation', $object);
+        $this->assertInstanceOf('\SwaggerGen\Swagger\ExternalDocumentation', $object);
 
-		$this->assertSame(array(
-			'url' => 'http://example.test',
-			'description' => 'Descriptive text',
-				), $object->toArray());
-	}
+        $this->assertSame(array(
+            'url' => 'http://example.test',
+            'description' => 'Descriptive text',
+        ), $object->toArray());
+    }
 
-	/**
-	 * @covers \SwaggerGen\Swagger\ExternalDocumentation::handleCommand
-	 */
-	public function testCommandUrl()
-	{
-		$object = new \SwaggerGen\Swagger\ExternalDocumentation($this->parent, 'http://example.test', 'Descriptive text');
+    /**
+     * @covers \SwaggerGen\Swagger\ExternalDocumentation::handleCommand
+     */
+    public function testCommandUrl()
+    {
+        $object = new \SwaggerGen\Swagger\ExternalDocumentation($this->parent, 'http://example.test', 'Descriptive text');
 
-		$this->assertInstanceOf('\SwaggerGen\Swagger\ExternalDocumentation', $object);
+        $this->assertInstanceOf('\SwaggerGen\Swagger\ExternalDocumentation', $object);
 
-		$object->handleCommand('url', 'http://other.test');
+        $object->handleCommand('url', 'http://other.test');
 
-		$this->assertSame(array(
-			'url' => 'http://other.test',
-			'description' => 'Descriptive text',
-				), $object->toArray());
-	}
+        $this->assertSame(array(
+            'url' => 'http://other.test',
+            'description' => 'Descriptive text',
+        ), $object->toArray());
+    }
 
-	/**
-	 * @covers \SwaggerGen\Swagger\ExternalDocumentation::handleCommand
-	 */
-	public function testCommandDescription()
-	{
-		$object = new \SwaggerGen\Swagger\ExternalDocumentation($this->parent, 'http://example.test', 'Descriptive text');
+    /**
+     * @covers \SwaggerGen\Swagger\ExternalDocumentation::handleCommand
+     */
+    public function testCommandDescription()
+    {
+        $object = new \SwaggerGen\Swagger\ExternalDocumentation($this->parent, 'http://example.test', 'Descriptive text');
 
-		$this->assertInstanceOf('\SwaggerGen\Swagger\ExternalDocumentation', $object);
+        $this->assertInstanceOf('\SwaggerGen\Swagger\ExternalDocumentation', $object);
 
-		$object->handleCommand('description', 'Some other words');
+        $object->handleCommand('description', 'Some other words');
 
-		$this->assertSame(array(
-			'url' => 'http://example.test',
-			'description' => 'Some other words',
-				), $object->toArray());
-	}
+        $this->assertSame(array(
+            'url' => 'http://example.test',
+            'description' => 'Some other words',
+        ), $object->toArray());
+    }
 
 }

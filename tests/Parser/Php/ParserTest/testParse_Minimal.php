@@ -10,13 +10,13 @@ namespace Test\Parser\Php\ParserTest;
 class testParse_Minimal
 {
 
-	/**
-	 * @rest\endpoint /endpoint
-	 * @rest\method GET Something
-	 */
-	public function Dummy()
-	{
-		
-	}
+    /**
+     * @rest\endpoint /endpoint
+     * @rest\method GET Something
+     */
+    public function Dummy()
+    {
+
+    }
 
 }

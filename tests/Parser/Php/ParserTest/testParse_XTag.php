@@ -9,14 +9,14 @@ namespace Test\Parser\Php\ParserTest;
 class testParse_XTag
 {
 
-	/**
-	 * @rest\endpoint /endpoint
-	 * @rest\x-something else
-	 * @rest\method GET Something
-	 */
-	public function Dummy()
-	{
-		
-	}
+    /**
+     * @rest\endpoint /endpoint
+     * @rest\x-something else
+     * @rest\method GET Something
+     */
+    public function Dummy()
+    {
+
+    }
 
 }

@@ -9,14 +9,14 @@ namespace Test\Parser\Php\ParserTest;
 class testParse_Autoload
 {
 
-	/**
-	 * @rest\endpoint /endpoint
-	 * @rest\method GET Something
-	 * @rest\see testParse_Autoload_Other::Method
-	 */
-	public function Dummy()
-	{
-		
-	}
+    /**
+     * @rest\endpoint /endpoint
+     * @rest\method GET Something
+     * @rest\see testParse_Autoload_Other::Method
+     */
+    public function Dummy()
+    {
+
+    }
 
 }

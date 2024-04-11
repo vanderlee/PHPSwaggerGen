@@ -2,6 +2,9 @@
 
 namespace SwaggerGen\Swagger\Type;
 
+use SwaggerGen\Exception;
+use SwaggerGen\Swagger\AbstractObject;
+
 /**
  * Abstract regular expression string definition
  *
@@ -13,58 +16,61 @@ namespace SwaggerGen\Swagger\Type;
 class AbstractRegexType extends StringType
 {
 
-	const REGEX_DEFAULT_START = '(?:=(';
-	const REGEX_DEFAULT_END = '))?';
+    const REGEX_DEFAULT_START = '(?:=(';
+    const REGEX_DEFAULT_END = '))?';
 
-	/**
-	 * The raw regular expression to use.
-	 * Exclude start (`^`) and end (`$`) anchors.
-	 * @var string
-	 */
-	private $regex = null;
-	
-	/**
-	 * Construct and setup the regular expression for this type
-	 * 
-	 * @param \SwaggerGen\Swagger\AbstractObject $parent
-	 * @param string $definition
-	 * @param string $format Name of the string format
-	 * @param string $regex Regular expression to use as the format and for default validation
-	 */
-	public function __construct(\SwaggerGen\Swagger\AbstractObject $parent, $definition, $format, $regex)
-	{
-		$this->format = $format;
-		$this->regex = $regex;
+    /**
+     * The raw regular expression to use.
+     * Exclude start (`^`) and end (`$`) anchors.
+     * @var string
+     */
+    private $regex;
 
-		parent::__construct($parent, $definition);
-	}
+    /**
+     * Construct and set up the regular expression for this type
+     *
+     * @param AbstractObject $parent
+     * @param string $definition
+     * @param string $format Name of the string format
+     * @param string $regex Regular expression to use as the format and for default validation
+     */
+    public function __construct(AbstractObject $parent, $definition, $format, $regex)
+    {
+        $this->format = $format;
+        $this->regex = $regex;
 
-	protected function parseDefinition($definition)
-	{
-		$definition = self::trim($definition);
+        parent::__construct($parent, $definition);
+    }
 
-		$match = array();
-		if (preg_match(self::REGEX_START . self::REGEX_FORMAT . self::REGEX_DEFAULT_START . $this->regex . self::REGEX_DEFAULT_END . self::REGEX_END, $definition, $match) !== 1) {
-			throw new \SwaggerGen\Exception("Unparseable {$this->format} definition: '{$definition}'");
-		}
+    /**
+     * @throws Exception
+     */
+    protected function parseDefinition($definition)
+    {
+        $definition = self::trim($definition);
 
-		if (strtolower($match[1] !== $this->format)) {
-			throw new \SwaggerGen\Exception("Not a {$this->format}: '{$definition}'");
-		}
+        $match = array();
+        if (preg_match(self::REGEX_START . self::REGEX_FORMAT . self::REGEX_DEFAULT_START . $this->regex . self::REGEX_DEFAULT_END . self::REGEX_END, $definition, $match) !== 1) {
+            throw new Exception('Unparseable ' . $this->format . ' definition: \'' . $definition . '\'');
+        }
 
-		$this->pattern = '^' . $this->regex . '$';
-		$this->default = isset($match[2]) && $match[2] !== '' ? $this->validateDefault($match[2]) : null;
-	}
+        if (strtolower($match[1] !== $this->format)) {
+            throw new Exception('Not a ' . $this->format . ': \'' . $definition . '\'');
+        }
 
-	protected function validateDefault($value)
-	{
-		$value = parent::validateDefault($value);
-		
-		if (preg_match('/' . $this->pattern . '/', $value) !== 1) {
-			throw new \SwaggerGen\Exception("Invalid {$this->format} default value");
-		}
-		
-		return $value;
-	}
+        $this->pattern = '^' . $this->regex . '$';
+        $this->default = isset($match[2]) && $match[2] !== '' ? $this->validateDefault($match[2]) : null;
+    }
+
+    protected function validateDefault($value)
+    {
+        $value = parent::validateDefault($value);
+
+        if (preg_match('/' . $this->pattern . '/', $value) !== 1) {
+            throw new Exception('Invalid ' . $this->format . ' default value');
+        }
+
+        return $value;
+    }
 
 }

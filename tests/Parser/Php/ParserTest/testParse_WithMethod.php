@@ -13,13 +13,13 @@ namespace Test\Parser\Php\ParserTest;
  */
 class testParse_WithMethod
 {
-	/**
-	 * Description of method
-	 * @rest\description some description
-	 * @rest\method get something
-	 */
-	public function Method1()
-	{
+    /**
+     * Description of method
+     * @rest\description some description
+     * @rest\method get something
+     */
+    public function Method1()
+    {
 
-	}
+    }
 }

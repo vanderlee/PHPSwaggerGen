@@ -1,45 +1,45 @@
 {
-    "swagger": "2.0",
-    "info": {
-        "title": "Minimal",
-        "version": "0"
-    },
-    "host": "example.com",
-    "basePath": "\/base",
-    "paths": {
-        "\/endpoint\/{listid}": {
-            "get": {
-                "tags": [
-                    "MyApi"
-                ],
-                "summary": "Something",
-                "parameters": [
-                    {
-                        "$ref": "#\/parameters\/listid"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK"
-                    }
-                }
-            }
+  "swagger": "2.0",
+  "info": {
+    "title": "Minimal",
+    "version": "0"
+  },
+  "host": "example.com",
+  "basePath": "\/base",
+  "paths": {
+    "\/endpoint\/{listid}": {
+      "get": {
+        "tags": [
+          "MyApi"
+        ],
+        "summary": "Something",
+        "parameters": [
+          {
+            "$ref": "#\/parameters\/listid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
         }
-    },
-    "parameters": {
-        "listid": {
-            "name": "listid",
-            "in": "path",
-            "required": true,
-            "type": "integer",
-            "format": "int64",
-            "minimum": 0
-        }
-    },
-    "tags": [
-        {
-            "name": "MyApi",
-            "description": "Example"
-        }
-    ]
+      }
+    }
+  },
+  "parameters": {
+    "listid": {
+      "name": "listid",
+      "in": "path",
+      "required": true,
+      "type": "integer",
+      "format": "int64",
+      "minimum": 0
+    }
+  },
+  "tags": [
+    {
+      "name": "MyApi",
+      "description": "Example"
+    }
+  ]
 }

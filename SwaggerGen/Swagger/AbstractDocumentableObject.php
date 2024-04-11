@@ -14,38 +14,38 @@ namespace SwaggerGen\Swagger;
 abstract class AbstractDocumentableObject extends AbstractObject
 {
 
-	/**
-	 * External documentation
-	 * @var ExternalDocumentation
-	 */
-	private $externalDocs = null;
+    /**
+     * External documentation
+     * @var ExternalDocumentation
+     */
+    private $externalDocs = null;
 
-	/**
-	 * @param string $command
-	 * @param string $data
-	 * @return \SwaggerGen\Swagger\AbstractObject|boolean
-	 */
-	public function handleCommand($command, $data = null)
-	{
-		switch (strtolower($command)) {
-			case 'doc':
-			case 'docs':
-				$url = self::wordShift($data);
-				$this->externalDocs = new ExternalDocumentation($this, $url, $data);
-				return $this->externalDocs;
-		}
+    /**
+     * @param string $command
+     * @param string $data
+     * @return AbstractObject|boolean
+     */
+    public function handleCommand($command, $data = null)
+    {
+        switch (strtolower($command)) {
+            case 'doc':
+            case 'docs':
+                $url = self::wordShift($data);
+                $this->externalDocs = new ExternalDocumentation($this, $url, $data);
+                return $this->externalDocs;
+        }
 
-		return parent::handleCommand($command, $data);
-	}
+        return parent::handleCommand($command, $data);
+    }
 
-	/**
-	 * @return array
-	 */
-	public function toArray()
-	{
-		return self::arrayFilterNull(array_merge(array(
-					'externalDocs' => $this->externalDocs ? $this->externalDocs->toArray() : null,
-								), parent::toArray()));
-	}
+    /**
+     * @return array
+     */
+    public function toArray()
+    {
+        return self::arrayFilterNull(array_merge(array(
+            'externalDocs' => $this->externalDocs ? $this->externalDocs->toArray() : null,
+        ), parent::toArray()));
+    }
 
 }

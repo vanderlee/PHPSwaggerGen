@@ -2,6 +2,8 @@
 
 namespace SwaggerGen;
 
+use Throwable;
+
 /**
  * Exception class that can take a Statement
  *
@@ -13,28 +15,28 @@ namespace SwaggerGen;
 class StatementException extends \Exception
 {
 
-	/**
-	 * @var \SwaggerGen\Statement
-	 */
-	private $statement = null;
+    /**
+     * @var Statement
+     */
+    private $statement;
 
-	/**
-	 * 
-	 * @param string $message
-	 * @param int $code
-	 * @param \Throwable $previous
-	 * @param \SwaggerGen\Statement $statement
-	 */
-	public function __construct($message = "", $code = 0, $previous = null, $statement = null)
-	{
-		$this->statement = $statement;
+    /**
+     *
+     * @param string $message
+     * @param int $code
+     * @param Throwable $previous
+     * @param Statement $statement
+     */
+    public function __construct($message = "", $code = 0, $previous = null, $statement = null)
+    {
+        $this->statement = $statement;
 
-		parent::__construct($message, $code, $previous);
-	}
-	
-	public function getStatement()
-	{
-		return $this->statement;
-	}
+        parent::__construct($message, $code, $previous);
+    }
+
+    public function getStatement()
+    {
+        return $this->statement;
+    }
 
 }

@@ -10,21 +10,21 @@ namespace Test\Parser\Php\ParserTest;
 class testParse_CurlyBraces
 {
 
-	/**
-	 * @rest\endpoint /endpoint
-	 * @rest\method GET Something
-	 */
-	public function Dummy()
-	{
-		echo "{$foo}";
-	}
-	
-	/**
-	 * @rest\endpoint /endpoint2
-	 * @rest\method GET Something2
-	 */
-	public function Dummy2()
-	{
-	}
+    /**
+     * @rest\endpoint /endpoint
+     * @rest\method GET Something
+     */
+    public function Dummy()
+    {
+        echo "{$foo}";
+    }
+
+    /**
+     * @rest\endpoint /endpoint2
+     * @rest\method GET Something2
+     */
+    public function Dummy2()
+    {
+    }
 
 }

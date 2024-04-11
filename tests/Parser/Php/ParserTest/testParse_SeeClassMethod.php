@@ -9,27 +9,27 @@ namespace Test\Parser\Php\ParserTest;
 class testParse_SeeClassMethod
 {
 
-	/**
-	 * @rest\endpoint /endpoint
-	 * @rest\method GET Something
-	 * @rest\see testParse_SeeClassMethod_Other::Method
-	 */
-	public function Dummy()
-	{
-		
-	}
+    /**
+     * @rest\endpoint /endpoint
+     * @rest\method GET Something
+     * @rest\see testParse_SeeClassMethod_Other::Method
+     */
+    public function Dummy()
+    {
+
+    }
 
 }
 
 class testParse_SeeClassMethod_Other
 {
 
-	/**
-	 * @rest\error 400
-	 */
-	private function Method()
-	{
+    /**
+     * @rest\error 400
+     */
+    private function Method()
+    {
 
-	}
+    }
 
 }

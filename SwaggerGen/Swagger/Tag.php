@@ -13,48 +13,47 @@ namespace SwaggerGen\Swagger;
 class Tag extends AbstractDocumentableObject
 {
 
-	private $name;
-	private $description;
+    private $name;
+    private $description;
 
-	public function __construct(AbstractObject $parent, $name, $description = null)
-	{
-		parent::__construct($parent);
-		$this->name = $name;
-		$this->description = $description;
-	}
+    public function __construct(AbstractObject $parent, $name, $description = null)
+    {
+        parent::__construct($parent);
+        $this->name = $name;
+        $this->description = $description;
+    }
 
-	/**
-	 * @param string $command
-	 * @param string $data
-	 * @return \SwaggerGen\Swagger\AbstractObject|boolean
-	 */
-	public function handleCommand($command, $data = null)
-	{
-		switch (strtolower($command)) {
-			case 'description':
-				$this->description = $data;
-				return $this;
-		}
+    /**
+     * @param string $command
+     * @param string $data
+     * @return AbstractObject|boolean
+     */
+    public function handleCommand($command, $data = null)
+    {
+        if (strtolower($command) === 'description') {
+            $this->description = $data;
+            return $this;
+        }
 
-		return parent::handleCommand($command, $data);
-	}
+        return parent::handleCommand($command, $data);
+    }
 
-	public function toArray()
-	{
-		return self::arrayFilterNull(array_merge(array(
-					'name' => $this->name,
-					'description' => empty($this->description) ? null : $this->description,
-								), parent::toArray()));
-	}
+    public function toArray()
+    {
+        return self::arrayFilterNull(array_merge(array(
+            'name' => $this->name,
+            'description' => empty($this->description) ? null : $this->description,
+        ), parent::toArray()));
+    }
 
-	public function getName()
-	{
-		return $this->name;
-	}
+    public function getName()
+    {
+        return $this->name;
+    }
 
-	public function __toString()
-	{
-		return __CLASS__ . ' ' . $this->name;
-	}
+    public function __toString()
+    {
+        return __CLASS__ . ' ' . $this->name;
+    }
 
 }

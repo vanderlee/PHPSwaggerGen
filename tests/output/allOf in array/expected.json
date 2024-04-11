@@ -24,48 +24,56 @@
     }
   },
   "definitions": {
-      "objectWithArrayWithItems": {
-          "type": "object",
-          "required": ["positiveArray"],
-          "properties": {
-              "positiveArray" : {
-                  "type": "array",
-                  "items": {
-                      "allOf": [
-                          {"$ref": "#/definitions/IntegerNumber"},
-                          {
-                              "type": "integer",
-                              "format": "int32",
-                              "minimum": 1
-                          }
-                      ]
-                  }
+    "objectWithArrayWithItems": {
+      "type": "object",
+      "required": [
+        "positiveArray"
+      ],
+      "properties": {
+        "positiveArray": {
+          "type": "array",
+          "items": {
+            "allOf": [
+              {
+                "$ref": "#/definitions/IntegerNumber"
+              },
+              {
+                "type": "integer",
+                "format": "int32",
+                "minimum": 1
               }
+            ]
           }
-      },
-      "someObject": {
-          "type": "object",
-          "required": ["positiveArray"],
-          "properties": {
-              "positiveArray" : {
-                  "type": "array",
-                  "items": {
-                      "allOf": [
-                          {"$ref": "#/definitions/IntegerNumber"},
-                          {
-                              "type": "integer",
-                              "format": "int32",
-                              "minimum": 1
-                          }
-                      ]
-                  }
-              }
-          }
-      },
-      "IntegerNumber": {
-          "type": "integer",
-          "format": "int32"
+        }
       }
+    },
+    "someObject": {
+      "type": "object",
+      "required": [
+        "positiveArray"
+      ],
+      "properties": {
+        "positiveArray": {
+          "type": "array",
+          "items": {
+            "allOf": [
+              {
+                "$ref": "#/definitions/IntegerNumber"
+              },
+              {
+                "type": "integer",
+                "format": "int32",
+                "minimum": 1
+              }
+            ]
+          }
+        }
+      }
+    },
+    "IntegerNumber": {
+      "type": "integer",
+      "format": "int32"
+    }
   },
   "tags": [
     {

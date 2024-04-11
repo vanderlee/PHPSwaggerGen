@@ -1,58 +1,60 @@
 {
-	"swagger": "2.0",
-	"info": {
-		"title": "UUID",
-		"version": "0"
-	},
-	"host": "example.com",
-	"basePath": "\/base",
-	"paths": {
-		"\/v1/users/{id}": {
-			"get": {
-				"tags": [
-					"MyApi"
-				],
-				"summary": "Return a JSON with all the user attributes",
-				"parameters": [{
-						"name": "id",
-						"in": "path",
-						"required": true,
-						"type": "integer",
-						"format": "int32",
-						"description": "The ID of the User"
-				}],
-				"responses": {
-					"200": {
-						"description": "OK",
-						"schema": {
-							"$ref": "#\/definitions\/User"
-						}
-					}
-				}
-			}
-		}
-	},
-	"definitions": {
-		"uuid": {
-			"type": "object",
-			"required": [
-				"ip",
-				"path"
-			],
-			"properties": {
-				"ip": {
-					"type": "string"
-				},
-				"path": {
-					"type": "string"
-				}
-			}
-		}
-	},
-	"tags": [
-		{
-			"name": "MyApi",
-			"description": "Example"
-		}
-	]
+  "swagger": "2.0",
+  "info": {
+    "title": "UUID",
+    "version": "0"
+  },
+  "host": "example.com",
+  "basePath": "\/base",
+  "paths": {
+    "\/v1/users/{id}": {
+      "get": {
+        "tags": [
+          "MyApi"
+        ],
+        "summary": "Return a JSON with all the user attributes",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "format": "int32",
+            "description": "The ID of the User"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#\/definitions\/User"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "uuid": {
+      "type": "object",
+      "required": [
+        "ip",
+        "path"
+      ],
+      "properties": {
+        "ip": {
+          "type": "string"
+        },
+        "path": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "MyApi",
+      "description": "Example"
+    }
+  ]
 }

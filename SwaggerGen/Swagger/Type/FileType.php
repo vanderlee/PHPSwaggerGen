@@ -2,6 +2,10 @@
 
 namespace SwaggerGen\Swagger\Type;
 
+use SwaggerGen\Exception;
+use SwaggerGen\Swagger\Operation;
+use SwaggerGen\Swagger\Parameter;
+
 /**
  * Basic file type definition.
  *
@@ -13,40 +17,45 @@ namespace SwaggerGen\Swagger\Type;
 class FileType extends AbstractType
 {
 
-	protected function parseDefinition($definition)
-	{
-		$type = strtolower($definition);
+    /**
+     * @throws Exception
+     */
+    protected function parseDefinition($definition)
+    {
+        $type = strtolower($definition);
 
-		if ($type !== 'file') {
-			throw new \SwaggerGen\Exception("Not a file: '{$definition}'");
-		}
+        if ($type !== 'file') {
+            throw new Exception("Not a file: '{$definition}'");
+        }
 
-		$parent = $this->getParent();
-		if (!($parent instanceof \SwaggerGen\Swagger\Parameter) || !$parent->isForm()) {
-			throw new \SwaggerGen\Exception("File type '{$definition}' only allowed on form parameter");
-		}
+        $parent = $this->getParent();
+        if (!($parent instanceof Parameter) || !$parent->isForm()) {
+            throw new Exception("File type '{$definition}' only allowed on form parameter");
+        }
 
-		$consumes = $this->getParentClass('\SwaggerGen\Swagger\Operation')->getConsumes();
-		if (empty($consumes)) {
-			$consumes = $this->getSwagger()->getConsumes();
-		}
+        /** @var Operation $parentOperation */
+        $parentOperation = $this->getParentClass(Operation::class);
+        $consumes = $parentOperation->getConsumes();
+        if (empty($consumes)) {
+            $consumes = $this->getSwagger()->getConsumes();
+        }
 
-		$valid_consumes = ((int) in_array('multipart/form-data', $consumes)) + ((int) in_array('application/x-www-form-urlencoded', $consumes));
-		if (empty($consumes) || $valid_consumes !== count($consumes)) {
-			throw new \SwaggerGen\Exception("File type '{$definition}' without valid consume");
-		}
-	}
+        $valid_consumes = ((int)in_array('multipart/form-data', $consumes)) + ((int)in_array('application/x-www-form-urlencoded', $consumes));
+        if (empty($consumes) || $valid_consumes !== count($consumes)) {
+            throw new Exception("File type '{$definition}' without valid consume");
+        }
+    }
 
-	public function toArray()
-	{
-		return self::arrayFilterNull(array_merge(array(
-					'type' => 'file',
-								), parent::toArray()));
-	}
+    public function toArray()
+    {
+        return self::arrayFilterNull(array_merge(array(
+            'type' => 'file',
+        ), parent::toArray()));
+    }
 
-	public function __toString()
-	{
-		return __CLASS__;
-	}
+    public function __toString()
+    {
+        return __CLASS__;
+    }
 
 }

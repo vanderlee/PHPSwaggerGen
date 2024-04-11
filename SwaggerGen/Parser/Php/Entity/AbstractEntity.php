@@ -2,6 +2,8 @@
 
 namespace SwaggerGen\Parser\Php\Entity;
 
+use SwaggerGen\Statement;
+
 /**
  * Abstract foundation for all PHP entity parsers.
  *
@@ -13,30 +15,30 @@ namespace SwaggerGen\Parser\Php\Entity;
 class AbstractEntity
 {
 
-	/**
-	 * @var \SwaggerGen\Statement[]
-	 */
-	public $Statements = array();
+    /**
+     * @var Statement[]
+     */
+    public $Statements = array();
 
-	/**
-	 * Returns true if a statement with the specified command exists.
-	 * @param string $command
-	 * @return boolean
-	 */
-	public function hasCommand($command)
-	{
-		foreach ($this->Statements as $Statement) {
-			if ($Statement->getCommand() === $command) {
-				return true;
-			}
-		}
+    /**
+     * Returns true if a statement with the specified command exists.
+     * @param string $command
+     * @return boolean
+     */
+    public function hasCommand($command)
+    {
+        foreach ($this->Statements as $Statement) {
+            if ($Statement->getCommand() === $command) {
+                return true;
+            }
+        }
 
-		return false;
-	}
+        return false;
+    }
 
-	public function getStatements()
-	{
-		return $this->Statements;
-	}
+    public function getStatements()
+    {
+        return $this->Statements;
+    }
 
 }

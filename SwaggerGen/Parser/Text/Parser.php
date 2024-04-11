@@ -2,6 +2,10 @@
 
 namespace SwaggerGen\Parser\Text;
 
+use SwaggerGen\Parser\AbstractPreprocessor;
+use SwaggerGen\Parser\IParser;
+use SwaggerGen\Statement;
+
 /**
  * Parses lines in text content as command statements.
  *
@@ -10,108 +14,102 @@ namespace SwaggerGen\Parser\Text;
  * @copyright  2014-2016 Martijn van der Lee
  * @license    https://opensource.org/licenses/MIT MIT
  */
-class Parser implements \SwaggerGen\Parser\IParser
+class Parser implements IParser
 {
 
-	/**
-	 * List of directories to scan for class files referenced in the parsed
-	 * command statements.
-	 *
-	 * @var string[]
-	 */
-	protected $common_dirs = array();
+    /**
+     * List of directories to scan for class files referenced in the parsed
+     * command statements.
+     *
+     * @var string[]
+     */
+    protected $common_dirs = [];
 
-	/**
-	 * @var \SwaggerGen\Parser\AbstractPreprocessor
-	 */
-	private $Preprocessor;
-	private $dirs = array();
+    /**
+     * @var AbstractPreprocessor
+     */
+    private $Preprocessor;
 
-	/**
-	 * Create a new text parser and set directories to scan for referenced
-	 * class files.
-	 *
-	 * @param string[] $dirs
-	 */
-	public function __construct(array $dirs = array())
-	{
-		foreach ($dirs as $dir) {
-			$this->common_dirs[] = realpath($dir);
-		}
+    /**
+     * Create a new text parser and set directories to scan for referenced
+     * class files.
+     *
+     * @param string[] $dirs
+     */
+    public function __construct(array $dirs = [])
+    {
+        foreach ($dirs as $dir) {
+            $this->common_dirs[] = realpath($dir);
+        }
 
-		$this->Preprocessor = new Preprocessor();
-	}
+        $this->Preprocessor = new Preprocessor();
+    }
 
-	/**
-	 * Add additional directories to scan for referenced class files.
-	 *
-	 * @param string[] $dirs
-	 */
-	public function addDirs(array $dirs)
-	{
-		foreach ($dirs as $dir) {
-			$this->common_dirs[] = realpath($dir);
-		}
-	}
+    /**
+     * Add additional directories to scan for referenced class files.
+     *
+     * @param string[] $dirs
+     */
+    public function addDirs(array $dirs)
+    {
+        foreach ($dirs as $dir) {
+            $this->common_dirs[] = realpath($dir);
+        }
+    }
 
-	/**
-	 * Parse a text file
-	 *
-	 * @param string $file
-	 * @param string[] $dirs
-	 * @param string[] $defines
-	 * @return \SwaggerGen\Statement[]
-	 */
-	public function parse($file, array $dirs = array(), array $defines = array())
-	{
-		return $this->parseText(file_get_contents(realpath($file)), $dirs);
-	}
+    /**
+     * Parse a text file
+     *
+     * @param string $file
+     * @param string[] $dirs
+     * @param string[] $defines
+     * @return Statement[]
+     */
+    public function parse($file, array $dirs = [], array $defines = [])
+    {
+        return $this->parseText(file_get_contents(realpath($file)), $dirs);
+    }
 
-	/**
-	 * Parse plain text
-	 *
-	 * @param string $text
-	 * @param string[] $dirs
-	 * @param string[] $defines
-	 * @return \SwaggerGen\Statement
-	 */
-	public function parseText($text, array $dirs = array(), array $defines = array())
-	{
-		$this->dirs = $this->common_dirs;
-		foreach ($dirs as $dir) {
-			$this->dirs[] = realpath($dir);
-		}
+    /**
+     * Parse plain text
+     *
+     * @param string $text
+     * @param string[] $dirs
+     * @param string[] $defines
+     * @return Statement[]
+     */
+    public function parseText($text, array $dirs = [], array $defines = []): array
+    {
+        $this->Preprocessor->resetDefines();
+        $this->Preprocessor->addDefines($defines);
+        $text = $this->Preprocessor->preprocess($text);
 
-		$this->Preprocessor->resetDefines();
-		$this->Preprocessor->addDefines($defines);
-		$text = $this->Preprocessor->preprocess($text);
+        $Statements = [];
 
-		$Statements = array();
+        foreach (preg_split('/\\R/m', $text) as $line => $data) {
+            $data = trim($data);
+            $command = self::wordShift($data);
+            if (!empty($command)) {
+                $Statements[] = new Statement($command, $data, null, $line);
+            }
+        }
 
-		foreach (preg_split('/\\R/m', $text) as $line => $data) {
-			$data = trim($data);
-			$command = self::wordShift($data);
-			if (!empty($command)) {
-				$Statements[] = new \SwaggerGen\Statement($command, $data, null, $line);
-			}
-		}
+        return $Statements;
+    }
 
-		return $Statements;
-	}
-
-	/**
-	 * Get the first word from a string and remove it from the string.
-	 *
-	 * @param string $data
-	 * @return boolean|string
-	 */
-	private static function wordShift(&$data)
-	{
-		if (preg_match('~^(\S+)\s*(.*)$~', $data, $matches) === 1) {
-			$data = $matches[2];
-			return $matches[1];
-		}
-		return false;
-	}
+    /**
+     * Get the first word from a string and remove it from the string.
+     *
+     * @param string $data
+     * @return boolean|string
+     */
+    private static function wordShift(&$data)
+    {
+        if (preg_match('~^(\S+)\s*(.*)$~', $data, $matches) === 1) {
+            $data = $matches[2];
+            return $matches[1];
+        }
+        return false;
+    }
 
 }
