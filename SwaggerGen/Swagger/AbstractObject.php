@@ -39,7 +39,7 @@ abstract class AbstractObject
      */
     private $extensions = array();
 
-    public function __construct(AbstractObject $parent = null)
+    public function __construct(?AbstractObject $parent = null)
     {
         $this->parent = $parent;
     }
