@@ -36,7 +36,7 @@ class Path extends AbstractObject
      */
     private $tag;
 
-    public function __construct(AbstractObject $parent, Tag $Tag = null)
+    public function __construct(AbstractObject $parent, ?Tag $Tag = null)
     {
         parent::__construct($parent);
         $this->tag = $Tag;
