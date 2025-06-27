@@ -15,7 +15,9 @@ use SwaggerGen\Exception;
 class IntegerType extends AbstractType
 {
 
+    /** @noinspection PhpRegExpUnsupportedModifierInspection */
     const REGEX_RANGE = '(?:([[<])(-?\d*)?,(-?\d*)?([\\]>]))?';
+    /** @noinspection PhpRegExpUnsupportedModifierInspection */
     const REGEX_DEFAULT = '(?:=(-?\d+))?';
 
     private static $formats = array(
@@ -78,8 +80,8 @@ class IntegerType extends AbstractType
             }
 
             $this->exclusiveMinimum = $match[2] == '<';
-            $this->minimum = $match[3] === '' ? null : intval($match[3]);
-            $this->maximum = $match[4] === '' ? null : intval($match[4]);
+            $this->minimum = $match[3] === '' ? null : (int)$match[3];
+            $this->maximum = $match[4] === '' ? null : (int)$match[4];
             $this->exclusiveMaximum = isset($match[5]) ? ($match[5] == '>') : null;
             if ($this->minimum && $this->maximum && $this->minimum > $this->maximum) {
                 self::swap($this->minimum, $this->maximum);
@@ -118,11 +120,12 @@ class IntegerType extends AbstractType
                 foreach ($words as &$word) {
                     $word = $this->validateDefault($word);
                 }
+                unset($word);
                 $this->enum = array_merge($this->enum, $words);
                 return $this;
 
             case 'step':
-                if (($step = intval($data)) > 0) {
+                if (($step = (int)$data) > 0) {
                     $this->multipleOf = $step;
                 }
                 return $this;
@@ -131,7 +134,7 @@ class IntegerType extends AbstractType
         return parent::handleCommand($command, $data);
     }
 
-    public function toArray()
+    public function toArray(): array
     {
         return self::arrayFilterNull(array_merge(array(
             'type' => 'integer',
@@ -171,7 +174,7 @@ class IntegerType extends AbstractType
             }
         }
 
-        return intval($value);
+        return (int)$value;
     }
 
 }

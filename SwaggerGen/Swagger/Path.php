@@ -79,10 +79,10 @@ class Path extends AbstractObject
         return parent::handleCommand($command, $data);
     }
 
-    public function toArray()
+    public function toArray(): array
     {
         $methods = self::$methods;
-        uksort($this->operations, function ($a, $b) use ($methods) {
+        uksort($this->operations, static function ($a, $b) use ($methods) {
             return array_search($a, $methods) - array_search($b, $methods);
         });
 

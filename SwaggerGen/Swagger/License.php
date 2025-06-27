@@ -91,7 +91,7 @@ class License extends AbstractObject
         return parent::handleCommand($command, $data);
     }
 
-    public function toArray()
+    public function toArray(): array
     {
         return self::arrayFilterNull(array_merge(array(
             'name' => $this->name,

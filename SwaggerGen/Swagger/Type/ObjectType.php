@@ -15,12 +15,17 @@ use SwaggerGen\Exception;
 class ObjectType extends AbstractType
 {
 
+    /** @noinspection PhpRegExpUnsupportedModifierInspection */
     const REGEX_OBJECT_CONTENT = '(?:(\{)(.*)\})?';
     const REGEX_PROP_START = '/^';
     const REGEX_PROP_NAME = '([^?!:]+)';
+    /** @noinspection PhpRegExpUnsupportedModifierInspection */
     const REGEX_PROP_REQUIRED = '([\?!])?';
     const REGEX_PROP_ASSIGN = ':';
     const REGEX_PROP_DEFINITION = '(.+)';
+    /** @noinspection PhpRegExpUnsupportedModifierInspection
+     * @noinspection PhpRegExpInvalidDelimiterInspection
+     */
     const REGEX_PROP_ADDITIONAL = '\.\.\.(!|.+)?';
     const REGEX_PROP_END = '$/';
 
@@ -138,8 +143,8 @@ class ObjectType extends AbstractType
             }
 
             $exclusiveMinimum = $match[3] == '<';
-            $this->minProperties = $match[4] === '' ? null : intval($match[4]);
-            $this->maxProperties = $match[5] === '' ? null : intval($match[5]);
+            $this->minProperties = $match[4] === '' ? null : (int)$match[4];
+            $this->maxProperties = $match[5] === '' ? null : (int)$match[5];
             $exclusiveMaximum = isset($match[6]) ? ($match[6] == '>') : null;
             if ($this->minProperties && $this->maxProperties && $this->minProperties > $this->maxProperties) {
                 self::swap($this->minProperties, $this->maxProperties);
@@ -245,18 +250,18 @@ class ObjectType extends AbstractType
                 return $this;
 
             case 'min':
-                $this->minProperties = intval($data);
+                $this->minProperties = (int)$data;
                 if ($this->minProperties < 0) {
                     throw new Exception("Minimum less than zero: '{$data}'");
                 }
                 if ($this->maxProperties !== null && $this->minProperties > $this->maxProperties) {
                     throw new Exception("Minimum greater than maximum: '{$data}'");
                 }
-                $this->minProperties = intval($data);
+                $this->minProperties = (int)$data;
                 return $this;
 
             case 'max':
-                $this->maxProperties = intval($data);
+                $this->maxProperties = (int)$data;
                 if ($this->minProperties !== null && $this->minProperties > $this->maxProperties) {
                     throw new Exception("Maximum less than minimum: '{$data}'");
                 }
@@ -274,7 +279,7 @@ class ObjectType extends AbstractType
         return parent::handleCommand($command, $data);
     }
 
-    public function toArray()
+    public function toArray(): array
     {
         return self::arrayFilterNull(array_merge(array(
             'type' => 'object',

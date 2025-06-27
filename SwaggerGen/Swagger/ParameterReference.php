@@ -22,7 +22,7 @@ class ParameterReference extends AbstractObject implements IParameter
         $this->reference = $reference;
     }
 
-    public function toArray()
+    public function toArray(): array
     {
         return self::arrayFilterNull(array(
             '$ref' => '#/parameters/' . $this->reference,

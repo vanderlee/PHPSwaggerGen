@@ -83,7 +83,7 @@ class ParserFunction extends AbstractEntity
         }
     }
 
-    public function getStatements()
+    public function getStatements(): array
     {
         // inherit
         return $this->Statements;

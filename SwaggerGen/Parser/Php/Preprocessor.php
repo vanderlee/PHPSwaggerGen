@@ -40,7 +40,7 @@ class Preprocessor extends AbstractPreprocessor
 
     protected function parseContent($content)
     {
-        $pattern = '/@' . preg_quote($this->getPrefix()) . '\\\\([a-z]+)\\s*(.*)$/';
+        $pattern = '/@' . preg_quote($this->getPrefix(), '/') . '\\\\([a-z]+)\\s*(.*)$/';
 
         $output_file = '';
 

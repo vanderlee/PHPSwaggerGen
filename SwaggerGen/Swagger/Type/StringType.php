@@ -149,15 +149,15 @@ class StringType extends AbstractType
         return parent::handleCommand($command, $data);
     }
 
-    public function toArray()
+    public function toArray(): array
     {
         return self::arrayFilterNull(array_merge(array(
             'type' => 'string',
             'format' => empty($this->format) ? null : $this->format,
             'pattern' => $this->pattern,
             'default' => $this->default,
-            'minLength' => $this->minLength ? intval($this->minLength) : null,
-            'maxLength' => $this->maxLength ? intval($this->maxLength) : null,
+            'minLength' => $this->minLength ? (int)$this->minLength : null,
+            'maxLength' => $this->maxLength ? (int)$this->maxLength : null,
             'enum' => $this->enum,
         ), parent::toArray()));
     }
@@ -172,7 +172,11 @@ class StringType extends AbstractType
     protected function validateDefault($value)
     {
         if (empty($value)) {
-            $type = $this->format ?: ($this->enum ? 'enum' : 'string');
+            if ($this->format) {
+                $type = $this->format;
+            } else {
+                $type = $this->enum ? 'enum' : 'string';
+            }
             throw new Exception("Empty {$type} default");
         }
 
@@ -181,12 +185,20 @@ class StringType extends AbstractType
         }
 
         if ($this->maxLength !== null && mb_strlen($value) > $this->maxLength) {
-            $type = $this->format ?: ($this->enum ? 'enum' : 'string');
+            if ($this->format) {
+                $type = $this->format;
+            } else {
+                $type = $this->enum ? 'enum' : 'string';
+            }
             throw new Exception("Default {$type} length beyond maximum: '{$value}'");
         }
 
         if ($this->minLength !== null && mb_strlen($value) < $this->minLength) {
-            $type = $this->format ?: ($this->enum ? 'enum' : 'string');
+            if ($this->format) {
+                $type = $this->format;
+            } else {
+                $type = $this->enum ? 'enum' : 'string';
+            }
             throw new Exception("Default {$type} length beyond minimum: '{$value}'");
         }
 

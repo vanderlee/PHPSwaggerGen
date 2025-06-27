@@ -22,7 +22,7 @@ class ResponseReference extends AbstractObject
         $this->reference = $reference;
     }
 
-    public function toArray()
+    public function toArray(): array
     {
         return self::arrayFilterNull(array(
             '$ref' => '#/responses/' . $this->reference,

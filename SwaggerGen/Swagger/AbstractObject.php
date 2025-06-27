@@ -45,14 +45,14 @@ abstract class AbstractObject
     }
 
     /**
-     * @return AbstractObject
+     * @return AbstractObject|null
      */
-    protected function getParent()
+    protected function getParent(): ?AbstractObject
     {
         return $this->parent;
     }
 
-    protected function getParentClass($classname)
+    protected function getParentClass($classname): AbstractObject
     {
         if (is_a($this, $classname)) {
             return $this;
@@ -63,7 +63,7 @@ abstract class AbstractObject
     /**
      * @return Swagger
      */
-    protected function getSwagger()
+    protected function getSwagger(): Swagger
     {
         return $this->parent->getSwagger();
     }
@@ -71,7 +71,7 @@ abstract class AbstractObject
     /**
      * @return TypeRegistry
      */
-    protected function getTypeRegistry()
+    protected function getTypeRegistry(): TypeRegistry
     {
         return $this->parent->getTypeRegistry();
     }
@@ -83,7 +83,7 @@ abstract class AbstractObject
      */
     public function handleCommand($command, $data = null)
     {
-        if (strtolower(substr($command, 0, 2)) === 'x-') {
+        if (stripos($command, 'x-') === 0) {
             $this->extensions[$command] = empty($data) ? $data : trim($data);
             return $this;
         }
@@ -94,7 +94,7 @@ abstract class AbstractObject
     /**
      * @return array
      */
-    public function toArray()
+    public function toArray(): array
     {
         return $this->extensions;
     }
@@ -104,7 +104,7 @@ abstract class AbstractObject
      * @param String[] $mimeTypes
      * @return String[]
      */
-    protected static function translateMimeTypes($mimeTypes)
+    protected static function translateMimeTypes($mimeTypes): array
     {
         foreach ($mimeTypes as &$mimeType) {
             if (isset(self::$mime_types[strtolower($mimeType)])) {
@@ -120,7 +120,7 @@ abstract class AbstractObject
      * @param string $string
      * @return string
      */
-    public static function trim($string)
+    public static function trim($string): string
     {
         return mb_ereg_replace('^\s*([\s\S]*?)\s*$', '\1', $string);
     }
@@ -131,9 +131,9 @@ abstract class AbstractObject
      * @param array $array
      * @return array
      */
-    public static function arrayFilterNull($array)
+    public static function arrayFilterNull($array): array
     {
-        return array_filter($array, function ($value) {
+        return array_filter($array, static function ($value) {
             return $value !== null && $value !== array();
         });
     }
@@ -143,9 +143,9 @@ abstract class AbstractObject
      * @param array $array
      * @return array
      */
-    public static function objectsToArray($array)
+    public static function objectsToArray($array): array
     {
-        return array_map(function (AbstractObject $item) {
+        return array_map(static function (AbstractObject $item) {
             return $item->toArray();
         }, $array);
     }

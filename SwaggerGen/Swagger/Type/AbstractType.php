@@ -98,9 +98,9 @@ abstract class AbstractType extends AbstractObject
         while ($index < strlen($list)) {
             $c = $list[$index++];
 
-            if (strpos('{([<', $c) !== false) {
+            if (str_contains('{([<', $c)) {
                 ++$depth;
-            } elseif (strpos('})]>', $c) !== false) {
+            } elseif (str_contains('})]>', $c)) {
                 --$depth;
             } elseif ($c === ',' && $depth === 0) {
                 break;
@@ -142,7 +142,7 @@ abstract class AbstractType extends AbstractObject
             if ($data === '') {
                 throw new Exception("Missing content for type example");
             }
-            $json = preg_replace_callback('/([^{}:,]+)/', function ($match) {
+            $json = preg_replace_callback('/([^{}:,]+)/', static function ($match) {
                 json_decode($match[1]);
                 return json_last_error() === JSON_ERROR_NONE ? $match[1] : json_encode($match[1]);
             }, trim($data));
@@ -164,7 +164,7 @@ abstract class AbstractType extends AbstractObject
         return false;
     }
 
-    public function toArray()
+    public function toArray(): array
     {
         return self::arrayFilterNull(array_merge(array(
             'example' => $this->example,
@@ -184,9 +184,9 @@ abstract class AbstractType extends AbstractObject
         $match = array();
         if (preg_match('/^([a-z]+)/i', $definition, $match) === 1) {
             $format = strtolower($match[1]);
-        } elseif (preg_match('/^(\[)(?:.*?)\]$/i', $definition, $match) === 1) {
+        } elseif (preg_match('/^(\[)(?:.*?)\]$/', $definition, $match) === 1) {
             $format = 'array';
-        } elseif (preg_match('/^(\{)(?:.*?)\}$/i', $definition, $match) === 1) {
+        } elseif (preg_match('/^(\{)(?:.*?)\}$/', $definition, $match) === 1) {
             $format = 'object';
         } else {
             throw new Exception(sprintf($error, $definition));
@@ -196,13 +196,15 @@ abstract class AbstractType extends AbstractObject
         if ($parent->getTypeRegistry()->has($format)) {
             $class = $parent->getTypeRegistry()->get($format);
             return new $class($parent, $definition);
-        } elseif (isset(self::$classTypes[$format])) {
+        }
+
+        if (isset(self::$classTypes[$format])) {
             $type = self::$classTypes[$format];
             $class = "\\SwaggerGen\\Swagger\\Type\\{$type}Type";
             return new $class($parent, $definition);
-        } else {
-            return new ReferenceObjectType($parent, $definition);
         }
+
+        return new ReferenceObjectType($parent, $definition);
     }
 
 }

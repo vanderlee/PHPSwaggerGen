@@ -77,7 +77,7 @@ class Info extends AbstractObject
                         $name[] = $word;
                     }
                 }
-                $name = join(' ', array_filter($name));
+                $name = implode(' ', array_filter($name));
                 $this->contact = new Contact($this, $name, $url, $email);
                 return $this->contact;
 
@@ -91,7 +91,7 @@ class Info extends AbstractObject
                         $name[] = $word;
                     }
                 }
-                $name = join(' ', array_filter($name));
+                $name = implode(' ', array_filter($name));
                 $this->license = new License($this, $name, $url);
                 return $this->license;
         }
@@ -99,7 +99,7 @@ class Info extends AbstractObject
         return parent::handleCommand($command, $data);
     }
 
-    public function toArray()
+    public function toArray(): array
     {
         return self::arrayFilterNull(array_merge(array(
             'title' => $this->title,

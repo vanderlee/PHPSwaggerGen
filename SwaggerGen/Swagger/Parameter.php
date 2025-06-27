@@ -91,9 +91,9 @@ class Parameter extends AbstractObject implements IParameter
         $name = self::wordShift($data);
         if (empty($name)) {
             throw new Exception('No name for parameter');
-        } else {
-            $this->name = $name;
         }
+
+        $this->name = $name;
 
         $this->description = $data;
         $this->required = (bool)$required;
@@ -102,9 +102,9 @@ class Parameter extends AbstractObject implements IParameter
         $match = array();
         if (preg_match('/^([a-z][a-z0-9]*)/i', $definition, $match) === 1) {
             $format = strtolower($match[1]);
-        } elseif (preg_match('/^(\[)(?:.*?)\]$/i', $definition, $match) === 1) {
+        } elseif (preg_match('/^(\[)(?:.*?)\]$/', $definition, $match) === 1) {
             $format = 'array';
-        } elseif (preg_match('/^(\{)(?:.*?)\}$/i', $definition, $match) === 1) {
+        } elseif (preg_match('/^(\{)(?:.*?)\}$/', $definition, $match) === 1) {
             $format = 'object';
         } else {
             throw new Exception('Unparseable parameter format definition: \'' . $definition . '\'');
@@ -138,7 +138,7 @@ class Parameter extends AbstractObject implements IParameter
         return parent::handleCommand($command, $data);
     }
 
-    public function toArray()
+    public function toArray(): array
     {
         return self::arrayFilterNull(array_merge(array(
             'name' => $this->name,

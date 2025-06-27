@@ -15,6 +15,7 @@ use SwaggerGen\Exception;
 class BooleanType extends AbstractType
 {
 
+    /** @noinspection PhpRegExpUnsupportedModifierInspection */
     const REGEX_DEFAULT = '(?:=(true|false|1|0))?';
 
     private $default = null;
@@ -58,7 +59,7 @@ class BooleanType extends AbstractType
         return parent::handleCommand($command, $data);
     }
 
-    public function toArray()
+    public function toArray(): array
     {
         return self::arrayFilterNull(array_merge(array(
             'type' => 'boolean',

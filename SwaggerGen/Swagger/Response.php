@@ -96,7 +96,7 @@ class Response extends AbstractObject
         static $lookup = null;
 
         if (is_numeric($search)) {
-            return intval($search);
+            return (int)$search;
         }
 
         // build static lookup table
@@ -163,7 +163,7 @@ class Response extends AbstractObject
                 if ($data === '') {
                     throw new Exception('Missing content for example `' . $name . '`');
                 }
-                $json = preg_replace_callback('/([^{}:]+)/', function ($match) {
+                $json = preg_replace_callback('/([^{}:]+)/', static function ($match) {
                     json_decode($match[1]);
                     return json_last_error() === JSON_ERROR_NONE ? $match[1] : json_encode($match[1]);
                 }, trim($data));
@@ -174,7 +174,7 @@ class Response extends AbstractObject
         return parent::handleCommand($command, $data);
     }
 
-    public function toArray()
+    public function toArray(): array
     {
         return self::arrayFilterNull(array_merge(array(
             'description' => $this->description,

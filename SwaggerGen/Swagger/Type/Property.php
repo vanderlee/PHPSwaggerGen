@@ -66,7 +66,7 @@ class Property extends AbstractObject
         return parent::handleCommand($command, $data);
     }
 
-    public function toArray()
+    public function toArray(): array
     {
         // Reference + readonly/description result in allOf construct
         // as it's semantically the same and that's what swagger tools

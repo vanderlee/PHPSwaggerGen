@@ -103,8 +103,7 @@ class SwaggerGen
      */
     private function parsePhpFile(string $file, array $dirs): array
     {
-        $Parser = new Parser();
-        return $Parser->parse($file, $dirs, $this->defines);
+        return (new Parser())->parse($file, $dirs, $this->defines);
     }
 
     /**
@@ -114,8 +113,7 @@ class SwaggerGen
      */
     private function parseTextFile($file, $dirs)
     {
-        $Parser = new TextParser();
-        return $Parser->parse($file, $dirs, $this->defines);
+        return (new TextParser())->parse($file, $dirs, $this->defines);
     }
 
     /**
@@ -125,8 +123,7 @@ class SwaggerGen
      */
     private function parseText(string $text, array $dirs): array
     {
-        $Parser = new TextParser();
-        return $Parser->parseText($text, $dirs, $this->defines);
+        return (new TextParser())->parseText($text, $dirs, $this->defines);
     }
 
     /**
@@ -160,7 +157,7 @@ class SwaggerGen
                         if ($result !== $top) {
                             // Remove all similar classes from array first!
                             $classname = get_class($result);
-                            $stack = array_filter($stack, function ($class) use ($classname) {
+                            $stack = array_filter($stack, static function ($class) use ($classname) {
                                 return !(is_a($class, $classname));
                             });
 
@@ -181,9 +178,9 @@ class SwaggerGen
                 foreach ($stack as $object) {
                     $stacktrace[] = (string)$object;
                 }
-                $messages[] = join(', ' . PHP_EOL, $stacktrace);
+                $messages[] = implode(', ' . PHP_EOL, $stacktrace);
 
-                throw new StatementException(join('. ', $messages), 0, null, $statement);
+                throw new StatementException(implode('. ', $messages), 0, null, $statement);
             }
         }
 
@@ -220,8 +217,9 @@ class SwaggerGen
                     break;
             }
 
-            $statements = array_merge($statements, $fileStatements);
+            $statements[] = $fileStatements;
         }
+        $statements = array_merge(...$statements);
 
         $output = $this->parseStatements($this->host, $this->basePath, $statements)->toArray();
 
@@ -239,7 +237,7 @@ class SwaggerGen
                 if (!function_exists('yaml_emit')) {
                     throw new Exception('YAML extension not installed.');
                 }
-                array_walk_recursive($output, function (&$value) {
+                array_walk_recursive($output, static function (&$value) {
                     if (is_object($value)) {
                         $value = (array)$value;
                     }

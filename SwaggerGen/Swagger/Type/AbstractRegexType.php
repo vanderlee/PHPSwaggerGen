@@ -16,8 +16,8 @@ use SwaggerGen\Swagger\AbstractObject;
 class AbstractRegexType extends StringType
 {
 
-    const REGEX_DEFAULT_START = '(?:=(';
-    const REGEX_DEFAULT_END = '))?';
+    public const REGEX_DEFAULT_START = '(?:=(';
+    public const REGEX_DEFAULT_END = '))?';
 
     /**
      * The raw regular expression to use.
@@ -54,7 +54,7 @@ class AbstractRegexType extends StringType
             throw new Exception('Unparseable ' . $this->format . ' definition: \'' . $definition . '\'');
         }
 
-        if (strtolower($match[1] !== $this->format)) {
+        if (strtolower($match[1]) !== $this->format) {
             throw new Exception('Not a ' . $this->format . ': \'' . $definition . '\'');
         }
 

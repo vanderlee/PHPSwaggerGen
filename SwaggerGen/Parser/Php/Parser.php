@@ -135,18 +135,16 @@ class Parser extends Entity\AbstractEntity implements IParser
      */
     public function tokenToStatements($token)
     {
-        $comment = $token[1];
-        $commentLineNumber = $token[2];
+        list($comment, $commentLineNumber) = $token;
         $commentLines = [];
 
         $match = [];
         if (preg_match('~^/\*\*?\s*(.*)\s*\*\/$~sm', $comment, $match) === 1) {
-            $lines = preg_split('~\n~', $match[0]);
+            $lines = explode("\n", $match[0]);
             foreach ($lines as $line) {
-                if (preg_match('~^\s*\*?\s*(.*?)\s*$~', $line, $match) === 1) {
-                    if (!empty($match[1])) {
-                        $commentLines[] = trim($match[1]);
-                    }
+                if ((preg_match('~^\s*\*?\s*(.*?)\s*$~', $line, $match) === 1)
+                    && !empty($match[1])) {
+                    $commentLines[] = trim($match[1]);
                 }
             }
         } elseif (preg_match('~^//\s*(.*)$~', $comment, $match) === 1) {
@@ -166,9 +164,8 @@ class Parser extends Entity\AbstractEntity implements IParser
                 $data = '';
             }
 
-            if (preg_match('~^@' . preg_quote(self::COMMENT_TAG) . '\\\\([a-z][-a-z]*[?!]?)\\s*(.*)$~', $line, $match) === 1) {
-                $command = $match[1];
-                $data = $match[2];
+            if (preg_match('~^@' . preg_quote(self::COMMENT_TAG, '~') . '\\\\([a-z][-a-z]*[?!]?)\\s*(.*)$~', $line, $match) === 1) {
+                list($command, $data) = $match;
                 $commandLineNumber = $lineNumber;
             } elseif ($command !== null) {
                 if ($lineNumber < count($commentLines) - 1) {
@@ -198,7 +195,9 @@ class Parser extends Entity\AbstractEntity implements IParser
                 $realpath = realpath($path);
                 if (in_array($realpath, $this->files_done)) {
                     return;
-                } elseif (is_file($realpath)) {
+                }
+
+                if (is_file($realpath)) {
                     $this->files_queued[] = $realpath;
                     return;
                 }
@@ -217,10 +216,9 @@ class Parser extends Entity\AbstractEntity implements IParser
         foreach ($Statements as $Statement) {
             if (in_array($Statement->getCommand(), array('uses', 'see'))) {
                 $match = [];
-                if (preg_match('~^(\w+)(::|->)?(\w+)?(?:\(\))?$~', $Statement->getData(), $match) === 1) {
-                    if (!in_array($match[1], array('self', '$this'))) {
-                        $this->queueClass($match[1]);
-                    }
+                if ((preg_match('~^(\w+)(::|->)?(\w+)?(?:\(\))?$~', $Statement->getData(), $match) === 1)
+                    && !in_array($match[1], array('self', '$this'))) {
+                    $this->queueClass($match[1]);
                 }
             }
         }

@@ -24,13 +24,12 @@ class AllOfType extends AbstractType
     {
         $pattern = self::REGEX_START . 'allof' . self::REGEX_CONTENT . self::REGEX_END;
         $inlineDef = '';
-        if (preg_match($pattern, $definition, $matches)) {
-            if (isset($matches[1])) {
-                $inlineDef = $matches[1];
-            }
+        if (preg_match($pattern, $definition, $matches)
+            && isset($matches[1])) {
+            $inlineDef = $matches[1];
         }
         if ($inlineDef) {
-            foreach ($this->parseList($inlineDef) as $item) {
+            foreach (self::parseList($inlineDef) as $item) {
                 $this->handleCommand('item', $item);
             }
         }
@@ -46,15 +45,14 @@ class AllOfType extends AbstractType
             $this->allOfItems[] = $this->mostRecentItem;
             return $this;
         }
-        if (isset($this->mostRecentItem)) {
-            if ($this->mostRecentItem->handleCommand($command, $data)) {
-                return $this;
-            }
+        if (isset($this->mostRecentItem)
+            && $this->mostRecentItem->handleCommand($command, $data)) {
+            return $this;
         }
         return parent::handleCommand($command, $data);
     }
 
-    public function toArray()
+    public function toArray(): array
     {
         $allOf = array();
         foreach ($this->allOfItems as $item) {

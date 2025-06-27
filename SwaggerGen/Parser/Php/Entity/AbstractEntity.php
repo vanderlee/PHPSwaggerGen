@@ -25,7 +25,7 @@ class AbstractEntity
      * @param string $command
      * @return boolean
      */
-    public function hasCommand($command)
+    public function hasCommand($command): bool
     {
         foreach ($this->Statements as $Statement) {
             if ($Statement->getCommand() === $command) {
@@ -36,7 +36,7 @@ class AbstractEntity
         return false;
     }
 
-    public function getStatements()
+    public function getStatements(): array
     {
         return $this->Statements;
     }

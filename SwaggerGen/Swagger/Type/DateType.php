@@ -3,6 +3,7 @@
 namespace SwaggerGen\Swagger\Type;
 
 use DateTime;
+use DateTimeInterface;
 use SwaggerGen\Exception;
 
 /**
@@ -16,6 +17,7 @@ use SwaggerGen\Exception;
 class DateType extends AbstractType
 {
 
+    /** @noinspection PhpRegExpUnsupportedModifierInspection */
     const REGEX_DEFAULT = '(?:=(\S+))?';
 
     /**
@@ -29,7 +31,7 @@ class DateType extends AbstractType
     );
     private static $datetime_formats = array(
         'date' => 'Y-m-d',
-        'date-time' => DateTime::RFC3339,
+        'date-time' => DateTimeInterface::RFC3339,
     );
 
     /**
@@ -79,7 +81,7 @@ class DateType extends AbstractType
         return parent::handleCommand($command, $data);
     }
 
-    public function toArray()
+    public function toArray(): array
     {
         return self::arrayFilterNull(array_merge(array(
             'type' => 'string',

@@ -10,7 +10,7 @@
 		"source": "https://github.com/vanderlee/PHPSwaggerGen/"
 	},
 	"require": {
-		"php": ">=7.1.0",
+		"php": ">=8.0",
 		"ext-json": "*",
 		"ext-tokenizer": "*",
 		"ext-filter": "*",

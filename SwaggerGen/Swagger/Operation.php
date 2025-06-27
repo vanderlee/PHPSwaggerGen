@@ -148,13 +148,13 @@ class Operation extends AbstractDocumentableObject
                     }
                     $this->responses[$reasoncode] = new ResponseReference($this, $reference);
                     return $this;
-                } else {
-                    $definition = self::wordShift($data);
-                    $description = $data;
-                    $Response = new Response($this, $reasoncode, $definition, $description);
-                    $this->responses[$reasoncode] = $Response;
-                    return $Response;
                 }
+
+                $definition = self::wordShift($data);
+                $description = $data;
+                $Response = new Response($this, $reasoncode, $definition, $description);
+                $this->responses[$reasoncode] = $Response;
+                return $Response;
 
             case 'require':
                 $name = self::wordShift($data);
@@ -183,7 +183,7 @@ class Operation extends AbstractDocumentableObject
     /**
      * @throws Exception
      */
-    public function toArray()
+    public function toArray(): array
     {
         if (empty($this->responses)) {
             throw new Exception('No response defined for operation');

@@ -16,6 +16,7 @@ use SwaggerGen\Swagger\Parameter;
 class ArrayType extends AbstractType
 {
 
+    /** @noinspection PhpRegExpUnsupportedModifierInspection */
     const REGEX_ARRAY_CONTENT = '(?:(\[)(.*)\])?';
 
     private static $collectionFormats = array(
@@ -103,8 +104,8 @@ class ArrayType extends AbstractType
             }
 
             $exclusiveMinimum = $match[3] == '<';
-            $this->minItems = $match[4] === '' ? null : intval($match[4]);
-            $this->maxItems = $match[5] === '' ? null : intval($match[5]);
+            $this->minItems = $match[4] === '' ? null : (int)$match[4];
+            $this->maxItems = $match[5] === '' ? null : (int)$match[5];
             $exclusiveMaximum = isset($match[6]) ? ($match[6] == '>') : null;
             if ($this->minItems && $this->maxItems && $this->minItems > $this->maxItems) {
                 self::swap($this->minItems, $this->maxItems);
@@ -138,7 +139,7 @@ class ArrayType extends AbstractType
 
         switch (strtolower($command)) {
             case 'min':
-                $this->minItems = intval($data);
+                $this->minItems = (int)$data;
                 if ($this->minItems < 0) {
                     throw new Exception("Minimum less than zero: '{$data}'");
                 }
@@ -148,7 +149,7 @@ class ArrayType extends AbstractType
                 return $this;
 
             case 'max':
-                $this->maxItems = intval($data);
+                $this->maxItems = (int)$data;
                 if ($this->minItems !== null && $this->minItems > $this->maxItems) {
                     throw new Exception("Maximum less than minimum: '{$data}'");
                 }
@@ -165,7 +166,7 @@ class ArrayType extends AbstractType
         return parent::handleCommand($command, $data);
     }
 
-    public function toArray()
+    public function toArray(): array
     {
         return self::arrayFilterNull(array_merge(array(
             'type' => 'array',

@@ -87,7 +87,7 @@ class Swagger extends AbstractDocumentableObject
     /**
      * @inheritDoc
      */
-    protected function getSwagger()
+    protected function getSwagger(): Swagger
     {
         return $this;
     }
@@ -95,7 +95,7 @@ class Swagger extends AbstractDocumentableObject
     /**
      * @inheritDoc
      */
-    protected function getTypeRegistry()
+    protected function getTypeRegistry(): TypeRegistry
     {
         return $this->typeRegistry;
     }
@@ -120,11 +120,7 @@ class Swagger extends AbstractDocumentableObject
      */
     public function getSecurity($name)
     {
-        if (isset($this->securityDefinitions[$name])) {
-            return $this->securityDefinitions[$name];
-        }
-
-        return false;
+        return $this->securityDefinitions[$name] ?? false;
     }
 
     /**
@@ -319,7 +315,7 @@ class Swagger extends AbstractDocumentableObject
      * @throws Exception
      * @throws Exception
      */
-    public function toArray()
+    public function toArray(): array
     {
         if (empty($this->paths)) {
             throw new Exception('No path defined');
