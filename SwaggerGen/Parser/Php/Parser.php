@@ -347,7 +347,7 @@ class Parser extends Entity\AbstractEntity implements IParser
      * @throws Exception
      * @throws Exception
      */
-    private function expand(array $Statements, ParserClass $Self = null)
+    private function expand(array $Statements, ?ParserClass $Self = null)
     {
         $output = [];
 

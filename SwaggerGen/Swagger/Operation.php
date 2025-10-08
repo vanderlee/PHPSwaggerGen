@@ -44,7 +44,7 @@ class Operation extends AbstractDocumentableObject
     /**
      * @param string $summary
      */
-    public function __construct(AbstractObject $parent, $summary = null, Tag $tag = null)
+    public function __construct(AbstractObject $parent, $summary = null, ?Tag $tag = null)
     {
         parent::__construct($parent);
         $this->summary = $summary;
