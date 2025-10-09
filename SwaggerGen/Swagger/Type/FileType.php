@@ -11,11 +11,23 @@ use SwaggerGen\Swagger\Parameter;
  *
  * @package    SwaggerGen
  * @author     Martijn van der Lee <martijn@vanderlee.com>
- * @copyright  2014-2015 Martijn van der Lee
+ * @copyright  2014-2025 Martijn van der Lee
  * @license    https://opensource.org/licenses/MIT MIT
  */
 class FileType extends AbstractType
 {
+
+    public function toArray(): array
+    {
+        return self::arrayFilterNull(array_merge(array(
+            'type' => 'file',
+        ), parent::toArray()));
+    }
+
+    public function __toString()
+    {
+        return __CLASS__;
+    }
 
     /**
      * @throws Exception
@@ -44,18 +56,6 @@ class FileType extends AbstractType
         if (empty($consumes) || $valid_consumes !== count($consumes)) {
             throw new Exception("File type '{$definition}' without valid consume");
         }
-    }
-
-    public function toArray(): array
-    {
-        return self::arrayFilterNull(array_merge(array(
-            'type' => 'file',
-        ), parent::toArray()));
-    }
-
-    public function __toString()
-    {
-        return __CLASS__;
     }
 
 }

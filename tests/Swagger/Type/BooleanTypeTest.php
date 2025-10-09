@@ -1,19 +1,12 @@
 <?php
+declare(strict_types=1);
 
-class BooleanTypeTest extends SwaggerGen_TestCase
+use PHPUnit\Framework\TestCase;
+
+class BooleanTypeTest extends TestCase
 {
 
     protected $parent;
-
-    protected function setUp(): void
-    {
-        $this->parent = $this->getMockForAbstractClass('\SwaggerGen\Swagger\AbstractObject');
-    }
-
-    protected function assertPreConditions(): void
-    {
-        $this->assertInstanceOf('\SwaggerGen\Swagger\AbstractObject', $this->parent);
-    }
 
     /**
      * @covers \SwaggerGen\Swagger\Type\BooleanType::__construct
@@ -157,6 +150,16 @@ class BooleanTypeTest extends SwaggerGen_TestCase
             'type' => 'boolean',
             'default' => true,
         ), $object->toArray());
+    }
+
+    protected function setUp(): void
+    {
+        $this->parent = $this->getMockForAbstractClass('\SwaggerGen\Swagger\AbstractObject');
+    }
+
+    protected function assertPreConditions(): void
+    {
+        $this->assertInstanceOf('\SwaggerGen\Swagger\AbstractObject', $this->parent);
     }
 
 }

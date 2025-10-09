@@ -1,6 +1,10 @@
 <?php
+declare(strict_types=1);
 
-class OutputTest extends SwaggerGen_TestCase
+use PHPUnit\Framework\TestCase;
+use SwaggerGen\SwaggerGen;
+
+class OutputTest extends TestCase
 {
 
     /**
@@ -9,8 +13,8 @@ class OutputTest extends SwaggerGen_TestCase
      */
     public function testAllCases($name, $files, $expected)
     {
-        $SwaggerGen = new \SwaggerGen\SwaggerGen('example.com', '/base');
-        $actual = $SwaggerGen->getSwagger($files, array(), \SwaggerGen\SwaggerGen::FORMAT_JSON);
+        $SwaggerGen = new SwaggerGen('example.com', '/base');
+        $actual = $SwaggerGen->getSwagger($files, array(), SwaggerGen::FORMAT_JSON);
         $this->assertJsonStringEqualsJsonString($expected, $this->normalizeJson($actual), $name);
     }
 

@@ -9,7 +9,7 @@ use SwaggerGen\Parser\Php\Parser;
  *
  * @package    SwaggerGen
  * @author     Martijn van der Lee <martijn@vanderlee.com>
- * @copyright  2014-2015 Martijn van der Lee
+ * @copyright  2014-2025 Martijn van der Lee
  * @license    https://opensource.org/licenses/MIT MIT
  */
 class ParserClass extends AbstractEntity
@@ -23,7 +23,7 @@ class ParserClass extends AbstractEntity
     /**
      * @var ParserFunction[]
      */
-    public $Methods = array();
+    public $Methods = [];
 
     /**
      * @var string
@@ -33,7 +33,7 @@ class ParserClass extends AbstractEntity
     /**
      * @var string[]
      */
-    public $implements = array();
+    public $implements = [];
     private $lastStatements = null;
 
     public function __construct(Parser $Parser, &$tokens, $Statements)

@@ -9,13 +9,24 @@ use SwaggerGen\Exception;
  *
  * @package    SwaggerGen
  * @author     Bruce Weirdan <weirdan@gmail.com>
- * @copyright  2014-2015 Martijn van der Lee
+ * @copyright  2014-2025 Martijn van der Lee
  * @license    https://opensource.org/licenses/MIT MIT
  */
 class AllOfType extends AbstractType
 {
-    private $allOfItems = array();
+    private $allOfItems = [];
     private $mostRecentItem;
+
+    public function toArray(): array
+    {
+        $allOf = [];
+        foreach ($this->allOfItems as $item) {
+            $allOf[] = $item->toArray();
+        }
+        return self::arrayFilterNull(array_merge(array(
+            'allOf' => $allOf,
+        ), parent::toArray()));
+    }
 
     /**
      * @throws Exception
@@ -50,16 +61,5 @@ class AllOfType extends AbstractType
             return $this;
         }
         return parent::handleCommand($command, $data);
-    }
-
-    public function toArray(): array
-    {
-        $allOf = array();
-        foreach ($this->allOfItems as $item) {
-            $allOf[] = $item->toArray();
-        }
-        return self::arrayFilterNull(array_merge(array(
-            'allOf' => $allOf,
-        ), parent::toArray()));
     }
 }

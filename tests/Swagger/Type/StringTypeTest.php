@@ -1,19 +1,12 @@
 <?php
+declare(strict_types=1);
 
-class StringTypeTest extends SwaggerGen_TestCase
+use PHPUnit\Framework\TestCase;
+
+class StringTypeTest extends TestCase
 {
 
     protected $parent;
-
-    protected function setUp(): void
-    {
-        $this->parent = $this->getMockForAbstractClass('\SwaggerGen\Swagger\AbstractObject');
-    }
-
-    protected function assertPreConditions(): void
-    {
-        $this->assertInstanceOf('\SwaggerGen\Swagger\AbstractObject', $this->parent);
-    }
 
     /**
      * @covers \SwaggerGen\Swagger\Type\StringType::__construct
@@ -290,6 +283,16 @@ class StringTypeTest extends SwaggerGen_TestCase
             'type' => 'string',
             'enum' => array('red', 'green', 'blue'),
         ), $object->toArray());
+    }
+
+    protected function setUp(): void
+    {
+        $this->parent = $this->getMockForAbstractClass('\SwaggerGen\Swagger\AbstractObject');
+    }
+
+    protected function assertPreConditions(): void
+    {
+        $this->assertInstanceOf('\SwaggerGen\Swagger\AbstractObject', $this->parent);
     }
 
 }

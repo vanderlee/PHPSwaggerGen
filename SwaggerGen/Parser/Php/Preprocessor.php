@@ -12,7 +12,7 @@ use SwaggerGen\Parser\AbstractPreprocessor;
  *
  * @package    SwaggerGen
  * @author     Martijn van der Lee <martijn@vanderlee.com>
- * @copyright  2014-2017 Martijn van der Lee
+ * @copyright  2014-2025 Martijn van der Lee
  * @license    https://opensource.org/licenses/MIT MIT
  */
 class Preprocessor extends AbstractPreprocessor
@@ -26,16 +26,6 @@ class Preprocessor extends AbstractPreprocessor
         if (!empty($prefix)) {
             $this->prefix = $prefix;
         }
-    }
-
-    public function getPrefix()
-    {
-        return $this->prefix;
-    }
-
-    public function setPrefix($prefix)
-    {
-        $this->prefix = $prefix;
     }
 
     protected function parseContent($content)
@@ -55,7 +45,7 @@ class Preprocessor extends AbstractPreprocessor
                             if ($index % 2) {
                                 $output .= $line;
                             } else {
-                                $match = array();
+                                $match = [];
                                 if (preg_match($pattern, $line, $match) === 1) {
                                     if (!$this->handle($match[1], $match[2]) && $this->getState()) {
                                         $output .= $line;
@@ -84,6 +74,16 @@ class Preprocessor extends AbstractPreprocessor
         }
 
         return $output_file;
+    }
+
+    public function getPrefix()
+    {
+        return $this->prefix;
+    }
+
+    public function setPrefix($prefix)
+    {
+        $this->prefix = $prefix;
     }
 
 }

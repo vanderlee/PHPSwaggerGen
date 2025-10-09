@@ -10,7 +10,7 @@ use SwaggerGen\Swagger\AbstractObject;
  *
  * @package    SwaggerGen
  * @author     Martijn van der Lee <martijn@vanderlee.com>
- * @copyright  2014-2016 Martijn van der Lee
+ * @copyright  2014-2025 Martijn van der Lee
  * @license    https://opensource.org/licenses/MIT MIT
  */
 class AbstractRegexType extends StringType
@@ -49,7 +49,7 @@ class AbstractRegexType extends StringType
     {
         $definition = self::trim($definition);
 
-        $match = array();
+        $match = [];
         if (preg_match(self::REGEX_START . self::REGEX_FORMAT . self::REGEX_DEFAULT_START . $this->regex . self::REGEX_DEFAULT_END . self::REGEX_END, $definition, $match) !== 1) {
             throw new Exception('Unparseable ' . $this->format . ' definition: \'' . $definition . '\'');
         }

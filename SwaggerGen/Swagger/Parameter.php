@@ -9,7 +9,7 @@ use SwaggerGen\Exception;
  *
  * @package    SwaggerGen
  * @author     Martijn van der Lee <martijn@vanderlee.com>
- * @copyright  2014-2015 Martijn van der Lee
+ * @copyright  2014-2025 Martijn van der Lee
  * @license    https://opensource.org/licenses/MIT MIT
  */
 class Parameter extends AbstractObject implements IParameter
@@ -53,25 +53,6 @@ class Parameter extends AbstractObject implements IParameter
     private $Type;
 
     /**
-     * Returns true if the "multi" array collectionFormat is allowed for this
-     * parameter.
-     * @return bool
-     */
-    public function isMulti(): bool
-    {
-        return in_array($this->in, array('query', 'form'));
-    }
-
-    /**
-     * Return true if the parameter is of type 'formData'
-     * @return bool
-     */
-    public function isForm(): bool
-    {
-        return $this->in === 'form';
-    }
-
-    /**
      * @throws Exception
      */
     public function __construct(AbstractObject $parent, $in, $data, $required = false)
@@ -99,7 +80,7 @@ class Parameter extends AbstractObject implements IParameter
         $this->required = (bool)$required;
 
         // Parse regex
-        $match = array();
+        $match = [];
         if (preg_match('/^([a-z][a-z0-9]*)/i', $definition, $match) === 1) {
             $format = strtolower($match[1]);
         } elseif (preg_match('/^(\[)(?:.*?)\]$/', $definition, $match) === 1) {
@@ -120,6 +101,25 @@ class Parameter extends AbstractObject implements IParameter
         } else {
             throw new Exception("Type format not recognized: '{$format}'");
         }
+    }
+
+    /**
+     * Returns true if the "multi" array collectionFormat is allowed for this
+     * parameter.
+     * @return bool
+     */
+    public function isMulti(): bool
+    {
+        return in_array($this->in, array('query', 'form'));
+    }
+
+    /**
+     * Return true if the parameter is of type 'formData'
+     * @return bool
+     */
+    public function isForm(): bool
+    {
+        return $this->in === 'form';
     }
 
     /**

@@ -1,6 +1,8 @@
 <?php
 
-class SwaggerGenTest extends SwaggerGen_TestCase
+use SwaggerGen\SwaggerGen;
+
+class SwaggerGenTest extends \PHPUnit\Framework\TestCase
 {
 
     /**
@@ -8,7 +10,7 @@ class SwaggerGenTest extends SwaggerGen_TestCase
      */
     public function testConstructor_Empty()
     {
-        $object = new \SwaggerGen\SwaggerGen();
+        $object = new SwaggerGen();
         $this->assertInstanceof('\SwaggerGen\SwaggerGen', $object);
 
         $this->expectException('\SwaggerGen\Exception', 'No path defined');
@@ -20,7 +22,7 @@ class SwaggerGenTest extends SwaggerGen_TestCase
      */
     public function testGetSwagger_ShortestPossible()
     {
-        $object = new \SwaggerGen\SwaggerGen();
+        $object = new SwaggerGen();
         $this->assertInstanceof('\SwaggerGen\SwaggerGen', $object);
 
         $array = $object->getSwagger(array('
@@ -37,7 +39,7 @@ class SwaggerGenTest extends SwaggerGen_TestCase
      */
     public function testConstructor_BadContext()
     {
-        $object = new \SwaggerGen\SwaggerGen();
+        $object = new SwaggerGen();
         $this->assertInstanceof('\SwaggerGen\SwaggerGen', $object);
 
         $this->expectException('\SwaggerGen\StatementException', 'Invalid error code: \'\'');
@@ -60,14 +62,14 @@ class SwaggerGenTest extends SwaggerGen_TestCase
      */
     public function testGetSwagger_JSON()
     {
-        $object = new \SwaggerGen\SwaggerGen();
+        $object = new SwaggerGen();
         $this->assertInstanceof('\SwaggerGen\SwaggerGen', $object);
 
         $output = $object->getSwagger(array('
 			endpoint
 			method GET
 			response 202
-		'), array(), \SwaggerGen\SwaggerGen::FORMAT_JSON);
+		'), array(), SwaggerGen::FORMAT_JSON);
 
         $this->assertSame('{"swagger":"2.0","info":{"title":"undefined","version":"0"},"paths":{"\/":{"get":{"responses":{"202":{"description":"Accepted"}}}}}}', $output);
     }
@@ -81,16 +83,17 @@ class SwaggerGenTest extends SwaggerGen_TestCase
             $this->markTestSkipped('JSON_PRETTY_PRINT available since PHP 5.4.0');
         }
 
-        $object = new \SwaggerGen\SwaggerGen();
+        $object = new SwaggerGen();
         $this->assertInstanceof('\SwaggerGen\SwaggerGen', $object);
 
         $output = $object->getSwagger(array('
 			endpoint
 			method GET
 			response 202
-		'), array(), \SwaggerGen\SwaggerGen::FORMAT_JSON_PRETTY);
+		'), array(), SwaggerGen::FORMAT_JSON_PRETTY);
 
-        $this->assertSame('{
+        $this->assertStringEqualsStringIgnoringLineEndings(<<<JSON
+{
     "swagger": "2.0",
     "info": {
         "title": "undefined",
@@ -107,7 +110,8 @@ class SwaggerGenTest extends SwaggerGen_TestCase
             }
         }
     }
-}', $output);
+}
+JSON, $output);
     }
 
     /**
@@ -118,14 +122,14 @@ class SwaggerGenTest extends SwaggerGen_TestCase
         if (!extension_loaded('yaml')) {
             $this->markTestSkipped('The YAML extension is not available.');
         } else {
-            $object = new \SwaggerGen\SwaggerGen();
+            $object = new SwaggerGen();
             $this->assertInstanceof('\SwaggerGen\SwaggerGen', $object);
 
             $output = $object->getSwagger(array('
 				endpoint
 				method GET
 				response 202
-			'), array(), \SwaggerGen\SwaggerGen::FORMAT_YAML);
+			'), array(), SwaggerGen::FORMAT_YAML);
 
             $this->assertSame('---
 swagger: "2.0"
@@ -148,7 +152,7 @@ paths:
      */
     public function testDefine_NotDefined()
     {
-        $object = new \SwaggerGen\SwaggerGen();
+        $object = new SwaggerGen();
         $this->assertInstanceof('\SwaggerGen\SwaggerGen', $object);
 
         $array = $object->getSwagger(array('
@@ -169,7 +173,7 @@ paths:
      */
     public function testDefine_Defined()
     {
-        $object = new \SwaggerGen\SwaggerGen();
+        $object = new SwaggerGen();
         $this->assertInstanceof('\SwaggerGen\SwaggerGen', $object);
 
         $object->define('d');
@@ -191,7 +195,7 @@ paths:
      */
     public function testUndefine()
     {
-        $object = new \SwaggerGen\SwaggerGen();
+        $object = new SwaggerGen();
         $this->assertInstanceof('\SwaggerGen\SwaggerGen', $object);
 
         $object->define('d');

@@ -1,19 +1,12 @@
 <?php
+declare(strict_types=1);
 
-class NumberTypeTest extends SwaggerGen_TestCase
+use PHPUnit\Framework\TestCase;
+
+class NumberTypeTest extends TestCase
 {
 
     protected $parent;
-
-    protected function setUp(): void
-    {
-        $this->parent = $this->getMockForAbstractClass('\SwaggerGen\Swagger\AbstractObject');
-    }
-
-    protected function assertPreConditions(): void
-    {
-        $this->assertInstanceOf('\SwaggerGen\Swagger\AbstractObject', $this->parent);
-    }
 
     /**
      * @covers \SwaggerGen\Swagger\Type\NumberType::__construct
@@ -355,6 +348,16 @@ class NumberTypeTest extends SwaggerGen_TestCase
             'format' => 'float',
             'multipleOf' => 3,
         ), $object->toArray());
+    }
+
+    protected function setUp(): void
+    {
+        $this->parent = $this->getMockForAbstractClass('\SwaggerGen\Swagger\AbstractObject');
+    }
+
+    protected function assertPreConditions(): void
+    {
+        $this->assertInstanceOf('\SwaggerGen\Swagger\AbstractObject', $this->parent);
     }
 
 }

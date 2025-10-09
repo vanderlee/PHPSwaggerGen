@@ -9,7 +9,7 @@ use SwaggerGen\Swagger\Type\Custom\ICustomType;
  *
  * @package    SwaggerGen
  * @author     Martijn van der Lee <martijn@vanderlee.com>
- * @copyright  2014-2017 Martijn van der Lee
+ * @copyright  2014-2025 Martijn van der Lee
  * @license    https://opensource.org/licenses/MIT MIT
  */
 class TypeRegistry
@@ -20,7 +20,7 @@ class TypeRegistry
      *
      * @var array
      */
-    private $formats = array();
+    private $formats = [];
 
     /**
      * Add a type name from classname
@@ -63,7 +63,9 @@ class TypeRegistry
      */
     public function get($name)
     {
-        return !empty($this->formats[$name]) ? $this->formats[$name] : null;
+        return !empty($this->formats[$name])
+            ? $this->formats[$name]
+            : null;
     }
 
 }

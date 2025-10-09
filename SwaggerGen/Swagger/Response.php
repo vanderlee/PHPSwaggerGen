@@ -10,7 +10,7 @@ use SwaggerGen\Exception;
  *
  * @package    SwaggerGen
  * @author     Martijn van der Lee <martijn@vanderlee.com>
- * @copyright  2014-2015 Martijn van der Lee
+ * @copyright  2014-2025 Martijn van der Lee
  * @license    https://opensource.org/licenses/MIT MIT
  */
 class Response extends AbstractObject
@@ -83,33 +83,13 @@ class Response extends AbstractObject
     /**
      * @var Header[]
      */
-    private $Headers = array();
+    private $Headers = [];
 
     /**
      * JSON examples
      * @var array
      */
-    private $examples = array();
-
-    public static function getCode($search)
-    {
-        static $lookup = null;
-
-        if (is_numeric($search)) {
-            return (int)$search;
-        }
-
-        // build static lookup table
-        if (!$lookup) {
-            $lookup = array();
-            foreach (self::$httpCodes as $code => $text) {
-                $lookup[preg_replace('/[^a-z]+/', '', strtolower($text))] = $code;
-            }
-        }
-
-        $search = preg_replace('/[^a-z]+/', '', strtolower($search));
-        return $lookup[$search] ?? null;
-    }
+    private $examples = [];
 
     /**
      * @throws Exception
@@ -127,6 +107,26 @@ class Response extends AbstractObject
         } elseif (isset(self::$httpCodes[$code])) {
             $this->description = self::$httpCodes[$code];
         }
+    }
+
+    public static function getCode($search)
+    {
+        static $lookup = null;
+
+        if (is_numeric($search)) {
+            return (int)$search;
+        }
+
+        // build static lookup table
+        if (!$lookup) {
+            $lookup = [];
+            foreach (self::$httpCodes as $code => $text) {
+                $lookup[preg_replace('/[^a-z]+/', '', strtolower($text))] = $code;
+            }
+        }
+
+        $search = preg_replace('/[^a-z]+/', '', strtolower($search));
+        return $lookup[$search] ?? null;
     }
 
     /**

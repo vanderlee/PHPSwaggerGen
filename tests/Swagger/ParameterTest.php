@@ -1,19 +1,12 @@
 <?php
+declare(strict_types=1);
 
-class ParameterTest extends SwaggerGen_TestCase
+use PHPUnit\Framework\TestCase;
+
+class ParameterTest extends TestCase
 {
 
     protected $parent;
-
-    protected function setUp(): void
-    {
-        $this->parent = $this->getMockForAbstractClass('\SwaggerGen\Swagger\Swagger');
-    }
-
-    protected function assertPreConditions(): void
-    {
-        $this->assertInstanceOf('\SwaggerGen\Swagger\AbstractObject', $this->parent);
-    }
 
     /**
      * @covers \SwaggerGen\Swagger\Parameter::__construct
@@ -190,6 +183,16 @@ class ParameterTest extends SwaggerGen_TestCase
             'format' => 'int32',
             'default' => 123,
         ), $object->toArray());
+    }
+
+    protected function setUp(): void
+    {
+        $this->parent = $this->getMockForAbstractClass('\SwaggerGen\Swagger\Swagger');
+    }
+
+    protected function assertPreConditions(): void
+    {
+        $this->assertInstanceOf('\SwaggerGen\Swagger\AbstractObject', $this->parent);
     }
 
 }

@@ -7,14 +7,14 @@ namespace SwaggerGen\Parser;
  *
  * @package    SwaggerGen
  * @author     Martijn van der Lee <martijn@vanderlee.com>
- * @copyright  2014-2015 Martijn van der Lee
+ * @copyright  2014-2025 Martijn van der Lee
  * @license    https://opensource.org/licenses/MIT MIT
  */
 abstract class AbstractPreprocessor
 {
 
-    private $defines = array();
-    private $stack = array();
+    private $defines = [];
+    private $stack = [];
 
     public function __construct()
     {
@@ -23,7 +23,7 @@ abstract class AbstractPreprocessor
 
     public function resetDefines()
     {
-        $this->defines = array();
+        $this->defines = [];
     }
 
     public function addDefines(array $defines)
@@ -41,25 +41,19 @@ abstract class AbstractPreprocessor
         unset($this->defines[$name]);
     }
 
-    protected function getState()
+    public function preprocessFile($filename)
     {
-        return empty($this->stack) || end($this->stack);
+        return $this->preprocess(file_get_contents($filename));
     }
 
-    /**
-     * Get the first word from a string and remove it from the string.
-     *
-     * @param string $data
-     * @return boolean|string
-     */
-    private static function wordShift(&$data)
+    public function preprocess($content)
     {
-        if (preg_match('~^(\S+)\s*(.*)$~', $data, $matches) === 1) {
-            $data = $matches[2];
-            return $matches[1];
-        }
-        return false;
+        $this->stack = [];
+
+        return $this->parseContent($content);
     }
+
+    abstract protected function parseContent($content);
 
     protected function handle($command, $expression)
     {
@@ -119,17 +113,23 @@ abstract class AbstractPreprocessor
         return true;
     }
 
-    public function preprocess($content)
+    /**
+     * Get the first word from a string and remove it from the string.
+     *
+     * @param string $data
+     * @return boolean|string
+     */
+    private static function wordShift(&$data)
     {
-        $this->stack = array();
-
-        return $this->parseContent($content);
+        if (preg_match('~^(\S+)\s*(.*)$~', $data, $matches) === 1) {
+            $data = $matches[2];
+            return $matches[1];
+        }
+        return false;
     }
 
-    public function preprocessFile($filename)
+    protected function getState()
     {
-        return $this->preprocess(file_get_contents($filename));
+        return empty($this->stack) || end($this->stack);
     }
-
-    abstract protected function parseContent($content);
 }

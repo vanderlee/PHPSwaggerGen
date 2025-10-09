@@ -1,19 +1,12 @@
 <?php
+declare(strict_types=1);
 
-class ObjectTypeTest extends SwaggerGen_TestCase
+use PHPUnit\Framework\TestCase;
+
+class ObjectTypeTest extends TestCase
 {
 
     protected $parent;
-
-    protected function setUp(): void
-    {
-        $this->parent = new \SwaggerGen\Swagger\Swagger;
-    }
-
-    protected function assertPreConditions(): void
-    {
-        $this->assertInstanceOf('\SwaggerGen\Swagger\AbstractObject', $this->parent);
-    }
 
     /**
      * @covers \SwaggerGen\Swagger\Type\ObjectType::__construct
@@ -475,6 +468,16 @@ class ObjectTypeTest extends SwaggerGen_TestCase
         $object = new SwaggerGen\Swagger\Type\ObjectType($this->parent, 'object');
         $this->expectException('\SwaggerGen\Exception', "Unparseable additional properties definition: '?&#'");
         $object->handleCommand('additionalproperties', '?&#');
+    }
+
+    protected function setUp(): void
+    {
+        $this->parent = new \SwaggerGen\Swagger\Swagger;
+    }
+
+    protected function assertPreConditions(): void
+    {
+        $this->assertInstanceOf('\SwaggerGen\Swagger\AbstractObject', $this->parent);
     }
 
 

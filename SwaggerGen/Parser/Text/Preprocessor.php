@@ -12,7 +12,7 @@ use SwaggerGen\Parser\AbstractPreprocessor;
  *
  * @package    SwaggerGen
  * @author     Martijn van der Lee <martijn@vanderlee.com>
- * @copyright  2014-2016 Martijn van der Lee
+ * @copyright  2014-2025 Martijn van der Lee
  * @license    https://opensource.org/licenses/MIT MIT
  */
 class Preprocessor extends AbstractPreprocessor
@@ -28,7 +28,7 @@ class Preprocessor extends AbstractPreprocessor
             if ($index % 2) {
                 $output .= $line;
             } else {
-                $match = array();
+                $match = [];
                 if (preg_match($pattern, $line, $match) === 1) {
                     if (!$this->handle($match[1], $match[2]) && $this->getState()) {
                         $output .= $line;

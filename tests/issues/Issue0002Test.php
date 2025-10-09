@@ -1,6 +1,9 @@
 <?php
+declare(strict_types=1);
 
-class Issue0002Test extends SwaggerGen_TestCase
+use PHPUnit\Framework\TestCase;
+
+class Issue0002Test extends TestCase
 {
 
     /**

@@ -9,13 +9,25 @@ use SwaggerGen\Exception;
  *
  * @package    SwaggerGen
  * @author     Martijn van der Lee <martijn@vanderlee.com>
- * @copyright  2014-2015 Martijn van der Lee
+ * @copyright  2014-2025 Martijn van der Lee
  * @license    https://opensource.org/licenses/MIT MIT
  */
 class ReferenceObjectType extends AbstractType
 {
 
     private $reference = null;
+
+    public function toArray(): array
+    {
+        return self::arrayFilterNull(array_merge(array(
+            '$ref' => '#/definitions/' . $this->reference,
+        ), parent::toArray()));
+    }
+
+    public function __toString()
+    {
+        return __CLASS__ . ' ' . $this->reference;
+    }
 
     /**
      * @throws Exception
@@ -24,7 +36,7 @@ class ReferenceObjectType extends AbstractType
     {
         $definition = self::trim($definition);
 
-        $match = array();
+        $match = [];
         if (preg_match(self::REGEX_START . self::REGEX_FORMAT . self::REGEX_CONTENT . self::REGEX_RANGE . self::REGEX_DEFAULT . self::REGEX_END, $definition, $match) !== 1) {
             throw new Exception('Unparseable string definition: \'' . $definition . '\'');
         }
@@ -45,18 +57,6 @@ class ReferenceObjectType extends AbstractType
         }
 
         $this->reference = $reference;
-    }
-
-    public function toArray(): array
-    {
-        return self::arrayFilterNull(array_merge(array(
-            '$ref' => '#/definitions/' . $this->reference,
-        ), parent::toArray()));
-    }
-
-    public function __toString()
-    {
-        return __CLASS__ . ' ' . $this->reference;
     }
 
 }

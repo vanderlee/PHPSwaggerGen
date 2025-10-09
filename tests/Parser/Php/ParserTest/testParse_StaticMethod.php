@@ -10,19 +10,19 @@ class testParse_StaticMethod
 {
 
     /**
-     * @rest\error 400
-     */
-    private function Method()
-    {
-
-    }
-
-    /**
      * @rest\endpoint /endpoint
      * @rest\method GET Something
      * @rest\see static::Method
      */
     public function Dummy()
+    {
+
+    }
+
+    /**
+     * @rest\error 400
+     */
+    private function Method()
     {
 
     }

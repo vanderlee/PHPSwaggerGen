@@ -2,6 +2,7 @@
 
 namespace SwaggerGen;
 
+use Exception;
 use Throwable;
 
 /**
@@ -9,10 +10,10 @@ use Throwable;
  *
  * @package    SwaggerGen
  * @author     Martijn van der Lee <martijn@vanderlee.com>
- * @copyright  2016 Martijn van der Lee
+ * @copyright  2025 Martijn van der Lee
  * @license    https://opensource.org/licenses/MIT MIT
  */
-class StatementException extends \Exception
+class StatementException extends Exception
 {
 
     /**
@@ -38,5 +39,4 @@ class StatementException extends \Exception
     {
         return $this->statement;
     }
-
 }

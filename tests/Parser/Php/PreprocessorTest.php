@@ -1,6 +1,9 @@
 <?php
+declare(strict_types=1);
 
-class PreprocessorTest extends SwaggerGen_TestCase
+use PHPUnit\Framework\TestCase;
+
+class PreprocessorTest extends TestCase
 {
 
     /**

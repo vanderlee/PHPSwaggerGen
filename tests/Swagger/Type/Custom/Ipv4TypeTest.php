@@ -1,19 +1,12 @@
 <?php
+declare(strict_types=1);
 
-class Ipv4TypeTest extends SwaggerGen_TestCase
+use PHPUnit\Framework\TestCase;
+
+class Ipv4TypeTest extends TestCase
 {
 
     protected $parent;
-
-    protected function setUp(): void
-    {
-        $this->parent = $this->getMockForAbstractClass('\SwaggerGen\Swagger\AbstractObject');
-    }
-
-    protected function assertPreConditions(): void
-    {
-        $this->assertInstanceOf('\SwaggerGen\Swagger\AbstractObject', $this->parent);
-    }
 
     /**
      * @covers \SwaggerGen\Swagger\Type\Custom\Ipv4Type::__construct
@@ -135,6 +128,16 @@ class Ipv4TypeTest extends SwaggerGen_TestCase
             'pattern' => \SwaggerGen\Swagger\Type\Custom\Ipv4Type::PATTERN,
             'default' => '123.45.67.89',
         ), $object->toArray());
+    }
+
+    protected function setUp(): void
+    {
+        $this->parent = $this->getMockForAbstractClass('\SwaggerGen\Swagger\AbstractObject');
+    }
+
+    protected function assertPreConditions(): void
+    {
+        $this->assertInstanceOf('\SwaggerGen\Swagger\AbstractObject', $this->parent);
     }
 
 }

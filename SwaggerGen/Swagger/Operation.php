@@ -10,36 +10,31 @@ use SwaggerGen\Exception;
  *
  * @package    SwaggerGen
  * @author     Martijn van der Lee <martijn@vanderlee.com>
- * @copyright  2014-2015 Martijn van der Lee
+ * @copyright  2014-2025 Martijn van der Lee
  * @license    https://opensource.org/licenses/MIT MIT
  */
 class Operation extends AbstractDocumentableObject
 {
 
-    private $tags = array();
+    private $tags = [];
     private $summary;
     private $description;
-    private $consumes = array();
-    private $produces = array();
+    private $consumes = [];
+    private $produces = [];
 
     /**
      * @var IParameter[]
      */
-    private $parameters = array();
-    private $responses = array();
-    private $schemes = array();
+    private $parameters = [];
+    private $responses = [];
+    private $schemes = [];
     private $deprecated = false;
-    private $security = array();
+    private $security = [];
 
     /**
      * @var string
      */
     private $operationId = null;
-
-    public function getConsumes(): array
-    {
-        return $this->consumes;
-    }
 
     /**
      * @param string $summary
@@ -51,6 +46,11 @@ class Operation extends AbstractDocumentableObject
         if ($tag) {
             $this->tags[] = $tag->getName();
         }
+    }
+
+    public function getConsumes(): array
+    {
+        return $this->consumes;
     }
 
     /**
@@ -164,7 +164,7 @@ class Operation extends AbstractDocumentableObject
                 $scopes = self::wordSplit($data);
                 sort($scopes);
                 $this->security[] = array(
-                    $name => empty($scopes) ? array() : $scopes,
+                    $name => empty($scopes) ? [] : $scopes,
                 );
                 return $this;
 

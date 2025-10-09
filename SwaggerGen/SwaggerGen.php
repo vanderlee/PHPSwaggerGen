@@ -10,7 +10,7 @@ use SwaggerGen\Swagger\Swagger;
 /**
  * Main class of SwaggerGen which serves as a facade for the entire library.
  *
- * Copyright (c) 2014-2015 Martijn van der Lee
+ * Copyright (c) 2014-2025 Martijn van der Lee
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -32,21 +32,21 @@ use SwaggerGen\Swagger\Swagger;
  *
  * @package    SwaggerGen
  * @author     Martijn van der Lee <martijn@vanderlee.com>
- * @copyright  2014-2015 Martijn van der Lee
+ * @copyright  2014-2025 Martijn van der Lee
  * @license    https://opensource.org/licenses/MIT MIT
  */
 class SwaggerGen
 {
 
-    const FORMAT_ARRAY = '';
-    const FORMAT_JSON = 'json';
-    const FORMAT_JSON_PRETTY = 'json+';
-    const FORMAT_YAML = 'yaml';
+    public const FORMAT_ARRAY = '';
+    public const FORMAT_JSON = 'json';
+    public const FORMAT_JSON_PRETTY = 'json+';
+    public const FORMAT_YAML = 'yaml';
 
-    private $host;
-    private $basePath;
-    private $dirs;
-    private $defines = [];
+    private string $host;
+    private string $basePath;
+    private array $dirs = [];
+    private array $defines = [];
 
     /**
      * @var TypeRegistry
@@ -93,6 +93,68 @@ class SwaggerGen
     public function undefine($name)
     {
         unset($this->defines[$name]);
+    }
+
+    /**
+     * Get Swagger 2.x output
+     *
+     * @param string[] $files
+     * @param string[] $dirs
+     * @param string $format
+     * @return array|false|string
+     * @throws Exception
+     * @throws StatementException
+     */
+    public function getSwagger(array $files, array $dirs = [], string $format = self::FORMAT_ARRAY)
+    {
+        $dirs = array_merge($this->dirs, $dirs);
+
+        $statements = [];
+        foreach ($files as $file) {
+            switch (pathinfo($file, PATHINFO_EXTENSION)) {
+                case 'php':
+                    $fileStatements = $this->parsePhpFile($file, $dirs);
+                    break;
+
+                case 'txt':
+                    $fileStatements = $this->parseTextFile($file, $dirs);
+                    break;
+
+                default:
+                    $fileStatements = $this->parseText($file, $dirs);
+                    break;
+            }
+
+            $statements[] = $fileStatements;
+        }
+        $statements = array_merge(...$statements);
+
+        $output = $this->parseStatements($this->host, $this->basePath, $statements)->toArray();
+
+        switch ($format) {
+            case self::FORMAT_JSON:
+                $output = json_encode($output);
+                break;
+
+            case self::FORMAT_JSON_PRETTY:
+                $flags = (defined('JSON_PRETTY_PRINT') ? JSON_PRETTY_PRINT : 0); // Since PHP 5.4.0
+                $output = json_encode($output, $flags);
+                break;
+
+            case self::FORMAT_YAML:
+                if (!function_exists('yaml_emit')) {
+                    throw new Exception('YAML extension not installed.');
+                }
+                array_walk_recursive($output, static function (&$value) {
+                    if (is_object($value)) {
+                        $value = (array)$value;
+                    }
+                });
+                $output = yaml_emit($output, YAML_UTF8_ENCODING, YAML_LN_BREAK);
+                break;
+        }
+
+        return $output;
     }
 
     /**
@@ -185,68 +247,6 @@ class SwaggerGen
         }
 
         return $swagger;
-    }
-
-    /**
-     * Get Swagger 2.x output
-     *
-     * @param string[] $files
-     * @param string[] $dirs
-     * @param string $format
-     * @return array|false|string
-     * @throws Exception
-     * @throws StatementException
-     */
-    public function getSwagger(array $files, array $dirs = [], string $format = self::FORMAT_ARRAY)
-    {
-        $dirs = array_merge($this->dirs, $dirs);
-
-        $statements = [];
-        foreach ($files as $file) {
-            switch (pathinfo($file, PATHINFO_EXTENSION)) {
-                case 'php':
-                    $fileStatements = $this->parsePhpFile($file, $dirs);
-                    break;
-
-                case 'txt':
-                    $fileStatements = $this->parseTextFile($file, $dirs);
-                    break;
-
-                default:
-                    $fileStatements = $this->parseText($file, $dirs);
-                    break;
-            }
-
-            $statements[] = $fileStatements;
-        }
-        $statements = array_merge(...$statements);
-
-        $output = $this->parseStatements($this->host, $this->basePath, $statements)->toArray();
-
-        switch ($format) {
-            case self::FORMAT_JSON:
-                $output = json_encode($output);
-                break;
-
-            case self::FORMAT_JSON_PRETTY:
-                $flags = (defined('JSON_PRETTY_PRINT') ? JSON_PRETTY_PRINT : 0); // Since PHP 5.4.0
-                $output = json_encode($output, $flags);
-                break;
-
-            case self::FORMAT_YAML:
-                if (!function_exists('yaml_emit')) {
-                    throw new Exception('YAML extension not installed.');
-                }
-                array_walk_recursive($output, static function (&$value) {
-                    if (is_object($value)) {
-                        $value = (array)$value;
-                    }
-                });
-                $output = yaml_emit($output, YAML_UTF8_ENCODING, YAML_LN_BREAK);
-                break;
-        }
-
-        return $output;
     }
 
 }

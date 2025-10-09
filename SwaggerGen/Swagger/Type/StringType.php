@@ -9,7 +9,7 @@ use SwaggerGen\Exception;
  *
  * @package    SwaggerGen
  * @author     Martijn van der Lee <martijn@vanderlee.com>
- * @copyright  2014-2015 Martijn van der Lee
+ * @copyright  2014-2025 Martijn van der Lee
  * @license    https://opensource.org/licenses/MIT MIT
  */
 class StringType extends AbstractType
@@ -32,7 +32,99 @@ class StringType extends AbstractType
     protected $default = null;
     protected $maxLength = null;
     protected $minLength = null;
-    protected $enum = array();
+    protected $enum = [];
+
+    /**
+     * @param string $command The comment command
+     * @param string $data Any data added after the command
+     * @return AbstractType|boolean
+     * @throws Exception
+     * @throws Exception
+     * @throws Exception
+     */
+    public function handleCommand($command, $data = null)
+    {
+        switch (strtolower($command)) {
+            case 'default':
+                $this->default = $this->validateDefault($data);
+                return $this;
+
+            case 'pattern':
+                $this->pattern = $data;
+                return $this;
+
+            case 'enum':
+                if ($this->minLength !== null || $this->maxLength !== null) {
+                    throw new Exception("Enumeration not allowed in ranged string: '{$data}'");
+                }
+                $words = self::wordSplit($data);
+                $this->enum = is_array($this->enum) ? array_merge($this->enum, $words) : $words;
+                return $this;
+        }
+
+        return parent::handleCommand($command, $data);
+    }
+
+    /**
+     * Validate a default string value, depending on subtype
+     *
+     * @param string $value the value to validate
+     * @return string the value after validation (might become trimmed)
+     * @throws Exception
+     */
+    protected function validateDefault($value)
+    {
+        if (empty($value)) {
+            if ($this->format) {
+                $type = $this->format;
+            } else {
+                $type = $this->enum ? 'enum' : 'string';
+            }
+            throw new Exception("Empty {$type} default");
+        }
+
+        if (!empty($this->enum) && !in_array($value, $this->enum)) {
+            throw new Exception("Invalid enum default: '{$value}'");
+        }
+
+        if ($this->maxLength !== null && mb_strlen($value) > $this->maxLength) {
+            if ($this->format) {
+                $type = $this->format;
+            } else {
+                $type = $this->enum ? 'enum' : 'string';
+            }
+            throw new Exception("Default {$type} length beyond maximum: '{$value}'");
+        }
+
+        if ($this->minLength !== null && mb_strlen($value) < $this->minLength) {
+            if ($this->format) {
+                $type = $this->format;
+            } else {
+                $type = $this->enum ? 'enum' : 'string';
+            }
+            throw new Exception("Default {$type} length beyond minimum: '{$value}'");
+        }
+
+        return $value;
+    }
+
+    public function toArray(): array
+    {
+        return self::arrayFilterNull(array_merge(array(
+            'type' => 'string',
+            'format' => empty($this->format) ? null : $this->format,
+            'pattern' => $this->pattern,
+            'default' => $this->default,
+            'minLength' => $this->minLength ? (int)$this->minLength : null,
+            'maxLength' => $this->maxLength ? (int)$this->maxLength : null,
+            'enum' => $this->enum,
+        ), parent::toArray()));
+    }
+
+    public function __toString()
+    {
+        return __CLASS__;
+    }
 
     /**
      * @throws Exception
@@ -41,7 +133,7 @@ class StringType extends AbstractType
     {
         $definition = self::trim($definition);
 
-        $match = array();
+        $match = [];
         if (preg_match(self::REGEX_START . self::REGEX_FORMAT . self::REGEX_CONTENT . self::REGEX_RANGE . self::REGEX_DEFAULT . self::REGEX_END, $definition, $match) !== 1) {
             throw new Exception("Unparseable string definition: '{$definition}'");
         }
@@ -116,98 +208,6 @@ class StringType extends AbstractType
     private function parseDefault($definition, $match)
     {
         $this->default = isset($match[7]) && $match[7] !== '' ? $this->validateDefault($match[7]) : null;
-    }
-
-    /**
-     * @param string $command The comment command
-     * @param string $data Any data added after the command
-     * @return AbstractType|boolean
-     * @throws Exception
-     * @throws Exception
-     * @throws Exception
-     */
-    public function handleCommand($command, $data = null)
-    {
-        switch (strtolower($command)) {
-            case 'default':
-                $this->default = $this->validateDefault($data);
-                return $this;
-
-            case 'pattern':
-                $this->pattern = $data;
-                return $this;
-
-            case 'enum':
-                if ($this->minLength !== null || $this->maxLength !== null) {
-                    throw new Exception("Enumeration not allowed in ranged string: '{$data}'");
-                }
-                $words = self::wordSplit($data);
-                $this->enum = is_array($this->enum) ? array_merge($this->enum, $words) : $words;
-                return $this;
-        }
-
-        return parent::handleCommand($command, $data);
-    }
-
-    public function toArray(): array
-    {
-        return self::arrayFilterNull(array_merge(array(
-            'type' => 'string',
-            'format' => empty($this->format) ? null : $this->format,
-            'pattern' => $this->pattern,
-            'default' => $this->default,
-            'minLength' => $this->minLength ? (int)$this->minLength : null,
-            'maxLength' => $this->maxLength ? (int)$this->maxLength : null,
-            'enum' => $this->enum,
-        ), parent::toArray()));
-    }
-
-    /**
-     * Validate a default string value, depending on subtype
-     *
-     * @param string $value the value to validate
-     * @return string the value after validation (might become trimmed)
-     * @throws Exception
-     */
-    protected function validateDefault($value)
-    {
-        if (empty($value)) {
-            if ($this->format) {
-                $type = $this->format;
-            } else {
-                $type = $this->enum ? 'enum' : 'string';
-            }
-            throw new Exception("Empty {$type} default");
-        }
-
-        if (!empty($this->enum) && !in_array($value, $this->enum)) {
-            throw new Exception("Invalid enum default: '{$value}'");
-        }
-
-        if ($this->maxLength !== null && mb_strlen($value) > $this->maxLength) {
-            if ($this->format) {
-                $type = $this->format;
-            } else {
-                $type = $this->enum ? 'enum' : 'string';
-            }
-            throw new Exception("Default {$type} length beyond maximum: '{$value}'");
-        }
-
-        if ($this->minLength !== null && mb_strlen($value) < $this->minLength) {
-            if ($this->format) {
-                $type = $this->format;
-            } else {
-                $type = $this->enum ? 'enum' : 'string';
-            }
-            throw new Exception("Default {$type} length beyond minimum: '{$value}'");
-        }
-
-        return $value;
-    }
-
-    public function __toString()
-    {
-        return __CLASS__;
     }
 
 }

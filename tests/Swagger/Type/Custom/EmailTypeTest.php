@@ -1,19 +1,12 @@
 <?php
+declare(strict_types=1);
 
-class EmailTypeTest extends SwaggerGen_TestCase
+use PHPUnit\Framework\TestCase;
+
+class EmailTypeTest extends TestCase
 {
 
     protected $parent;
-
-    protected function setUp(): void
-    {
-        $this->parent = $this->getMockForAbstractClass('\SwaggerGen\Swagger\AbstractObject');
-    }
-
-    protected function assertPreConditions(): void
-    {
-        $this->assertInstanceOf('\SwaggerGen\Swagger\AbstractObject', $this->parent);
-    }
 
     /**
      * @covers \SwaggerGen\Swagger\Type\Custom\EmailType::__construct
@@ -115,6 +108,16 @@ class EmailTypeTest extends SwaggerGen_TestCase
             'pattern' => \SwaggerGen\Swagger\Type\Custom\EmailType::PATTERN,
             'default' => 'test@test.test',
         ), $object->toArray());
+    }
+
+    protected function setUp(): void
+    {
+        $this->parent = $this->getMockForAbstractClass('\SwaggerGen\Swagger\AbstractObject');
+    }
+
+    protected function assertPreConditions(): void
+    {
+        $this->assertInstanceOf('\SwaggerGen\Swagger\AbstractObject', $this->parent);
     }
 
 }

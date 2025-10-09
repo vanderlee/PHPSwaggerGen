@@ -1,19 +1,12 @@
 <?php
+declare(strict_types=1);
 
-class FileTypeTest extends SwaggerGen_TestCase
+use PHPUnit\Framework\TestCase;
+
+class FileTypeTest extends TestCase
 {
 
     protected $parent;
-
-    protected function setUp(): void
-    {
-        $this->parent = new \SwaggerGen\Swagger\Swagger;
-    }
-
-    protected function assertPreConditions(): void
-    {
-        $this->assertInstanceOf('\SwaggerGen\Swagger\AbstractObject', $this->parent);
-    }
 
     /**
      * @covers \SwaggerGen\Swagger\Type\FileType::__construct
@@ -109,6 +102,16 @@ class FileTypeTest extends SwaggerGen_TestCase
         $this->assertSame(array(
             'type' => 'file',
         ), $object->toArray());
+    }
+
+    protected function setUp(): void
+    {
+        $this->parent = new \SwaggerGen\Swagger\Swagger;
+    }
+
+    protected function assertPreConditions(): void
+    {
+        $this->assertInstanceOf('\SwaggerGen\Swagger\AbstractObject', $this->parent);
     }
 
 }

@@ -10,7 +10,7 @@ use SwaggerGen\Swagger\AbstractObject;
  *
  * @package    SwaggerGen
  * @author     Martijn van der Lee <martijn@vanderlee.com>
- * @copyright  2014-2015 Martijn van der Lee
+ * @copyright  2014-2025 Martijn van der Lee
  * @license    https://opensource.org/licenses/MIT MIT
  */
 abstract class AbstractType extends AbstractObject
@@ -55,6 +55,56 @@ abstract class AbstractType extends AbstractObject
     private $example = null;
 
     /**
+     * @param AbstractObject $parent
+     * @param $definition
+     * @constructor
+     */
+    public function __construct(AbstractObject $parent, $definition)
+    {
+        parent::__construct($parent);
+
+        $this->parseDefinition($definition);
+    }
+
+    abstract protected function parseDefinition($definition);
+
+    /**
+     * @param AbstractObject $parent
+     * @param string $definition
+     * @param string $error
+     * @return self
+     * @throws Exception
+     */
+    public static function typeFactory($parent, $definition, $error = "Unparseable schema type definition: '%s'")
+    {
+        // Parse regex
+        $match = [];
+        if (preg_match('/^([a-z]+)/i', $definition, $match) === 1) {
+            $format = strtolower($match[1]);
+        } elseif (preg_match('/^(\[)(?:.*?)\]$/', $definition, $match) === 1) {
+            $format = 'array';
+        } elseif (preg_match('/^(\{)(?:.*?)\}$/', $definition, $match) === 1) {
+            $format = 'object';
+        } else {
+            throw new Exception(sprintf($error, $definition));
+        }
+
+        // Internal type if type known and not overwritten by definition
+        if ($parent->getTypeRegistry()->has($format)) {
+            $class = $parent->getTypeRegistry()->get($format);
+            return new $class($parent, $definition);
+        }
+
+        if (isset(self::$classTypes[$format])) {
+            $type = self::$classTypes[$format];
+            $class = "\\SwaggerGen\\Swagger\\Type\\{$type}Type";
+            return new $class($parent, $definition);
+        }
+
+        return new ReferenceObjectType($parent, $definition);
+    }
+
+    /**
      * Swap values of two variables.
      * Used for sorting.
      * @param mixed $a
@@ -73,7 +123,7 @@ abstract class AbstractType extends AbstractObject
      */
     protected static function parseList($list)
     {
-        $ret = array();
+        $ret = [];
         while ($item = self::parseListItem($list)) {
             $ret[] = $item;
         }
@@ -112,20 +162,6 @@ abstract class AbstractType extends AbstractObject
 
         return $item;
     }
-
-    /**
-     * @param AbstractObject $parent
-     * @param $definition
-     * @constructor
-     */
-    public function __construct(AbstractObject $parent, $definition)
-    {
-        parent::__construct($parent);
-
-        $this->parseDefinition($definition);
-    }
-
-    abstract protected function parseDefinition($definition);
 
     /**
      * Overwrites default AbstractObject parser, since Types should not handle
@@ -169,42 +205,6 @@ abstract class AbstractType extends AbstractObject
         return self::arrayFilterNull(array_merge(array(
             'example' => $this->example,
         ), parent::toArray()));
-    }
-
-    /**
-     * @param AbstractObject $parent
-     * @param string $definition
-     * @param string $error
-     * @return self
-     * @throws Exception
-     */
-    public static function typeFactory($parent, $definition, $error = "Unparseable schema type definition: '%s'")
-    {
-        // Parse regex
-        $match = array();
-        if (preg_match('/^([a-z]+)/i', $definition, $match) === 1) {
-            $format = strtolower($match[1]);
-        } elseif (preg_match('/^(\[)(?:.*?)\]$/', $definition, $match) === 1) {
-            $format = 'array';
-        } elseif (preg_match('/^(\{)(?:.*?)\}$/', $definition, $match) === 1) {
-            $format = 'object';
-        } else {
-            throw new Exception(sprintf($error, $definition));
-        }
-
-        // Internal type if type known and not overwritten by definition
-        if ($parent->getTypeRegistry()->has($format)) {
-            $class = $parent->getTypeRegistry()->get($format);
-            return new $class($parent, $definition);
-        }
-
-        if (isset(self::$classTypes[$format])) {
-            $type = self::$classTypes[$format];
-            $class = "\\SwaggerGen\\Swagger\\Type\\{$type}Type";
-            return new $class($parent, $definition);
-        }
-
-        return new ReferenceObjectType($parent, $definition);
     }
 
 }

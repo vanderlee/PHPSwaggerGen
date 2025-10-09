@@ -1,19 +1,12 @@
 <?php
+declare(strict_types=1);
 
-class PropertyTest extends SwaggerGen_TestCase
+use PHPUnit\Framework\TestCase;
+
+class PropertyTest extends TestCase
 {
 
     protected $parent;
-
-    protected function setUp(): void
-    {
-        $this->parent = $this->getMockForAbstractClass('\SwaggerGen\Swagger\Swagger');
-    }
-
-    protected function assertPreConditions(): void
-    {
-        $this->assertInstanceOf('\SwaggerGen\Swagger\AbstractObject', $this->parent);
-    }
 
     /**
      * @covers \SwaggerGen\Swagger\Type\PropertyType::__construct
@@ -127,6 +120,16 @@ class PropertyTest extends SwaggerGen_TestCase
             'type' => 'string',
             'default' => 'good',
         ), $object->toArray());
+    }
+
+    protected function setUp(): void
+    {
+        $this->parent = $this->getMockForAbstractClass('\SwaggerGen\Swagger\Swagger');
+    }
+
+    protected function assertPreConditions(): void
+    {
+        $this->assertInstanceOf('\SwaggerGen\Swagger\AbstractObject', $this->parent);
     }
 
 }

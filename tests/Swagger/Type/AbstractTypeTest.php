@@ -1,19 +1,12 @@
 <?php
+declare(strict_types=1);
 
-class AbstractTypeTest extends SwaggerGen_TestCase
+use PHPUnit\Framework\TestCase;
+
+class AbstractTypeTest extends TestCase
 {
 
     protected $parent;
-
-    protected function setUp(): void
-    {
-        $this->parent = $this->getMockForAbstractClass('\SwaggerGen\Swagger\AbstractObject');
-    }
-
-    protected function assertPreConditions(): void
-    {
-        $this->assertInstanceOf('\SwaggerGen\Swagger\AbstractObject', $this->parent);
-    }
 
     /**
      * @covers \SwaggerGen\Swagger\AbstractType::__construct
@@ -116,5 +109,15 @@ class AbstractTypeTest extends SwaggerGen_TestCase
             'type' => 'string',
             'example' => '2019-01-01{}',
         ), $object->toArray());
+    }
+
+    protected function setUp(): void
+    {
+        $this->parent = $this->getMockForAbstractClass('\SwaggerGen\Swagger\AbstractObject');
+    }
+
+    protected function assertPreConditions(): void
+    {
+        $this->assertInstanceOf('\SwaggerGen\Swagger\AbstractObject', $this->parent);
     }
 }

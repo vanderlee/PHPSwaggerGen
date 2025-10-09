@@ -1,19 +1,12 @@
 <?php
+declare(strict_types=1);
 
-class ResponseTest extends SwaggerGen_TestCase
+use PHPUnit\Framework\TestCase;
+
+class ResponseTest extends TestCase
 {
 
     protected $parent;
-
-    protected function setUp(): void
-    {
-        $this->parent = $this->getMockForAbstractClass('\SwaggerGen\Swagger\Swagger');
-    }
-
-    protected function assertPreConditions(): void
-    {
-        $this->assertInstanceOf('\SwaggerGen\Swagger\AbstractObject', $this->parent);
-    }
 
     /**
      * @covers \SwaggerGen\Swagger\Response::__construct
@@ -400,6 +393,16 @@ class ResponseTest extends SwaggerGen_TestCase
     public function testGetCode_Smashed()
     {
         $this->assertSame(404, \SwaggerGen\Swagger\Response::getCode('nOtfOund'));
+    }
+
+    protected function setUp(): void
+    {
+        $this->parent = $this->getMockForAbstractClass('\SwaggerGen\Swagger\Swagger');
+    }
+
+    protected function assertPreConditions(): void
+    {
+        $this->assertInstanceOf('\SwaggerGen\Swagger\AbstractObject', $this->parent);
     }
 
 }

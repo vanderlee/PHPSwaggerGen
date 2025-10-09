@@ -11,7 +11,7 @@ use SwaggerGen\Swagger\Type\StringType;
  *
  * @package    SwaggerGen
  * @author     Martijn van der Lee <martijn@vanderlee.com>
- * @copyright  2014-2017 Martijn van der Lee
+ * @copyright  2014-2025 Martijn van der Lee
  * @license    https://opensource.org/licenses/MIT MIT
  */
 class Ipv6Type extends StringType implements ICustomType
@@ -38,6 +38,16 @@ class Ipv6Type extends StringType implements ICustomType
         parent::__construct($parent, $definition);
     }
 
+    public static function getFormats()
+    {
+        return self::$formats;
+    }
+
+    public static function setFormats(array $formats)
+    {
+        self::$formats = $formats;
+    }
+
     /**
      * Parse a type definition string, assuming it belongs to this type
      *
@@ -48,7 +58,7 @@ class Ipv6Type extends StringType implements ICustomType
     {
         $definition = self::trim($definition);
 
-        $match = array();
+        $match = [];
         if (preg_match(self::REGEX_START . self::REGEX_FORMAT . self::REGEX_DEFAULT . self::REGEX_END, $definition, $match) !== 1) {
             throw new Exception("Unparseable IPv6 definition: '{$definition}'");
         }
@@ -78,16 +88,6 @@ class Ipv6Type extends StringType implements ICustomType
         }
 
         return $value;
-    }
-
-    public static function getFormats()
-    {
-        return self::$formats;
-    }
-
-    public static function setFormats(array $formats)
-    {
-        self::$formats = $formats;
     }
 
 }

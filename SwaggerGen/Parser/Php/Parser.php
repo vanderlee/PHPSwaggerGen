@@ -5,7 +5,9 @@ namespace SwaggerGen\Parser\Php;
 use SwaggerGen\Exception;
 use SwaggerGen\Parser\AbstractPreprocessor;
 use SwaggerGen\Parser\IParser;
+use SwaggerGen\Parser\Php\Entity\AbstractEntity;
 use SwaggerGen\Parser\Php\Entity\ParserClass;
+use SwaggerGen\Parser\Php\Entity\ParserFunction;
 use SwaggerGen\Statement;
 
 /**
@@ -14,51 +16,44 @@ use SwaggerGen\Statement;
  *
  * @package    SwaggerGen
  * @author     Martijn van der Lee <martijn@vanderlee.com>
- * @copyright  2014-2015 Martijn van der Lee
+ * @copyright  2014-2025 Martijn van der Lee
  * @license    https://opensource.org/licenses/MIT MIT
  */
-class Parser extends Entity\AbstractEntity implements IParser
+class Parser extends AbstractEntity implements IParser
 {
 
     const COMMENT_TAG = 'rest';
 
 // transient
-
-    private $current_file = null;
-    private $files_queued = [];
-    private $files_done = [];
-    private $dirs = [];
-// States
-
     /** @var Statement[] */
     public $statements = [];
-
     /**
-     * @var Statement[]|null
-     */
-    private $lastStatements = [];
-
-    /**
-     * @var Entity\ParserClass[]
+     * @var ParserClass[]
      */
     public $Classes = [];
-
     /**
-     * @var Entity\ParserFunction[]
+     * @var ParserFunction[]
      */
     public $Functions = [];
-
-    /**
-     * @var AbstractPreprocessor
-     */
-    private $Preprocessor;
-
     /**
      * Directories available to all parse calls
      *
      * @var string[]
      */
     protected $common_dirs = [];
+// States
+    private $current_file = null;
+    private $files_queued = [];
+    private $files_done = [];
+    private $dirs = [];
+    /**
+     * @var Statement[]|null
+     */
+    private $lastStatements = [];
+    /**
+     * @var AbstractPreprocessor
+     */
+    private $Preprocessor;
 
     public function __construct(array $dirs = [])
     {
@@ -74,31 +69,6 @@ class Parser extends Entity\AbstractEntity implements IParser
         foreach ($dirs as $dir) {
             $this->common_dirs[] = realpath($dir);
         }
-    }
-
-    private function extractStatements()
-    {
-        // Core comments
-        $Statements = $this->statements;
-
-        // Functions
-        foreach ($this->Functions as $Function) {
-            if ($Function->hasCommand('method')) {
-                $Statements = array_merge($Statements, $Function->Statements);
-            }
-        }
-
-        // Classes
-        foreach ($this->Classes as $Class) {
-            $Statements = array_merge($Statements, $Class->Statements);
-            foreach ($Class->Methods as $Method) {
-                if ($Method->hasCommand('method')) {
-                    $Statements = array_merge($Statements, $Method->Statements);
-                }
-            }
-        }
-
-        return $Statements;
     }
 
     /**
@@ -128,100 +98,36 @@ class Parser extends Entity\AbstractEntity implements IParser
         return $this->extractStatements();
     }
 
-    /**
-     * Convert a T_*_COMMENT string to an array of Statements
-     * @param array $token
-     * @return Statement[]
-     */
-    public function tokenToStatements($token)
+    private function parseFiles(array $files, array $defines = [])
     {
-        list($comment, $commentLineNumber) = $token;
-        $commentLines = [];
+        $this->files_queued = $files;
 
-        $match = [];
-        if (preg_match('~^/\*\*?\s*(.*)\s*\*\/$~sm', $comment, $match) === 1) {
-            $lines = explode("\n", $match[0]);
-            foreach ($lines as $line) {
-                if ((preg_match('~^\s*\*?\s*(.*?)\s*$~', $line, $match) === 1)
-                    && !empty($match[1])) {
-                    $commentLines[] = trim($match[1]);
-                }
-            }
-        } elseif (preg_match('~^//\s*(.*)$~', $comment, $match) === 1) {
-            $commentLines[] = trim($match[1]);
-        }
-        // to commands
-        $match = [];
-        $command = null;
-        $data = '';
-        $commandLineNumber = 0;
-        $statements = [];
-        foreach ($commentLines as $lineNumber => $line) {
-            // If new @-command, store any old and start new
-            if ($command !== null && chr(ord($line)) === '@') {
-                $statements[] = new Statement($command, $data, $this->current_file, $commentLineNumber + $commandLineNumber);
-                $command = null;
-                $data = '';
+        $index = 0;
+        while (($file = array_shift($this->files_queued)) !== null) {
+            $file = realpath($file);
+
+            // @todo Test if this works
+            if (in_array($file, $this->files_done)) {
+                continue;
             }
 
-            if (preg_match('~^@' . preg_quote(self::COMMENT_TAG, '~') . '\\\\([a-z][-a-z]*[?!]?)\\s*(.*)$~', $line, $match) === 1) {
-                list($command, $data) = $match;
-                $commandLineNumber = $lineNumber;
-            } elseif ($command !== null) {
-                if ($lineNumber < count($commentLines) - 1) {
-                    $data .= ' ' . $line;
-                } else {
-                    $data .= preg_replace('~\s*\**\/\s*$~', '', $line);
-                }
+            $this->current_file = $file;
+            $this->files_done[] = $file;
+            ++$index;
+
+            $this->Preprocessor->resetDefines();
+            $this->Preprocessor->addDefines($defines);
+            $source = $this->Preprocessor->preprocessFile($file);
+
+            $this->parseTokens($source);
+
+            if ($this->lastStatements !== null) {
+                $this->statements = array_merge($this->statements, $this->lastStatements);
+                $this->lastStatements = null;
             }
         }
 
-        if ($command !== null) {
-            $statements[] = new Statement($command, $data, $this->current_file, $commentLineNumber + $commandLineNumber);
-        }
-
-        return $statements;
-    }
-
-    public function queueClass($classname)
-    {
-        foreach ($this->dirs as $dir) {
-            $paths = array(
-                $dir . DIRECTORY_SEPARATOR . $classname . '.php',
-                $dir . DIRECTORY_SEPARATOR . $classname . '.class.php',
-            );
-
-            foreach ($paths as $path) {
-                $realpath = realpath($path);
-                if (in_array($realpath, $this->files_done)) {
-                    return;
-                }
-
-                if (is_file($realpath)) {
-                    $this->files_queued[] = $realpath;
-                    return;
-                }
-            }
-        }
-
-        // assume it's a class;
-    }
-
-    /**
-     * Add to the queue any classes based on the commands.
-     * @param Statement[] $Statements
-     */
-    public function queueClassesFromComments(array $Statements)
-    {
-        foreach ($Statements as $Statement) {
-            if (in_array($Statement->getCommand(), array('uses', 'see'))) {
-                $match = [];
-                if ((preg_match('~^(\w+)(::|->)?(\w+)?(?:\(\))?$~', $Statement->getData(), $match) === 1)
-                    && !in_array($match[1], array('self', '$this'))) {
-                    $this->queueClass($match[1]);
-                }
-            }
-        }
+        $this->current_file = null;
     }
 
     private function parseTokens($source)
@@ -256,7 +162,7 @@ class Parser extends Entity\AbstractEntity implements IParser
                     break;
 
                 case T_FUNCTION:
-                    $Function = new Entity\ParserFunction($this, $tokens, $this->lastStatements);
+                    $Function = new ParserFunction($this, $tokens, $this->lastStatements);
                     $this->Functions[strtolower($Function->name)] = $Function;
                     $this->lastStatements = null;
                     break;
@@ -285,36 +191,100 @@ class Parser extends Entity\AbstractEntity implements IParser
         }
     }
 
-    private function parseFiles(array $files, array $defines = [])
+    /**
+     * Convert a T_*_COMMENT string to an array of Statements
+     * @param array $token
+     * @return Statement[]
+     */
+    public function tokenToStatements($token)
     {
-        $this->files_queued = $files;
+        list(, $comment, $commentLineNumber) = $token;
+        $commentLines = [];
 
-        $index = 0;
-        while (($file = array_shift($this->files_queued)) !== null) {
-            $file = realpath($file);
-
-            // @todo Test if this works
-            if (in_array($file, $this->files_done)) {
-                continue;
+        $match = [];
+        if (preg_match('~^/\*\*?\s*(.*)\s*\*\/$~sm', $comment, $match) === 1) {
+            $lines = explode("\n", $match[0]);
+            foreach ($lines as $line) {
+                if ((preg_match('~^\s*\*?\s*(.*?)\s*$~', $line, $match) === 1)
+                    && !empty($match[1])) {
+                    $commentLines[] = trim($match[1]);
+                }
+            }
+        } elseif (preg_match('~^//\s*(.*)$~', $comment, $match) === 1) {
+            $commentLines[] = trim($match[1]);
+        }
+        // to commands
+        $match = [];
+        $command = null;
+        $data = '';
+        $commandLineNumber = 0;
+        $statements = [];
+        foreach ($commentLines as $lineNumber => $line) {
+            // If new @-command, store any old and start new
+            if ($command !== null && chr(ord($line)) === '@') {
+                $statements[] = new Statement($command, $data, $this->current_file, $commentLineNumber + $commandLineNumber);
+                $command = null;
+                $data = '';
             }
 
-            $this->current_file = $file;
-            $this->files_done[] = $file;
-            ++$index;
-
-            $this->Preprocessor->resetDefines();
-            $this->Preprocessor->addDefines($defines);
-            $source = $this->Preprocessor->preprocessFile($file);
-
-            $this->parseTokens($source);
-
-            if ($this->lastStatements !== null) {
-                $this->statements = array_merge($this->statements, $this->lastStatements);
-                $this->lastStatements = null;
+            if (preg_match('~^@' . preg_quote(self::COMMENT_TAG, '~') . '\\\\([a-z][-a-z]*[?!]?)\\s*(.*)$~', $line, $match) === 1) {
+                list(, $command, $data) = $match;
+                $commandLineNumber = $lineNumber;
+            } elseif ($command !== null) {
+                if ($lineNumber < count($commentLines) - 1) {
+                    $data .= ' ' . $line;
+                } else {
+                    $data .= preg_replace('~\s*\**\/\s*$~', '', $line);
+                }
             }
         }
 
-        $this->current_file = null;
+        if ($command !== null) {
+            $statements[] = new Statement($command, $data, $this->current_file, $commentLineNumber + $commandLineNumber);
+        }
+
+        return $statements;
+    }
+
+    /**
+     * Add to the queue any classes based on the commands.
+     * @param Statement[] $Statements
+     */
+    public function queueClassesFromComments(array $Statements)
+    {
+        foreach ($Statements as $Statement) {
+            if (in_array($Statement->getCommand(), array('uses', 'see'))) {
+                $match = [];
+                if ((preg_match('~^(\w+)(::|->)?(\w+)?(?:\(\))?$~', $Statement->getData(), $match) === 1)
+                    && !in_array($match[1], array('self', '$this'))) {
+                    $this->queueClass($match[1]);
+                }
+            }
+        }
+    }
+
+    public function queueClass($classname)
+    {
+        foreach ($this->dirs as $dir) {
+            $paths = array(
+                $dir . DIRECTORY_SEPARATOR . $classname . '.php',
+                $dir . DIRECTORY_SEPARATOR . $classname . '.class.php',
+            );
+
+            foreach ($paths as $path) {
+                $realpath = realpath($path);
+                if (in_array($realpath, $this->files_done)) {
+                    return;
+                }
+
+                if (is_file($realpath)) {
+                    $this->files_queued[] = $realpath;
+                    return;
+                }
+            }
+        }
+
+        // assume it's a class;
     }
 
     /**
@@ -388,6 +358,31 @@ class Parser extends Entity\AbstractEntity implements IParser
         }
 
         return $output;
+    }
+
+    private function extractStatements()
+    {
+        // Core comments
+        $Statements = $this->statements;
+
+        // Functions
+        foreach ($this->Functions as $Function) {
+            if ($Function->hasCommand('method')) {
+                $Statements = array_merge($Statements, $Function->Statements);
+            }
+        }
+
+        // Classes
+        foreach ($this->Classes as $Class) {
+            $Statements = array_merge($Statements, $Class->Statements);
+            foreach ($Class->Methods as $Method) {
+                if ($Method->hasCommand('method')) {
+                    $Statements = array_merge($Statements, $Method->Statements);
+                }
+            }
+        }
+
+        return $Statements;
     }
 
 }

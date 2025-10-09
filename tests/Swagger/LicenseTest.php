@@ -1,19 +1,13 @@
 <?php
+declare(strict_types=1);
 
-class LicenseTest extends SwaggerGen_TestCase
+use PHPUnit\Framework\TestCase;
+use SwaggerGen\Swagger\AbstractObject;
+
+class LicenseTest extends TestCase
 {
 
     protected $parent;
-
-    protected function setUp(): void
-    {
-        $this->parent = $this->getMockForAbstractClass('\SwaggerGen\Swagger\AbstractObject');
-    }
-
-    protected function assertPreConditions(): void
-    {
-        $this->assertInstanceOf('\SwaggerGen\Swagger\AbstractObject', $this->parent);
-    }
 
     /**
      * @covers \SwaggerGen\Swagger\License::__construct
@@ -110,6 +104,16 @@ class LicenseTest extends SwaggerGen_TestCase
             'name' => 'MIT',
             'url' => 'http://example',
         ), $object->toArray());
+    }
+
+    protected function setUp(): void
+    {
+        $this->parent = $this->getMockForAbstractClass(AbstractObject::class);
+    }
+
+    protected function assertPreConditions(): void
+    {
+        $this->assertInstanceOf('\SwaggerGen\Swagger\AbstractObject', $this->parent);
     }
 
 }

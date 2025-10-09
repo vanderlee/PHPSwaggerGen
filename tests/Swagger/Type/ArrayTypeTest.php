@@ -1,19 +1,12 @@
 <?php
+declare(strict_types=1);
 
-class ArrayTypeTest extends SwaggerGen_TestCase
+use PHPUnit\Framework\TestCase;
+
+class ArrayTypeTest extends TestCase
 {
 
     protected $parent;
-
-    protected function setUp(): void
-    {
-        $this->parent = $this->getMockForAbstractClass('\SwaggerGen\Swagger\Swagger');
-    }
-
-    protected function assertPreConditions(): void
-    {
-        $this->assertInstanceOf('\SwaggerGen\Swagger\AbstractObject', $this->parent);
-    }
 
     /**
      * @covers \SwaggerGen\Swagger\Type\ArrayType::__construct
@@ -369,6 +362,16 @@ class ArrayTypeTest extends SwaggerGen_TestCase
                 'default' => 'good',
             ),
         ), $object->toArray());
+    }
+
+    protected function setUp(): void
+    {
+        $this->parent = $this->getMockForAbstractClass('\SwaggerGen\Swagger\Swagger');
+    }
+
+    protected function assertPreConditions(): void
+    {
+        $this->assertInstanceOf('\SwaggerGen\Swagger\AbstractObject', $this->parent);
     }
 
 }

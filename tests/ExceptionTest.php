@@ -1,6 +1,9 @@
 <?php
+declare(strict_types=1);
 
-class ExceptionTest extends SwaggerGen_TestCase
+use PHPUnit\Framework\TestCase;
+
+class ExceptionTest extends TestCase
 {
 
     /**

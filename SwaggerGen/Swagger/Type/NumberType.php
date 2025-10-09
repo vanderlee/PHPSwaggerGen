@@ -9,7 +9,7 @@ use SwaggerGen\Exception;
  *
  * @package    SwaggerGen
  * @author     Martijn van der Lee <martijn@vanderlee.com>
- * @copyright  2014-2015 Martijn van der Lee
+ * @copyright  2014-2025 Martijn van der Lee
  * @license    https://opensource.org/licenses/MIT MIT
  */
 class NumberType extends AbstractType
@@ -30,15 +30,92 @@ class NumberType extends AbstractType
     private $exclusiveMaximum = null;
     private $minimum = null;
     private $exclusiveMinimum = null;
-    private $enum = array();
+    private $enum = [];
     private $multipleOf = null;
+
+    /**
+     * @param string $command The comment command
+     * @param string $data Any data added after the command
+     * @return AbstractType|boolean
+     * @throws Exception
+     * @throws Exception
+     * @throws Exception
+     */
+    public function handleCommand($command, $data = null)
+    {
+        switch (strtolower($command)) {
+            case 'default':
+                $this->default = $this->validateDefault($data);
+                return $this;
+
+            case 'enum':
+                $words = self::wordSplit($data);
+                foreach ($words as &$word) {
+                    $word = $this->validateDefault($word);
+                }
+                unset($word);
+                $this->enum = array_merge($this->enum, $words);
+                return $this;
+
+            case 'step':
+                if (($step = (float)$data) > 0) {
+                    $this->multipleOf = $step;
+                }
+                return $this;
+        }
+
+        return parent::handleCommand($command, $data);
+    }
+
+    /**
+     * @throws Exception
+     */
+    private function validateDefault($value)
+    {
+        if (preg_match('~^-?(?:\\d*\\.?\\d+|\\d+\\.\\d*)$~', $value) !== 1) {
+            throw new Exception("Invalid number default: '{$value}'");
+        }
+
+        if ($this->maximum) {
+            if (($value > $this->maximum) || ($this->exclusiveMaximum && $value == $this->maximum)) {
+                throw new Exception("Default number beyond maximum: '{$value}'");
+            }
+        }
+        if ($this->minimum) {
+            if (($value < $this->minimum) || ($this->exclusiveMinimum && $value == $this->minimum)) {
+                throw new Exception("Default number beyond minimum: '{$value}'");
+            }
+        }
+
+        return (float)$value;
+    }
+
+    public function toArray(): array
+    {
+        return self::arrayFilterNull(array_merge(array(
+            'type' => 'number',
+            'format' => $this->format,
+            'default' => $this->default,
+            'minimum' => $this->minimum,
+            'exclusiveMinimum' => ($this->exclusiveMinimum && !is_null($this->minimum)) ? true : null,
+            'maximum' => $this->maximum,
+            'exclusiveMaximum' => ($this->exclusiveMaximum && !is_null($this->maximum)) ? true : null,
+            'enum' => $this->enum,
+            'multipleOf' => $this->multipleOf,
+        ), parent::toArray()));
+    }
+
+    public function __toString()
+    {
+        return __CLASS__;
+    }
 
     /**
      * @throws Exception
      */
     protected function parseDefinition($definition)
     {
-        $match = array();
+        $match = [];
         if (preg_match(self::REGEX_START . self::REGEX_FORMAT . self::REGEX_RANGE . self::REGEX_DEFAULT . self::REGEX_END, $definition, $match) !== 1) {
             throw new Exception("Unparseable number definition: '{$definition}'");
         }
@@ -89,83 +166,6 @@ class NumberType extends AbstractType
     private function parseDefault($definition, $match)
     {
         $this->default = isset($match[6]) && $match[6] !== '' ? $this->validateDefault($match[6]) : null;
-    }
-
-    /**
-     * @param string $command The comment command
-     * @param string $data Any data added after the command
-     * @return AbstractType|boolean
-     * @throws Exception
-     * @throws Exception
-     * @throws Exception
-     */
-    public function handleCommand($command, $data = null)
-    {
-        switch (strtolower($command)) {
-            case 'default':
-                $this->default = $this->validateDefault($data);
-                return $this;
-
-            case 'enum':
-                $words = self::wordSplit($data);
-                foreach ($words as &$word) {
-                    $word = $this->validateDefault($word);
-                }
-                unset($word);
-                $this->enum = array_merge($this->enum, $words);
-                return $this;
-
-            case 'step':
-                if (($step = (float)$data) > 0) {
-                    $this->multipleOf = $step;
-                }
-                return $this;
-        }
-
-        return parent::handleCommand($command, $data);
-    }
-
-    public function toArray(): array
-    {
-        return self::arrayFilterNull(array_merge(array(
-            'type' => 'number',
-            'format' => $this->format,
-            'default' => $this->default,
-            'minimum' => $this->minimum,
-            'exclusiveMinimum' => ($this->exclusiveMinimum && !is_null($this->minimum)) ? true : null,
-            'maximum' => $this->maximum,
-            'exclusiveMaximum' => ($this->exclusiveMaximum && !is_null($this->maximum)) ? true : null,
-            'enum' => $this->enum,
-            'multipleOf' => $this->multipleOf,
-        ), parent::toArray()));
-    }
-
-    public function __toString()
-    {
-        return __CLASS__;
-    }
-
-    /**
-     * @throws Exception
-     */
-    private function validateDefault($value)
-    {
-        if (preg_match('~^-?(?:\\d*\\.?\\d+|\\d+\\.\\d*)$~', $value) !== 1) {
-            throw new Exception("Invalid number default: '{$value}'");
-        }
-
-        if ($this->maximum) {
-            if (($value > $this->maximum) || ($this->exclusiveMaximum && $value == $this->maximum)) {
-                throw new Exception("Default number beyond maximum: '{$value}'");
-            }
-        }
-        if ($this->minimum) {
-            if (($value < $this->minimum) || ($this->exclusiveMinimum && $value == $this->minimum)) {
-                throw new Exception("Default number beyond minimum: '{$value}'");
-            }
-        }
-
-        return (float)$value;
     }
 
 }

@@ -10,7 +10,7 @@ use SwaggerGen\Exception;
  *
  * @package    SwaggerGen
  * @author     Martijn van der Lee <martijn@vanderlee.com>
- * @copyright  2014-2015 Martijn van der Lee
+ * @copyright  2014-2025 Martijn van der Lee
  * @license    https://opensource.org/licenses/MIT MIT
  */
 class SecurityScheme extends AbstractObject
@@ -36,7 +36,7 @@ class SecurityScheme extends AbstractObject
      * Map of scope-name => description
      * @var []
      */
-    private $scopes = array();
+    private $scopes = [];
 
     /**
      * Create a new SecurityScheme object

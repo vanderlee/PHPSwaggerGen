@@ -1,19 +1,12 @@
 <?php
+declare(strict_types=1);
 
-class Ipv6TypeTest extends SwaggerGen_TestCase
+use PHPUnit\Framework\TestCase;
+
+class Ipv6TypeTest extends TestCase
 {
 
     protected $parent;
-
-    protected function setUp(): void
-    {
-        $this->parent = $this->getMockForAbstractClass('\SwaggerGen\Swagger\AbstractObject');
-    }
-
-    protected function assertPreConditions(): void
-    {
-        $this->assertInstanceOf('\SwaggerGen\Swagger\AbstractObject', $this->parent);
-    }
 
     /**
      * @covers \SwaggerGen\Swagger\Type\Custom\Ipv6Type::__construct
@@ -151,6 +144,16 @@ class Ipv6TypeTest extends SwaggerGen_TestCase
             'pattern' => \SwaggerGen\Swagger\Type\Custom\Ipv6Type::PATTERN,
             'default' => '2001:0db8:85a3:0000:1319:8a2e:0370:7344',
         ), $object->toArray());
+    }
+
+    protected function setUp(): void
+    {
+        $this->parent = $this->getMockForAbstractClass('\SwaggerGen\Swagger\AbstractObject');
+    }
+
+    protected function assertPreConditions(): void
+    {
+        $this->assertInstanceOf('\SwaggerGen\Swagger\AbstractObject', $this->parent);
     }
 
 }

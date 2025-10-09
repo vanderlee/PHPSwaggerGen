@@ -10,7 +10,7 @@ use SwaggerGen\TypeRegistry;
  *
  * @package    SwaggerGen
  * @author     Martijn van der Lee <martijn@vanderlee.com>
- * @copyright  2014-2016 Martijn van der Lee
+ * @copyright  2014-2025 Martijn van der Lee
  * @license    https://opensource.org/licenses/MIT MIT
  */
 class Swagger extends AbstractDocumentableObject
@@ -82,22 +82,6 @@ class Swagger extends AbstractDocumentableObject
         $this->info = new Info($this);
 
         $this->typeRegistry = $typeRegistry ?: new TypeRegistry;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    protected function getSwagger(): Swagger
-    {
-        return $this;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    protected function getTypeRegistry(): TypeRegistry
-    {
-        return $this->typeRegistry;
     }
 
     /**
@@ -389,6 +373,22 @@ class Swagger extends AbstractDocumentableObject
     public function hasDefinition($name)
     {
         return isset($this->definitions[$name]);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    protected function getSwagger(): Swagger
+    {
+        return $this;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    protected function getTypeRegistry(): TypeRegistry
+    {
+        return $this->typeRegistry;
     }
 
 }

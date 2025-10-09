@@ -1,6 +1,9 @@
 <?php
+declare(strict_types=1);
 
-class AbstractObjectTest extends SwaggerGen_TestCase
+use PHPUnit\Framework\TestCase;
+
+class AbstractObjectTest extends TestCase
 {
 
     /**

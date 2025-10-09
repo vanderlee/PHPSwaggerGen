@@ -1,43 +1,19 @@
 <?php
+declare(strict_types=1);
 
-class ParserTest extends SwaggerGen_TestCase
+use PHPUnit\Framework\TestCase;
+use SwaggerGen\Parser\Php\Parser;
+use SwaggerGen\Statement;
+
+class ParserTest extends TestCase
 {
-
-    /**
-     * Test if the statement matches the expected values
-     * @param \SwaggerGen\Statement $statement
-     * @param string $command
-     * @param string $data
-     */
-    private function assertStatement($statement, $command, $data = '')
-    {
-        $this->assertInstanceOf('\SwaggerGen\Statement', $statement);
-        $this->assertSame($command, $statement->getCommand());
-        $this->assertSame($data, $statement->getData());
-    }
-
-    /**
-     * Test if the statement matches the expected values
-     * @param array[] $expected
-     * @param SwaggerGen\Parser\Php\Statement[] $statements
-     */
-    private function assertStatements(array $expected, array $statements)
-    {
-        $this->assertCount(count($expected), $statements, join("\n", $statements));
-        foreach ($expected as $index => $command) {
-            $statement = $statements[$index];
-            $this->assertInstanceOf('\SwaggerGen\Statement', $statement);
-            $this->assertSame($command[0], $statement->getCommand());
-            $this->assertSame($command[1], $statement->getData());
-        }
-    }
 
     /**
      * @covers \SwaggerGen\Parser\Php\Parser::__construct
      */
     public function testConstructor_Empty()
     {
-        $object = new \SwaggerGen\Parser\Php\Parser();
+        $object = new Parser();
         $this->assertInstanceOf('\SwaggerGen\Parser\Php\Parser', $object);
     }
 
@@ -63,7 +39,7 @@ class ParserTest extends SwaggerGen_TestCase
      */
     public function testParse_CurlyBraceFunction()
     {
-        $object = new \SwaggerGen\Parser\Php\Parser();
+        $object = new Parser();
         $this->assertInstanceOf('\SwaggerGen\Parser\Php\Parser', $object);
 
         $statements = $object->parse(__DIR__ . '/ParserTest/testParse_CurlyBraceFunction.php');
@@ -72,11 +48,24 @@ class ParserTest extends SwaggerGen_TestCase
     }
 
     /**
+     * Test if the statement matches the expected values
+     * @param Statement $statement
+     * @param string $command
+     * @param string $data
+     */
+    private function assertStatement($statement, $command, $data = '')
+    {
+        $this->assertInstanceOf('\SwaggerGen\Statement', $statement);
+        $this->assertSame($command, $statement->getCommand());
+        $this->assertSame($data, $statement->getData());
+    }
+
+    /**
      * @covers \SwaggerGen\Parser\Php\Parser::parse
      */
     public function testParse_NoMethods()
     {
-        $object = new \SwaggerGen\Parser\Php\Parser();
+        $object = new Parser();
         $this->assertInstanceOf('\SwaggerGen\Parser\Php\Parser', $object);
 
         $statements = $object->parse(__DIR__ . '/ParserTest/testParse_NoMethods.php');
@@ -92,7 +81,7 @@ class ParserTest extends SwaggerGen_TestCase
      */
     public function testParse_WithMethod()
     {
-        $object = new \SwaggerGen\Parser\Php\Parser();
+        $object = new Parser();
         $this->assertInstanceOf('\SwaggerGen\Parser\Php\Parser', $object);
 
         $statements = $object->parse(__DIR__ . '/ParserTest/testParse_WithMethod.php');
@@ -110,7 +99,7 @@ class ParserTest extends SwaggerGen_TestCase
      */
     public function testParse_LineContinuation()
     {
-        $object = new \SwaggerGen\Parser\Php\Parser();
+        $object = new Parser();
         $this->assertInstanceOf('\SwaggerGen\Parser\Php\Parser', $object);
 
         $statements = $object->parse(__DIR__ . '/ParserTest/testParse_LineContinuation.php');
@@ -126,7 +115,7 @@ class ParserTest extends SwaggerGen_TestCase
      */
     public function testParse_InClass()
     {
-        $object = new \SwaggerGen\Parser\Php\Parser();
+        $object = new Parser();
         $this->assertInstanceOf('\SwaggerGen\Parser\Php\Parser', $object);
 
         $statements = $object->parse(__DIR__ . '/ParserTest/testParse_InClass.php');
@@ -143,7 +132,7 @@ class ParserTest extends SwaggerGen_TestCase
      */
     public function testParse_CommentsTypes()
     {
-        $object = new \SwaggerGen\Parser\Php\Parser();
+        $object = new Parser();
         $this->assertInstanceOf('\SwaggerGen\Parser\Php\Parser', $object);
 
         $statements = $object->parse(__DIR__ . '/ParserTest/testParse_CommentsTypes.php');
@@ -160,7 +149,7 @@ class ParserTest extends SwaggerGen_TestCase
      */
     public function testParse_MethodNonDoc()
     {
-        $object = new \SwaggerGen\Parser\Php\Parser();
+        $object = new Parser();
         $this->assertInstanceOf('\SwaggerGen\Parser\Php\Parser', $object);
 
         $statements = $object->parse(__DIR__ . '/ParserTest/testParse_MethodNonDoc.php');
@@ -177,7 +166,7 @@ class ParserTest extends SwaggerGen_TestCase
      */
     public function testParse_InMethod()
     {
-        $object = new \SwaggerGen\Parser\Php\Parser();
+        $object = new Parser();
         $this->assertInstanceOf('\SwaggerGen\Parser\Php\Parser', $object);
 
         $statements = $object->parse(__DIR__ . '/ParserTest/testParse_InMethod.php');
@@ -195,7 +184,7 @@ class ParserTest extends SwaggerGen_TestCase
      */
     public function testParse_AfterClass()
     {
-        $object = new \SwaggerGen\Parser\Php\Parser();
+        $object = new Parser();
         $this->assertInstanceOf('\SwaggerGen\Parser\Php\Parser', $object);
 
         $statements = $object->parse(__DIR__ . '/ParserTest/testParse_AfterClass.php');
@@ -211,7 +200,7 @@ class ParserTest extends SwaggerGen_TestCase
      */
     public function testParse_Prefix()
     {
-        $object = new \SwaggerGen\Parser\Php\Parser();
+        $object = new Parser();
         $this->assertInstanceOf('\SwaggerGen\Parser\Php\Parser', $object);
 
         $statements = $object->parse(__DIR__ . '/ParserTest/testParse_Prefix.php');
@@ -226,7 +215,7 @@ class ParserTest extends SwaggerGen_TestCase
      */
     public function testParse_PropertyReadOnly()
     {
-        $object = new \SwaggerGen\Parser\Php\Parser();
+        $object = new Parser();
         $this->assertInstanceOf('\SwaggerGen\Parser\Php\Parser', $object);
 
         $statements = $object->parse(__DIR__ . '/ParserTest/testParse_PropertyReadOnly.php');
@@ -244,7 +233,7 @@ class ParserTest extends SwaggerGen_TestCase
      */
     public function testParse_PropertyOptional()
     {
-        $object = new \SwaggerGen\Parser\Php\Parser();
+        $object = new Parser();
         $this->assertInstanceOf('\SwaggerGen\Parser\Php\Parser', $object);
 
         $statements = $object->parse(__DIR__ . '/ParserTest/testParse_PropertyOptional.php');
@@ -262,7 +251,7 @@ class ParserTest extends SwaggerGen_TestCase
      */
     public function testParse_Minimal()
     {
-        $object = new \SwaggerGen\Parser\Php\Parser();
+        $object = new Parser();
         $this->assertInstanceOf('\SwaggerGen\Parser\Php\Parser', $object);
 
         $statements = $object->parse(__DIR__ . '/ParserTest/testParse_Minimal.php');
@@ -281,7 +270,7 @@ class ParserTest extends SwaggerGen_TestCase
      */
     public function testParse_SeeFunction()
     {
-        $object = new \SwaggerGen\Parser\Php\Parser();
+        $object = new Parser();
         $this->assertInstanceOf('\SwaggerGen\Parser\Php\Parser', $object);
 
         $statements = $object->parse(__DIR__ . '/ParserTest/testParse_SeeFunction.php');
@@ -295,12 +284,28 @@ class ParserTest extends SwaggerGen_TestCase
     }
 
     /**
+     * Test if the statement matches the expected values
+     * @param array[] $expected
+     * @param SwaggerGen\Parser\Php\Statement[] $statements
+     */
+    private function assertStatements(array $expected, array $statements)
+    {
+        $this->assertCount(count($expected), $statements, join("\n", $statements));
+        foreach ($expected as $index => $command) {
+            $statement = $statements[$index];
+            $this->assertInstanceOf('\SwaggerGen\Statement', $statement);
+            $this->assertSame($command[0], $statement->getCommand());
+            $this->assertSame($command[1], $statement->getData());
+        }
+    }
+
+    /**
      * Tests $this->MethodName
      * @covers \SwaggerGen\Parser\Php\Parser::parse
      */
     public function testParse_SeeThisMethod()
     {
-        $object = new \SwaggerGen\Parser\Php\Parser();
+        $object = new Parser();
         $this->assertInstanceOf('\SwaggerGen\Parser\Php\Parser', $object);
 
         $statements = $object->parse(__DIR__ . '/ParserTest/testParse_SeeThisMethod.php');
@@ -319,7 +324,7 @@ class ParserTest extends SwaggerGen_TestCase
      */
     public function testParse_SeeObjectMethod()
     {
-        $object = new \SwaggerGen\Parser\Php\Parser();
+        $object = new Parser();
         $this->assertInstanceOf('\SwaggerGen\Parser\Php\Parser', $object);
 
         $statements = $object->parse(__DIR__ . '/ParserTest/testParse_SeeObjectMethod.php');
@@ -338,7 +343,7 @@ class ParserTest extends SwaggerGen_TestCase
      */
     public function testParse_SeeSelfMethod()
     {
-        $object = new \SwaggerGen\Parser\Php\Parser();
+        $object = new Parser();
         $this->assertInstanceOf('\SwaggerGen\Parser\Php\Parser', $object);
 
         $statements = $object->parse(__DIR__ . '/ParserTest/testParse_SeeSelfMethod.php');
@@ -357,7 +362,7 @@ class ParserTest extends SwaggerGen_TestCase
      */
     public function testParse_SeeClassMethod()
     {
-        $object = new \SwaggerGen\Parser\Php\Parser();
+        $object = new Parser();
         $this->assertInstanceOf('\SwaggerGen\Parser\Php\Parser', $object);
 
         $statements = $object->parse(__DIR__ . '/ParserTest/testParse_SeeClassMethod.php');
@@ -376,7 +381,7 @@ class ParserTest extends SwaggerGen_TestCase
      */
     public function testParse_StaticMethod()
     {
-        $object = new \SwaggerGen\Parser\Php\Parser();
+        $object = new Parser();
         $this->assertInstanceOf('\SwaggerGen\Parser\Php\Parser', $object);
 
         $statements = $object->parse(__DIR__ . '/ParserTest/testParse_StaticMethod.php');
@@ -395,7 +400,7 @@ class ParserTest extends SwaggerGen_TestCase
      */
     public function testParse_SeeInheritedThisMethod()
     {
-        $object = new \SwaggerGen\Parser\Php\Parser();
+        $object = new Parser();
         $this->assertInstanceOf('\SwaggerGen\Parser\Php\Parser', $object);
 
         $statements = $object->parse(__DIR__ . '/ParserTest/testParse_SeeInheritedThisMethod.php');
@@ -414,7 +419,7 @@ class ParserTest extends SwaggerGen_TestCase
      */
     public function testParse_SeeInheritedObjectMethod()
     {
-        $object = new \SwaggerGen\Parser\Php\Parser();
+        $object = new Parser();
         $this->assertInstanceOf('\SwaggerGen\Parser\Php\Parser', $object);
 
         $statements = $object->parse(__DIR__ . '/ParserTest/testParse_SeeInheritedObjectMethod.php');
@@ -433,7 +438,7 @@ class ParserTest extends SwaggerGen_TestCase
      */
     public function testParse_Autoload_Parse()
     {
-        $object = new \SwaggerGen\Parser\Php\Parser();
+        $object = new Parser();
         $this->assertInstanceOf('\SwaggerGen\Parser\Php\Parser', $object);
 
         $statements = $object->parse(__DIR__ . '/ParserTest/testParse_Autoload.php', array(
@@ -454,7 +459,7 @@ class ParserTest extends SwaggerGen_TestCase
      */
     public function testParse_Autoload_Construct()
     {
-        $object = new \SwaggerGen\Parser\Php\Parser(array(
+        $object = new Parser(array(
             __DIR__ . '/ParserTest',
         ));
         $this->assertInstanceOf('\SwaggerGen\Parser\Php\Parser', $object);
@@ -475,7 +480,7 @@ class ParserTest extends SwaggerGen_TestCase
      */
     public function testParse_Autoload_AddDirs()
     {
-        $object = new \SwaggerGen\Parser\Php\Parser();
+        $object = new Parser();
         $this->assertInstanceOf('\SwaggerGen\Parser\Php\Parser', $object);
 
         $object->addDirs(array(
@@ -497,7 +502,7 @@ class ParserTest extends SwaggerGen_TestCase
      */
     public function testParse_XTag()
     {
-        $object = new \SwaggerGen\Parser\Php\Parser();
+        $object = new Parser();
         $this->assertInstanceOf('\SwaggerGen\Parser\Php\Parser', $object);
 
         $object->addDirs(array(

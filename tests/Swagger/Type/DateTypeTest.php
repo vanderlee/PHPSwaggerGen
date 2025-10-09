@@ -1,19 +1,12 @@
 <?php
+declare(strict_types=1);
 
-class DateTypeTest extends SwaggerGen_TestCase
+use PHPUnit\Framework\TestCase;
+
+class DateTypeTest extends TestCase
 {
 
     protected $parent;
-
-    protected function setUp(): void
-    {
-        $this->parent = $this->getMockForAbstractClass('\SwaggerGen\Swagger\AbstractObject');
-    }
-
-    protected function assertPreConditions(): void
-    {
-        $this->assertInstanceOf('\SwaggerGen\Swagger\AbstractObject', $this->parent);
-    }
 
     /**
      * @covers \SwaggerGen\Swagger\Type\DateType::__construct
@@ -184,6 +177,16 @@ class DateTypeTest extends SwaggerGen_TestCase
             'format' => 'date',
             'default' => '1999-12-31',
         ), $object->toArray());
+    }
+
+    protected function setUp(): void
+    {
+        $this->parent = $this->getMockForAbstractClass('\SwaggerGen\Swagger\AbstractObject');
+    }
+
+    protected function assertPreConditions(): void
+    {
+        $this->assertInstanceOf('\SwaggerGen\Swagger\AbstractObject', $this->parent);
     }
 
 }

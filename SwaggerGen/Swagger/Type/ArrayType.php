@@ -10,7 +10,7 @@ use SwaggerGen\Swagger\Parameter;
  *
  * @package    SwaggerGen
  * @author     Martijn van der Lee <martijn@vanderlee.com>
- * @copyright  2014-2015 Martijn van der Lee
+ * @copyright  2014-2025 Martijn van der Lee
  * @license    https://opensource.org/licenses/MIT MIT
  */
 class ArrayType extends AbstractType
@@ -37,12 +37,90 @@ class ArrayType extends AbstractType
     private $collectionFormat = null;
 
     /**
+     * @param string $command The comment command
+     * @param string $data Any data added after the command
+     * @return AbstractType|boolean
+     * @throws Exception
+     * @throws Exception
+     * @throws Exception
+     * @throws Exception
+     * @throws Exception
+     * @throws Exception
+     * @throws Exception
+     */
+    public function handleCommand($command, $data = null)
+    {
+        if ($this->Items) {
+            $return = $this->Items->handleCommand($command, $data);
+            if ($return) {
+                return $return;
+            }
+        }
+
+        switch (strtolower($command)) {
+            case 'min':
+                $this->minItems = (int)$data;
+                if ($this->minItems < 0) {
+                    throw new Exception("Minimum less than zero: '{$data}'");
+                }
+                if ($this->maxItems !== null && $this->minItems > $this->maxItems) {
+                    throw new Exception("Minimum greater than maximum: '{$data}'");
+                }
+                return $this;
+
+            case 'max':
+                $this->maxItems = (int)$data;
+                if ($this->minItems !== null && $this->minItems > $this->maxItems) {
+                    throw new Exception("Maximum less than minimum: '{$data}'");
+                }
+                if ($this->maxItems < 0) {
+                    throw new Exception("Maximum less than zero: '{$data}'");
+                }
+                return $this;
+
+            case 'items':
+                $this->Items = $this->validateItems($data);
+                return $this->Items;
+        }
+
+        return parent::handleCommand($command, $data);
+    }
+
+    /**
+     * @throws Exception
+     */
+    private function validateItems($items)
+    {
+        if (empty($items)) {
+            throw new Exception("Empty items definition: '{$items}'");
+        }
+
+        return self::typeFactory($this, $items, "Unparseable items definition: '%s'");
+    }
+
+    public function toArray(): array
+    {
+        return self::arrayFilterNull(array_merge(array(
+            'type' => 'array',
+            'items' => empty($this->Items) ? null : $this->Items->toArray(),
+            'collectionFormat' => $this->collectionFormat == 'csv' ? null : $this->collectionFormat,
+            'minItems' => $this->minItems,
+            'maxItems' => $this->maxItems,
+        ), parent::toArray()));
+    }
+
+    public function __toString()
+    {
+        return __CLASS__;
+    }
+
+    /**
      * @throws Exception
      */
     protected function parseDefinition($definition)
     {
         $definition = self::trim($definition);
-        $match = array();
+        $match = [];
         if (preg_match(self::REGEX_START . self::REGEX_FORMAT . self::REGEX_CONTENT . self::REGEX_RANGE . self::REGEX_END, $definition, $match) === 1) {
             $match[1] = strtolower($match[1]);
         } elseif (preg_match(self::REGEX_START . self::REGEX_ARRAY_CONTENT . self::REGEX_RANGE . self::REGEX_END, $definition, $match) === 1) {
@@ -114,84 +192,6 @@ class ArrayType extends AbstractType
             $this->minItems = $this->minItems === null ? null : max(0, $exclusiveMinimum ? $this->minItems + 1 : $this->minItems);
             $this->maxItems = $this->maxItems === null ? null : max(0, $exclusiveMaximum ? $this->maxItems - 1 : $this->maxItems);
         }
-    }
-
-    /**
-     * @param string $command The comment command
-     * @param string $data Any data added after the command
-     * @return AbstractType|boolean
-     * @throws Exception
-     * @throws Exception
-     * @throws Exception
-     * @throws Exception
-     * @throws Exception
-     * @throws Exception
-     * @throws Exception
-     */
-    public function handleCommand($command, $data = null)
-    {
-        if ($this->Items) {
-            $return = $this->Items->handleCommand($command, $data);
-            if ($return) {
-                return $return;
-            }
-        }
-
-        switch (strtolower($command)) {
-            case 'min':
-                $this->minItems = (int)$data;
-                if ($this->minItems < 0) {
-                    throw new Exception("Minimum less than zero: '{$data}'");
-                }
-                if ($this->maxItems !== null && $this->minItems > $this->maxItems) {
-                    throw new Exception("Minimum greater than maximum: '{$data}'");
-                }
-                return $this;
-
-            case 'max':
-                $this->maxItems = (int)$data;
-                if ($this->minItems !== null && $this->minItems > $this->maxItems) {
-                    throw new Exception("Maximum less than minimum: '{$data}'");
-                }
-                if ($this->maxItems < 0) {
-                    throw new Exception("Maximum less than zero: '{$data}'");
-                }
-                return $this;
-
-            case 'items':
-                $this->Items = $this->validateItems($data);
-                return $this->Items;
-        }
-
-        return parent::handleCommand($command, $data);
-    }
-
-    public function toArray(): array
-    {
-        return self::arrayFilterNull(array_merge(array(
-            'type' => 'array',
-            'items' => empty($this->Items) ? null : $this->Items->toArray(),
-            'collectionFormat' => $this->collectionFormat == 'csv' ? null : $this->collectionFormat,
-            'minItems' => $this->minItems,
-            'maxItems' => $this->maxItems,
-        ), parent::toArray()));
-    }
-
-    /**
-     * @throws Exception
-     */
-    private function validateItems($items)
-    {
-        if (empty($items)) {
-            throw new Exception("Empty items definition: '{$items}'");
-        }
-
-        return self::typeFactory($this, $items, "Unparseable items definition: '%s'");
-    }
-
-    public function __toString()
-    {
-        return __CLASS__;
     }
 
 }

@@ -1,19 +1,12 @@
 <?php
+declare(strict_types=1);
 
-class MacTypeTest extends SwaggerGen_TestCase
+use PHPUnit\Framework\TestCase;
+
+class MacTypeTest extends TestCase
 {
 
     protected $parent;
-
-    protected function setUp(): void
-    {
-        $this->parent = $this->getMockForAbstractClass('\SwaggerGen\Swagger\AbstractObject');
-    }
-
-    protected function assertPreConditions(): void
-    {
-        $this->assertInstanceOf('\SwaggerGen\Swagger\AbstractObject', $this->parent);
-    }
 
     /**
      * @covers \SwaggerGen\Swagger\Type\Custom\MacType::__construct
@@ -145,6 +138,16 @@ class MacTypeTest extends SwaggerGen_TestCase
             'pattern' => \SwaggerGen\Swagger\Type\Custom\MacType::PATTERN,
             'default' => 'FF:FF:FF:FF:FF:FF',
         ), $object->toArray());
+    }
+
+    protected function setUp(): void
+    {
+        $this->parent = $this->getMockForAbstractClass('\SwaggerGen\Swagger\AbstractObject');
+    }
+
+    protected function assertPreConditions(): void
+    {
+        $this->assertInstanceOf('\SwaggerGen\Swagger\AbstractObject', $this->parent);
     }
 
 }

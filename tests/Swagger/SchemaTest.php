@@ -1,19 +1,12 @@
 <?php
+declare(strict_types=1);
 
-class SchemaTest extends SwaggerGen_TestCase
+use PHPUnit\Framework\TestCase;
+
+class SchemaTest extends TestCase
 {
 
     protected $parent;
-
-    protected function setUp(): void
-    {
-        $this->parent = $this->getMockForAbstractClass('\SwaggerGen\Swagger\Swagger');
-    }
-
-    protected function assertPreConditions(): void
-    {
-        $this->assertInstanceOf('\SwaggerGen\Swagger\AbstractObject', $this->parent);
-    }
 
     /**
      * @covers \SwaggerGen\Swagger\Schema::__construct
@@ -135,6 +128,16 @@ class SchemaTest extends SwaggerGen_TestCase
             'format' => 'int32',
             'title' => 'Title words',
         ), $object->toArray());
+    }
+
+    protected function setUp(): void
+    {
+        $this->parent = $this->getMockForAbstractClass('\SwaggerGen\Swagger\Swagger');
+    }
+
+    protected function assertPreConditions(): void
+    {
+        $this->assertInstanceOf('\SwaggerGen\Swagger\AbstractObject', $this->parent);
     }
 
 }
