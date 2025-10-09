@@ -41,7 +41,7 @@ class TypeRegistry
      *
      * @param string $name
      */
-    public function remove($name)
+    public function remove($name): void
     {
         $this->formats[$name] = null;
     }
@@ -49,9 +49,10 @@ class TypeRegistry
     /**
      * Is a type format known?
      *
+     * @param $name
      * @return bool
      */
-    public function has($name)
+    public function has($name): bool
     {
         return !empty($this->formats[$name]);
     }
@@ -59,9 +60,10 @@ class TypeRegistry
     /**
      * Get the format class name
      *
+     * @param $name
      * @return null|string
      */
-    public function get($name)
+    public function get($name): ?string
     {
         return !empty($this->formats[$name])
             ? $this->formats[$name]

@@ -16,9 +16,9 @@ class BooleanType extends AbstractType
 {
 
     /** @noinspection PhpRegExpUnsupportedModifierInspection */
-    const REGEX_DEFAULT = '(?:=(true|false|1|0))?';
+    protected const REGEX_DEFAULT = '(?:=(true|false|1|0))?';
 
-    private $default = null;
+    private $default;
 
     /**
      * @param string $command The comment command
@@ -30,8 +30,8 @@ class BooleanType extends AbstractType
     public function handleCommand($command, $data = null)
     {
         if (strtolower($command) === 'default') {
-            if (!in_array($data, array('0', '1', 'true', 'false'))) {
-                throw new Exception("Invalid boolean default: '{$data}'");
+            if (!in_array($data, array('0', '1', 'true', 'false'), true)) {
+                throw new Exception("Invalid boolean default: '$data'");
             }
             $this->default = ($data == '1') || (strtolower($data) === 'true');
             return $this;
@@ -56,15 +56,15 @@ class BooleanType extends AbstractType
     /**
      * @throws Exception
      */
-    protected function parseDefinition($definition)
+    protected function parseDefinition($definition): void
     {
         $match = [];
         if (preg_match(self::REGEX_START . self::REGEX_FORMAT . self::REGEX_DEFAULT . self::REGEX_END, $definition, $match) !== 1) {
-            throw new Exception("Unparseable boolean definition: '{$definition}'");
+            throw new Exception("Unparseable boolean definition: '$definition'");
         }
 
         if (strtolower($match[1]) !== 'boolean') {
-            throw new Exception("Not a boolean: '{$definition}'");
+            throw new Exception("Not a boolean: '$definition'");
         }
 
         if (isset($match[2])) {

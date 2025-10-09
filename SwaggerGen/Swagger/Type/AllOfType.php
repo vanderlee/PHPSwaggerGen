@@ -31,7 +31,7 @@ class AllOfType extends AbstractType
     /**
      * @throws Exception
      */
-    protected function parseDefinition($definition)
+    protected function parseDefinition($definition): void
     {
         $pattern = self::REGEX_START . 'allof' . self::REGEX_CONTENT . self::REGEX_END;
         $inlineDef = '';

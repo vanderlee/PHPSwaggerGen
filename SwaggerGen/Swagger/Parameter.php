@@ -42,10 +42,10 @@ class Parameter extends AbstractObject implements IParameter
         'date-time' => 'Date',
         'file' => 'File',
     );
-    private $name = '';
+    private $name;
     private $in;
     private $description;
-    private $required = false;
+    private $required;
 
     /**
      * @var Type\AbstractType

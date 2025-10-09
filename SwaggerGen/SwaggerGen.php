@@ -45,7 +45,7 @@ class SwaggerGen
 
     private string $host;
     private string $basePath;
-    private array $dirs = [];
+    private array $dirs;
     private array $defines = [];
 
     /**
@@ -74,7 +74,7 @@ class SwaggerGen
      *
      * @param TypeRegistry $typeRegistry
      */
-    public function setTypeRegistry($typeRegistry = null)
+    public function setTypeRegistry($typeRegistry = null): void
     {
         $this->typeRegistry = $typeRegistry;
     }
@@ -82,7 +82,7 @@ class SwaggerGen
     /**
      * @param string $name
      */
-    public function define($name, $value = 1)
+    public function define($name, $value = 1): void
     {
         $this->defines[$name] = $value;
     }
@@ -90,7 +90,7 @@ class SwaggerGen
     /**
      * @param string $name
      */
-    public function undefine($name)
+    public function undefine($name): void
     {
         unset($this->defines[$name]);
     }
@@ -111,19 +111,11 @@ class SwaggerGen
 
         $statements = [];
         foreach ($files as $file) {
-            switch (pathinfo($file, PATHINFO_EXTENSION)) {
-                case 'php':
-                    $fileStatements = $this->parsePhpFile($file, $dirs);
-                    break;
-
-                case 'txt':
-                    $fileStatements = $this->parseTextFile($file, $dirs);
-                    break;
-
-                default:
-                    $fileStatements = $this->parseText($file, $dirs);
-                    break;
-            }
+            $fileStatements = match (pathinfo($file, PATHINFO_EXTENSION)) {
+                'php' => $this->parsePhpFile($file, $dirs),
+                'txt' => $this->parseTextFile($file, $dirs),
+                default => $this->parseText($file, $dirs),
+            };
 
             $statements[] = $fileStatements;
         }
@@ -173,7 +165,7 @@ class SwaggerGen
      * @param string[] $dirs
      * @return Statement[]
      */
-    private function parseTextFile($file, $dirs)
+    private function parseTextFile($file, $dirs): array
     {
         return (new TextParser())->parse($file, $dirs, $this->defines);
     }
@@ -202,7 +194,7 @@ class SwaggerGen
      * @return Swagger
      * @throws StatementException
      */
-    public function parseStatements($host, $basePath, $statements)
+    public function parseStatements($host, $basePath, $statements): Swagger
     {
         $swagger = new Swagger($host, $basePath, $this->typeRegistry);
 

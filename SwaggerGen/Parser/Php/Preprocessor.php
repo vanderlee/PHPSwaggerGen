@@ -28,7 +28,7 @@ class Preprocessor extends AbstractPreprocessor
         }
     }
 
-    protected function parseContent($content)
+    protected function parseContent($content): string
     {
         $pattern = '/@' . preg_quote($this->getPrefix(), '/') . '\\\\([a-z]+)\\s*(.*)$/';
 
@@ -81,7 +81,7 @@ class Preprocessor extends AbstractPreprocessor
         return $this->prefix;
     }
 
-    public function setPrefix($prefix)
+    public function setPrefix($prefix): void
     {
         $this->prefix = $prefix;
     }

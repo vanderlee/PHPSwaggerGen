@@ -32,7 +32,7 @@ class FileType extends AbstractType
     /**
      * @throws Exception
      */
-    protected function parseDefinition($definition)
+    protected function parseDefinition($definition): void
     {
         $type = strtolower($definition);
 
@@ -52,7 +52,7 @@ class FileType extends AbstractType
             $consumes = $this->getSwagger()->getConsumes();
         }
 
-        $valid_consumes = ((int)in_array('multipart/form-data', $consumes)) + ((int)in_array('application/x-www-form-urlencoded', $consumes));
+        $valid_consumes = ((int)in_array('multipart/form-data', $consumes, true)) + ((int)in_array('application/x-www-form-urlencoded', $consumes, true));
         if (empty($consumes) || $valid_consumes !== count($consumes)) {
             throw new Exception("File type '{$definition}' without valid consume");
         }

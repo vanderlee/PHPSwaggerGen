@@ -25,12 +25,12 @@ class Schema extends AbstractDocumentableObject implements IDefinition
     /**
      * @var string
      */
-    private $title = null;
+    private $title;
 
     /**
      * @var bool
      */
-    private $readOnly = null;
+    private $readOnly;
 
     /**
      * @var AbstractType
@@ -96,7 +96,7 @@ class Schema extends AbstractDocumentableObject implements IDefinition
         return __CLASS__;
     }
 
-    public function setReadOnly()
+    public function setReadOnly(): void
     {
         $this->readOnly = true;
     }

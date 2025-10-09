@@ -18,7 +18,7 @@ class DateType extends AbstractType
 {
 
     /** @noinspection PhpRegExpUnsupportedModifierInspection */
-    const REGEX_DEFAULT = '(?:=(\S+))?';
+    public const REGEX_DEFAULT = '(?:=(\S+))?';
 
     /**
      * Map of recognized format names to Swagger formats
@@ -42,7 +42,7 @@ class DateType extends AbstractType
     /**
      * @var DateTime
      */
-    private $default = null;
+    private $default;
 
     /**
      * @param string $command The comment command
@@ -82,7 +82,7 @@ class DateType extends AbstractType
         return self::arrayFilterNull(array_merge(array(
             'type' => 'string',
             'format' => $this->format,
-            'default' => $this->default ? $this->default->format(self::$datetime_formats[$this->format]) : null,
+            'default' => $this->default?->format(self::$datetime_formats[$this->format]),
         ), parent::toArray()));
     }
 
@@ -94,7 +94,7 @@ class DateType extends AbstractType
     /**
      * @throws Exception
      */
-    protected function parseDefinition($definition)
+    protected function parseDefinition($definition): void
     {
         $match = [];
         if (preg_match(self::REGEX_START . self::REGEX_FORMAT . self::REGEX_DEFAULT . self::REGEX_END, $definition, $match) !== 1) {

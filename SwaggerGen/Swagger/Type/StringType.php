@@ -28,10 +28,10 @@ class StringType extends AbstractType
      * @var string
      */
     protected $format = '';
-    protected $pattern = null;
-    protected $default = null;
-    protected $maxLength = null;
-    protected $minLength = null;
+    protected $pattern;
+    protected $default;
+    protected $maxLength;
+    protected $minLength;
     protected $enum = [];
 
     /**
@@ -72,7 +72,7 @@ class StringType extends AbstractType
      * @return string the value after validation (might become trimmed)
      * @throws Exception
      */
-    protected function validateDefault($value)
+    protected function validateDefault($value): string
     {
         if (empty($value)) {
             if ($this->format) {
@@ -83,7 +83,7 @@ class StringType extends AbstractType
             throw new Exception("Empty {$type} default");
         }
 
-        if (!empty($this->enum) && !in_array($value, $this->enum)) {
+        if (!empty($this->enum) && !in_array($value, $this->enum, true)) {
             throw new Exception("Invalid enum default: '{$value}'");
         }
 
@@ -129,7 +129,7 @@ class StringType extends AbstractType
     /**
      * @throws Exception
      */
-    protected function parseDefinition($definition)
+    protected function parseDefinition($definition): void
     {
         $definition = self::trim($definition);
 
@@ -149,7 +149,7 @@ class StringType extends AbstractType
      * @param string[] $match
      * @throws Exception
      */
-    private function parseFormat($definition, $match)
+    private function parseFormat($definition, $match): void
     {
         $type = strtolower($match[1]);
         if (!isset(self::$formats[$type])) {
@@ -162,7 +162,7 @@ class StringType extends AbstractType
      * @param string $definition
      * @param string[] $match
      */
-    private function parseContent($definition, $match)
+    private function parseContent($definition, $match): void
     {
         if (strtolower($match[1]) === 'enum') {
             $this->enum = explode(',', $match[2]);
@@ -177,7 +177,7 @@ class StringType extends AbstractType
      * @throws Exception
      * @throws Exception
      */
-    private function parseRange($definition, $match)
+    private function parseRange($definition, $match): void
     {
 
         if (!empty($match[3])) {
@@ -187,10 +187,10 @@ class StringType extends AbstractType
             if ($match[4] === '' && $match[5] === '') {
                 throw new Exception("Empty string range: '{$definition}'");
             }
-            $exclusiveMinimum = $match[3] == '<';
+            $exclusiveMinimum = $match[3] === '<';
             $this->minLength = $match[4] === '' ? null : $match[4];
             $this->maxLength = $match[5] === '' ? null : $match[5];
-            $exclusiveMaximum = isset($match[6]) ? ($match[6] == '>') : null;
+            $exclusiveMaximum = isset($match[6]) ? ($match[6] === '>') : null;
             if ($this->minLength !== null && $this->maxLength !== null && $this->minLength > $this->maxLength) {
                 self::swap($this->minLength, $this->maxLength);
                 self::swap($exclusiveMinimum, $exclusiveMaximum);
@@ -205,7 +205,7 @@ class StringType extends AbstractType
      * @param string[] $match
      * @throws Exception
      */
-    private function parseDefault($definition, $match)
+    private function parseDefault($definition, $match): void
     {
         $this->default = isset($match[7]) && $match[7] !== '' ? $this->validateDefault($match[7]) : null;
     }

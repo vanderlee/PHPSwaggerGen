@@ -50,7 +50,7 @@ class Parser implements IParser
      *
      * @param string[] $dirs
      */
-    public function addDirs(array $dirs)
+    public function addDirs(array $dirs): void
     {
         foreach ($dirs as $dir) {
             $this->common_dirs[] = realpath($dir);
@@ -65,7 +65,7 @@ class Parser implements IParser
      * @param string[] $defines
      * @return Statement[]
      */
-    public function parse($file, array $dirs = [], array $defines = [])
+    public function parse($file, array $dirs = [], array $defines = []): array
     {
         return $this->parseText(file_get_contents(realpath($file)), $dirs);
     }

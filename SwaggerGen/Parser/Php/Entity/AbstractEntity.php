@@ -18,17 +18,17 @@ class AbstractEntity
     /**
      * @var Statement[]
      */
-    public $Statements = [];
+    public $statements = [];
 
     /**
      * Returns true if a statement with the specified command exists.
      * @param string $command
      * @return boolean
      */
-    public function hasCommand($command): bool
+    public function hasCommand(string $command): bool
     {
-        foreach ($this->Statements as $Statement) {
-            if ($Statement->getCommand() === $command) {
+        foreach ($this->statements as $statement) {
+            if ($statement->getCommand() === $command) {
                 return true;
             }
         }
@@ -38,7 +38,6 @@ class AbstractEntity
 
     public function getStatements(): array
     {
-        return $this->Statements;
+        return $this->statements;
     }
-
 }

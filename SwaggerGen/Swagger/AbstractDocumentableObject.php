@@ -18,7 +18,7 @@ abstract class AbstractDocumentableObject extends AbstractObject
      * External documentation
      * @var ExternalDocumentation
      */
-    private $externalDocs = null;
+    private $externalDocs;
 
     /**
      * @param string $command
@@ -44,7 +44,7 @@ abstract class AbstractDocumentableObject extends AbstractObject
     public function toArray(): array
     {
         return self::arrayFilterNull(array_merge(array(
-            'externalDocs' => $this->externalDocs ? $this->externalDocs->toArray() : null,
+            'externalDocs' => $this->externalDocs?->toArray(),
         ), parent::toArray()));
     }
 

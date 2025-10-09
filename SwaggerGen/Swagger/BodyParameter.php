@@ -18,9 +18,9 @@ class BodyParameter extends AbstractObject implements IParameter
     /**
      * @var string|boolean
      */
-    private $name = '';
+    private $name;
     private $description;
-    private $required = false;
+    private $required;
 
     /**
      * @var Schema

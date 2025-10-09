@@ -15,13 +15,12 @@ use SwaggerGen\Swagger\AbstractObject;
  */
 abstract class AbstractType extends AbstractObject
 {
-
-    const REGEX_START = '/^';
-    const REGEX_FORMAT = '([a-z][a-z0-9]*)';
-    const REGEX_CONTENT = '(?:\((.*)\))?';
-    const REGEX_RANGE = '(?:([[<])(\\d*),(\\d*)([\\]>]))?';
-    const REGEX_DEFAULT = '(?:=(.+))?';
-    const REGEX_END = '$/i';
+    protected const REGEX_START = '/^';
+    protected const REGEX_FORMAT = '([a-z][a-z0-9]*)';
+    protected const REGEX_CONTENT = '(?:\((.*)\))?';
+    protected const REGEX_RANGE = '(?:([[<])(\\d*),(\\d*)([\\]>]))?';
+    protected const REGEX_DEFAULT = '(?:=(.+))?';
+    protected const REGEX_END = '$/i';
 
     private static $classTypes = array(
         'integer' => 'Integer',
@@ -52,7 +51,7 @@ abstract class AbstractType extends AbstractObject
         'allof' => 'AllOf',
     );
 
-    private $example = null;
+    private $example;
 
     /**
      * @param AbstractObject $parent
@@ -110,7 +109,7 @@ abstract class AbstractType extends AbstractObject
      * @param mixed $a
      * @param mixed $b
      */
-    protected static function swap(&$a, &$b)
+    protected static function swap(&$a, &$b): void
     {
         $tmp = $a;
         $a = $b;
@@ -121,7 +120,7 @@ abstract class AbstractType extends AbstractObject
      * @param string $list
      * @return array
      */
-    protected static function parseList($list)
+    protected static function parseList($list): array
     {
         $ret = [];
         while ($item = self::parseListItem($list)) {
@@ -139,7 +138,7 @@ abstract class AbstractType extends AbstractObject
      * @param string $list the list to parse
      * @return string the extracted item
      */
-    protected static function parseListItem(&$list)
+    protected static function parseListItem(&$list): string
     {
         $item = '';
 

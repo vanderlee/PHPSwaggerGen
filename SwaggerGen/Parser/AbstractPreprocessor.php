@@ -21,22 +21,22 @@ abstract class AbstractPreprocessor
         $this->resetDefines();
     }
 
-    public function resetDefines()
+    public function resetDefines(): void
     {
         $this->defines = [];
     }
 
-    public function addDefines(array $defines)
+    public function addDefines(array $defines): void
     {
         $this->defines = array_merge($this->defines, $defines);
     }
 
-    public function define($name, $value = 1)
+    public function define($name, $value = 1): void
     {
         $this->defines[$name] = $value;
     }
 
-    public function undefine($name)
+    public function undefine($name): void
     {
         unset($this->defines[$name]);
     }
@@ -55,7 +55,7 @@ abstract class AbstractPreprocessor
 
     abstract protected function parseContent($content);
 
-    protected function handle($command, $expression)
+    protected function handle($command, $expression): bool
     {
         switch (strtolower($command)) {
             case 'if':
@@ -128,7 +128,7 @@ abstract class AbstractPreprocessor
         return false;
     }
 
-    protected function getState()
+    protected function getState(): bool
     {
         return empty($this->stack) || end($this->stack);
     }

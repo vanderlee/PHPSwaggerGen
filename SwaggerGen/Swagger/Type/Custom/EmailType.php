@@ -17,7 +17,7 @@ use SwaggerGen\Swagger\Type\StringType;
 class EmailType extends StringType implements ICustomType
 {
 
-    const PATTERN = '\A[a-z0-9!#$%&\'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&\'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\z';
+    public const PATTERN = '\A[a-z0-9!#$%&\'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&\'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\z';
 
     /**
      * List of formats recognized by this class
@@ -38,12 +38,12 @@ class EmailType extends StringType implements ICustomType
         parent::__construct($parent, $definition);
     }
 
-    public static function getFormats()
+    public static function getFormats(): array
     {
         return self::$formats;
     }
 
-    public static function setFormats(array $formats)
+    public static function setFormats(array $formats): void
     {
         self::$formats = $formats;
     }
@@ -54,7 +54,7 @@ class EmailType extends StringType implements ICustomType
      * @param string $definition
      * @throws Exception
      */
-    protected function parseDefinition($definition)
+    protected function parseDefinition($definition): void
     {
         $definition = self::trim($definition);
 
@@ -77,7 +77,7 @@ class EmailType extends StringType implements ICustomType
      * @return string
      * @throws Exception
      */
-    protected function validateDefault($value)
+    protected function validateDefault($value): string
     {
         if (empty($value)) {
             throw new Exception("Empty email default");

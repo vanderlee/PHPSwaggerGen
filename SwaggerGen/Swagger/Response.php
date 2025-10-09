@@ -178,7 +178,7 @@ class Response extends AbstractObject
     {
         return self::arrayFilterNull(array_merge(array(
             'description' => $this->description,
-            'schema' => $this->schema ? $this->schema->toArray() : null,
+            'schema' => $this->schema?->toArray(),
             'headers' => self::objectsToArray($this->Headers),
             'examples' => $this->examples,
         ), parent::toArray()));

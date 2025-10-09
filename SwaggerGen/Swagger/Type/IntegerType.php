@@ -28,13 +28,13 @@ class IntegerType extends AbstractType
         'long' => 'int64',
     );
     private $format;
-    private $default = null;
-    private $maximum = null;
-    private $exclusiveMaximum = null;
-    private $minimum = null;
-    private $exclusiveMinimum = null;
+    private $default;
+    private $maximum;
+    private $exclusiveMaximum;
+    private $minimum;
+    private $exclusiveMinimum;
     private $enum = [];
-    private $multipleOf = null;
+    private $multipleOf;
 
     /**
      * @param string $command The comment command
@@ -73,7 +73,7 @@ class IntegerType extends AbstractType
     /**
      * @throws Exception
      */
-    private function validateDefault($value)
+    private function validateDefault($value): int
     {
         if (preg_match('~^-?\d+$~', $value) !== 1) {
             throw new Exception("Invalid integer default: '{$value}'");
@@ -116,7 +116,7 @@ class IntegerType extends AbstractType
     /**
      * @throws Exception
      */
-    protected function parseDefinition($definition)
+    protected function parseDefinition($definition): void
     {
         $definition = self::trim($definition);
 
@@ -135,7 +135,7 @@ class IntegerType extends AbstractType
      * @param string[] $match
      * @throws Exception
      */
-    private function parseFormat($definition, $match)
+    private function parseFormat($definition, $match): void
     {
         $type = strtolower($match[1]);
         if (!isset(self::$formats[$type])) {
@@ -149,17 +149,17 @@ class IntegerType extends AbstractType
      * @param string[] $match
      * @throws Exception
      */
-    private function parseRange($definition, $match)
+    private function parseRange($definition, $match): void
     {
         if (!empty($match[2])) {
             if ($match[3] === '' && $match[4] === '') {
                 throw new Exception("Empty integer range: '{$definition}'");
             }
 
-            $this->exclusiveMinimum = $match[2] == '<';
+            $this->exclusiveMinimum = $match[2] === '<';
             $this->minimum = $match[3] === '' ? null : (int)$match[3];
             $this->maximum = $match[4] === '' ? null : (int)$match[4];
-            $this->exclusiveMaximum = isset($match[5]) ? ($match[5] == '>') : null;
+            $this->exclusiveMaximum = isset($match[5]) ? ($match[5] === '>') : null;
             if ($this->minimum && $this->maximum && $this->minimum > $this->maximum) {
                 self::swap($this->minimum, $this->maximum);
                 self::swap($this->exclusiveMinimum, $this->exclusiveMaximum);
@@ -172,7 +172,7 @@ class IntegerType extends AbstractType
      * @param string[] $match
      * @throws Exception
      */
-    private function parseDefault($definition, $match)
+    private function parseDefault($definition, $match): void
     {
         $this->default = isset($match[6]) && $match[6] !== '' ? $this->validateDefault($match[6]) : null;
     }

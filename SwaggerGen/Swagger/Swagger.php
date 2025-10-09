@@ -63,7 +63,7 @@ class Swagger extends AbstractDocumentableObject
      *
      * @var Tag
      */
-    private $defaultTag = null;
+    private $defaultTag;
     private $securityDefinitions = [];
     private $security = [];
 
@@ -170,7 +170,7 @@ class Swagger extends AbstractDocumentableObject
                 }
 
                 $definition = new Schema($this, $typeDef);
-                if (substr($command, -1) === '!') {
+                if (str_ends_with($command, '!')) {
                     $definition->setReadOnly();
                 }
                 $this->definitions[$name] = $definition;
@@ -185,14 +185,14 @@ class Swagger extends AbstractDocumentableObject
             case 'form':
             case 'form?':
                 $in = rtrim($command, '?');
-                $Parameter = new Parameter($this, $in, $data, substr($command, -1) !== '?');
+                $Parameter = new Parameter($this, $in, $data, !str_ends_with($command, '?'));
                 $this->parameters[$Parameter->getName()] = $Parameter;
 
                 return $Parameter;
 
             case 'body':
             case 'body?':
-                $Parameter = new BodyParameter($this, $data, substr($command, -1) !== '?');
+                $Parameter = new BodyParameter($this, $data, !str_ends_with($command, '?'));
                 $this->parameters[$Parameter->getName()] = $Parameter;
 
                 return $Parameter;
@@ -352,7 +352,7 @@ class Swagger extends AbstractDocumentableObject
      *
      * @return boolean
      */
-    public function hasOperationId($operationId)
+    public function hasOperationId($operationId): bool
     {
         foreach ($this->paths as $path) {
             if ($path->hasOperationId($operationId)) {
@@ -370,7 +370,7 @@ class Swagger extends AbstractDocumentableObject
      *
      * @return boolean
      */
-    public function hasDefinition($name)
+    public function hasDefinition($name): bool
     {
         return isset($this->definitions[$name]);
     }

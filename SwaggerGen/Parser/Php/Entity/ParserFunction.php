@@ -15,14 +15,14 @@ use SwaggerGen\Parser\Php\Parser;
  */
 class ParserFunction extends AbstractEntity
 {
+    public string|null $name = null;
 
-    public $name = null;
-    private $lastStatements = null;
-
-    public function __construct(Parser $Parser, &$tokens, $Statements)
+    public function __construct(Parser $Parser, &$tokens, array $statements = null)
     {
-        if ($Statements) {
-            $this->Statements = array_merge($this->Statements, $Statements);
+        $lastStatements = [];
+
+        if (!empty($statements)) {
+            $this->statements = array_merge($this->statements, $statements);
         }
 
         $depth = 0;
@@ -45,48 +45,31 @@ class ParserFunction extends AbstractEntity
 
                 case '}':
                     --$depth;
-                    if ($depth == 0) {
-                        if ($this->lastStatements) {
-                            $this->Statements = array_merge($this->Statements, $this->lastStatements);
-                            $this->lastStatements = null;
-                        }
+                    if ($depth === 0) {
+                        array_push($this->statements, ...$lastStatements);
                         return;
                     }
                     break;
 
                 case T_COMMENT:
-                    if ($this->lastStatements) {
-                        $this->Statements = array_merge($this->Statements, $this->lastStatements);
-                        $this->lastStatements = null;
-                    }
-                    $Statements = $Parser->tokenToStatements($token);
-                    $Parser->queueClassesFromComments($Statements);
-                    $this->Statements = array_merge($this->Statements, $Statements);
+                    array_push($this->statements, ...$lastStatements);
+                    $lastStatements = [];
+                    $statements = $Parser->tokenToStatements($token);
+                    $Parser->queueClassesFromComments($statements);
+                    array_push($this->statements, ...$statements);
                     break;
 
                 case T_DOC_COMMENT:
-                    if ($this->lastStatements) {
-                        $this->Statements = array_merge($this->Statements, $this->lastStatements);
-                    }
-                    $Statements = $Parser->tokenToStatements($token);
-                    $Parser->queueClassesFromComments($Statements);
-                    $this->lastStatements = $Statements;
+                    array_push($this->statements, ...$lastStatements);
+                    $statements = $Parser->tokenToStatements($token);
+                    $Parser->queueClassesFromComments($statements);
+                    $lastStatements = $statements;
                     break;
             }
 
             $token = next($tokens);
         }
 
-        if ($this->lastStatements) {
-            $this->Statements = array_merge($this->Statements, $this->lastStatements);
-            $this->lastStatements = null;
-        }
+        array_push($this->statements, ...$lastStatements);
     }
-
-    public function getStatements(): array
-    {
-        // inherit
-        return $this->Statements;
-    }
-
 }

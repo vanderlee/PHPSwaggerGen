@@ -16,8 +16,7 @@ use SwaggerGen\Swagger\Type\StringType;
  */
 class MacType extends StringType implements ICustomType
 {
-
-    const PATTERN = '^([0-9A-F]){2}(:[0-9A-F]{2}){5}$';
+    public const PATTERN = '^([0-9A-F]){2}(:[0-9A-F]{2}){5}$';
 
     /**
      * List of formats recognized by this class
@@ -38,12 +37,12 @@ class MacType extends StringType implements ICustomType
         parent::__construct($parent, $definition);
     }
 
-    public static function getFormats()
+    public static function getFormats(): array
     {
         return self::$formats;
     }
 
-    public static function setFormats(array $formats)
+    public static function setFormats(array $formats): void
     {
         self::$formats = $formats;
     }
@@ -54,7 +53,7 @@ class MacType extends StringType implements ICustomType
      * @param string $definition
      * @throws Exception
      */
-    protected function parseDefinition($definition)
+    protected function parseDefinition($definition): void
     {
         $definition = self::trim($definition);
 
@@ -77,7 +76,7 @@ class MacType extends StringType implements ICustomType
      * @return string
      * @throws Exception
      */
-    protected function validateDefault($value)
+    protected function validateDefault($value): string
     {
         if (empty($value)) {
             throw new Exception("Empty MAC default");

@@ -17,7 +17,7 @@ class ArrayType extends AbstractType
 {
 
     /** @noinspection PhpRegExpUnsupportedModifierInspection */
-    const REGEX_ARRAY_CONTENT = '(?:(\[)(.*)\])?';
+    private const REGEX_ARRAY_CONTENT = '(?:(\[)(.*)\])?';
 
     private static $collectionFormats = array(
         'array' => 'csv',
@@ -31,10 +31,10 @@ class ArrayType extends AbstractType
     /**
      * @var AbstractType
      */
-    private $Items = null;
-    private $minItems = null;
-    private $maxItems = null;
-    private $collectionFormat = null;
+    private $Items;
+    private $minItems;
+    private $maxItems;
+    private $collectionFormat;
 
     /**
      * @param string $command The comment command
@@ -61,20 +61,20 @@ class ArrayType extends AbstractType
             case 'min':
                 $this->minItems = (int)$data;
                 if ($this->minItems < 0) {
-                    throw new Exception("Minimum less than zero: '{$data}'");
+                    throw new Exception("Minimum less than zero: '$data'");
                 }
                 if ($this->maxItems !== null && $this->minItems > $this->maxItems) {
-                    throw new Exception("Minimum greater than maximum: '{$data}'");
+                    throw new Exception("Minimum greater than maximum: '$data'");
                 }
                 return $this;
 
             case 'max':
                 $this->maxItems = (int)$data;
                 if ($this->minItems !== null && $this->minItems > $this->maxItems) {
-                    throw new Exception("Maximum less than minimum: '{$data}'");
+                    throw new Exception("Maximum less than minimum: '$data'");
                 }
                 if ($this->maxItems < 0) {
-                    throw new Exception("Maximum less than zero: '{$data}'");
+                    throw new Exception("Maximum less than zero: '$data'");
                 }
                 return $this;
 
@@ -92,7 +92,7 @@ class ArrayType extends AbstractType
     private function validateItems($items)
     {
         if (empty($items)) {
-            throw new Exception("Empty items definition: '{$items}'");
+            throw new Exception("Empty items definition: '$items'");
         }
 
         return self::typeFactory($this, $items, "Unparseable items definition: '%s'");
@@ -103,7 +103,7 @@ class ArrayType extends AbstractType
         return self::arrayFilterNull(array_merge(array(
             'type' => 'array',
             'items' => empty($this->Items) ? null : $this->Items->toArray(),
-            'collectionFormat' => $this->collectionFormat == 'csv' ? null : $this->collectionFormat,
+            'collectionFormat' => $this->collectionFormat === 'csv' ? null : $this->collectionFormat,
             'minItems' => $this->minItems,
             'maxItems' => $this->maxItems,
         ), parent::toArray()));
@@ -117,7 +117,7 @@ class ArrayType extends AbstractType
     /**
      * @throws Exception
      */
-    protected function parseDefinition($definition)
+    protected function parseDefinition($definition): void
     {
         $definition = self::trim($definition);
         $match = [];
@@ -140,17 +140,17 @@ class ArrayType extends AbstractType
      * @throws Exception
      * @throws Exception
      */
-    private function parseFormat($definition, $match)
+    private function parseFormat($definition, $match): void
     {
         $type = strtolower($match[1]);
         if (!isset(self::$collectionFormats[$type])) {
-            throw new Exception("Not an array: '{$definition}'");
+            throw new Exception("Not an array: '$definition'");
         }
 
         if ($type === 'multi') {
             $parent = $this->getParent();
             if (!($parent instanceof Parameter) || !$parent->isMulti()) {
-                throw new Exception("Multi array only allowed on query or form parameter: '{$definition}'");
+                throw new Exception("Multi array only allowed on query or form parameter: '$definition'");
             }
         }
 
@@ -162,7 +162,7 @@ class ArrayType extends AbstractType
      * @param string[] $match
      * @throws Exception
      */
-    private function parseItems($definition, $match)
+    private function parseItems($definition, $match): void
     {
         if (!empty($match[2])) {
             $this->Items = $this->validateItems($match[2]);
@@ -174,17 +174,17 @@ class ArrayType extends AbstractType
      * @param string[] $match
      * @throws Exception
      */
-    private function parseRange($definition, $match)
+    private function parseRange($definition, $match): void
     {
         if (!empty($match[3])) {
             if ($match[4] === '' && $match[5] === '') {
-                throw new Exception("Empty array range: '{$definition}'");
+                throw new Exception("Empty array range: '$definition'");
             }
 
-            $exclusiveMinimum = $match[3] == '<';
+            $exclusiveMinimum = $match[3] === '<';
             $this->minItems = $match[4] === '' ? null : (int)$match[4];
             $this->maxItems = $match[5] === '' ? null : (int)$match[5];
-            $exclusiveMaximum = isset($match[6]) ? ($match[6] == '>') : null;
+            $exclusiveMaximum = isset($match[6]) ? ($match[6] === '>') : null;
             if ($this->minItems && $this->maxItems && $this->minItems > $this->maxItems) {
                 self::swap($this->minItems, $this->maxItems);
                 self::swap($exclusiveMinimum, $exclusiveMaximum);

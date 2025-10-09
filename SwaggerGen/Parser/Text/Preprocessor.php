@@ -18,7 +18,7 @@ use SwaggerGen\Parser\AbstractPreprocessor;
 class Preprocessor extends AbstractPreprocessor
 {
 
-    protected function parseContent($content)
+    protected function parseContent($content): string
     {
         $pattern = '/\\s*([a-z]+)\\s*(.*)\\s*/';
 

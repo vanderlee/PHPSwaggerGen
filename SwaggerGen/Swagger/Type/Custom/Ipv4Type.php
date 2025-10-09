@@ -16,8 +16,7 @@ use SwaggerGen\Swagger\Type\StringType;
  */
 class Ipv4Type extends StringType implements ICustomType
 {
-
-    const PATTERN = '^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)(\\.|$)){4}$';
+    public const PATTERN = '^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)(\\.|$)){4}$';
 
     /**
      * List of formats recognized by this class
@@ -38,12 +37,12 @@ class Ipv4Type extends StringType implements ICustomType
         parent::__construct($parent, $definition);
     }
 
-    public static function getFormats()
+    public static function getFormats(): array
     {
         return self::$formats;
     }
 
-    public static function setFormats(array $formats)
+    public static function setFormats(array $formats): void
     {
         self::$formats = $formats;
     }
@@ -54,7 +53,7 @@ class Ipv4Type extends StringType implements ICustomType
      * @param string $definition
      * @throws Exception
      */
-    protected function parseDefinition($definition)
+    protected function parseDefinition($definition): void
     {
         $definition = self::trim($definition);
 
@@ -77,7 +76,7 @@ class Ipv4Type extends StringType implements ICustomType
      * @return string
      * @throws Exception
      */
-    protected function validateDefault($value)
+    protected function validateDefault($value): string
     {
         if (empty($value)) {
             throw new Exception("Empty IPv4 default");

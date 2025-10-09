@@ -39,16 +39,16 @@ class Statement
      * Get the command part of this statement
      * @return string single word, without spaces
      */
-    public function getCommand()
+    public function getCommand(): string
     {
         return $this->command;
     }
 
     /**
      * Get the data of this statement
-     * @return string may contain spaces
+     * @return string|null may contain spaces
      */
-    public function getData()
+    public function getData(): ?string
     {
         return $this->data;
     }
@@ -57,7 +57,7 @@ class Statement
      * Get the file (if available) where this statement was parsed from
      * @return string|null the full filename or null of from static text
      */
-    public function getFile()
+    public function getFile(): ?string
     {
         return $this->file;
     }
@@ -66,7 +66,7 @@ class Statement
      * Get the line number where this statement was found
      * @return int|null the line number
      */
-    public function getLine()
+    public function getLine(): ?int
     {
         return $this->line;
     }

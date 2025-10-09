@@ -34,7 +34,7 @@ class Operation extends AbstractDocumentableObject
     /**
      * @var string
      */
-    private $operationId = null;
+    private $operationId;
 
     /**
      * @param string $summary
@@ -120,13 +120,13 @@ class Operation extends AbstractDocumentableObject
             case 'form':
             case 'form?':
                 $in = rtrim($command, '?');
-                $parameter = new Parameter($this, $in, $data, substr($command, -1) !== '?');
+                $parameter = new Parameter($this, $in, $data, !str_ends_with($command, '?'));
                 $this->parameters[$parameter->getName()] = $parameter;
                 return $parameter;
 
             case 'body':
             case 'body?':
-                $parameter = new BodyParameter($this, $data, substr($command, -1) !== '?');
+                $parameter = new BodyParameter($this, $data, !str_ends_with($command, '?'));
                 $this->parameters[$parameter->getName()] = $parameter;
                 return $parameter;
 
@@ -230,9 +230,9 @@ class Operation extends AbstractDocumentableObject
     /**
      * Return the operation ID
      *
-     * @return string
+     * @return string|null
      */
-    public function getId()
+    public function getId(): ?string
     {
         return $this->operationId;
     }

@@ -16,23 +16,23 @@ class ObjectType extends AbstractType
 {
 
     /** @noinspection PhpRegExpUnsupportedModifierInspection */
-    const REGEX_OBJECT_CONTENT = '(?:(\{)(.*)\})?';
-    const REGEX_PROP_START = '/^';
-    const REGEX_PROP_NAME = '([^?!:]+)';
+    private const REGEX_OBJECT_CONTENT = '(?:(\{)(.*)\})?';
+    public const REGEX_PROP_START = '/^';
+    private const REGEX_PROP_NAME = '([^?!:]+)';
     /** @noinspection PhpRegExpUnsupportedModifierInspection */
-    const REGEX_PROP_REQUIRED = '([\?!])?';
-    const REGEX_PROP_ASSIGN = ':';
-    const REGEX_PROP_DEFINITION = '(.+)';
+    private const REGEX_PROP_REQUIRED = '([\?!])?';
+    private const REGEX_PROP_ASSIGN = ':';
+    private const REGEX_PROP_DEFINITION = '(.+)';
     /** @noinspection PhpRegExpUnsupportedModifierInspection
      * @noinspection PhpRegExpInvalidDelimiterInspection
      */
-    const REGEX_PROP_ADDITIONAL = '\.\.\.(!|.+)?';
-    const REGEX_PROP_END = '$/';
+    private const REGEX_PROP_ADDITIONAL = '\.\.\.(!|.+)?';
+    public const REGEX_PROP_END = '$/';
 
-    private $minProperties = null;
-    private $maxProperties = null;
-    private $discriminator = null;
-    private $additionalProperties = null;
+    private $minProperties;
+    private $maxProperties;
+    private $discriminator;
+    private $additionalProperties;
     private $required = [];
 
     /**
@@ -43,7 +43,7 @@ class ObjectType extends AbstractType
     /**
      * @var Property
      */
-    private $mostRecentProperty = null;
+    private $mostRecentProperty;
 
     /**
      * @param string $command The comment command
@@ -154,7 +154,7 @@ class ObjectType extends AbstractType
      * @return void
      * @throws Exception
      */
-    private function setAdditionalProperties($type)
+    private function setAdditionalProperties($type): void
     {
         if ($this->additionalProperties !== null) {
             throw new Exception('Additional properties may only be set once');
@@ -167,7 +167,7 @@ class ObjectType extends AbstractType
      * @throws Exception
      * @throws Exception
      */
-    private function setDiscriminator($discriminator)
+    private function setDiscriminator($discriminator): void
     {
         if (!empty($this->discriminator)) {
             throw new Exception("Discriminator may only be set once, "
@@ -203,7 +203,7 @@ class ObjectType extends AbstractType
     /**
      * @throws Exception
      */
-    protected function parseDefinition($definition)
+    protected function parseDefinition($definition): void
     {
         $definition = self::trim($definition);
 
@@ -226,7 +226,7 @@ class ObjectType extends AbstractType
      * @param string[] $match
      * @throws Exception
      */
-    private function parseFormat($definition, $match)
+    private function parseFormat($definition, $match): void
     {
         if (strtolower($match[1]) !== 'object') {
             throw new Exception("Not an object: '{$definition}'");
@@ -243,7 +243,7 @@ class ObjectType extends AbstractType
      * @throws Exception
      * @throws Exception
      */
-    private function parseProperties($definition, $match)
+    private function parseProperties($definition, $match): void
     {
         if (empty($match[2])) {
             return;
@@ -277,17 +277,17 @@ class ObjectType extends AbstractType
      * @param string[] $match
      * @throws Exception
      */
-    private function parseRange($definition, $match)
+    private function parseRange($definition, $match): void
     {
         if (!empty($match[3])) {
             if ($match[4] === '' && $match[5] === '') {
                 throw new Exception("Empty object range: '{$definition}'");
             }
 
-            $exclusiveMinimum = $match[3] == '<';
+            $exclusiveMinimum = $match[3] === '<';
             $this->minProperties = $match[4] === '' ? null : (int)$match[4];
             $this->maxProperties = $match[5] === '' ? null : (int)$match[5];
-            $exclusiveMaximum = isset($match[6]) ? ($match[6] == '>') : null;
+            $exclusiveMaximum = isset($match[6]) ? ($match[6] === '>') : null;
             if ($this->minProperties && $this->maxProperties && $this->minProperties > $this->maxProperties) {
                 self::swap($this->minProperties, $this->maxProperties);
                 self::swap($exclusiveMinimum, $exclusiveMaximum);

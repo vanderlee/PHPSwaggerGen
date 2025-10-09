@@ -18,28 +18,30 @@ class ParserClass extends AbstractEntity
     /**
      * @var string
      */
-    public $name = null;
+    public $name;
 
     /**
      * @var ParserFunction[]
      */
-    public $Methods = [];
+    public $methods = [];
 
     /**
      * @var string
      */
-    public $extends = null;
+    public $extends;
 
     /**
      * @var string[]
      */
     public $implements = [];
-    private $lastStatements = null;
+    private $lastStatements = [];
 
-    public function __construct(Parser $Parser, &$tokens, $Statements)
+    public function __construct(Parser $Parser, &$tokens, $statements)
     {
-        if ($Statements) {
-            $this->Statements = array_merge($this->Statements, $Statements);
+        $lastStatements = [];
+
+        if ($statements) {
+            $this->statements = array_merge($this->statements, $statements);
         }
 
         $depth = 0;
@@ -79,19 +81,16 @@ class ParserClass extends AbstractEntity
 
                 case '}':
                     --$depth;
-                    if ($depth == 0) {
-                        if ($this->lastStatements) {
-                            $this->Statements = array_merge($this->Statements, $this->lastStatements);
-                            $this->lastStatements = null;
-                        }
+                    if ($depth === 0) {
+                        array_push($this->statements, ...$lastStatements);
                         return;
                     }
                     break;
 
                 case T_FUNCTION:
-                    $Method = new ParserFunction($Parser, $tokens, $this->lastStatements);
-                    $this->Methods[strtolower($Method->name)] = $Method;
-                    $this->lastStatements = null;
+                    $Method = new ParserFunction($Parser, $tokens, $lastStatements);
+                    $this->methods[strtolower($Method->name)] = $Method;
+                    $lastStatements = [];
                     break;
 
                 case T_EXTENDS:
@@ -103,32 +102,24 @@ class ParserClass extends AbstractEntity
                     break;
 
                 case T_COMMENT:
-                    if ($this->lastStatements) {
-                        $this->Statements = array_merge($this->Statements, $this->lastStatements);
-                        $this->lastStatements = null;
-                    }
-                    $Statements = $Parser->tokenToStatements($token);
-                    $Parser->queueClassesFromComments($Statements);
-                    $this->Statements = array_merge($this->Statements, $Statements);
+                    array_push($this->statements, ...$lastStatements);
+                    $lastStatements = [];
+                    $statements = $Parser->tokenToStatements($token);
+                    $Parser->queueClassesFromComments($statements);
+                    array_push($this->statements, ...$statements);
                     break;
 
                 case T_DOC_COMMENT:
-                    if ($this->lastStatements) {
-                        $this->Statements = array_merge($this->Statements, $this->lastStatements);
-                    }
-                    $Statements = $Parser->tokenToStatements($token);
-                    $Parser->queueClassesFromComments($Statements);
-                    $this->lastStatements = $Statements;
+                    array_push($this->statements, ...$lastStatements);
+                    $statements = $Parser->tokenToStatements($token);
+                    $Parser->queueClassesFromComments($statements);
+                    $lastStatements = $statements;
                     break;
             }
 
             $token = next($tokens);
         }
 
-        if ($this->lastStatements) {
-            $this->Statements = array_merge($this->Statements, $this->lastStatements);
-            $this->lastStatements = null;
-        }
+        array_push($this->statements, ...$lastStatements);
     }
-
 }

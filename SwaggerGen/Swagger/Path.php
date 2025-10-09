@@ -83,7 +83,7 @@ class Path extends AbstractObject
     {
         $methods = self::$methods;
         uksort($this->operations, static function ($a, $b) use ($methods) {
-            return array_search($a, $methods) - array_search($b, $methods);
+            return array_search($a, $methods, true) - array_search($b, $methods, true);
         });
 
         return self::arrayFilterNull(array_merge(
@@ -103,7 +103,7 @@ class Path extends AbstractObject
      * @param string $operationId
      * @return boolean
      */
-    public function hasOperationId($operationId)
+    public function hasOperationId($operationId): bool
     {
         foreach ($this->operations as $operation) {
             if ($operation->getId() === $operationId) {

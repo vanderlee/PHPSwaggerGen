@@ -15,7 +15,7 @@ use SwaggerGen\Exception;
 class ReferenceObjectType extends AbstractType
 {
 
-    private $reference = null;
+    private $reference;
 
     public function toArray(): array
     {
@@ -32,7 +32,7 @@ class ReferenceObjectType extends AbstractType
     /**
      * @throws Exception
      */
-    protected function parseDefinition($definition)
+    protected function parseDefinition($definition): void
     {
         $definition = self::trim($definition);
 
