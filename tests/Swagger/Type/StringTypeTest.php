@@ -2,6 +2,9 @@
 declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
+use SwaggerGen\Exception as SwaggerException;
+use SwaggerGen\Swagger\AbstractObject;
+use SwaggerGen\Swagger\Type\StringType;
 
 class StringTypeTest extends TestCase
 {
@@ -9,73 +12,73 @@ class StringTypeTest extends TestCase
     protected $parent;
 
     /**
-     * @covers \SwaggerGen\Swagger\Type\StringType::__construct
+     * @covers StringType::__construct
      */
     public function testConstructNotAString()
     {
-        $this->expectException('\SwaggerGen\Exception', "Not a string: 'wrong'");
+        $this->expectException(SwaggerException::class, "Not a string: 'wrong'");
 
-        $object = new SwaggerGen\Swagger\Type\StringType($this->parent, 'wrong');
+        $object = new StringType($this->parent, 'wrong');
     }
 
     /**
-     * @covers \SwaggerGen\Swagger\Type\StringType::__construct
+     * @covers StringType::__construct
      */
     public function testConstructEmptyRange()
     {
-        $this->expectException('\SwaggerGen\Exception', "Empty string range: 'string[,]=1'");
+        $this->expectException(SwaggerException::class, "Empty string range: 'string[,]=1'");
 
-        $object = new SwaggerGen\Swagger\Type\StringType($this->parent, 'string[,]=1');
+        $object = new StringType($this->parent, 'string[,]=1');
     }
 
     /**
-     * @covers \SwaggerGen\Swagger\Type\StringType::__construct
+     * @covers StringType::__construct
      */
     public function testConstructDefaultTooLongInclusive()
     {
-        $this->expectException('\SwaggerGen\Exception', "Default string length beyond maximum: 'long'");
+        $this->expectException(SwaggerException::class, "Default string length beyond maximum: 'long'");
 
-        $object = new SwaggerGen\Swagger\Type\StringType($this->parent, 'string[,3]=long');
+        $object = new StringType($this->parent, 'string[,3]=long');
     }
 
     /**
-     * @covers \SwaggerGen\Swagger\Type\StringType::__construct
+     * @covers StringType::__construct
      */
     public function testConstructDefaultTooLongExclusive()
     {
-        $this->expectException('\SwaggerGen\Exception', "Default string length beyond maximum: 'long'");
+        $this->expectException(SwaggerException::class, "Default string length beyond maximum: 'long'");
 
-        $object = new SwaggerGen\Swagger\Type\StringType($this->parent, 'string[,4>=long');
+        $object = new StringType($this->parent, 'string[,4>=long');
     }
 
     /**
-     * @covers \SwaggerGen\Swagger\Type\StringType::__construct
+     * @covers StringType::__construct
      */
     public function testConstructDefaultTooShortInclusive()
     {
-        $this->expectException('\SwaggerGen\Exception', "Default string length beyond minimum: 'short'");
+        $this->expectException(SwaggerException::class, "Default string length beyond minimum: 'short'");
 
-        $object = new SwaggerGen\Swagger\Type\StringType($this->parent, 'string[6,]=short');
+        $object = new StringType($this->parent, 'string[6,]=short');
     }
 
     /**
-     * @covers \SwaggerGen\Swagger\Type\StringType::__construct
+     * @covers StringType::__construct
      */
     public function testConstructDefaultTooShortExclusive()
     {
-        $this->expectException('\SwaggerGen\Exception', "Default string length beyond minimum: 'short'");
+        $this->expectException(SwaggerException::class, "Default string length beyond minimum: 'short'");
 
-        $object = new SwaggerGen\Swagger\Type\StringType($this->parent, 'string<5,]=short');
+        $object = new StringType($this->parent, 'string<5,]=short');
     }
 
     /**
-     * @covers \SwaggerGen\Swagger\Type\StringType::__construct
+     * @covers StringType::__construct
      */
     public function testConstructString()
     {
-        $object = new SwaggerGen\Swagger\Type\StringType($this->parent, 'string');
+        $object = new StringType($this->parent, 'string');
 
-        $this->assertInstanceOf('\SwaggerGen\Swagger\Type\StringType', $object);
+        $this->assertInstanceOf(StringType::class, $object);
 
         $this->assertSame(array(
             'type' => 'string',
@@ -83,23 +86,23 @@ class StringTypeTest extends TestCase
     }
 
     /**
-     * @covers \SwaggerGen\Swagger\Type\StringType::__construct
+     * @covers StringType::__construct
      */
     public function testConstructStringEmptyDefault()
     {
-        $this->expectException('\SwaggerGen\Exception', "Unparseable string definition: 'string='");
+        $this->expectException(SwaggerException::class, "Unparseable string definition: 'string='");
 
-        $object = new SwaggerGen\Swagger\Type\StringType($this->parent, 'string= ');
+        $object = new StringType($this->parent, 'string= ');
     }
 
     /**
-     * @covers \SwaggerGen\Swagger\Type\StringType::__construct
+     * @covers StringType::__construct
      */
     public function testConstructStringDefaultLengthInclusive()
     {
-        $object = new SwaggerGen\Swagger\Type\StringType($this->parent, 'string[4,4]=word');
+        $object = new StringType($this->parent, 'string[4,4]=word');
 
-        $this->assertInstanceOf('\SwaggerGen\Swagger\Type\StringType', $object);
+        $this->assertInstanceOf(StringType::class, $object);
 
         $this->assertSame(array(
             'type' => 'string',
@@ -110,13 +113,13 @@ class StringTypeTest extends TestCase
     }
 
     /**
-     * @covers \SwaggerGen\Swagger\Type\StringType::__construct
+     * @covers StringType::__construct
      */
     public function testConstructStringDefaultLengthExclusive()
     {
-        $object = new SwaggerGen\Swagger\Type\StringType($this->parent, 'string<3,5>=word');
+        $object = new StringType($this->parent, 'string<3,5>=word');
 
-        $this->assertInstanceOf('\SwaggerGen\Swagger\Type\StringType', $object);
+        $this->assertInstanceOf(StringType::class, $object);
 
         $this->assertSame(array(
             'type' => 'string',
@@ -127,13 +130,28 @@ class StringTypeTest extends TestCase
     }
 
     /**
-     * @covers \SwaggerGen\Swagger\Type\StringType::__construct
+     * @covers StringType::__construct
+     */
+    public function testConstructStringDefaultWithWhitespace()
+    {
+        $object = new StringType($this->parent, 'string="white space"');
+
+        $this->assertInstanceOf(StringType::class, $object);
+
+        $this->assertSame(array(
+            'type' => 'string',
+            'default' => 'white space',
+        ), $object->toArray());
+    }
+
+    /**
+     * @covers StringType::__construct
      */
     public function testConstructBinary()
     {
-        $object = new SwaggerGen\Swagger\Type\StringType($this->parent, 'binary');
+        $object = new StringType($this->parent, 'binary');
 
-        $this->assertInstanceOf('\SwaggerGen\Swagger\Type\StringType', $object);
+        $this->assertInstanceOf(StringType::class, $object);
 
         $this->assertSame(array(
             'type' => 'string',
@@ -142,33 +160,33 @@ class StringTypeTest extends TestCase
     }
 
     /**
-     * @covers \SwaggerGen\Swagger\Type\StringType::__construct
+     * @covers StringType::__construct
      */
     public function testConstructEnumRange()
     {
-        $this->expectException('\SwaggerGen\Exception', "Range not allowed in enumeration definition: 'enum(a,b)[,]'");
+        $this->expectException(SwaggerException::class, "Range not allowed in enumeration definition: 'enum(a,b)[,]'");
 
-        $object = new SwaggerGen\Swagger\Type\StringType($this->parent, 'enum(a,b)[,]');
+        $object = new StringType($this->parent, 'enum(a,b)[,]');
     }
 
     /**
-     * @covers \SwaggerGen\Swagger\Type\StringType::__construct
+     * @covers StringType::__construct
      */
     public function testConstructEnumInvalidDefault()
     {
-        $this->expectException('\SwaggerGen\Exception', "Invalid enum default: 'c'");
+        $this->expectException(SwaggerException::class, "Invalid enum default: 'c'");
 
-        $object = new SwaggerGen\Swagger\Type\StringType($this->parent, 'enum(a,b)=c');
+        $object = new StringType($this->parent, 'enum(a,b)=c');
     }
 
     /**
-     * @covers \SwaggerGen\Swagger\Type\StringType::__construct
+     * @covers StringType::__construct
      */
     public function testConstructEnum()
     {
-        $object = new SwaggerGen\Swagger\Type\StringType($this->parent, 'enum(a,b)');
+        $object = new StringType($this->parent, 'enum(a,b)');
 
-        $this->assertInstanceOf('\SwaggerGen\Swagger\Type\StringType', $object);
+        $this->assertInstanceOf(StringType::class, $object);
 
         $this->assertSame(array(
             'type' => 'string',
@@ -177,13 +195,13 @@ class StringTypeTest extends TestCase
     }
 
     /**
-     * @covers \SwaggerGen\Swagger\Type\StringType::__construct
+     * @covers StringType::__construct
      */
     public function testConstructEnumWithDefault()
     {
-        $object = new SwaggerGen\Swagger\Type\StringType($this->parent, 'enum(a,b)=a');
+        $object = new StringType($this->parent, 'enum(a,b)=a');
 
-        $this->assertInstanceOf('\SwaggerGen\Swagger\Type\StringType', $object);
+        $this->assertInstanceOf(StringType::class, $object);
 
         $this->assertSame(array(
             'type' => 'string',
@@ -193,13 +211,13 @@ class StringTypeTest extends TestCase
     }
 
     /**
-     * @covers \SwaggerGen\Swagger\Type\StringType::__construct
+     * @covers StringType::__construct
      */
     public function testConstructPattern()
     {
-        $object = new SwaggerGen\Swagger\Type\StringType($this->parent, 'string([a-z])');
+        $object = new StringType($this->parent, 'string([a-z])');
 
-        $this->assertInstanceOf('\SwaggerGen\Swagger\Type\StringType', $object);
+        $this->assertInstanceOf(StringType::class, $object);
 
         $this->assertSame(array(
             'type' => 'string',
@@ -212,11 +230,11 @@ class StringTypeTest extends TestCase
      */
     public function testCommandDefaultNoValue()
     {
-        $object = new SwaggerGen\Swagger\Type\StringType($this->parent, 'string');
+        $object = new StringType($this->parent, 'string');
 
-        $this->assertInstanceOf('\SwaggerGen\Swagger\Type\StringType', $object);
+        $this->assertInstanceOf(StringType::class, $object);
 
-        $this->expectException('\SwaggerGen\Exception', "Empty string default");
+        $this->expectException(SwaggerException::class, "Empty string default");
         $object->handleCommand('default', '');
     }
 
@@ -225,9 +243,9 @@ class StringTypeTest extends TestCase
      */
     public function testCommandDefault()
     {
-        $object = new SwaggerGen\Swagger\Type\StringType($this->parent, 'string');
+        $object = new StringType($this->parent, 'string');
 
-        $this->assertInstanceOf('\SwaggerGen\Swagger\Type\StringType', $object);
+        $this->assertInstanceOf(StringType::class, $object);
 
         $object->handleCommand('default', 'word');
 
@@ -242,9 +260,9 @@ class StringTypeTest extends TestCase
      */
     public function testCommandPattern()
     {
-        $object = new SwaggerGen\Swagger\Type\StringType($this->parent, 'string');
+        $object = new StringType($this->parent, 'string');
 
-        $this->assertInstanceOf('\SwaggerGen\Swagger\Type\StringType', $object);
+        $this->assertInstanceOf(StringType::class, $object);
 
         $object->handleCommand('pattern', '[a-z]');
 
@@ -259,11 +277,11 @@ class StringTypeTest extends TestCase
      */
     public function testCommandEnumWhenRange()
     {
-        $object = new SwaggerGen\Swagger\Type\StringType($this->parent, 'string[0,]');
+        $object = new StringType($this->parent, 'string[0,]');
 
-        $this->assertInstanceOf('\SwaggerGen\Swagger\Type\StringType', $object);
+        $this->assertInstanceOf(StringType::class, $object);
 
-        $this->expectException('\SwaggerGen\Exception', "Enumeration not allowed in ranged string: 'red green blue'");
+        $this->expectException(SwaggerException::class, "Enumeration not allowed in ranged string: 'red green blue'");
 
         $object->handleCommand('enum', 'red green blue');
     }
@@ -273,9 +291,9 @@ class StringTypeTest extends TestCase
      */
     public function testCommandEnum()
     {
-        $object = new SwaggerGen\Swagger\Type\StringType($this->parent, 'string');
+        $object = new StringType($this->parent, 'string');
 
-        $this->assertInstanceOf('\SwaggerGen\Swagger\Type\StringType', $object);
+        $this->assertInstanceOf(StringType::class, $object);
 
         $object->handleCommand('enum', 'red green blue');
 
@@ -287,12 +305,12 @@ class StringTypeTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->parent = $this->getMockForAbstractClass('\SwaggerGen\Swagger\AbstractObject');
+        $this->parent = $this->getMockForAbstractClass(AbstractObject::class);
     }
 
     protected function assertPreConditions(): void
     {
-        $this->assertInstanceOf('\SwaggerGen\Swagger\AbstractObject', $this->parent);
+        $this->assertInstanceOf(AbstractObject::class, $this->parent);
     }
 
 }

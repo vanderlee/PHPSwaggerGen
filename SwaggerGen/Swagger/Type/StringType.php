@@ -83,6 +83,14 @@ class StringType extends AbstractType
             throw new Exception("Empty {$type} default");
         }
 
+        // trim and unescape quotes if needed
+        if (mb_strlen($value) >= 2
+            && $value[0] === '"'
+            && $value[mb_strlen($value) - 1] === '"'
+        ) {
+            $value = stripcslashes(mb_substr($value, 1, -1));
+        }
+
         if (!empty($this->enum) && !in_array($value, $this->enum, true)) {
             throw new Exception("Invalid enum default: '{$value}'");
         }
