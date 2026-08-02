@@ -50,7 +50,7 @@ abstract class AbstractPreprocessor
     {
         $this->stack = [];
 
-        return $this->parseContent($content);
+        return $this->expandDefines($this->parseContent($content));
     }
 
     abstract protected function parseContent($content);
@@ -111,6 +111,21 @@ abstract class AbstractPreprocessor
         }
 
         return true;
+    }
+
+    private function expandDefines($content)
+    {
+        return preg_replace_callback(
+            '/\{([A-Za-z_][A-Za-z0-9_.-]*)\}/',
+            function ($matches) {
+                $name = $matches[1];
+
+                return array_key_exists($name, $this->defines)
+                    ? (string) $this->defines[$name]
+                    : $matches[0];
+            },
+            $content
+        );
     }
 
     /**
