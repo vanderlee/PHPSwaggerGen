@@ -25,23 +25,15 @@ jobs:
 
           parser_path = Path('SwaggerGen/Parser/Php/Parser.php')
           parser = parser_path.read_text(encoding='utf-8')
-          old = """            } elseif ($command !== null) {
-                if ($lineNumber < count($commentLines) - 1) {
-                    $data .= ' ' . $line;
-                } else {
-                    $data .= preg_replace('~\\s*\\**\\/\\s*$~', '', $line);
-                }
-            }"""
-          new = """            } elseif ($command !== null) {
-                if ($lineNumber < count($commentLines) - 1) {
-                    $data .= "\\n" . $line;
-                } else {
-                    $data .= "\\n" . preg_replace('~\\s*\\**\\/\\s*$~', '', $line);
-                }
-            }"""
-          if parser.count(old) != 1:
-              raise SystemExit('Expected continuation block exactly once')
-          parser_path.write_text(parser.replace(old, new), encoding='utf-8')
+          replacements = {
+              "$data .= ' ' . $line;": "$data .= \"\\n\" . $line;",
+              "$data .= preg_replace('~\\s*\\**\\/\\s*$~', '', $line);": "$data .= \"\\n\" . preg_replace('~\\s*\\**\\/\\s*$~', '', $line);",
+          }
+          for old, new in replacements.items():
+              if parser.count(old) != 1:
+                  raise SystemExit('Expected parser statement exactly once: ' + old)
+              parser = parser.replace(old, new)
+          parser_path.write_text(parser, encoding='utf-8')
 
           test_path = Path('tests/Parser/Php/ParserTest.php')
           tests = test_path.read_text(encoding='utf-8')
