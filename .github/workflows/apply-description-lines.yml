@@ -1,0 +1,63 @@
+name: Apply multiline description parsing fix
+
+on:
+  push:
+    branches:
+      - agent/preserve-description-line-breaks
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: agent/preserve-description-line-breaks
+          fetch-depth: 0
+
+      - name: Preserve continuation line breaks
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+
+          parser_path = Path('SwaggerGen/Parser/Php/Parser.php')
+          parser = parser_path.read_text(encoding='utf-8')
+          old = """            } elseif ($command !== null) {
+                if ($lineNumber < count($commentLines) - 1) {
+                    $data .= ' ' . $line;
+                } else {
+                    $data .= preg_replace('~\\s*\\**\\/\\s*$~', '', $line);
+                }
+            }"""
+          new = """            } elseif ($command !== null) {
+                if ($lineNumber < count($commentLines) - 1) {
+                    $data .= "\\n" . $line;
+                } else {
+                    $data .= "\\n" . preg_replace('~\\s*\\**\\/\\s*$~', '', $line);
+                }
+            }"""
+          if parser.count(old) != 1:
+              raise SystemExit('Expected continuation block exactly once')
+          parser_path.write_text(parser.replace(old, new), encoding='utf-8')
+
+          test_path = Path('tests/Parser/Php/ParserTest.php')
+          tests = test_path.read_text(encoding='utf-8')
+          old_expectation = "$this->assertStatement($statements[1], 'description', 'About this strange little class');"
+          new_expectation = "$this->assertStatement($statements[1], 'description', \"About this\\nstrange\\nlittle\\nclass\");"
+          if tests.count(old_expectation) != 1:
+              raise SystemExit('Expected line-continuation assertion exactly once')
+          test_path.write_text(tests.replace(old_expectation, new_expectation), encoding='utf-8')
+
+          Path('.github/workflows/apply-description-lines.yml').unlink()
+          PY
+
+      - name: Commit patched files
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add SwaggerGen/Parser/Php/Parser.php tests/Parser/Php/ParserTest.php .github/workflows/apply-description-lines.yml
+          git commit -m "Preserve line breaks in multiline annotations"
+          git push origin HEAD:agent/preserve-description-line-breaks
