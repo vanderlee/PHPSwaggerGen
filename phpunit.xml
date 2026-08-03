@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit bootstrap="tests/bootstrap.php"
          colors="true"
-         processIsolation="false"
-         verbose="true"
-         debug="true">
+         processIsolation="false">
   <testsuites>
     <testsuite name="SwaggerGen">
       <directory>tests</directory>

@@ -15,7 +15,7 @@ class OutputTest extends TestCase
     {
         $SwaggerGen = new SwaggerGen('example.com', '/base');
         $actual = $SwaggerGen->getSwagger($files, array(), SwaggerGen::FORMAT_JSON);
-        $this->assertJsonStringEqualsJsonString($expected, $this->normalizeJson($actual), $name);
+        $this->assertJsonStringEqualsJsonString($expected, self::normalizeJson($actual), $name);
     }
 
     /**
@@ -26,7 +26,7 @@ class OutputTest extends TestCase
      * @param string $json
      * @return string
      */
-    private function normalizeJson($json)
+    private static function normalizeJson($json)
     {
         return json_encode(
             json_decode($json),
@@ -34,13 +34,13 @@ class OutputTest extends TestCase
         );
     }
 
-    public function provideAllCases()
+    public static function provideAllCases()
     {
         $cases = array();
 
         foreach (glob(__DIR__ . '/*', GLOB_ONLYDIR) as $dir) {
             $path = realpath($dir);
-            $json = $this->normalizeJson(file_get_contents($path . '/expected.json'));
+            $json = self::normalizeJson(file_get_contents($path . '/expected.json'));
 
             $files = array();
             if (file_exists($path . '/source.php')) {
