@@ -92,7 +92,7 @@ class SwaggerGenTest extends \PHPUnit\Framework\TestCase
 			response 202
 		'), array(), SwaggerGen::FORMAT_JSON_PRETTY);
 
-        $this->assertStringEqualsStringIgnoringLineEndings(<<<JSON
+        $expected = <<<JSON
 {
     "swagger": "2.0",
     "info": {
@@ -111,7 +111,13 @@ class SwaggerGenTest extends \PHPUnit\Framework\TestCase
         }
     }
 }
-JSON, $output);
+JSON;
+
+        $normalizeLineEndings = static function ($value) {
+            return str_replace(array("\r\n", "\r"), "\n", $value);
+        };
+
+        $this->assertSame($normalizeLineEndings($expected), $normalizeLineEndings($output));
     }
 
     /**
