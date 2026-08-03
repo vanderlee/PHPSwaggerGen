@@ -4,6 +4,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## 2.3.23 - 2026-08-03
+### Added
+- Expand defined preprocessor values in processed content.
+- Test support for PHP 8.0 through PHP 8.5.
+
+### Changed
+- Modernized the codebase for PHP 8 and current PHPUnit releases.
+- Replaced the obsolete Travis CI configuration with GitHub Actions.
+
+### Fixed
+- Allow whitespace in quoted default values for string types.
+
 ## 2.3.22 - 2024-04-11
 ### Fixed
 - Fixed example case.

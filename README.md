@@ -1,11 +1,11 @@
 # SwaggerGen
-Version 2.3.22
+Version 2.3.23
 
 [![License](https://img.shields.io/github/license/vanderlee/PHPSwaggerGen.svg)]()
-[![Build Status](https://travis-ci.org/vanderlee/PHPSwaggerGen.svg?branch=master)](https://travis-ci.org/vanderlee/PHPSwaggerGen)
+[![Tests](https://github.com/vanderlee/PHPSwaggerGen/actions/workflows/tests.yml/badge.svg?branch=master)](https://github.com/vanderlee/PHPSwaggerGen/actions/workflows/tests.yml)
 [![Quality](https://scrutinizer-ci.com/g/vanderlee/PHPSwaggerGen/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/vanderlee/PHPSwaggerGen)
 
-Copyright &copy; 2014-2024 Martijn van der Lee [Toyls.com](http://toyls.com).
+Copyright &copy; 2014-2026 Martijn van der Lee [Toyls.com](http://toyls.com).
 
 MIT Open Source license applies.
 
@@ -37,9 +37,7 @@ SwaggerGen is compatible with the latest
 which forms the basis of the [Open API Initiative](https://openapis.org/).
 
 ## Installation
-Requires PHP 5.4 or greater. PHP 5.3 is supported as long as no more recent
-features are absolutely necessary. There is no guarantee SwaggerGen will
-continue to work on PHP 5.3 in the future.
+Requires PHP 8.0 or greater.
 
 To install using Composer:
 
