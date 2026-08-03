@@ -230,9 +230,9 @@ class Parser extends AbstractEntity implements IParser
                 $commandLineNumber = $lineNumber;
             } elseif ($command !== null) {
                 if ($lineNumber < count($commentLines) - 1) {
-                    $data .= ' ' . $line;
+                    $data .= "\n" . $line;
                 } else {
-                    $data .= preg_replace('~\s*\**\/\s*$~', '', $line);
+                    $data .= "\n" . preg_replace('~\s*\**\/\s*$~', '', $line);
                 }
             }
         }

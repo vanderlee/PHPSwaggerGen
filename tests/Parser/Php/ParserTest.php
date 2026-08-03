@@ -107,7 +107,7 @@ class ParserTest extends TestCase
         $this->assertCount(2, $statements);
 
         $this->assertStatement($statements[0], 'title', 'Some words');
-        $this->assertStatement($statements[1], 'description', 'About this strange little class');
+        $this->assertStatement($statements[1], 'description', "About this\nstrange\nlittle\nclass");
     }
 
     /**
