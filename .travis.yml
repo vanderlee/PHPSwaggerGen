@@ -1,9 +1,0 @@
-language: php
-dist: trusty
-php:
-  - 7.1
-  - 7.2
-  - hhvm
-matrix:
-    allow_failures:
-      - php: hhvm
