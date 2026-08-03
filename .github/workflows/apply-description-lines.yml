@@ -1,9 +1,9 @@
 name: Apply multiline description parsing fix
 
 on:
-  push:
+  pull_request:
     branches:
-      - agent/preserve-description-line-breaks
+      - agent/modernize-ci
 
 permissions:
   contents: write
