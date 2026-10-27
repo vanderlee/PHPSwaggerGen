@@ -25,7 +25,9 @@
         "ext-json": "*",
         "ext-tokenizer": "*",
         "ext-filter": "*",
-        "ext-mbstring": "*",
+        "ext-mbstring": "*"
+    },
+    "suggest": {
         "ext-yaml": "Allows producing Swagger docs in Yaml format"
     },
     "autoload": {
